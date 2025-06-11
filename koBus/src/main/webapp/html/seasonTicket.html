@@ -385,13 +385,13 @@ $(document).ready(function () {
 				</a> -->
 				
 				<a href="https://www.kobus.co.kr/cscn/jobmttr/readJobList.do" class="btn btn-job" title="새창" target="_blank">
-					<img src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/ico-job-offer.png" alt="">승무사원 모집
+					<img src="/koBus/images/ico-job-offer.png" alt="">승무사원 모집
 					<i class="ico ico-arrow-new-window"></i>	
 				</a>
 			</div>
 			<div class="bg-layer">
 				<a href="https://safeconnect.co.kr/sfconn/login/csc_pc?et=psn249R01&amp;ptrSvcSn=psn249" title="새창" class="gnb-baaner">
-					<iframe src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/_ad-tubebox-002GNB.html" title="프레임 (전화번호안심 로그인)" class="ad-frame"></iframe>
+					<iframe src="/koBus/html/_ad-tubebox-002GNB.html" title="프레임 (전화번호안심 로그인)" class="ad-frame"></iframe>
 				</a>
 			</div>
 		</div>
@@ -667,11 +667,11 @@ $(document).ready(function () {
 			
 
 
-<script type="text/javascript" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/PassPrch.js.다운로드"></script>
+<script type="text/javascript" src="/koBus/js/PassPrch.js"></script>
 
 <!-- 20200617 yahan -->
-<script type="text/javascript" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/transkey.js.다운로드"></script><script type="text/javascript" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/TranskeyLibPack_op.js.다운로드"></script><script type="text/javascript" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/rsa_oaep-min.js.다운로드"></script><script type="text/javascript" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/jsbn-min2.js.다운로드"></script><script type="text/javascript" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/typedarray.js.다운로드"></script><script type="text/javascript" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/transkeyServlet"></script><script type="text/javascript" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/transkeyServlet(1)"></script>
-<link rel="stylesheet" type="text/css" href="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/transkey.css"> 
+<script type="text/javascript" src="/koBus/js/transkey.js"></script><script type="text/javascript" src="/koBus/js/TranskeyLibPack_op.js"></script><script type="text/javascript" src="/koBus/js/rsa_oaep-min.js"></script><script type="text/javascript" src="/koBus/js/jsbn-min2.js"></script><script type="text/javascript" src="/koBus/js/typedarray.js"></script><script type="text/javascript" src="/koBus/images/transkeyServlet"></script><script type="text/javascript" src="/koBus/images/transkeyServlet(1)"></script>
+<link rel="stylesheet" type="text/css" href="/koBus/css/transkey.css"> 
 <script>
 	$(function(){ initTranskey(); })
 </script>
@@ -794,37 +794,38 @@ $(document).ready(function () {
 		<input type="hidden" name="authInf" id="authInf" value=""><!-- 간편결제 -->
 		
 			<div class="section">
-				<div class="agreement_wrap">
-					<div class="agreement_tit">
-						<h4 class="first">서비스 이용약관 동의</h4>
+					<div class="agreement_wrap">
+						<div class="agreement_tit">
+							<h4 class="first">서비스 이용약관 동의</h4>
+						</div>
+						<div class="agreement_cont scrollbar-inner">
+							<iframe src="/cmn/SvcUtlzStplAgrm.do" frameborder="0" scrolling="no"  width="100%" title="서비스 이용약관 내용" onload="resize(this);"></iframe>
+						</div>
+						<span class="custom_check chk_blue">
+							<input type="checkbox" id="agree1" onclick="fnChgCfmBtn();">
+							<label for="agree1">동의</label>
+						</span>
 					</div>
-					<div class="scroll-wrapper agreement_cont scrollbar-inner" style="position: relative;"><div class="agreement_cont scrollbar-inner scroll-content scroll-scrolly_visible" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 118px;">
-						<iframe src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/SvcUtlzStplAgrm.html" frameborder="0" scrolling="no" width="100%" title="서비스 이용약관" onload="$(this).height($(this).contents().find(&#39;div&#39;).height());" style="height: 2352px;"></iframe>
-					</div><div class="scroll-element scroll-x scroll-scrolly_visible"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar" style="width: 88px;"></div></div></div><div class="scroll-element scroll-y scroll-scrolly_visible"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar" style="height: 5px; top: 0px;"></div></div></div></div>
-					<span class="custom_check chk_blue">
-						<input type="checkbox" id="agree1">
-						<label for="agree1">동의</label>
-					</span>
-				</div>
-				<div class="agreement_wrap">
-					<div class="agreement_tit">
-						<h4>운송약관 동의</h4>
+					<div class="agreement_wrap">
+						<div class="agreement_tit">
+							<h4>운송약관 동의</h4>
+						</div>
+						<div class="agreement_cont scrollbar-inner">
+							<iframe src="/cmn/TransitStplAgrm.do" frameborder="0" scrolling="no" width="100%" height="100" title="운송약관 동의 내용" onload="resize(this);"></iframe>
+						</div>
+						<span class="custom_check chk_blue">
+							<input type="checkbox" id="agree2" onclick="fnChgCfmBtn();">
+							<label for="agree2">동의</label>
+						</span>
 					</div>
-					<div class="scroll-wrapper agreement_cont scrollbar-inner" style="position: relative;"><div class="agreement_cont scrollbar-inner scroll-content scroll-scrolly_visible" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 118px;">
-						<iframe src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/TransitStplAgrm.html" frameborder="0" scrolling="no" width="100%" height="100" title="운송약관" onload="$(this).height($(this).contents().find(&#39;div&#39;).height());" style="height: 4731px;"></iframe>
-					</div><div class="scroll-element scroll-x scroll-scrolly_visible"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar" style="width: 88px;"></div></div></div><div class="scroll-element scroll-y scroll-scrolly_visible"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar" style="height: 2px; top: 0px;"></div></div></div></div>
-					<span class="custom_check chk_blue">
-						<input type="checkbox" id="agree2">
-						<label for="agree2">동의</label>
-					</span>
-				</div>
-				<div class="agreement_wrap">
-					<div class="agreement_tit">
-						<h4>개인정보 처리방침 동의</h4>
-					</div>
-					<div class="scroll-wrapper agreement_cont scrollbar-inner" style="position: relative;"><div class="agreement_cont scrollbar-inner scroll-content scroll-scrolly_visible" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 118px;">
-						 <div class="terms_wrap">
-                            <h1>개인정보 수집 및 이용 동의</h1>
+					<div class="agreement_wrap">
+						<div class="agreement_tit">
+							<h4>개인정보 수집 및 이용 동의</h4>
+						</div>
+						<div class="agreement_cont scrollbar-inner">
+							<!-- iframe src="/cmn/IndlInfClcnUtlzAgrm.do" frameborder="0" scrolling="no" width="100%" height="130" title="개인정보 처리방침" onload="resize(this);"></iframe -->
+							<div class="terms_wrap">
+                                <h1>개인정보 수집 및 이용 동의</h1>
                             <dl>
                                 <dt><span class="emphasis">1. 수집 및 이용의 목적</span></dt><!-- 181121 수정 -->
                                 <dd>
@@ -838,23 +839,23 @@ $(document).ready(function () {
                                 <dd>
                                     <p>5년 (근거: 전자상거래 등에서의 소비자 보호에 관한 법률)</p>			
                                 </dd>
-                                <dt>4. 개인정보 수집 및 이용 동의 거부 시 정기권 구매 하실 수 없습니다.</dt><!-- 181121 추가 -->
+                                <dt>4. 개인정보 수집 및 이용 동의 거부 시 프리패스 구매 하실 수 없습니다.</dt><!-- 181121 추가 -->
                             </dl>
                             <p>시행일자 : 2017년 5월 18일 </p>
-                        </div>  
-					</div><div class="scroll-element scroll-x scroll-scrolly_visible"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar" style="width: 88px;"></div></div></div><div class="scroll-element scroll-y scroll-scrolly_visible"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar" style="height: 51px; top: 0px;"></div></div></div></div>
-					<span class="custom_check chk_blue">
-						<input type="checkbox" id="agree3">
-						<label for="agree3">동의</label>
-					</span>
+                            </div>  
+						</div>
+						<span class="custom_check chk_blue">
+							<input type="checkbox" id="agree3" onclick="fnChgCfmBtn();">
+							<label for="agree3">동의</label>
+						</span>
+					</div>	
+					<p class="agree_all chk_bor">
+						<span class="custom_check chk_purple">
+							<input type="checkbox" id="agreeAll">
+							<label for="agreeAll">전체 약관에 동의합니다.</label>
+						</span>
+					</p>
 				</div>
-				<p class="agree_all chk_bor">
-					<span class="custom_check chk_purple">
-						<input type="checkbox" id="agreeAll">
-						<label for="agreeAll">전체 약관에 동의합니다.</label>
-					</span>
-				</p>
-			</div>
 			<div class="section">
 				<h4 class="first">구매 선택 사항</h4>
 				<div class="custom_input type3">
@@ -1039,136 +1040,14 @@ $(document).ready(function () {
 							<li id="cardLi" class="active"><input type="radio" id="payType1" name="payType" title="선택됨"><label for="payType1">카드결제</label></li>
 							
 					</ul>
-					<div class="tab_conts" id="tab1" style="display: block;">
-						<div class="box_inputForm">
-							<strong class="label">카드 종류</strong>
-							<span class="radio_wrap">
-								<span class="custom_radio">
-									<input type="radio" id="caPerson" name="payCard" checked="true" onclick="fnCardKindSel(&#39;indl&#39;)">
-									<label for="caPerson">개인</label>
-								</span>
-								<span class="custom_radio">
-									<input type="radio" id="caCompany" name="payCard" onclick="fnCardKindSel(&#39;cprt&#39;)">
-									<label for="caCompany">법인</label>
-								</span>								
-							</span>
-						</div>
-						<div class="box_inputForm click_box inselect">
-							<strong class="label">카드 선택</strong>
-							
-							
-							<!-- 웹 접근성 개선 셀렉트 박스 UI -->
-							
-								<div class="dropdown-wrap select-default">
-									<a href="javascript:void(0)" class="btn-dropdown" title="카드 선택" aria-expanded="false" id="cardKindList">
-										<span class="text">카드를 선택하세요</span></a>
-									<ul class="dropdown-list" id="cardKndCdLi" style="display: none;"><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;0&#39;, &#39;cardKndCd&#39;)">카드를 선택하세요</a></li><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;09&#39;, &#39;cardKndCd&#39;)">롯데</a></li><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;24&#39;, &#39;cardKndCd&#39;)">하나</a></li><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;02&#39;, &#39;cardKndCd&#39;)">국민</a></li><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;01&#39;, &#39;cardKndCd&#39;)">BC</a></li><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;05&#39;, &#39;cardKndCd&#39;)">신한</a></li><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;04&#39;, &#39;cardKndCd&#39;)">삼성</a></li><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;15&#39;, &#39;cardKndCd&#39;)">농협</a></li><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;08&#39;, &#39;cardKndCd&#39;)">현대</a></li><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;18&#39;, &#39;cardKndCd&#39;)">전북</a></li><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;12&#39;, &#39;cardKndCd&#39;)">수협</a></li><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;14&#39;, &#39;cardKndCd&#39;)">우리</a></li><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;01&#39;, &#39;cardKndCd&#39;)">우체국</a></li><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;17&#39;, &#39;cardKndCd&#39;)">광주</a></li><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;26&#39;, &#39;cardKndCd&#39;)">씨티</a></li><li><a href="javascript:void(0)" onclick="onSelectChange(this,&#39;01&#39;, &#39;cardKndCd&#39;)">기타</a></li></ul>
-									<input type="hidden" name="cardKndCd" id="cardKndCd" value="">
-								</div>
-							
-						</div>
-						<div class="box_inputForm card_num clfix">
-							<strong class="label">카드 번호</strong>
-							<span class="box_label">
-								<input type="text" name="cardNum1" id="cardNum1" placeholder="입력" title="카드번호 첫 번째 4자리 입력" class="input" maxlength="4" onkeydown="fn_tab(this, &#39;down&#39;, 4)" onkeyup="fn_tab(this, &#39;up&#39;, 4, this.form.cardNum2)">
-							</span>
-							<span class="box_label">
-								<input type="text" name="cardNum2" id="cardNum2" placeholder="입력" title="카드번호 두 번째 4자리 입력" class="input" maxlength="4" onkeydown="fn_tab(this, &#39;down&#39;, 4)" onkeyup="fn_tab(this, &#39;up&#39;, 4, this.form.cardNum3)">
-							</span>
-							<span class="box_label">
-								<button type="button" class="transkey_btn" data-id="cardNum3" onclick="transkeyShow(this)">가상키패드 입력</button>
-								<input type="password" name="cardNum3" id="cardNum3" tabindex="-1" placeholder="입력" title="카드번호 세 번째 4자리 입력" class="input" maxlength="4" onkeydown="fn_tab(this, &#39;down&#39;, 4)" onkeyup="fn_tab(this, &#39;up&#39;, 4, this.form.cardNum4)" data-tk-kbdtype="number" onfocus="tk.onKeyboard(this);">
-							</span>
-							<span class="box_label">
-								<button type="button" class="transkey_btn" data-id="cardNum4" onclick="transkeyShow(this)">가상키패드 입력</button>
-								<input type="password" name="cardNum4" id="cardNum4" tabindex="-1" placeholder="입력" title="카드번호 네 번째 4자리 입력" class="input" maxlength="4" onkeyup="fn_isNumber(this)" data-tk-kbdtype="number" onfocus="tk.onKeyboard(this);">
-							</span>
-						</div>
-						
-						
-						
-						
-						<div class="boxinput_wrap col2 clfix">
-							<div class="box_inputForm">
-								<label for="cardMonth" class="label">유효기간 월(MONTH)</label>
-								<span class="box_label">
-									<input type="text" name="cdExdtMm" id="cardMonth" placeholder="2자리 입력" class="input" maxlength="2" onkeyup="fn_chkMonth(this, 1)">
-								</span>
-							</div>
-							<div class="box_inputForm">
-								<label for="cardYear" class="label">유효기간 년(YEAR)</label>
-								<span class="box_label">
-									<input type="text" name="cdExdtYy" id="cardYear" placeholder="2자리 입력" class="input" maxlength="2" onkeyup="fn_isNumber(this)">
-								</span>
-							</div>
-						</div>
-						<div class="boxinput_wrap col2 clfix">
-							<div class="box_inputForm">
-								<label for="cardPwd" class="label">카드 비밀번호</label>
-								<span class="box_label">
-									<button type="button" class="transkey_btn" data-id="cardPwd" onclick="transkeyShow(this)">가상키패드 입력</button>
-									<input type="password" name="cardPwd" id="cardPwd" tabindex="-1" placeholder="** 비밀번호 앞 2자리 입력" class="input" maxlength="2" onkeyup="fn_isNumber(this)" data-tk-kbdtype="number" onfocus="tk.onKeyboard(this);">
-								</span>
-							</div>
-							<!-- 카드결제 : 개인 -->
-							<div class="box_inputForm" id="indlBrdtCard">
-								<label for="caBirth" class="label">생년월일 6자리(YYMMDD)</label>
-								<span class="box_label">
-									<input type="text" name="brdtVal" id="caBirth" placeholder="예)1980년11월11일 -&gt; 801111" class="input" maxlength="6" onkeyup="fn_chkMonth(this, 2)">
-								</span>
-							</div>		
-							<!-- 카드결제 : 법인 -->
-							<div class="box_inputForm" id="cprtBrnCard" style="display:none;">
-								<label for="comNumCard" class="label">사업자 등록번호</label>
-								<span class="box_label">
-									<input type="text" name="comNumCard" id="comNumCard" placeholder="(-) 없이 입력" class="input" maxlength="10" onkeydown="this.value = onlyNumPlus(this.value);">
-								</span>
-							</div>
-							<!-- // 카드결제  -->
-						</div>
-						
-						
-						
-						<div class="box_inputForm click_box inselect" id="mipMmShow" style="display:none">
-							<strong class="label">할부 개월수 (5만원 이상만 가능)</strong>
-							
-							
-							<!-- 웹 접근성 개선 셀렉트 박스 UI -->
-							
-								<div class="dropdown-wrap select-default">
-									<a href="javascript:void(0)" class="btn-dropdown" title="할부 개월수 선택" aria-expanded="false">
-										<span class="text">일시불</span></a>
-									<ul class="dropdown-list" style="display: none;">
-										<li><a href="javascript:setMipMm(0)">일시불</a></li>
-										
-											<li><a href="javascript:setMipMm(2)">2 개월</a></li>
-										
-											<li><a href="javascript:setMipMm(3)">3 개월</a></li>
-										
-											<li><a href="javascript:setMipMm(4)">4 개월</a></li>
-										
-											<li><a href="javascript:setMipMm(5)">5 개월</a></li>
-										
-											<li><a href="javascript:setMipMm(6)">6 개월</a></li>
-										
-											<li><a href="javascript:setMipMm(7)">7 개월</a></li>
-										
-											<li><a href="javascript:setMipMm(8)">8 개월</a></li>
-										
-											<li><a href="javascript:setMipMm(9)">9 개월</a></li>
-										
-											<li><a href="javascript:setMipMm(10)">10 개월</a></li>
-										
-											<li><a href="javascript:setMipMm(11)">11 개월</a></li>
-										
-											<li><a href="javascript:setMipMm(12)">12 개월</a></li>
-										
-									</ul>
-									<input type="hidden" name="mipMmNum" id="mipMmNum" value="0">
-								</div>
-							
-						</div>
-					</div>
+					
+						<ul class="desc_list">
+							<li>모든 결제정보는 암호화 처리 후 안전하게 전송됩니다.</li>
+							<li>구매가 완료된 후 구매 확인 메뉴를 통해 구매내역을 확인 하시기 바랍니다.</li>
+							<li>비밀번호 입력 오류가 3회 이상 발생할 경우 홈페이지에서 결제가 불가하니 카드사/은행을 방문하셔서 처리 후 다시 시도 바랍니다.</li>
+						</ul>
+
+
 					
 							
 							
@@ -1214,20 +1093,12 @@ $(document).ready(function () {
 						</table>
 					</div>
 					<p class="btn bottom">
-						<button type="button" class="btnL btn_confirm ready" id="goPrdprchFn">결제하기</button>
+						<button type="button" class="btnL btn_confirm ready" id="goPrdprchFn" onclick="requestPay()">결제하기</button>
 					</p>
 				</div>
 			</div>
 
-			<div class="section">
-				<!-- 카드결제 -->
-				<ul class="desc_list">
-					<li>모든 결제정보는 암호화 처리 후 안전하게 전송됩니다.</li>
-					<li>구매가 완료된 후 구매 확인 메뉴를 통해 구매내역을 확인 하시기 바랍니다.</li>
-					<li>비밀번호 입력 오류가 3회 이상 발생할 경우 홈페이지에서 결제가 불가하니 카드사/은행을 방문하셔서 처리 후 다시 시도 바랍니다.</li>
-				</ul>
-				<!-- // 카드결제 -->
-			</div>	
+			
 		<input type="hidden" id="hidfrmId" name="hidfrmId" value="passPrchFrm"><input type="hidden" id="transkeyUuid_passPrchFrm" name="transkeyUuid_passPrchFrm" value="6e90439343e12022daaceed98b4520f329b46378091aec26f1d410b0a8c7d703"><input type="hidden" id="transkey_cardNum3_passPrchFrm" name="transkey_cardNum3_passPrchFrm" value=""><input type="hidden" id="transkey_HM_cardNum3_passPrchFrm" name="transkey_HM_cardNum3_passPrchFrm" value=""><input type="hidden" id="transkey_cardNum4_passPrchFrm" name="transkey_cardNum4_passPrchFrm" value=""><input type="hidden" id="transkey_HM_cardNum4_passPrchFrm" name="transkey_HM_cardNum4_passPrchFrm" value=""><input type="hidden" id="transkey_cardPwd_passPrchFrm" name="transkey_cardPwd_passPrchFrm" value=""><input type="hidden" id="transkey_HM_cardPwd_passPrchFrm" name="transkey_HM_cardPwd_passPrchFrm" value=""></form>	
 	</div>
 
@@ -1520,4 +1391,4 @@ $(document).ready(function () {
 		</div>
 	</div>
 	<button type="button" data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
-</div></div><div id="cardNum3_layout" class="transkey_divLayout"><div class="transkey_numberMainDiv" id="cardNum3_mainDiv" onmousemove="tk.showCursor(event,false);" onmouseout="tk.hideCursor(event);" onmouseover="tk.visibleCursor();"><div style="width:240px; height: 24px; margin-left:4px;"><div id="cardNum3_dragDiv" class="transkey_numberDragDiv" onmousedown="tk.dragstart(event, this);" onmousewheel="tk.dragend(event);" onmouseup="tk.dragend(event);" role="button"></div><div id="first_focus" class="transkey_div_3" style="height: 80px; left:124px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,0);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:164px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,1);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,2);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,3);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,4);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:124px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,5);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,6);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:44px; margin-top: 24px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,7);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:40px" onclick="tk.start(event,8);" role="button" tabindex="0" "=""></div><div class="transkey_div_3_3" style="bottom:80px" onclick="tk.start(event,9);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:120px" onclick="tk.start(event,10);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,11);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:4px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_l" aria-label="왼쪽 엔터" onclick="tk.start(event,13);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_l" id="tk_del" aria-label="삭제" onclick="tk.start(event,15);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:204px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_r" aria-label="오른쪽 엔터" onclick="tk.start(event,14);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_r" id="tk_del" aria-label="삭제" onclick="tk.start(event,16);" role="button" tabindex="0"></div></div><div id="tk_close" style="position: absolute; width: 25px; height: 25px; left:220px;" onclick="tk.start(event,12);" role="button" tabindex="0"></div></div></div><div id="cardNum3_layoutSingle" class="transkey_single"><iframe id="cardNum3_block" title="가상키보드" frameborder="10" style="z-index:-1; position:absolute; visibility: hidden; left: 0px; top: 0px; width: 100%; height: 100%; " src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/saved_resource.html"></iframe></div><div class="transkey_pKey" id="cardNum3_pKey"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/p_key.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardNum3n_p_enterKey_L"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/n_p_enterkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardNum3n_p_enterKey_R"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/n_p_enterkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardNum3n_p_backKey_L"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/n_p_backkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardNum3n_p_backKey_R"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/n_p_backkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div id="cardNum3_fakeMouseDiv" class="transkey_fakeMouse"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/fake.gif" id="fakeMouseImg"></div><div id="cardNum3_osMouseDiv" class="transkey_osMouse" onmousedown="tk.start(event,-1,true);"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/fake.gif" id="osMouseImg" onmousemove="tk.showCursor(event,true);" onmouseout="tk.hideCursor(event);"></div><div id="cardNum3_singleMouseTypeDiv" class="transkey_numberSingleMouseType" onmousedown="tk.setMultiCursor(false);" role="button" tabindex="0" aria-label="기본마우스를 사용합니다."><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/single_s.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="slngleMouseTypeImg"></div><div id="cardNum3_blankOverDiv" class="transkey_numberBlankOver" onmouseover="tk.pauseKeyboard(false);" onclick="tk.pauseKeyboard(false);" tabindex="0" aria-label="마우스를 가운데로 이동 또는 클릭해주세요"><img src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/blank_over.gif" alt="마우스이동" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankOverImg"></div><div id="cardNum3_multiMouseTypeDiv" class="transkey_numberMultiMouseType" onclick="tk.setMultiCursor(true);" role="button" aria-label="멀티마우스를 사용합니다. 사용하시려면 키보드 클릭 후 마우스를 가운데로 이동 또는 클릭해주세요."><img src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/multi_s.png" alt="멀티마우스" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="multiMouseTypeImg"></div><div id="cardNum3_blankDiv" class="transkey_numberBlank"><img alt="TOUCH EN transkey" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/blank.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankImg"></div></div><div id="cardNum4_layout" class="transkey_divLayout"><div class="transkey_numberMainDiv" id="cardNum4_mainDiv" onmousemove="tk.showCursor(event,false);" onmouseout="tk.hideCursor(event);" onmouseover="tk.visibleCursor();"><div style="width:240px; height: 24px; margin-left:4px;"><div id="cardNum4_dragDiv" class="transkey_numberDragDiv" onmousedown="tk.dragstart(event, this);" onmousewheel="tk.dragend(event);" onmouseup="tk.dragend(event);" role="button"></div><div id="first_focus" class="transkey_div_3" style="height: 80px; left:124px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,0);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:164px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,1);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,2);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,3);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,4);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:124px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,5);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,6);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:44px; margin-top: 24px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,7);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:40px" onclick="tk.start(event,8);" role="button" tabindex="0" "=""></div><div class="transkey_div_3_3" style="bottom:80px" onclick="tk.start(event,9);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:120px" onclick="tk.start(event,10);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,11);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:4px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_l" aria-label="왼쪽 엔터" onclick="tk.start(event,13);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_l" id="tk_del" aria-label="삭제" onclick="tk.start(event,15);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:204px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_r" aria-label="오른쪽 엔터" onclick="tk.start(event,14);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_r" id="tk_del" aria-label="삭제" onclick="tk.start(event,16);" role="button" tabindex="0"></div></div><div id="tk_close" style="position: absolute; width: 25px; height: 25px; left:220px;" onclick="tk.start(event,12);" role="button" tabindex="0"></div></div></div><div id="cardNum4_layoutSingle" class="transkey_single"><iframe id="cardNum4_block" title="가상키보드" frameborder="10" style="z-index:-1; position:absolute; visibility: hidden; left: 0px; top: 0px; width: 100%; height: 100%; " src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/saved_resource(1).html"></iframe></div><div class="transkey_pKey" id="cardNum4_pKey"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/p_key.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardNum4n_p_enterKey_L"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/n_p_enterkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardNum4n_p_enterKey_R"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/n_p_enterkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardNum4n_p_backKey_L"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/n_p_backkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardNum4n_p_backKey_R"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/n_p_backkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div id="cardNum4_fakeMouseDiv" class="transkey_fakeMouse"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/fake.gif" id="fakeMouseImg"></div><div id="cardNum4_osMouseDiv" class="transkey_osMouse" onmousedown="tk.start(event,-1,true);"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/fake.gif" id="osMouseImg" onmousemove="tk.showCursor(event,true);" onmouseout="tk.hideCursor(event);"></div><div id="cardNum4_singleMouseTypeDiv" class="transkey_numberSingleMouseType" onmousedown="tk.setMultiCursor(false);" role="button" tabindex="0" aria-label="기본마우스를 사용합니다."><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/single_s.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="slngleMouseTypeImg"></div><div id="cardNum4_blankOverDiv" class="transkey_numberBlankOver" onmouseover="tk.pauseKeyboard(false);" onclick="tk.pauseKeyboard(false);" tabindex="0" aria-label="마우스를 가운데로 이동 또는 클릭해주세요"><img src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/blank_over.gif" alt="마우스이동" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankOverImg"></div><div id="cardNum4_multiMouseTypeDiv" class="transkey_numberMultiMouseType" onclick="tk.setMultiCursor(true);" role="button" aria-label="멀티마우스를 사용합니다. 사용하시려면 키보드 클릭 후 마우스를 가운데로 이동 또는 클릭해주세요."><img src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/multi_s.png" alt="멀티마우스" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="multiMouseTypeImg"></div><div id="cardNum4_blankDiv" class="transkey_numberBlank"><img alt="TOUCH EN transkey" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/blank.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankImg"></div></div><div id="cardPwd_layout" class="transkey_divLayout"><div class="transkey_numberMainDiv" id="cardPwd_mainDiv" onmousemove="tk.showCursor(event,false);" onmouseout="tk.hideCursor(event);" onmouseover="tk.visibleCursor();"><div style="width:240px; height: 24px; margin-left:4px;"><div id="cardPwd_dragDiv" class="transkey_numberDragDiv" onmousedown="tk.dragstart(event, this);" onmousewheel="tk.dragend(event);" onmouseup="tk.dragend(event);" role="button"></div><div id="first_focus" class="transkey_div_3" style="height: 80px; left:124px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,0);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:164px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,1);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,2);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,3);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,4);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:124px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,5);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,6);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:44px; margin-top: 24px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,7);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:40px" onclick="tk.start(event,8);" role="button" tabindex="0" "=""></div><div class="transkey_div_3_3" style="bottom:80px" onclick="tk.start(event,9);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:120px" onclick="tk.start(event,10);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,11);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:4px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_l" aria-label="왼쪽 엔터" onclick="tk.start(event,13);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_l" id="tk_del" aria-label="삭제" onclick="tk.start(event,15);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:204px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_r" aria-label="오른쪽 엔터" onclick="tk.start(event,14);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_r" id="tk_del" aria-label="삭제" onclick="tk.start(event,16);" role="button" tabindex="0"></div></div><div id="tk_close" style="position: absolute; width: 25px; height: 25px; left:220px;" onclick="tk.start(event,12);" role="button" tabindex="0"></div></div></div><div id="cardPwd_layoutSingle" class="transkey_single"><iframe id="cardPwd_block" title="가상키보드" frameborder="10" style="z-index:-1; position:absolute; visibility: hidden; left: 0px; top: 0px; width: 100%; height: 100%; " src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/saved_resource(2).html"></iframe></div><div class="transkey_pKey" id="cardPwd_pKey"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/p_key.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardPwdn_p_enterKey_L"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/n_p_enterkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardPwdn_p_enterKey_R"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/n_p_enterkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardPwdn_p_backKey_L"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/n_p_backkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardPwdn_p_backKey_R"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/n_p_backkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div id="cardPwd_fakeMouseDiv" class="transkey_fakeMouse"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/fake.gif" id="fakeMouseImg"></div><div id="cardPwd_osMouseDiv" class="transkey_osMouse" onmousedown="tk.start(event,-1,true);"><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/fake.gif" id="osMouseImg" onmousemove="tk.showCursor(event,true);" onmouseout="tk.hideCursor(event);"></div><div id="cardPwd_singleMouseTypeDiv" class="transkey_numberSingleMouseType" onmousedown="tk.setMultiCursor(false);" role="button" tabindex="0" aria-label="기본마우스를 사용합니다."><img alt="" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/single_s.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="slngleMouseTypeImg"></div><div id="cardPwd_blankOverDiv" class="transkey_numberBlankOver" onmouseover="tk.pauseKeyboard(false);" onclick="tk.pauseKeyboard(false);" tabindex="0" aria-label="마우스를 가운데로 이동 또는 클릭해주세요"><img src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/blank_over.gif" alt="마우스이동" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankOverImg"></div><div id="cardPwd_multiMouseTypeDiv" class="transkey_numberMultiMouseType" onclick="tk.setMultiCursor(true);" role="button" aria-label="멀티마우스를 사용합니다. 사용하시려면 키보드 클릭 후 마우스를 가운데로 이동 또는 클릭해주세요."><img src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/multi_s.png" alt="멀티마우스" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="multiMouseTypeImg"></div><div id="cardPwd_blankDiv" class="transkey_numberBlank"><img alt="TOUCH EN transkey" src="./정기권(구매정보입력) _ 프리패스_정기권 _ 고속버스통합예매_files/blank.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankImg"></div></div></body></html>
+</div></div><div id="cardNum3_layout" class="transkey_divLayout"><div class="transkey_numberMainDiv" id="cardNum3_mainDiv" onmousemove="tk.showCursor(event,false);" onmouseout="tk.hideCursor(event);" onmouseover="tk.visibleCursor();"><div style="width:240px; height: 24px; margin-left:4px;"><div id="cardNum3_dragDiv" class="transkey_numberDragDiv" onmousedown="tk.dragstart(event, this);" onmousewheel="tk.dragend(event);" onmouseup="tk.dragend(event);" role="button"></div><div id="first_focus" class="transkey_div_3" style="height: 80px; left:124px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,0);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:164px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,1);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,2);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,3);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,4);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:124px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,5);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,6);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:44px; margin-top: 24px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,7);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:40px" onclick="tk.start(event,8);" role="button" tabindex="0" "=""></div><div class="transkey_div_3_3" style="bottom:80px" onclick="tk.start(event,9);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:120px" onclick="tk.start(event,10);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,11);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:4px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_l" aria-label="왼쪽 엔터" onclick="tk.start(event,13);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_l" id="tk_del" aria-label="삭제" onclick="tk.start(event,15);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:204px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_r" aria-label="오른쪽 엔터" onclick="tk.start(event,14);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_r" id="tk_del" aria-label="삭제" onclick="tk.start(event,16);" role="button" tabindex="0"></div></div><div id="tk_close" style="position: absolute; width: 25px; height: 25px; left:220px;" onclick="tk.start(event,12);" role="button" tabindex="0"></div></div></div><div id="cardNum3_layoutSingle" class="transkey_single"><iframe id="cardNum3_block" title="가상키보드" frameborder="10" style="z-index:-1; position:absolute; visibility: hidden; left: 0px; top: 0px; width: 100%; height: 100%; " src="/koBus/html/saved_resource.html"></iframe></div><div class="transkey_pKey" id="cardNum3_pKey"><img alt="" src="/koBus/images/p_key.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardNum3n_p_enterKey_L"><img alt="" src="/koBus/images/n_p_enterkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardNum3n_p_enterKey_R"><img alt="" src="/koBus/images/n_p_enterkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardNum3n_p_backKey_L"><img alt="" src="/koBus/images/n_p_backkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardNum3n_p_backKey_R"><img alt="" src="/koBus/images/n_p_backkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div id="cardNum3_fakeMouseDiv" class="transkey_fakeMouse"><img alt="" src="/koBus/images/fake.gif" id="fakeMouseImg"></div><div id="cardNum3_osMouseDiv" class="transkey_osMouse" onmousedown="tk.start(event,-1,true);"><img alt="" src="/koBus/images/fake.gif" id="osMouseImg" onmousemove="tk.showCursor(event,true);" onmouseout="tk.hideCursor(event);"></div><div id="cardNum3_singleMouseTypeDiv" class="transkey_numberSingleMouseType" onmousedown="tk.setMultiCursor(false);" role="button" tabindex="0" aria-label="기본마우스를 사용합니다."><img alt="" src="/koBus/images/single_s.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="slngleMouseTypeImg"></div><div id="cardNum3_blankOverDiv" class="transkey_numberBlankOver" onmouseover="tk.pauseKeyboard(false);" onclick="tk.pauseKeyboard(false);" tabindex="0" aria-label="마우스를 가운데로 이동 또는 클릭해주세요"><img src="/koBus/images/blank_over.gif" alt="마우스이동" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankOverImg"></div><div id="cardNum3_multiMouseTypeDiv" class="transkey_numberMultiMouseType" onclick="tk.setMultiCursor(true);" role="button" aria-label="멀티마우스를 사용합니다. 사용하시려면 키보드 클릭 후 마우스를 가운데로 이동 또는 클릭해주세요."><img src="/koBus/images/multi_s.png" alt="멀티마우스" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="multiMouseTypeImg"></div><div id="cardNum3_blankDiv" class="transkey_numberBlank"><img alt="TOUCH EN transkey" src="/koBus/images/blank.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankImg"></div></div><div id="cardNum4_layout" class="transkey_divLayout"><div class="transkey_numberMainDiv" id="cardNum4_mainDiv" onmousemove="tk.showCursor(event,false);" onmouseout="tk.hideCursor(event);" onmouseover="tk.visibleCursor();"><div style="width:240px; height: 24px; margin-left:4px;"><div id="cardNum4_dragDiv" class="transkey_numberDragDiv" onmousedown="tk.dragstart(event, this);" onmousewheel="tk.dragend(event);" onmouseup="tk.dragend(event);" role="button"></div><div id="first_focus" class="transkey_div_3" style="height: 80px; left:124px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,0);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:164px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,1);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,2);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,3);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,4);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:124px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,5);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,6);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:44px; margin-top: 24px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,7);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:40px" onclick="tk.start(event,8);" role="button" tabindex="0" "=""></div><div class="transkey_div_3_3" style="bottom:80px" onclick="tk.start(event,9);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:120px" onclick="tk.start(event,10);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,11);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:4px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_l" aria-label="왼쪽 엔터" onclick="tk.start(event,13);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_l" id="tk_del" aria-label="삭제" onclick="tk.start(event,15);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:204px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_r" aria-label="오른쪽 엔터" onclick="tk.start(event,14);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_r" id="tk_del" aria-label="삭제" onclick="tk.start(event,16);" role="button" tabindex="0"></div></div><div id="tk_close" style="position: absolute; width: 25px; height: 25px; left:220px;" onclick="tk.start(event,12);" role="button" tabindex="0"></div></div></div><div id="cardNum4_layoutSingle" class="transkey_single"><iframe id="cardNum4_block" title="가상키보드" frameborder="10" style="z-index:-1; position:absolute; visibility: hidden; left: 0px; top: 0px; width: 100%; height: 100%; " src="/koBus/html/saved_resource(1).html"></iframe></div><div class="transkey_pKey" id="cardNum4_pKey"><img alt="" src="/koBus/images/p_key.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardNum4n_p_enterKey_L"><img alt="" src="/koBus/images/n_p_enterkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardNum4n_p_enterKey_R"><img alt="" src="/koBus/images/n_p_enterkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardNum4n_p_backKey_L"><img alt="" src="/koBus/images/n_p_backkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardNum4n_p_backKey_R"><img alt="" src="/koBus/images/n_p_backkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div id="cardNum4_fakeMouseDiv" class="transkey_fakeMouse"><img alt="" src="/koBus/images/fake.gif" id="fakeMouseImg"></div><div id="cardNum4_osMouseDiv" class="transkey_osMouse" onmousedown="tk.start(event,-1,true);"><img alt="" src="/koBus/images/fake.gif" id="osMouseImg" onmousemove="tk.showCursor(event,true);" onmouseout="tk.hideCursor(event);"></div><div id="cardNum4_singleMouseTypeDiv" class="transkey_numberSingleMouseType" onmousedown="tk.setMultiCursor(false);" role="button" tabindex="0" aria-label="기본마우스를 사용합니다."><img alt="" src="/koBus/images/single_s.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="slngleMouseTypeImg"></div><div id="cardNum4_blankOverDiv" class="transkey_numberBlankOver" onmouseover="tk.pauseKeyboard(false);" onclick="tk.pauseKeyboard(false);" tabindex="0" aria-label="마우스를 가운데로 이동 또는 클릭해주세요"><img src="/koBus/images/blank_over.gif" alt="마우스이동" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankOverImg"></div><div id="cardNum4_multiMouseTypeDiv" class="transkey_numberMultiMouseType" onclick="tk.setMultiCursor(true);" role="button" aria-label="멀티마우스를 사용합니다. 사용하시려면 키보드 클릭 후 마우스를 가운데로 이동 또는 클릭해주세요."><img src="/koBus/images/multi_s.png" alt="멀티마우스" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="multiMouseTypeImg"></div><div id="cardNum4_blankDiv" class="transkey_numberBlank"><img alt="TOUCH EN transkey" src="/koBus/images/blank.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankImg"></div></div><div id="cardPwd_layout" class="transkey_divLayout"><div class="transkey_numberMainDiv" id="cardPwd_mainDiv" onmousemove="tk.showCursor(event,false);" onmouseout="tk.hideCursor(event);" onmouseover="tk.visibleCursor();"><div style="width:240px; height: 24px; margin-left:4px;"><div id="cardPwd_dragDiv" class="transkey_numberDragDiv" onmousedown="tk.dragstart(event, this);" onmousewheel="tk.dragend(event);" onmouseup="tk.dragend(event);" role="button"></div><div id="first_focus" class="transkey_div_3" style="height: 80px; left:124px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,0);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:164px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,1);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,2);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,3);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,4);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:124px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,5);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,6);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:44px; margin-top: 24px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,7);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:40px" onclick="tk.start(event,8);" role="button" tabindex="0" "=""></div><div class="transkey_div_3_3" style="bottom:80px" onclick="tk.start(event,9);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:120px" onclick="tk.start(event,10);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,11);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:4px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_l" aria-label="왼쪽 엔터" onclick="tk.start(event,13);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_l" id="tk_del" aria-label="삭제" onclick="tk.start(event,15);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:204px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_r" aria-label="오른쪽 엔터" onclick="tk.start(event,14);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_r" id="tk_del" aria-label="삭제" onclick="tk.start(event,16);" role="button" tabindex="0"></div></div><div id="tk_close" style="position: absolute; width: 25px; height: 25px; left:220px;" onclick="tk.start(event,12);" role="button" tabindex="0"></div></div></div><div id="cardPwd_layoutSingle" class="transkey_single"><iframe id="cardPwd_block" title="가상키보드" frameborder="10" style="z-index:-1; position:absolute; visibility: hidden; left: 0px; top: 0px; width: 100%; height: 100%; " src="/koBus/html/saved_resource(2).html"></iframe></div><div class="transkey_pKey" id="cardPwd_pKey"><img alt="" src="/koBus/images/p_key.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardPwdn_p_enterKey_L"><img alt="" src="/koBus/images/n_p_enterkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardPwdn_p_enterKey_R"><img alt="" src="/koBus/images/n_p_enterkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardPwdn_p_backKey_L"><img alt="" src="/koBus/images/n_p_backkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardPwdn_p_backKey_R"><img alt="" src="/koBus/images/n_p_backkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div id="cardPwd_fakeMouseDiv" class="transkey_fakeMouse"><img alt="" src="/koBus/images/fake.gif" id="fakeMouseImg"></div><div id="cardPwd_osMouseDiv" class="transkey_osMouse" onmousedown="tk.start(event,-1,true);"><img alt="" src="/koBus/images/fake.gif" id="osMouseImg" onmousemove="tk.showCursor(event,true);" onmouseout="tk.hideCursor(event);"></div><div id="cardPwd_singleMouseTypeDiv" class="transkey_numberSingleMouseType" onmousedown="tk.setMultiCursor(false);" role="button" tabindex="0" aria-label="기본마우스를 사용합니다."><img alt="" src="/koBus/images/single_s.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="slngleMouseTypeImg"></div><div id="cardPwd_blankOverDiv" class="transkey_numberBlankOver" onmouseover="tk.pauseKeyboard(false);" onclick="tk.pauseKeyboard(false);" tabindex="0" aria-label="마우스를 가운데로 이동 또는 클릭해주세요"><img src="/koBus/images/blank_over.gif" alt="마우스이동" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankOverImg"></div><div id="cardPwd_multiMouseTypeDiv" class="transkey_numberMultiMouseType" onclick="tk.setMultiCursor(true);" role="button" aria-label="멀티마우스를 사용합니다. 사용하시려면 키보드 클릭 후 마우스를 가운데로 이동 또는 클릭해주세요."><img src="/koBus/images/multi_s.png" alt="멀티마우스" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="multiMouseTypeImg"></div><div id="cardPwd_blankDiv" class="transkey_numberBlank"><img alt="TOUCH EN transkey" src="/koBus/images/blank.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankImg"></div></div></body></html>
