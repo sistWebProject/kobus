@@ -7,7 +7,7 @@
 /*	Author: 
 /****************************************/
 #wrap {position:relative; width:100%; min-width:320px; min-height:100%;}
-body { background: url(/images/kor/common/loading.gif) no-repeat -9999px -9999px;}
+body { background: url(/koBus/images/loading.gif) no-repeat -9999px -9999px;}
 /* common */
 .ellipsis { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; display: inline-block; }
 .dimmed, .pop_dimmed { display: none;  position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);  z-index: 996;}
@@ -485,7 +485,7 @@ body.main #wrap { /* min-height: 828px; */}
 .title_wrap.in_process .process li { display: inline-block; font-size: 15px; color: #a1a6b3;}
 .title_wrap.in_process .process .active { color: #fff;}
 .title_wrap.in_process .process li + li { margin-left: 30px;}
-.title_wrap.in_process .process li:after { display: inline-block; content: ''; background: url(/images/kor/common/arrow_process.png) right -18px no-repeat; background-size: 28px auto; width: 28px; height: 18px; margin: 0 0 -3px 30px;}
+.title_wrap.in_process .process li:after { display: inline-block; content: ''; background: url(/koBus/images/common/arrow_process.png) right -18px no-repeat; background-size: 28px auto; width: 28px; height: 18px; margin: 0 0 -3px 30px;}
 .title_wrap.in_process .process li.active:after { background-position: right 0;}
 .title_wrap.in_process .process li.last:after { display: none;}
 .mobile .title_wrap select, .tablet .title_wrap select { font-size: 12px;}
@@ -546,7 +546,7 @@ body.main #wrap { /* min-height: 828px; */}
 .sub .foot_com { top: 65px; bottom: inherit;}
 
 .loading { display: none; position: absolute; width: 100%; z-index: 99990;}
-.loading p {position: fixed; top: 50%; left: 50%; background: var(--primary-face) url(/images/kor/common/loading2.gif) center 26px no-repeat; width: 106px; height: 106px; margin: -53px 0 0 -53px; border-radius: 50%;}
+.loading p {position: fixed; top: 50%; left: 50%; background: var(--primary-face) url(/koBus/images/loading2.gif) center 26px no-repeat; width: 106px; height: 106px; margin: -53px 0 0 -53px; border-radius: 50%;}
 .remodal .loading { top: 46px !important; height: 100% !important; height: calc(100% - 46px) !important;}
 .remodal .loading.pop .load { margin-left: -53px !important;}
 
