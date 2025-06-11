@@ -556,38 +556,18 @@
 							<ul>
 
 <!-- 작업 -->
-<%
-  Connection conn = null;
-  PreparedStatement pstmt = null;
-  ResultSet rs = null;
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-  try {
-    conn = ConnectionProvider.getConnection();
-    String sql = "SELECT notID, topic, TO_CHAR(notDate, 'YYYY-MM-DD') AS notDate FROM notice ORDER BY notDate DESC";
-    pstmt = conn.prepareStatement(sql);
-    rs = pstmt.executeQuery();
+<c:forEach var="dto" items="${list}">
+  <li class="notice-row">
+    <span class="notice-icon">📌</span>
+    <a href="view.notice?notID=${dto.notID}" class="notice-title">${dto.topic}</a>
+    <span class="notice-date">${dto.notDate}</span>
+  </li>
+</c:forEach>
+<a href="<c:url value='/notice/write.notice' />">[글쓰기]</a>
 
-    while(rs.next()) {
-      String notID = rs.getString("notID");
-      String topic = rs.getString("topic");
-      String notDate = rs.getString("notDate");
-%>
-      <li class="notice-row">
-	  <span class="notice-icon">📌</span>
-	  <a href="notice_view.jsp?notID=<%=notID%>" class="notice-title"><%=topic%></a>
-	  <span class="notice-date"><%=notDate%></span>
-	</li>
-<%
-    }
-  } catch(Exception e) {
-    e.printStackTrace();
-  } finally {
-    if (rs != null) try { rs.close(); } catch (Exception e) {}
-    if (pstmt != null) try { pstmt.close(); } catch (Exception e) {}
-    if (conn != null) try { conn.close(); } catch (Exception e) {}
-  }
-%>
-		
+
 
 							</ul>
 						</div>
