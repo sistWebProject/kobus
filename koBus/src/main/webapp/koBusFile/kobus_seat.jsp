@@ -1,3 +1,8 @@
+<%@page import="com.util.JdbcUtil"%>
+<%@page import="com.util.ConnectionProvider"%>
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
 <%@page import="java.time.LocalDate"%>
 <%@page import="java.time.LocalTime"%>
 <%@ page language="java" trimDirectiveWhitespaces="true" contentType="text/html; charset=UTF-8"
@@ -28,6 +33,38 @@
 	request.setAttribute("deprTime", deprTime);
 
 %>	
+
+<!-- 해당 코드들 dao로 분리해야됨 dao로 빼면 dao 객체를 생성할 컨트롤러의 servlet도 필요 -->
+<%
+    String empno = request.getParameter("busScheduleId");
+
+    String sql = "SELECT count(*) AS cnt FROM emp WHERE busScheduleId = ?";
+
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    String resultJSON = null;
+
+    try {
+        conn = ConnectionProvider.getConnection();
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, empno);
+        rs = pstmt.executeQuery();
+
+        int cnt = 0;
+        if (rs.next()) {
+            cnt = rs.getInt("cnt");
+        }
+
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        JdbcUtil.close(rs);
+        JdbcUtil.close(pstmt);
+        JdbcUtil.close(conn);
+    }
+%>
 	
 <!DOCTYPE html>
 <html lang="ko" class="pc">
@@ -536,6 +573,8 @@ $(document).ready(function () {
 				action="https://www.kobus.co.kr/mrs/satschc.do">
 				<input type="hidden" name="deprCd" id="deprCd" value="${deprCode }">
 				<!-- 출발지코드 -->
+				<%-- <input type="hidden" name="deprCd" id="deprCd" value="${param.deprCode}"> --%>
+				<!-- 추후 el 표기법으로 변경하기 그럼 request.getParameter 랑 setAttribute 없어도 됨-->
 				
 				<input type="hidden" name="deprNm" id="deprNm" value="${deprName }">
 				<!-- 출발지명 -->
@@ -1060,135 +1099,19 @@ $(document).ready(function () {
 													alt="버스 내부 도면으로 버스의 전방 좌측에는 운전석, 전방 우측에는 출입구가 위치하고 있습니다. 운전석 뒤로는 1,2번 좌석이 있고, 1,2번 좌석 뒤로 두 개의 좌석씩 4,5,7,8,10,11,13,14,16,17,19,20번 좌석이 있습니다. 출입구 뒤에는 3번 좌석이 있으며, 3번 뒤로 6,9,12,15,18,21번 좌석이 있습니다. 2번과 3번 좌석 사이에는 통로가 있으며, 전체적으로 통로를 중심으로 좌측에 2개 좌석, 우측에 1개 좌석이 위치하며 한 줄에 3개의 좌석씩 7줄로 배치되어 있습니다. 총 21개의 좌석이 있으며 좌석 번호는 왼쪽부터 오른쪽으로 증가합니다.">
 											</div>
 											<div class="seatList">
-												<span class="seatBox disabled "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_01"
-													value="1"
-													onclick="fnSeatChc(this, &#39;seatNum_21_01&#39;);"
-													disabled="" title="예매 완료된 좌석" tabindex="-1"
-													class="disabled-input"> <label for="seatNum_21_01">1</label>
-												</span> <span class="seatBox disabled "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_02"
-													value="2"
-													onclick="fnSeatChc(this, &#39;seatNum_21_02&#39;);"
-													disabled="" title="예매 완료된 좌석" tabindex="-1"
-													class="disabled-input"> <label for="seatNum_21_02">2</label>
-												</span> <span class="seatBox "> <input type="checkbox"
-													name="seatBoxDtl" id="seatNum_21_03" value="3"
-													onclick="fnSeatChc(this, &#39;seatNum_21_03&#39;);"
-													tabindex="-1" class="disabled-input"> <label
-													for="seatNum_21_03">3</label>
-												</span> <span class="seatBox disabled "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_04"
-													value="4"
-													onclick="fnSeatChc(this, &#39;seatNum_21_04&#39;);"
-													disabled="" title="예매 완료된 좌석" tabindex="-1"
-													class="disabled-input"> <label for="seatNum_21_04">4</label>
-												</span> <span class="seatBox disabled "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_05"
-													value="5"
-													onclick="fnSeatChc(this, &#39;seatNum_21_05&#39;);"
-													disabled="" title="예매 완료된 좌석" tabindex="-1"
-													class="disabled-input"> <label for="seatNum_21_05">5</label>
-												</span> <span class="seatBox disabled "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_06"
-													value="6"
-													onclick="fnSeatChc(this, &#39;seatNum_21_06&#39;);"
-													disabled="" title="예매 완료된 좌석" tabindex="-1"
-													class="disabled-input"> <label for="seatNum_21_06">6</label>
-												</span> <span class="seatBox disabled "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_07"
-													value="7"
-													onclick="fnSeatChc(this, &#39;seatNum_21_07&#39;);"
-													disabled="" title="예매 완료된 좌석" tabindex="-1"
-													class="disabled-input"> <label for="seatNum_21_07">7</label>
-												</span> <span class="seatBox disabled "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_08"
-													value="8"
-													onclick="fnSeatChc(this, &#39;seatNum_21_08&#39;);"
-													disabled="" title="예매 완료된 좌석" tabindex="-1"
-													class="disabled-input"> <label for="seatNum_21_08">8</label>
-												</span> <span class="seatBox disabled "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_09"
-													value="9"
-													onclick="fnSeatChc(this, &#39;seatNum_21_09&#39;);"
-													disabled="" title="예매 완료된 좌석" tabindex="-1"
-													class="disabled-input"> <label for="seatNum_21_09">9</label>
-												</span> <span class="seatBox disabled "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_10"
-													value="10"
-													onclick="fnSeatChc(this, &#39;seatNum_21_10&#39;);"
-													disabled="" title="예매 완료된 좌석" tabindex="-1"
-													class="disabled-input"> <label for="seatNum_21_10">10</label>
-												</span> <span class="seatBox disabled "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_11"
-													value="11"
-													onclick="fnSeatChc(this, &#39;seatNum_21_11&#39;);"
-													disabled="" title="예매 완료된 좌석" tabindex="-1"
-													class="disabled-input"> <label for="seatNum_21_11">11</label>
-												</span> <span class="seatBox disabled "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_12"
-													value="12"
-													onclick="fnSeatChc(this, &#39;seatNum_21_12&#39;);"
-													disabled="" title="예매 완료된 좌석" tabindex="-1"
-													class="disabled-input"> <label for="seatNum_21_12">12</label>
-												</span> <span class="seatBox disabled "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_13"
-													value="13"
-													onclick="fnSeatChc(this, &#39;seatNum_21_13&#39;);"
-													disabled="" title="예매 완료된 좌석" tabindex="-1"
-													class="disabled-input"> <label for="seatNum_21_13">13</label>
-												</span> <span class="seatBox "> <input type="checkbox"
-													name="seatBoxDtl" id="seatNum_21_14" value="14"
-													onclick="fnSeatChc(this, &#39;seatNum_21_14&#39;);"
-													tabindex="-1" class="disabled-input"> <label
-													for="seatNum_21_14">14</label>
-												</span> <span class="seatBox disabled "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_15"
-													value="15"
-													onclick="fnSeatChc(this, &#39;seatNum_21_15&#39;);"
-													disabled="" title="예매 완료된 좌석" tabindex="-1"
-													class="disabled-input"> <label for="seatNum_21_15">15</label>
-												</span> <span class="seatBox disabled "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_16"
-													value="16"
-													onclick="fnSeatChc(this, &#39;seatNum_21_16&#39;);"
-													disabled="" title="예매 완료된 좌석" tabindex="-1"
-													class="disabled-input"> <label for="seatNum_21_16">16</label>
-												</span> <span class="seatBox "> <input type="checkbox"
-													name="seatBoxDtl" id="seatNum_21_17" value="17"
-													onclick="fnSeatChc(this, &#39;seatNum_21_17&#39;);"
-													tabindex="-1" class="disabled-input"> <label
-													for="seatNum_21_17">17</label>
-												</span> <span class="seatBox disabled "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_18"
-													value="18"
-													onclick="fnSeatChc(this, &#39;seatNum_21_18&#39;);"
-													disabled="" title="예매 완료된 좌석" tabindex="-1"
-													class="disabled-input"> <label for="seatNum_21_18">18</label>
-												</span> <span class="seatBox last_seat "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_19"
-													value="19"
-													onclick="fnSeatChc(this, &#39;seatNum_21_19&#39;);"
-													tabindex="-1" class="disabled-input"> <label
-													for="seatNum_21_19">19</label>
-												</span> <span class="seatBox last_seat "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_20"
-													value="20"
-													onclick="fnSeatChc(this, &#39;seatNum_21_20&#39;);"
-													tabindex="-1" class="disabled-input"> <label
-													for="seatNum_21_20">20</label>
-												</span> <span class="seatBox last_seat last "> <input
-													type="checkbox" name="seatBoxDtl" id="seatNum_21_21"
-													value="21"
-													onclick="fnSeatChc(this, &#39;seatNum_21_21&#39;);"
-													tabindex="-1" class="disabled-input"> <label
-													for="seatNum_21_21">21</label>
-												</span>
-
-
-
-
-
+											  <c:forEach var="seat" items="${seatList}">
+											    <span class="seatBox <c:if test='${seat.reserved}'>disabled</c:if>">
+											      <input type="checkbox"
+											             name="seatBoxDtl"
+											             id="seatNum_${seat.seatId}"
+											             value="${seat.seatNum}"
+											             onclick="fnSeatChc(this, 'seatNum_${seat.seatId}');"
+											             <c:if test="${seat.reserved}">
+											               disabled="disabled" title="예매 완료된 좌석" tabindex="-1" class="disabled-input"
+											             </c:if> >
+											      <label for="seatNum_${seat.seatId}">${seat.seatNum}</label>
+											    </span>
+											  </c:forEach>
 											</div>
 										</div>
 									</div>
