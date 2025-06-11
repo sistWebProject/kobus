@@ -65,13 +65,20 @@
 							src="/koBus/images/kor/layout/ico-quick-menu05.png" /></span> <span
 						class="text">정기권 구매</span>
 				</a></li>
-				<li class="to-top"><a href="javascript:void(0)"> <span
+				<li class="to-top"><a href="#"> <span
 						class="ico"><img alt=""
 							src="/koBus/images/kor/layout/ico-to-top.png" /></span> <span
 						class="text">TOP</span>
 				</a></li>
 			</ul>
 		</nav>
+		
+		<!-- TOP 버튼 누르면 맨위로 이동 -->
+		<script>
+			$("#new-kor-quickmenu > ul > li.to-top > a > span.text").on("click", function (){
+				$("html, body").animate({ scrollTop: 0 }, "slow");
+			});
+		</script>
 		<!-- header -->
 
 		<!-- 헤더 -->

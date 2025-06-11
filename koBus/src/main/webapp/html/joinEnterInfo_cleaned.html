@@ -8,10 +8,11 @@
 	name="viewport" />
 <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
 <title>회원가입(정보입력) | 고속버스통합예매</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link href="/images/favicon.ico" rel="shortcut icon" />
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 
-<link href="/jspPro/css/ui.jqgrid.custom.css" rel="stylesheet"
+<link href="/koBus/css/common/ui.jqgrid.custom.css" rel="stylesheet"
 	type="text/css" />
 
 
@@ -21,7 +22,7 @@
 
 
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<link href="/jspPro/css/kor/style.css" rel="stylesheet" type="text/css" />
+<link href="/koBus/css/common/style.css" rel="stylesheet" type="text/css" />
 </head>
 <!-- [리뉴얼] 페이지 개별 스크립트 신규 정의함 -->
 <body class="KO">
@@ -40,34 +41,41 @@
 		<nav class="fixed" id="new-kor-quickmenu">
 			<ul class="quickmenu-list">
 				<li><a href="/mrs/rotinf.do"> <span class="ico"><img
-							alt="" src="/jspPro/images/kor/layout/ico-quick-menu01.png" /></span> <span
+							alt="" src="/koBus/images/kor/layout/ico-quick-menu01.png" /></span> <span
 						class="text">고속버스 예매</span>
 				</a></li>
 				<li><a href="/mrs/mrscfm.do"> <span class="ico"><img
-							alt="" src="/jspPro/images/kor/layout/ico-quick-menu02.png" /></span> <span
+							alt="" src="/koBus/images/kor/layout/ico-quick-menu02.png" /></span> <span
 						class="text">예매확인</span>
 				</a></li>
 				<li><a href="/oprninf/arscgd/oprnArscGd.do"> <span
 						class="ico"><img alt=""
-							src="/jspPro/images/kor/layout/ico-quick-menu03.png" /></span> <span
+							src="/koBus/images/kor/layout/ico-quick-menu03.png" /></span> <span
 						class="text">도착시간 안내</span>
 				</a></li>
 				<li><a href="/adtnprdnew/frps/frpsPrchGd.do"> <span
 						class="ico"><img alt=""
-							src="/jspPro/images/kor/layout/ico-quick-menu04.png" /></span> <span
+							src="/koBus/images/kor/layout/ico-quick-menu04.png" /></span> <span
 						class="text">프리패스 구매</span>
 				</a></li>
 				<li><a href="/adtnprdnew/pass/passPrchGd.do"> <span
 						class="ico"><img alt=""
-							src="/jspPro/images/kor/layout/ico-quick-menu05.png" /></span> <span
+							src="/koBus/images/kor/layout/ico-quick-menu05.png" /></span> <span
 						class="text">정기권 구매</span>
 				</a></li>
 				<li class="to-top"><a href="#"> <span class="ico"><img
-							alt="" src="/jspPro/images/kor/layout/ico-to-top.png" /></span> <span
+							alt="" src="/koBus/images/kor/layout/ico-to-top.png" /></span> <span
 						class="text">TOP</span>
 				</a></li>
 			</ul>
 		</nav>
+		
+		<!-- TOP 버튼 누르면 맨위로 이동 -->
+		<script>
+			$("#new-kor-quickmenu > ul > li.to-top > a > span.text").on("click", function (){
+				$("html, body").animate({ scrollTop: 0 }, "slow");
+			});
+		</script>
 		<!-- header -->
 
 		<!-- 헤더 -->
@@ -76,7 +84,7 @@
 				<div class="container">
 					<h1 id="logo">
 						<a href="/main.do"> <img alt="KOBUS 전국고속버스운송사업조합"
-							src="/jspPro/images/kor/layout/logo.png" />
+							src="/koBus/images/kor/layout/logo.png" />
 						</a>
 					</h1>
 					<nav class="util-menus">
@@ -143,12 +151,12 @@
 					</div>
 					<div class="links">
 						<!-- <a href="https://www.tmoney.co.kr" class="btn btn-tmoney" title="새창" target="_blank">
-					<img src="/jspPro/images/kor/layout/ico-tmoney-app.png" alt="" />고속버스 티머니
+					<img src="/koBus/images/kor/layout/ico-tmoney-app.png" alt="" />고속버스 티머니
 					<i class="ico ico-arrow-new-window"></i>
 				</a> -->
 						<a class="btn btn-job" href="/cscn/jobmttr/readJobList.do"
 							target="_blank" title="새창"> <img alt=""
-							src="/jspPro/images/kor/layout/ico-job-offer.png" />승무사원 모집 <i
+							src="/koBus/images/kor/layout/ico-job-offer.png" />승무사원 모집 <i
 							class="ico ico-arrow-new-window"></i>
 						</a>
 					</div>
@@ -156,7 +164,7 @@
 						<a class="gnb-baaner"
 							href="https://safeconnect.co.kr/sfconn/login/csc_pc?et=psn249R01&amp;ptrSvcSn=psn249"
 							title="새창"> <iframe class="ad-frame"
-								src="/jspPro/html2/_ad-tubebox-002GNB.html"
+								src="/koBus/html2/_ad-tubebox-002GNB.html"
 								title="프레임 (전화번호안심 로그인)"></iframe>
 						</a>
 					</div>
@@ -223,8 +231,6 @@
 								<div class="box_inputForm" id="pwdDiv">
 									<label class="label" for="usrPwd">비밀번호</label>
 									<div class="box_label">
-										<button class="transkey_btn" data-id="usrPwd" type="button">가상키패드
-											입력</button>
 										<input class="input" data-tk-kbdtype="qwerty" id="usrPwd"
 											name="usrPwd" placeholder="영문, 숫자 8자리 이상" tabindex="-1"
 											type="password" />
@@ -234,8 +240,6 @@
 								<div class="box_inputForm" id="pwdCfmDiv">
 									<label class="label" for="pwdCfmCheck">비밀번호 확인</label>
 									<div class="box_label">
-										<button class="transkey_btn" data-id="pwdCfmCheck"
-											type="button">가상키패드 입력</button>
 										<input class="input" data-tk-kbdtype="qwerty" id="pwdCfmCheck"
 											name="pwdCfmCheck" placeholder="비밀번호를 재입력하세요" tabindex="-1"
 											type="password" />
@@ -257,94 +261,7 @@
 									<div class="dropdown-wrap select-default">
 										<a aria-expanded="false" class="btn-dropdown" href="#"
 											title="출생년도 선택"> <span class="text">선택하세요.</span></a>
-										<ul class="dropdown-list">
-											<li><a href="#">2011</a></li>
-											<li><a href="#">2010</a></li>
-											<li><a href="#">2009</a></li>
-											<li><a href="#">2008</a></li>
-											<li><a href="#">2007</a></li>
-											<li><a href="#">2006</a></li>
-											<li><a href="#">2005</a></li>
-											<li><a href="#">2004</a></li>
-											<li><a href="#">2003</a></li>
-											<li><a href="#">2002</a></li>
-											<li><a href="#">2001</a></li>
-											<li><a href="#">2000</a></li>
-											<li><a href="#">1999</a></li>
-											<li><a href="#">1998</a></li>
-											<li><a href="#">1997</a></li>
-											<li><a href="#">1996</a></li>
-											<li><a href="#">1995</a></li>
-											<li><a href="#">1994</a></li>
-											<li><a href="#">1993</a></li>
-											<li><a href="#">1992</a></li>
-											<li><a href="#">1991</a></li>
-											<li><a href="#">1990</a></li>
-											<li><a href="#">1989</a></li>
-											<li><a href="#">1988</a></li>
-											<li><a href="#">1987</a></li>
-											<li><a href="#">1986</a></li>
-											<li><a href="#">1985</a></li>
-											<li><a href="#">1984</a></li>
-											<li><a href="#">1983</a></li>
-											<li><a href="#">1982</a></li>
-											<li><a href="#">1981</a></li>
-											<li><a href="#">1980</a></li>
-											<li><a href="#">1979</a></li>
-											<li><a href="#">1978</a></li>
-											<li><a href="#">1977</a></li>
-											<li><a href="#">1976</a></li>
-											<li><a href="#">1975</a></li>
-											<li><a href="#">1974</a></li>
-											<li><a href="#">1973</a></li>
-											<li><a href="#">1972</a></li>
-											<li><a href="#">1971</a></li>
-											<li><a href="#">1970</a></li>
-											<li><a href="#">1969</a></li>
-											<li><a href="#">1968</a></li>
-											<li><a href="#">1967</a></li>
-											<li><a href="#">1966</a></li>
-											<li><a href="#">1965</a></li>
-											<li><a href="#">1964</a></li>
-											<li><a href="#">1963</a></li>
-											<li><a href="#">1962</a></li>
-											<li><a href="#">1961</a></li>
-											<li><a href="#">1960</a></li>
-											<li><a href="#">1959</a></li>
-											<li><a href="#">1958</a></li>
-											<li><a href="#">1957</a></li>
-											<li><a href="#">1956</a></li>
-											<li><a href="#">1955</a></li>
-											<li><a href="#">1954</a></li>
-											<li><a href="#">1953</a></li>
-											<li><a href="#">1952</a></li>
-											<li><a href="#">1951</a></li>
-											<li><a href="#">1950</a></li>
-											<li><a href="#">1949</a></li>
-											<li><a href="#">1948</a></li>
-											<li><a href="#">1947</a></li>
-											<li><a href="#">1946</a></li>
-											<li><a href="#">1945</a></li>
-											<li><a href="#">1944</a></li>
-											<li><a href="#">1943</a></li>
-											<li><a href="#">1942</a></li>
-											<li><a href="#">1941</a></li>
-											<li><a href="#">1940</a></li>
-											<li><a href="#">1939</a></li>
-											<li><a href="#">1938</a></li>
-											<li><a href="#">1937</a></li>
-											<li><a href="#">1936</a></li>
-											<li><a href="#">1935</a></li>
-											<li><a href="#">1934</a></li>
-											<li><a href="#">1933</a></li>
-											<li><a href="#">1932</a></li>
-											<li><a href="#">1931</a></li>
-											<li><a href="#">1930</a></li>
-											<li><a href="#">1929</a></li>
-											<li><a href="#">1928</a></li>
-											<li><a href="#">1927</a></li>
-											<li><a href="#">1926</a></li>
-										</ul>
+										<ul class="dropdown-list" id="yearList"></ul>
 										<input id="ageYear" name="ageYear" type="hidden" value="2011" />
 									</div>
 								</div>
@@ -372,7 +289,7 @@
 											class="agreement_cont scrollbar-inner scroll-content scroll-scrolly_visible"
 											style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 118px;">
 											<iframe frameborder="0" height="184" scrolling="no"
-												src="/jspPro/cmn/IndlInfClcnUtlzAgrmSelJoin.do"
+												src="/koBus/cmn/IndlInfClcnUtlzAgrmSelJoin.do"
 												title="개인정보 수집 및 이용동의" width="100%"></iframe>
 										</div>
 										<div class="scroll-element scroll-x scroll-scrolly_visible">
@@ -400,16 +317,39 @@
 							<a class="btnL btn_confirm ready" href="#" id="joinBtn">회원가입</a>
 							<!-- ready class 있음 -->
 						</p>
-						<input id="hidfrmId" name="hidfrmId" type="hidden" value="" /><input
-							id="transkeyUuid_" name="transkeyUuid_" type="hidden"
-							value="65e73a6fbf3f31ce58555aa75b887ac3bdc04ae8b73a247aee2fee403bcbd1c0" /><input
-							id="transkey_usrPwd_" name="transkey_usrPwd_" type="hidden"
-							value="" /><input id="transkey_HM_usrPwd_"
-							name="transkey_HM_usrPwd_" type="hidden" value="" /><input
-							id="transkey_pwdCfmCheck_" name="transkey_pwdCfmCheck_"
-							type="hidden" value="" /><input id="transkey_HM_pwdCfmCheck_"
-							name="transkey_HM_pwdCfmCheck_" type="hidden" value="" />
+						
 					</form>
+					
+					<script>
+						$(document).ready(function() {
+						  const currentYear = new Date().getFullYear();
+						  const endYear = currentYear - 120;
+						
+						  for (let year = currentYear; year >= endYear; year--) {
+						    $("#yearList").append(`<li><a href="#">${year}</a></li>`);
+						  }
+						
+						  $(".btn-dropdown").on("click", function(e) {
+						    e.preventDefault();
+						    $(this).next(".dropdown-list").toggle();
+						  });
+						
+						  $("#yearList").on("click", "li a", function(e) {
+						    e.preventDefault();
+						    const selectedYear = $(this).text();
+						    $(".btn-dropdown .text").text(selectedYear);
+						    $("#ageYear").val(selectedYear);
+						    $(".dropdown-list").hide();
+						  });
+						
+						  $(document).on("click", function(e) {
+						    if (!$(e.target).closest(".dropdown-wrap").length) {
+						      $(".dropdown-list").hide();
+						    }
+						  });
+						});
+					</script>
+					
 					<ul class="desc_list">
 						<li>고객님의 이메일과 출생, 성별은 아이디와 비밀번호 분실 시 필요한 정보입니다.</li>
 						<li>고객님의 출생과 성별은 더 나은 서비스를 위해 마케팅 정보로 활용됩니다.</li>
@@ -425,28 +365,28 @@
 					<ul class="express-bus-company-list">
 						<li><a href="http://www.kumhobuslines.co.kr" target="_blank"
 							title="새창"><img alt="금호고속"
-								src="/jspPro/images/kor/layout/logo-kumho-express.png" /></a></li>
+								src="/koBus/images/kor/layout/logo-kumho-express.png" /></a></li>
 						<li><a href="http://www.dongbubus.com" target="_blank"
 							title="새창"><img alt="동부고속"
-								src="/jspPro/images/kor/layout/logo-dongbu-express.png" /></a></li>
+								src="/koBus/images/kor/layout/logo-dongbu-express.png" /></a></li>
 						<li><a href="http://www.songnisanbuslines.co.kr"
 							target="_blank" title="새창"><img alt="속리산고속"
-								src="/jspPro/images/kor/layout/logo-sokrisan-express.png" /></a></li>
+								src="/koBus/images/kor/layout/logo-sokrisan-express.png" /></a></li>
 						<li><a href="http://www.dyexpress.co.kr" target="_blank"
 							title="새창"><img alt="동양고속"
-								src="/jspPro/images/kor/layout/logo-dongyang-express.png" /></a></li>
+								src="/koBus/images/kor/layout/logo-dongyang-express.png" /></a></li>
 						<li><a href="http://www.samhwaexpress.co.kr" target="_blank"
 							title="새창"><img alt="삼화고속"
-								src="/jspPro/images/kor/layout/logo-samhwa-express.png" /></a></li>
+								src="/koBus/images/kor/layout/logo-samhwa-express.png" /></a></li>
 						<li><a href="http://www.jabus.co.kr" target="_blank"
 							title="새창"><img alt="중앙고속"
-								src="/jspPro/images/kor/layout/logo-joongang-express.png" /></a></li>
+								src="/koBus/images/kor/layout/logo-joongang-express.png" /></a></li>
 						<li><a href="http://www.chunilexpress.co.kr" target="_blank"
 							title="새창"><img alt="천일고속"
-								src="/jspPro/images/kor/layout/logo-chunil-express.png" /></a></li>
+								src="/koBus/images/kor/layout/logo-chunil-express.png" /></a></li>
 						<li><a href="http://www.hanilexpress.co.kr" target="_blank"
 							title="새창"><img alt="한일고속"
-								src="/jspPro/images/kor/layout/logo-hanil-express.png" /></a></li>
+								src="/koBus/images/kor/layout/logo-hanil-express.png" /></a></li>
 					</ul>
 					<!-- dropdown-top 클래스 추가 시, 드롭다운 목록 위로 노출 -->
 					<div class="dropdown-wrap dropdown-top related-sites-select">
@@ -492,13 +432,13 @@
 							target="_blank" title="새창"><img
 								alt="(사)한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크(WA인증마크)"
 								height="40"
-								src="/jspPro/images/kor/layout/logo-accessibility2.png" /></a></li>
+								src="/koBus/images/kor/layout/logo-accessibility2.png" /></a></li>
 						<li><a href="/ugd/bustrop/Bustrop.do" title="이사장 인사말 바로가기"><img
 								alt="KOBUS 전국고속버스운송사업조합"
-								src="/jspPro/images/kor/layout/logo-kobus.png" /></a></li>
+								src="/koBus/images/kor/layout/logo-kobus.png" /></a></li>
 						<li><a href="/ugd/trmlbizr/Trmlbizr.do" title="협회장 인사말 바로가기"><img
 								alt="전국여객자동차터미널사업자협회"
-								src="/jspPro/images/kor/layout/logo-npvtba-express.png" /></a></li>
+								src="/koBus/images/kor/layout/logo-npvtba-express.png" /></a></li>
 					</ul>
 				</div>
 			</div>
@@ -610,57 +550,57 @@
 				title="가상키보드"></iframe>
 		</div>
 		<div class="transkey_q_p_spacekey" id="usrPwdq_p_space">
-			<img alt="" src="/jspPro/transkey/images/q_p_space.png" />
+			<img alt="" src="/koBus/transkey/images/q_p_space.png" />
 		</div>
 		<div class="transkey_pKey" id="usrPwd_pKey">
-			<img alt="" src="/jspPro/transkey/images/p_key.png" />
+			<img alt="" src="/koBus/transkey/images/p_key.png" />
 		</div>
 		<div class="transkey_pKey" id="usrPwdq_p_backKey">
-			<img alt="" src="/jspPro/transkey/images/q_p_backkey.png" />
+			<img alt="" src="/koBus/transkey/images/q_p_backkey.png" />
 		</div>
 		<div class="transkey_pKey" id="usrPwdq_p_shiftkey_sp">
-			<img alt="" src="/jspPro/transkey/images/q_p_shiftkey_sp.png" />
+			<img alt="" src="/koBus/transkey/images/q_p_shiftkey_sp.png" />
 		</div>
 		<div class="transkey_q_p_enterKey" id="usrPwdq_p_enterKey_L">
-			<img alt="" src="/jspPro/transkey/images/q_p_enterkey_l.png" />
+			<img alt="" src="/koBus/transkey/images/q_p_enterkey_l.png" />
 		</div>
 		<div class="transkey_q_p_enterKey" id="usrPwdq_p_enterKey_R">
-			<img alt="" src="/jspPro/transkey/images/q_p_enterkey_r.png" />
+			<img alt="" src="/koBus/transkey/images/q_p_enterkey_r.png" />
 		</div>
 		<div class="transkey_q_p_shiftKey" id="usrPwdq_p_shiftKey_L">
-			<img alt="" src="/jspPro/transkey/images/q_p_shiftkey_l.png" />
+			<img alt="" src="/koBus/transkey/images/q_p_shiftkey_l.png" />
 		</div>
 		<div class="transkey_q_p_shiftKey" id="usrPwdq_p_shiftKey_R">
-			<img alt="" src="/jspPro/transkey/images/q_p_shiftkey_r.png" />
+			<img alt="" src="/koBus/transkey/images/q_p_shiftkey_r.png" />
 		</div>
 		<div class="transkey_fakeMouse" id="usrPwd_fakeMouseDiv">
-			<img alt="" id="fakeMouseImg" src="/jspPro/transkey/images/fake.gif" />
+			<img alt="" id="fakeMouseImg" src="/koBus/transkey/images/fake.gif" />
 		</div>
 		<div class="transkey_osMouse" id="usrPwd_osMouseDiv">
 			<img =""="" alt="" id="osMouseImg"
-				src="/jspPro/transkey/images/fake.gif" />
+				src="/koBus/transkey/images/fake.gif" />
 		</div>
 		<div aria-label="기본마우스를 사용합니다." class="transkey_qwertySingleMouseType"
 			id="usrPwd_singleMouseTypeDiv" role="button" tabindex="0">
 			<img alt="" id="slngleMouseTypeImg"
-				src="/jspPro/transkey/images/single.png" />
+				src="/koBus/transkey/images/single.png" />
 		</div>
 		<div aria-label="마우스를 가운데로 이동 또는 클릭해주세요."
 			class="transkey_qwertyBlankOver" id="usrPwd_blankOverDiv"
 			tabindex="0">
 			<img alt="마우스이동" id="blankOverImg"
-				src="/jspPro/transkey/images/blank_over.gif" />
+				src="/koBus/transkey/images/blank_over.gif" />
 		</div>
 		<div
 			aria-label="멀티마우스를 사용합니다. 사용하시려면 키보드 클릭 후 마우스를 가운데로 이동 또는 클릭해주세요."
 			class="transkey_qwertyMultiMouseType" id="usrPwd_multiMouseTypeDiv"
 			role="button">
 			<img alt="멀티마우스" id="multiMouseTypeImg"
-				src="/jspPro/transkey/images/multi.png" />
+				src="/koBus/transkey/images/multi.png" />
 		</div>
 		<div class="transkey_qwertyBlank" id="usrPwd_blankDiv">
 			<img alt="TOUCH EN transkey" id="blankImg"
-				src="/jspPro/transkey/images/blank.png" />
+				src="/koBus/transkey/images/blank.png" />
 		</div>
 	</div>
 	<div class="transkey_divLayout" id="pwdCfmCheck_layout">
@@ -764,57 +704,57 @@
 				title="가상키보드"></iframe>
 		</div>
 		<div class="transkey_q_p_spacekey" id="pwdCfmCheckq_p_space">
-			<img alt="" src="/jspPro/transkey/images/q_p_space.png" />
+			<img alt="" src="/koBus/transkey/images/q_p_space.png" />
 		</div>
 		<div class="transkey_pKey" id="pwdCfmCheck_pKey">
-			<img alt="" src="/jspPro/transkey/images/p_key.png" />
+			<img alt="" src="/koBus/transkey/images/p_key.png" />
 		</div>
 		<div class="transkey_pKey" id="pwdCfmCheckq_p_backKey">
-			<img alt="" src="/jspPro/transkey/images/q_p_backkey.png" />
+			<img alt="" src="/koBus/transkey/images/q_p_backkey.png" />
 		</div>
 		<div class="transkey_pKey" id="pwdCfmCheckq_p_shiftkey_sp">
-			<img alt="" src="/jspPro/transkey/images/q_p_shiftkey_sp.png" />
+			<img alt="" src="/koBus/transkey/images/q_p_shiftkey_sp.png" />
 		</div>
 		<div class="transkey_q_p_enterKey" id="pwdCfmCheckq_p_enterKey_L">
-			<img alt="" src="/jspPro/transkey/images/q_p_enterkey_l.png" />
+			<img alt="" src="/koBus/transkey/images/q_p_enterkey_l.png" />
 		</div>
 		<div class="transkey_q_p_enterKey" id="pwdCfmCheckq_p_enterKey_R">
-			<img alt="" src="/jspPro/transkey/images/q_p_enterkey_r.png" />
+			<img alt="" src="/koBus/transkey/images/q_p_enterkey_r.png" />
 		</div>
 		<div class="transkey_q_p_shiftKey" id="pwdCfmCheckq_p_shiftKey_L">
-			<img alt="" src="/jspPro/transkey/images/q_p_shiftkey_l.png" />
+			<img alt="" src="/koBus/transkey/images/q_p_shiftkey_l.png" />
 		</div>
 		<div class="transkey_q_p_shiftKey" id="pwdCfmCheckq_p_shiftKey_R">
-			<img alt="" src="/jspPro/transkey/images/q_p_shiftkey_r.png" />
+			<img alt="" src="/koBus/transkey/images/q_p_shiftkey_r.png" />
 		</div>
 		<div class="transkey_fakeMouse" id="pwdCfmCheck_fakeMouseDiv">
-			<img alt="" id="fakeMouseImg" src="/jspPro/transkey/images/fake.gif" />
+			<img alt="" id="fakeMouseImg" src="/koBus/transkey/images/fake.gif" />
 		</div>
 		<div class="transkey_osMouse" id="pwdCfmCheck_osMouseDiv">
 			<img =""="" alt="" id="osMouseImg"
-				src="/jspPro/transkey/images/fake.gif" />
+				src="/koBus/transkey/images/fake.gif" />
 		</div>
 		<div aria-label="기본마우스를 사용합니다." class="transkey_qwertySingleMouseType"
 			id="pwdCfmCheck_singleMouseTypeDiv" role="button" tabindex="0">
 			<img alt="" id="slngleMouseTypeImg"
-				src="/jspPro/transkey/images/single.png" />
+				src="/koBus/transkey/images/single.png" />
 		</div>
 		<div aria-label="마우스를 가운데로 이동 또는 클릭해주세요."
 			class="transkey_qwertyBlankOver" id="pwdCfmCheck_blankOverDiv"
 			tabindex="0">
 			<img alt="마우스이동" id="blankOverImg"
-				src="/jspPro/transkey/images/blank_over.gif" />
+				src="/koBus/transkey/images/blank_over.gif" />
 		</div>
 		<div
 			aria-label="멀티마우스를 사용합니다. 사용하시려면 키보드 클릭 후 마우스를 가운데로 이동 또는 클릭해주세요."
 			class="transkey_qwertyMultiMouseType"
 			id="pwdCfmCheck_multiMouseTypeDiv" role="button">
 			<img alt="멀티마우스" id="multiMouseTypeImg"
-				src="/jspPro/transkey/images/multi.png" />
+				src="/koBus/transkey/images/multi.png" />
 		</div>
 		<div class="transkey_qwertyBlank" id="pwdCfmCheck_blankDiv">
 			<img alt="TOUCH EN transkey" id="blankImg"
-				src="/jspPro/transkey/images/blank.png" />
+				src="/koBus/transkey/images/blank.png" />
 		</div>
 	</div> -->
 </body>
