@@ -292,7 +292,7 @@ $(document).ready(function () {
 					<nav class="util-menus">
 						<ul class="util-list">
 
-							<li><a href="javascript:void(0);"
+							<li><a href="/koBus/koBusFile/logonMain.jsp"
 								class="login">로그인</a></li>
 							<li><a
 								href="javascript:void(0);">회원가입</a></li>

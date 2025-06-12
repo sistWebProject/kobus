@@ -98,7 +98,12 @@ public class DispatcherServlet extends HttpServlet {
 		// 3단계 - 로직처리하는 모델객체를 commandHandlerMap으로 부터 얻어오기
 		CommandHandler handler = this.commandHandlerMap.get(requestURI);
 		String view = null;
-		view = handler.process(req, resp);
+		try {
+			view = handler.process(req, resp);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		if (view != null) {
 			RequestDispatcher dispatcher = req.getRequestDispatcher(view);
