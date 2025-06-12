@@ -1036,7 +1036,7 @@ ul.sel_list > li .btn_wrap ul li .btn + .btn {margin-left:4px;}
 .seat27 .seatList span.last_seat:nth-child(3n+3) {margin-left:8px;}
 .seat27 .seatList span.last_seat.last {top:0; margin-left:8px;}
 /* 21석 버스 */
-/* .seat21 {background:url(/koBus/images/common/bg_bus21.png) 50% 83px no-repeat;} */
+/* .seat21 {background:url(/koBus/images/bg_bus21.png) 50% 83px no-repeat;} */
 .seat21 .seatList {width:235px; margin:0 auto; padding:221px 20px 0 20px; font-size:0; box-sizing:border-box;}
 .seat21 .seatList span {margin:0 0 6px 8px;}
 .seat21 .seatList span:nth-child(3n+1) {margin-left:0;}
@@ -1047,15 +1047,16 @@ ul.sel_list > li .btn_wrap ul li .btn + .btn {margin-left:4px;}
 .seatList span {display:inline-block; position:relative; width:42px; height:45px;}
 .seatBox {position:relative;}
 .seatBox input {display:block; position:absolute; left:0; top:0; opacity:0;}
-.seatBox label {display:block; position:relative; width:100%; height:100%; background:url(/koBus/images/common/bg_busSeat_s.png) 0 2px no-repeat; text-align:center; color: var(--text-caption); font-size:12px; line-height:35px;}
+
+.seatBox label {display:block; position:relative; width:100%; height:100%; background:url(/koBus/images/bg_busSeat_s.png) 0 2px no-repeat; text-align:center; color: var(--text-caption); font-size:12px; line-height:35px;}
 
 @media screen and (min-width: 768px) {
-	.seat21 .seatBox input.disabled-input + label {background:url(/koBus/images/common/bg_busSeat_s.png) 0 -143px no-repeat;}
-	.seat28 .seatBox input.disabled-input + label {background:url(/koBus/images/common/bg_busSeat_s.png) 0 -143px no-repeat;}
-	.seat45 .seatBox input.disabled-input + label {background:url(/koBus/images/common/bg_busSeat_s.png) 0 -143px no-repeat;}
-	.seat_wheel .seatBox input.disabled-input + label {background:url(/koBus/images/common/bg_busSeat_s.png) 0 -144px no-repeat;}
+	.seat21 .seatBox input.disabled-input + label {background:url(/koBus/images/bg_busSeat_s.png) 0 -143px no-repeat;}
+	.seat28 .seatBox input.disabled-input + label {background:url(/koBus/images/bg_busSeat_s.png) 0 -143px no-repeat;}
+	.seat45 .seatBox input.disabled-input + label {background:url(/koBus/images/bg_busSeat_s.png) 0 -143px no-repeat;}
+	.seat_wheel .seatBox input.disabled-input + label {background:url(/koBus/images/bg_busSeat_s.png) 0 -144px no-repeat;}
 	.seat_wheel .seatBox.wheel input.disabled-input + label {background: url(/images/kor/wchr/page/bg_wheelchair_seat.png) 0 -224px no-repeat;}
-	.seat45_wheel .seatBox input.disabled-input + label {background: url(/koBus/images/common/bg_busSeat_s.png) 0 -118px no-repeat; background-size: 35px auto;}
+	.seat45_wheel .seatBox input.disabled-input + label {background: url(/koBus/images/bg_busSeat_s.png) 0 -118px no-repeat; background-size: 35px auto;}
 	.seat45_wheel .seatBox.wheel input.disabled-input + label {background: url(/images/kor/wchr/page/bg_wheelchair_seat.png) 0 -224px no-repeat;}
 }
 

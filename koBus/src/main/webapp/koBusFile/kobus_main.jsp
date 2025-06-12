@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page trimDirectiveWhitespaces="true" language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <!-- saved from url=(0031)/main.do -->
 <html lang="ko" class="pc">
@@ -1719,7 +1720,7 @@ $(document).ready(function () {
 					$(this).addClass("active");
 					
 
-					// 지역 코드별 극장 목록
+					// 지역 코드별 역 목록
 					const terminalMap = {
 						"all": ["강릉", "강진", "경북도청", "고성", "광주", "광주터미널", "구미", "군산", "김제", "김천", 
 								"김해", "남원", "논산", "대구", "대전", "동서울", "마산", "목포", "무안", "부산", "부천", "사천", 
