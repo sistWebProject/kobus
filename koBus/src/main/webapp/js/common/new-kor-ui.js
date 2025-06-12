@@ -327,6 +327,7 @@ $(document).ready(function() {
 	
 	$(".date_picker_wrap p.text").on("click", function (event) {
 		$(this).addClass('datepicker-active');
+		event.stopPropagation()
 		$(this).find("img").click();
 
 		$("#ui-datepicker-div").focus();

@@ -784,7 +784,7 @@ caption.sr-only {
   left: -22px;
   width: 12px;
   height: 12px;
-  background: url(/images/kor/layout/ico-arrow-breadcrumb01.png) 0 0 no-repeat;
+  background: url(/koBus/images/common/ico-arrow-breadcrumb01.png) 0 0 no-repeat;
   background-size: 12px 12px;
 }
 #new-kor-breadcrumb .breadcrumb-list .breadcrumb-select .btn-dropdown {
@@ -852,7 +852,7 @@ caption.sr-only {
   right: -24px;
   width: 12px;
   height: 12px;
-  background: url(/images/kor/layout/ico-arrow-breadcrumb02.png) 0 0 no-repeat;
+  background: url(/koBus/images/common/ico-arrow-breadcrumb02.png) 0 0 no-repeat;
   background-size: 12px 12px;
 }
 .content-header .process li .num {
