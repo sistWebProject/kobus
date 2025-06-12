@@ -358,6 +358,20 @@ function  fnChkNext(obj,nextFld){
 
 
 function requestPay() {
+	if(!fnVldtCmn()){
+		return;
+	}
+	var nonMbrsYnChk = $("#nonMbrsYn").val();
+//	if(!fnNonMbrsYn(nonMbrsYnChk)){
+//		return;
+//	}
+	// 20210218 yahan 비회원 변경
+	if($("#nonMbrsYn").val() == "Y" && $("#nonMbrsAuthYn").val() != "Y"){
+		$("#nonMbrsHp").focus();
+		alert("비회원 인증이 필요합니다.");
+		return;
+	}
+	
     var IMP = window.IMP;
     IMP.init('imp31168041'); // 테스트용 가맹점 식별코드
 
@@ -783,21 +797,30 @@ var openDialog = function(closeCallback){
 };
 
 
-function fnVldtCmn(){ //공통사항 체크
-	if($("input:checkbox[id='agree1']").is(":checked") == false){
+function fnVldtCmn(){ // 공통사항 체크
+	if (!$("#agree1").is(":checked")) {
 		alert("이용약관에 동의해 주세요.");
 		$("#agree1").focus();
 		return false;
 	}
-	if($("input:checkbox[id='agree2']").is(":checked") == false){
+	if (!$("#agree2").is(":checked")) {
 		alert("이용약관에 동의해 주세요.");
 		$("#agree2").focus();
 		return false;
 	}
-	if($("input:checkbox[id='agree3']").is(":checked") == false){
+	if (!$("#agree3").is(":checked")) {
 		alert("이용약관에 동의해 주세요.");
 		$("#agree3").focus();
 		return false;
+	}
+
+	// 선택 동의: 개인정보 제3자 제공
+	if (!$("#agree4").is(":checked")) {
+		const proceed = confirm("개인정보 제3자 제공에 대해 동의하지 않으실 경우 배차정보 변경, 감차, 사고 등 특수한 상황에서 안내를 받지 못하실 수 있습니다.\n계속하시겠습니까?");
+		if (!proceed) {
+			$("#agree4").focus();
+			return false;
+		}
 	}
 
 	return true;
