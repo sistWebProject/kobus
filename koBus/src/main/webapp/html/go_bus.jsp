@@ -23,8 +23,8 @@
 
 <!-- JS -->
 <script src="../media/jquery-1.12.4.min.js"></script>
-<!-- <script src="../media/jquery-ui.min.js"></script> -->
-<!-- <script src="../media/jquery.jqGrid.min.js"></script> -->
+<script src="../media/jquery-ui.min.js"></script> 
+<script src="../media/jquery.jqGrid.min.js"></script> 
 <!-- <script src="../media/grid.locale-kr.js"></script> -->
 <!-- <script src="../media/remodal.min.js"></script> -->
 
