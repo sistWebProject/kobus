@@ -14,9 +14,6 @@ import koBus.mvc.persistence.LogonDAOImpl;
 
 public class LogonOkHandler implements CommandHandler {
 	
-	String id = null;
-	String passwd = null;
-	
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
@@ -24,24 +21,24 @@ public class LogonOkHandler implements CommandHandler {
 		System.out.println("> LogonOkHandler.process() ... Get");
 		
 		HttpSession session = request.getSession();
-		String referer = (String)session.getAttribute("referer");
-		System.out.println("> referer : " + referer);
+		// String referer = (String)session.getAttribute("referer");
+		// System.out.println("> referer : " + referer);
 		
-		id = request.getParameter("id");
-		passwd = request.getParameter("passwd");
+		String id = request.getParameter("usrId").trim();
+		String passwd = request.getParameter("usrPwd").trim();
+		
+		System.out.println("id : " + id);
+		System.out.println("passwd : " + passwd);
 		
 		Connection conn = ConnectionProvider.getConnection();
-		LogonDAO dao = new LogonDAOImpl(conn); 
-			
-	
+		LogonDAOImpl dao = new LogonDAOImpl(conn); 
+		
 		try {
 			if (dao.logonCheck(id, passwd) == 1) {
-				System.out.println("로그인 성공"); // dao에서의 정보를 못읽어옴
+				System.out.println("로그인 성공");
 				
 				session.setAttribute("auth", id);
-				if(referer != null) {
-					location += "?logon=success";
-				}
+				location += "?logon=success";		
 				
 			} else {
 				System.out.println("로그인 실패");
@@ -57,7 +54,7 @@ public class LogonOkHandler implements CommandHandler {
 				e.printStackTrace();
 			}
 		}
-		
+		System.out.println("location" + location);
 		return location;
 		
 	} // process
