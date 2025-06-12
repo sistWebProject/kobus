@@ -2476,6 +2476,6 @@ form[name=askAuthNoForm] .box_changeNum .transkey_btn, form[name=scsnForm] .tran
 .table_type2 tbody tr td:last-child{border-right: none;}
 .table_type2 tbody tr td p{line-height: normal;margin-bottom: 0;-ms-word-break:keep-all;font-size: 10pt;}
 .table_type2 tbody tr span{margin-left: 0;}
-.sub_list .table_type2 *{font-size:13px !important;color;#666 !important;}
+.sub_list .table_type2 *{font-size:13px !important;color: #666  !important;}
 
 /*# sourceMappingURL=renewal_kor.css.map */

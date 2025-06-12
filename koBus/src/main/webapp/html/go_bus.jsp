@@ -18,14 +18,15 @@
 <!-- CSS -->
 <link rel="stylesheet" href="../media/style.css">
 <link rel="stylesheet" href="../media/ui.jqgrid.custom.css">
-<link rel="stylesheet" href="../media/jquery-ui.min.css">
+<!-- <link rel="stylesheet" href="../media/jquery-ui.min.css"> -->
+<!-- <link rel="stylesheet" href="../media/remodal.min.css"> -->
 
 <!-- JS -->
 <script src="../media/jquery-1.12.4.min.js"></script>
-<script src="../media/jquery-ui.min.js"></script>
-<script src="../media/jquery.jqGrid.min.js"></script>
-<script src="../media/grid.locale-kr.js"></script>
-<script src="../media/remodal.min.js"></script>
+<!-- <script src="../media/jquery-ui.min.js"></script> -->
+<!-- <script src="../media/jquery.jqGrid.min.js"></script> -->
+<!-- <script src="../media/grid.locale-kr.js"></script> -->
+<!-- <script src="../media/remodal.min.js"></script> -->
 
 <script src="../media/common.js"></script>
 <script src="../media/ui.js"></script>
@@ -33,7 +34,7 @@
 <script src="../media/security.js"></script>
 <script src="../media/jquery.number.js"></script>
 <script src="../media/new-kor-ui.js"></script>
-<script src="../media/ReadNtcList.js"></script>
+<!-- <script src="../media/ReadNtcList.js"></script> -->
 
 <script type="text/javascript">
 	//쿠키 가져오기
@@ -239,32 +240,32 @@
 
 		<!-- quick -->
 
-		<!-- 퀵메뉴 : 서브페이지에만 적용 -->
+		<!-- 퀵메뉴 : 서브페이지에만 적용 작업2-->
 		<nav id="new-kor-quickmenu">
 			<ul class="quickmenu-list">
 				<li><a href=""> <span class="ico"><img
-							src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/ico-quick-menu01.png"
+							src="../media/ico-quick-menu01.png"
 							alt=""></span> <span class="text">고속버스 예매</span>
 				</a></li>
 				<li><a href=""> <span class="ico"><img
-							src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/ico-quick-menu02.png"
+							src="../media/ico-quick-menu02.png"
 							alt=""></span> <span class="text">예매확인</span>
 				</a></li>
 				<li><a href=""> <span class="ico"><img
-							src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/ico-quick-menu03.png"
+							src="../media/ico-quick-menu03.png"
 							alt=""></span> <span class="text">도착시간 안내</span>
 				</a></li>
 				<li><a href=""> <span class="ico"><img
-							src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/ico-quick-menu04.png"
+							src="../media/ico-quick-menu04.png"
 							alt=""></span> <span class="text">프리패스 구매</span>
 				</a></li>
 				<li><a href=""> <span class="ico"><img
-							src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/ico-quick-menu05.png"
+							src="../media/ico-quick-menu05.png"
 							alt=""></span> <span class="text">정기권 구매</span>
 				</a></li>
 				<li class="to-top"><a href="javascript:void(0)"> <span
 						class="ico"><img
-							src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/ico-to-top.png" alt=""></span>
+							src="../media/ico-to-top.png" alt=""></span>
 						<span class="text">TOP</span>
 				</a></li>
 			</ul>
@@ -296,7 +297,7 @@
 				<div class="container">
 					<h1 id="logo">
 						<a href=""> <img
-							src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/logo.png"
+							src="../media/logo.png"
 							alt="KOBUS 전국고속버스운송사업조합">
 						</a>
 					</h1>
@@ -387,13 +388,13 @@
 				</a> -->
 
 						<a href="" class="btn btn-job" title="새창" target="_blank"> <img
-							src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/ico-job-offer.png" alt="">승무사원
+							src="../media/ico-job-offer.png" alt="">승무사원
 							모집 <i class="ico ico-arrow-new-window"></i>
 						</a>
 					</div>
 					<div class="bg-layer">
 						<a href="" title="새창" class="gnb-baaner"> <iframe
-								src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/_ad-tubebox-002GNB.html"
+								src="../media/_ad-tubebox-002GNB.html"
 								title="프레임 (전화번호안심 로그인)" class="ad-frame"></iframe>
 						</a>
 					</div>
@@ -480,7 +481,7 @@
 		<article id="new-kor-content">
 
 
-			<script type="text/javascript" src="new_media/ReadNtcList.js"></script>
+			<!-- <script type="text/javascript" src="new_media/ReadNtcList.js"></script> -->
 
 			<div class="title_wrap customerT" style="display: none;">
 
@@ -583,28 +584,28 @@
 				<div class="footer-top-cont">
 					<ul class="express-bus-company-list">
 						<li><a href="" target="_blank" title="새창"><img
-								src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/logo-kumho-express.png"
+								src="../media/logo-kumho-express.png"
 								alt="금호고속"></a></li>
 						<li><a href="" target="_blank" title="새창"><img
-								src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/logo-dongbu-express.png"
+								src="../media/logo-dongbu-express.png"
 								alt="동부고속"></a></li>
 						<li><a href="" target="_blank" title="새창"><img
-								src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/logo-sokrisan-express.png"
+								src="../media/logo-sokrisan-express.png"
 								alt="속리산고속"></a></li>
 						<li><a href="" target="_blank" title="새창"><img
-								src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/logo-dongyang-express.png"
+								src="../media/logo-dongyang-express.png"
 								alt="동양고속"></a></li>
 						<li><a href="" target="_blank" title="새창"><img
-								src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/logo-samhwa-express.png"
+								src="../media/logo-samhwa-express.png"
 								alt="삼화고속"></a></li>
 						<li><a href="" target="_blank" title="새창"><img
-								src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/logo-joongang-express.png"
+								src="../media/logo-joongang-express.png"
 								alt="중앙고속"></a></li>
 						<li><a href="" target="_blank" title="새창"><img
-								src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/logo-chunil-express.png"
+								src="../media/logo-chunil-express.png"
 								alt="천일고속"></a></li>
 						<li><a href="" target="_blank" title="새창"><img
-								src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/logo-hanil-express.png"
+								src="../media/logo-hanil-express.png"
 								alt="한일고속"></a></li>
 					</ul>
 					<!-- dropdown-top 클래스 추가 시, 드롭다운 목록 위로 노출 -->
@@ -642,14 +643,14 @@
 					</address>
 					<ul class="greeting-btn-list">
 						<li><a href="" target="_blank" title="새창"><img
-								src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/logo-accessibility2.png"
+								src="../media/logo-accessibility2.png"
 								alt="(사)한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크(WA인증마크)"
 								height="40"></a></li>
 						<li><a href="" title="이사장 인사말 바로가기"><img
-								src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/logo-kobus.png"
+								src="../media/logo-kobus.png"
 								alt="KOBUS 전국고속버스운송사업조합"></a></li>
 						<li><a href="" title="협회장 인사말 바로가기"><img
-								src="./공지사항(목록) _ 고객지원 _ 고속버스통합예매_files/logo-npvtba-express.png"
+								src="../media/logo-npvtba-express.png"
 								alt="전국여객자동차터미널사업자협회"></a></li>
 					</ul>
 				</div>

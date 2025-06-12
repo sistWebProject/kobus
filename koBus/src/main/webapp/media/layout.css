@@ -13,10 +13,6 @@
 	min-height: 100%;
 }
 
-body {
-	background: url(/images/kor/common/loading.gif) no-repeat -9999px
-		-9999px;
-}
 /* common */
 .ellipsis {
 	text-overflow: ellipsis;
@@ -1162,7 +1158,7 @@ button {
 .paging_wrap .first, .paging_wrap .end {
 	width: 7px;
 }
-
+/* 페이징 파일일수도
 .paging_wrap .first {
 	background: url(/images/kor/common/page_first.png) no-repeat;
 }
@@ -1177,7 +1173,7 @@ button {
 
 .paging_wrap .end {
 	background: url(/images/kor/common/page_end.png) no-repeat;
-}
+} */
 
 /* popup */
 .remodal-wrapper.full {
@@ -2235,7 +2231,7 @@ body.main #wrap { /* min-height: 828px; */
 	position: fixed;
 	top: 50%;
 	left: 50%;
-	background: var(- -primary-face) url(/images/kor/common/loading2.gif)
+	background: var(- -primary-face) url(../media/loading2.gif)
 		center 26px no-repeat;
 	width: 106px;
 	height: 106px;
@@ -2696,16 +2692,16 @@ body.main #wrap { /* min-height: 828px; */
 		font-size: 0;
 		margin-top: 19px;
 	}
-	.title_wrap .back {
+/* 	.title_wrap .back { mo_back_black 파일 없음
 		top: 0;
 		left:0;
-		background: url(/images/kor/common/mo_back_black.png) 20px center
+		background: url(../media/mo_back_black.png) 20px center
 			no-repeat;
 		background-size: auto 20px;
 		width: 33px;
 		height: 20px;
 		padding: 20px;
-	}
+	} */
 	.title_wrap .mo_toggle {
 		top: 0;
 		right: 0;
