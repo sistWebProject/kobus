@@ -13,7 +13,7 @@ import koBus.mvc.persistence.RegionDAO;
 import koBus.mvc.persistence.RegionDAOImpl;
 
 
-public class regionHandler implements CommandHandler {
+public class RegionHandler implements CommandHandler {
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) {
@@ -34,13 +34,15 @@ public class regionHandler implements CommandHandler {
 
             // [4] 조회 결과 request 객체에 저장
             request.setAttribute("regionList", list);
+            
+            System.out.println(">>>>>>>>>>>>>> " + list.size());
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         // [5] JSP 페이지로 포워딩
-        return "temp.jsp";
+        return "KOBUSreservation2.jsp";
 	}
 
 	

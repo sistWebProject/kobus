@@ -935,7 +935,13 @@ $(document).ready(function () {
 				</div>
 				
 				
-					
+				<%-- 	<c:forEach var="region" items="${regionList}">
+											<li>
+												<button type="button"
+													onclick="fnDeprChc('${region.sidoCode}', '${region.regName}');">
+													${region.regName}</button>
+											</li>
+					</c:forEach> --%>
 					
 					
 					
@@ -1383,13 +1389,15 @@ $(document).ready(function () {
 						</div><div class="scroll-element scroll-x"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar"></div></div></div><div class="scroll-element scroll-y"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar"></div></div></div></div>
 						<div class="terminal_list" id="terminalList">
 							<h4 class="sr-only">전체</h4>
+							 
 							<div class="scroll-wrapper terminal_scroll scrollbar-inner" style="position: relative;"><div class="terminal_scroll scrollbar-inner scroll-content" style="height: 420px; margin-bottom: 0px; margin-right: 0px; max-height: none;">
 									<ul class="clear" id="tableTrmList">
+									   
 										<c:forEach var="region" items="${regionList}">
 											<li>
 												<button type="button"
-													onclick="fnDeprChc('${region.regionCode}', '${region.regionName}');">
-													${region.regionName}</button>
+													onclick="fnDeprChc('${region.sidoCode}', '${region.regName}');">
+													${region.regName}</button>
 											</li>
 										</c:forEach>
 									</ul>
