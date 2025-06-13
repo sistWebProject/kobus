@@ -452,6 +452,7 @@ function fnDeprChc(deprCd,deprNm){ //출발지 선택시 동작
 	//alert($("#deprCd").val()+"<>"+$("#terminalSearch").val());
 	fnArvlList(deprCd,"all"); //도착지 목록으로 변경처리
 */
+	
 }
 
 

@@ -22,11 +22,12 @@ public class RegionDAOImpl implements RegionDAO {
     public List<RegionDTO> selectBySidoCode(String sidoCode) {
         List<RegionDTO> list = new ArrayList<>();
 
-        String sql = " SELECT * FROM region WHERE sidoCode = ? ";
+        //String sql = " SELECT * FROM region WHERE sidoCode = ? ";
+        String sql = " SELECT * FROM region ";
 
         try {
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, sidoCode);  // 여기에서 사용자가 누른 버튼 값이 전달됨
+            //pstmt.setString(1, sidoCode);  // 여기에서 사용자가 누른 버튼 값이 전달됨
             rs = pstmt.executeQuery();
 
             while (rs.next()) {

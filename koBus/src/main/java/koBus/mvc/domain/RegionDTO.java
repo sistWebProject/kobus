@@ -12,9 +12,11 @@ import lombok.NoArgsConstructor;
 
 
 public class RegionDTO {
+	
 	private String regID;
 	private String regName;
 	private String sidoCode;
+	
 }
 
 
