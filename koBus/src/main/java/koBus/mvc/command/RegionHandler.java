@@ -1,5 +1,6 @@
 package koBus.mvc.command;
 
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.util.List;
 
@@ -12,38 +13,64 @@ import koBus.mvc.domain.RegionDTO;
 import koBus.mvc.persistence.RegionDAO;
 import koBus.mvc.persistence.RegionDAOImpl;
 
-
 public class RegionHandler implements CommandHandler {
 
-	@Override
-	public String process(HttpServletRequest request, HttpServletResponse response) {
-		System.out.println("> regionHandler.process() ...");
-		
+    @Override
+    public String process(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("> RegionHandler.process() ...");
+        
+        
+
+        String command = request.getRequestURI();
+        command = command.substring(request.getContextPath().length()); // /getTerminals.do or /region.do
+        System.out.println("command: " + command);  // ★ 확인
+        
         String sidoCode = request.getParameter("sidoCode");
+        
 
-        Connection conn = null;
-        List<RegionDTO> list = null;
-
-        try {
-            // [2] DB 연결
-            conn = DBConn.getConnection();
-
-            // [3] DAO를 통해 지역 목록 조회
+        try (Connection conn = DBConn.getConnection()) {
             RegionDAO dao = new RegionDAOImpl(conn);
-            list = dao.selectBySidoCode(sidoCode);
-
-            // [4] 조회 결과 request 객체에 저장
-            request.setAttribute("regionList", list);
             
-            System.out.println(">>>>>>>>>>>>>> " + list.size());
+
+            
+            // ✅ AJAX 비동기 요청 처리 (JSON 응답)
+            if (command.equals("/getTerminals.do") && sidoCode != null) {
+                List<RegionDTO> list = dao.selectBySidoCode(sidoCode);
+
+                response.setContentType("application/json; charset=UTF-8");
+                PrintWriter out = response.getWriter();
+
+                // JSON 수동 생성
+                StringBuilder sb = new StringBuilder();
+                sb.append("[");
+                for (int i = 0; i < list.size(); i++) {
+                    RegionDTO dto = list.get(i);
+                    sb.append("{")
+                      .append("\"regID\":\"").append(dto.getRegID()).append("\",")
+                      .append("\"regName\":\"").append(dto.getRegName()).append("\",")
+                      .append("\"sidoCode\":\"").append(dto.getSidoCode()).append("\"")
+                      .append("}");
+                    if (i < list.size() - 1) sb.append(",");
+                }
+                sb.append("]");
+                
+                System.out.println(">> JSON 결과: " + sb.toString());  // ✅ 최종 JSON 로그
+
+                out.print(sb.toString());
+                out.flush(); // ✅ 꼭 flush 필요
+
+                out.close();
+                return null; // JSON 응답만 하고 종료
+            }
+            
+
+            // ✅ JSP 페이지 포워딩용 기본 처리
+            return "KOBUSreservation3.jsp";
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        // [5] JSP 페이지로 포워딩
-        return "KOBUSreservation2.jsp";
-	}
-
-	
+        return null;
+    }
 }

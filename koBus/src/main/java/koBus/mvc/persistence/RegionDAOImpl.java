@@ -22,11 +22,13 @@ public class RegionDAOImpl implements RegionDAO {
     public List<RegionDTO> selectBySidoCode(String sidoCode) {
         List<RegionDTO> list = new ArrayList<>();
 
-        String sql = " SELECT * FROM region WHERE sidoCode = ? ";
+        String sql = "SELECT * FROM region WHERE sidoCode = ?";
 
         try {
+            System.out.println(">>> [DAO] sidoCode 파라미터: " + sidoCode);
+
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, sidoCode);  // 여기에서 사용자가 누른 버튼 값이 전달됨
+            pstmt.setInt(1, Integer.parseInt(sidoCode));  // 숫자로 변환하여 바인딩
             rs = pstmt.executeQuery();
 
             while (rs.next()) {
@@ -37,6 +39,8 @@ public class RegionDAOImpl implements RegionDAO {
                 list.add(dto);
             }
 
+            System.out.println(">>> [DAO] 조회된 행 수: " + list.size());
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -46,4 +50,5 @@ public class RegionDAOImpl implements RegionDAO {
 
         return list;
     }
+
 }
