@@ -34,37 +34,6 @@
 
 %>	
 
-<!-- 해당 코드들 dao로 분리해야됨 dao로 빼면 dao 객체를 생성할 컨트롤러의 servlet도 필요 -->
-<%
-    String empno = request.getParameter("busScheduleId");
-
-    String sql = "SELECT count(*) AS cnt FROM emp WHERE busScheduleId = ?";
-
-    Connection conn = null;
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
-    String resultJSON = null;
-
-    try {
-        conn = ConnectionProvider.getConnection();
-        pstmt = conn.prepareStatement(sql);
-        pstmt.setString(1, empno);
-        rs = pstmt.executeQuery();
-
-        int cnt = 0;
-        if (rs.next()) {
-            cnt = rs.getInt("cnt");
-        }
-
-
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        JdbcUtil.close(rs);
-        JdbcUtil.close(pstmt);
-        JdbcUtil.close(conn);
-    }
-%>
 	
 <!DOCTYPE html>
 <html lang="ko" class="pc">
@@ -95,106 +64,6 @@
 	href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
-
-<script>
-//쿠키 가져오기
-/* function getCookie( name ) {
-	var nameOfCookie = name + "=";
-	var x = 0;
-	while ( x <= document.cookie.length ) {
-		var y = (x+nameOfCookie.length);
-		if ( document.cookie.substring( x, y ) == nameOfCookie ) { 
-			if ( (endOfCookie=document.cookie.indexOf( ";", y )) == -1 ) {
-				endOfCookie = document.cookie.length;
-			}
-			return unescape( document.cookie.substring( y, endOfCookie ) );
-		}
-		x = document.cookie.indexOf( " ", x ) + 1;
-		if ( x == 0 ) {
-			break;
-		}
-	}
-	return ""; 
-}
-//쿠키 넣기
-function setCookie( name, value, expiredays ) {
-	var todayDate = new Date();
-	todayDate.setDate( todayDate.getDate() + expiredays );
-	document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
-} */
-
-// 상단 네비게이션, 모바일 좌측, 모바일 하단 언어선택 설정
-/* var lngCdCookie = getCookie("LNG_CD");
-
-lngCdCookie = (lngCdCookie != null && lngCdCookie != undefined && lngCdCookie != "") ? lngCdCookie : "";
-var lngCd = (lngCdCookie == "EN" || lngCdCookie == "CN" || lngCdCookie == "JP" || lngCdCookie == "KO") ? lngCdCookie : "KO";
-$(document).ready(function() {
-	if (navigator.userAgent.toUpperCase().indexOf("MSIE 5") >= 0 || navigator.userAgent.toUpperCase().indexOf("MSIE 6") >= 0 || navigator.userAgent.toUpperCase().indexOf("MSIE 7") >= 0 || navigator.userAgent.toUpperCase().indexOf("MSIE 8") >= 0) {
-		// IE 8 이하
-		if (location.href.indexOf("/underIE8.do") < 0) {
-			// IE 8 이하 페이지 아님
-			location.href = "/underIE8.do";
-			return false;
-		}
-	}
-	if (window.innerWidth < 768) {
-		setCookie("IS_MOBILE_YN_WIDTH","Y",365);
-		if (lngCd == "KO" && location.href.indexOf("/cmn/") < 0 && 
-				location.href.indexOf("/underIE8.do") < 0 && 
-				location.href.indexOf("/mrs/mrsrecppub.do") < 0 && 
-				location.href.indexOf("/mrs/mrsrecppub4.do") < 0 && 
-				location.href.indexOf("/mrs/mrsmbltck.do") < 0 &&
-				location.href.indexOf("/mrs/acntpympup.do") < 0 && 		// 계좌이체
-				location.href.indexOf("/mrs/pay") < 0 && 				// 간편결제
-				location.href.indexOf("/adtnprdnew/prchpt/adtnrecppubmbl.do") < 0 && 
-				location.href.indexOf("/adtnprdnew/frps/frpsPrchGdMbl.do") < 0 &&
-				location.href.indexOf("/mbrs/mbrsscsn.do") < 0) {
-			location.href = "/mblIdx.do";
-			return false;
-		}
-	} else {
-		setCookie("IS_MOBILE_YN_WIDTH","N",365);
-	}
-	// 타이틀 수정
-	if ($("h2").length > 0) {
-		$("title").text($("title").text() + " - " + $("h2:eq(0)").text());
-	}
-	var $objBody = $("body");
-	if (!($objBody.hasClass("KO") || $objBody.hasClass("EN") ||  $objBody.hasClass("CN") ||  $objBody.hasClass("JP"))) {
-		$objBody.addClass(lngCd);
-	}
-	
-	
-	/* asis */
-/* 	$("#lng_cd_navi option[value='" + lngCd + "'],#lng_cd_foot option[value='" + lngCd + "']").attr("selected","selected");
-	$("#lng_cd_navi,#lng_cd_foot").unbind("change").bind("change",function() {
-		var tempCd = this.value;
-		lngCd = (tempCd != null && tempCd != undefined && tempCd != "" && (tempCd == "EN" || tempCd == "CN" || tempCd == "JP" || tempCd == "KO")) ? tempCd : "KO";
-		setCookie("LNG_CD",lngCd,1);
-		lngCdCookie = lngCd;
-		//document.location.reload();
-		location.href = "/main.do";
-	}); 
-});  */
-
-
-/* if (lngCd == "KO") {
-	var dt = new Date();		//오늘날짜 전체
-	var yyyy  = dt.getFullYear();		//선택한 년도
-	var mm    = dt.getMonth()+1;		//선택한 월
-	var mm2Len = Number(mm) < 10 ? "0"+mm : mm;			// 선택ㅡㅜ?ㅌ월 ex:01 두글자로 변환
-	var ddTo    = Number(dt.getDate()) < 10 ? "0"+dt.getDate() : dt.getDate(); 			// 숫자형
-	var yymmddD0 = yyyy+""+mm2Len+""+ddTo;		//오늘날짜
-	
-	var url = window.location.pathname;
-
-	if (yymmddD0 < 20200128) {
-		if (url == "/main.do")
-			location.href="/mainExp.do";
-	}
-} */
-
-</script>
 <script type="text/javascript"
 	src="/koBus/js/common/ui.js"></script>
 <script type="text/javascript"
@@ -1008,7 +877,8 @@ $(document).ready(function () {
 									<div class="count_seat">
 										<div class="inner">
 											<div class="box_count">
-												<span class="count_num">잔여 6석 / 전체 21석</span> <span
+											
+												<span class="count_num">잔여 6석 / 전체 ${totalSeat}석</span> <span
 													class="count_desc"> <span class="ico_square orange">여성/노약자
 														우선</span> <!-- 20200724 yahan 뒷좌석 할인 노출조건변경 -->
 												</span>
@@ -1099,18 +969,18 @@ $(document).ready(function () {
 													alt="버스 내부 도면으로 버스의 전방 좌측에는 운전석, 전방 우측에는 출입구가 위치하고 있습니다. 운전석 뒤로는 1,2번 좌석이 있고, 1,2번 좌석 뒤로 두 개의 좌석씩 4,5,7,8,10,11,13,14,16,17,19,20번 좌석이 있습니다. 출입구 뒤에는 3번 좌석이 있으며, 3번 뒤로 6,9,12,15,18,21번 좌석이 있습니다. 2번과 3번 좌석 사이에는 통로가 있으며, 전체적으로 통로를 중심으로 좌측에 2개 좌석, 우측에 1개 좌석이 위치하며 한 줄에 3개의 좌석씩 7줄로 배치되어 있습니다. 총 21개의 좌석이 있으며 좌석 번호는 왼쪽부터 오른쪽으로 증가합니다.">
 											</div>
 											<div class="seatList">
-											  <c:forEach var="seat" items="${seatList}">
-											    <span class="seatBox <c:if test='${seat.reserved}'>disabled</c:if>">
-											      <input type="checkbox"
-											             name="seatBoxDtl"
-											             id="seatNum_${seat.seatId}"
-											             value="${seat.seatNum}"
-											             onclick="fnSeatChc(this, 'seatNum_${seat.seatId}');"
-											             <c:if test="${seat.reserved}">
-											               disabled="disabled" title="예매 완료된 좌석" tabindex="-1" class="disabled-input"
-											             </c:if> >
-											      <label for="seatNum_${seat.seatId}">${seat.seatNum}</label>
-											    </span>
+											
+											  <c:forEach var="seatList" items="${seatList}">
+											    <span class="seatBox ${seatList.seatAble eq 'N' ? 'disabled' : ''}">
+												  <input type="checkbox"
+												         name="seatBoxDtl"
+												         id="seatNum_${seatList.seatNo}"
+												         value="${seatList.seatNo}"
+												         onclick="fnSeatChc(this, 'seatNum_${seatList.seatId}');"
+												        ${seatList.seatAble eq 'N' ? 'disabled="disabled" title="예매 완료된 좌석" tabindex="-1" class="disabled-input"' : ''}>>
+												  <label for="seatNum_${seatList.seatNo}">${seatList.seatNo}</label>
+												</span>
+
 											  </c:forEach>
 											</div>
 										</div>
@@ -1151,85 +1021,18 @@ $(document).ready(function () {
 													<th scope="row" class="txt_black">탑승인원 및 요금</th>
 													<td id="allTotAmtLocU">0원</td>
 												</tr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 												<tr>
 													<th scope="row">일반 <span id="adltSeatCnt">0</span></th>
 													<td id="adltTotAmt">0원</td>
 												</tr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 												<tr>
 													<th scope="row">초등생 <span id="chldSeatCnt">0</span></th>
 													<td id="chldTotAmt">0원</td>
 												</tr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 												<tr>
 													<th scope="row">중고생 <span id="teenSeatCnt">0</span></th>
 													<td id="teenTotAmt">0원</td>
 												</tr>
-
-
-
-
-
-
-
-
 											</tbody>
 										</table>
 									</div>
@@ -1248,46 +1051,16 @@ $(document).ready(function () {
 
 
 										<!-- 왕복이 아닐겨우 단체,사전,뒷좌석할인 적용  -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 										<li><input type="radio" name="salesInfo" id="salesInfo_b"
 											onclick="fnCtyPrmmDC(&#39;b&#39;,this);" value="b"> <label
 											for="salesInfo_b">주말 할인<span class="price"
 												id="holiMrsDc">0원</span></label></li>
 
 
-
-
-
-
-
 										<li style="font-size: 11px;">- 가장 높은 할인율이 자동 적용됩니다.
 											(중복불가)</li>
 									</ul>
 								</section>
-
-
 
 								<!-- //할인선택 -->
 								<!-- 총 결제금액 -->
@@ -1329,12 +1102,6 @@ $(document).ready(function () {
 						<li>뒷좌석을 선택하시면, "뒷좌석 할인"이 적용될 수 있습니다.</li> 
 						-->
 
-
-
-
-
-
-
 						<li>일부 버스의 경우 실제 좌석배치와 다를 수 있습니다.</li>
 
 					</ul>
@@ -1342,21 +1109,6 @@ $(document).ready(function () {
 				</div>
 
 			</div>
-
-
-
-
-
-
-			<!-- 180718 수정 -->
-
-
-
-
-			<!-- // 180718 수정 -->
-
-
-
 
 			<script type="text/javascript"
 				src="/koBus/js/ReadLgnInf.js"></script>
@@ -1368,17 +1120,11 @@ $(document).ready(function () {
 				src="/koBus/js/jsbn-min2.js"></script>
 			<script type="text/javascript"
 				src="/koBus/js/typedarray.js"></script>
-	$(function(){ initTranskey(); })
-</script>
-
-
 			<input type="hidden" name="locInf" id="locInf" value="sats">
 			<!-- 페이지위치 -->
 			<input type="hidden" name="adtnflag" id="adtnflag" value="N">
 			<!-- 페이지위치 -->
 			<!-- 출/도착지 선택 레이어팝업 -->
-
-
 			<script type="text/javascript"
 				src="/koBus/js/ReadLgnInf.js"></script>
 
@@ -1389,10 +1135,6 @@ $(document).ready(function () {
 				src="/koBus/js/jsbn-min2.js"></script>
 			<script type="text/javascript"
 				src="/koBus/js/typedarray.js"></script>
-			<script>
-//	$(function(){ initTranskey(); })
-</script>
-
 
 			<!-- 임시비밀번호 변경 -->
 
@@ -1400,8 +1142,7 @@ $(document).ready(function () {
 				<input type="hidden" id="returnUrl2" name="returnUrl" value="logout">
 			</form>
 
-
-			<style>
+<style>
 .txt_red {
 	font-weight: bold;
 	text-decoration: underline;
@@ -1414,63 +1155,7 @@ $(document).ready(function () {
 }
 </style>
 
-			<!--
-<div class="remodal pop_route" data-remodal-id="popRoute1" role="dialog">
-	<div class="title" style="font-size:20px">
-		코로나19 고속버스 사회적 거리두기 안내
-	</div>
-	<div class="cont">
-		<ul class="txt">
-			
-			<li><strong>① 예매시 창가쪽 좌석 우선 선택</strong></li>
-			<li><strong>② 차량내 마스크 반드시 착용</strong></li>
-			<li><strong>③ 차량내 대화자제 및 음식물 반입·섭취 금지</strong></li>
-			<li><strong>※ 중대본 거리두기 단계별 기준 근거</strong></li>
-			<li><strong>4. 음식섭취 자제</strong>
-				<ul class="desc_list">
-					<li>코로나19 예방을 위해 <span class="txt_bold txt_red">차량 내 음식섭취는 자제</span>하여주시기 바랍니다.</li>
-				</ul>
-			</li>
-		</ul>
-	</div>
-	<div class="btns">
-		<button type="button" data-remodal-action="confirm" class="remodal-confirm" >확인</button>
-	</div>
-	<button type="button" data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
-</div> 
--->
-
-
-			<!-- 2021 / 05 / 14 보훈처 popup 추가  -->
-
-			<!-- 2021 / 05 / 14 보훈처 popup 추가  -->
-
-			<!-- 2024 / 06 / 08 건강보험공단 정보입력 popup 추가  -->
-
-			<!-- 2024 / 06 / 08 건강보험공단 정보입력 popup 추가  -->
-
-
-			<!-- 2020-03-06 코로나19 예방과 안전운행 안내 -->
-			<script>
-// 	var popRoute1 = $('[data-remodal-id=popRoute1]').remodal();
-// 	popRoute1.open();
-</script>
-		</article>
-
 		<!-- footer -->
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 		<!-- 푸터 -->
 		<footer id="new-kor-footer">
