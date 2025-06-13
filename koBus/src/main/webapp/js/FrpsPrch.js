@@ -34,7 +34,7 @@ $(document).ready(function() {
 	//사용시작일 	
 	$('#datepickerItem').datepicker({
 		showOn:"button",
-		buttonImage:"/images/page/ico_calender.png",
+		buttonImage:"/koBus/images/ico_calender.png",
 		buttonImageOnly:true,
 		buttonText:"사용시작일 선택 달력",
 		minDate: min,
@@ -134,93 +134,53 @@ $(document).ready(function() {
 	
 	fnSetCardCam();
 	
-	$("#goPrdprchFn").click(function(){ //결제하기 유효성 검사
-		
-		// 이용약관
-		if(!$("#agree1").is(":checked")){
-			// 약관 1 미동의 시
-			$('#agree1').focus();
-			alert("서비스 이용약관에 동의해 주세요.");
-			return;
-		}
-		if(!$("#agree2").is(":checked")){
-			// 약관 2 미동의 시
-			$('#agree2').focus();
-			alert("운송 약관에 동의해 주세요.");
-			return;
-		}
-		if(!$("#agree3").is(":checked")){
-			// 약관 3 미동의 시
-			$('#agree3').focus();
-			alert("개인정보 취급방침에 동의해 주세요.");
-			return;
-		}
-		// 노선
-//		if($("#selUseRot").val() == "0"){
-//			// 노선 선택이 없는 경우
-//			$('#rotSelectric').focus(); // 포커스 이동
-//			alert("이용노선을 선택해주세요.");
-//			return;
-//		}
-	
-		
-		// 사용시작일 
-		if($("#exdtSttDt").val() == ""){
-			// 노선 선택이 없는 경우
-			$('#datepickerItem').focus(); // 포커스 이동
-			alert("사용시작일을 선택해 주세요. \n (사용시작일은 금일로부터 10일이내 선택이 가능합니다.)");
-			return;
-		}	
-		
-		/**
-		 * 20200709 yahan
-		 */
-		//if($("#mbrsBrdt").val() == ""){
-		if($("#mbrsBrdt").val().length != 6){
-			alert("구매자 생년월일 6자리를 입력해주세요.");
-			$("#mbrsBrdt").focus();
-			return;
-		}
-		
-		// 20200513 yahan
-		if($("#selOption").val() == "0" || $("#selOption").val() == ""){
-			// 구매옵션 선택이 없는 경우
-			alert("구매옵션을 선택해주세요.");
-			$('#optSelectric').focus(); // 포커스 이동
-			return;
-		}
-		
+	$("#goPrdprchFn").click(function () {
+    // 이용약관
+    if (!$("#agree1").is(":checked")) {
+        $('#agree1').focus();
+        alert("서비스 이용약관에 동의해 주세요.");
+        return;
+    }
+    if (!$("#agree2").is(":checked")) {
+        $('#agree2').focus();
+        alert("운송 약관에 동의해 주세요.");
+        return;
+    }
+    if (!$("#agree3").is(":checked")) {
+        $('#agree3').focus();
+        alert("개인정보 취급방침에 동의해 주세요.");
+        return;
+    }
 
-		var payType="card";
-		if($("input:radio[id='payType6']").is(":checked")){ // 간편결제
-			if(!fnVldtPay()){
-				return;
-			}
-			payType="pay";
-		}
-		else{
-			//if($("input:radio[id='payType1']").is(":checked"))
-			{ // 신용카드
-				if(!fnVldtCard()){
-					return;
-				}
-				payType="card";
-			}
-		}
+    // 사용시작일 
+    if ($("#exdtSttDt").val() == "") {
+        $('#datepickerItem').focus();
+        alert("사용시작일을 선택해 주세요. \n (사용시작일은 금일로부터 10일이내 선택이 가능합니다.)");
+        return;
+    }
 
-		$("#pymType").val(payType);
-		
-		if(!confirm("결제하시겠습니까?")){
-			return;
-		}
+    // 생년월일 유효성
+    if ($("#mbrsBrdt").val().length != 6) {
+        alert("구매자 생년월일 6자리를 입력해주세요.");
+        $("#mbrsBrdt").focus();
+        return;
+    }
 
-		if(payType == "pay"){ // 간편결제
-			fnPayPymWin();	
-		} else {
-			//fn_PrdprchFn(); // 결제 진행
-			fnStplCfmPym();
-		}
-	});
+    // 구매옵션
+    if ($("#selOption").val() == "0" || $("#selOption").val() == "") {
+        alert("구매옵션을 선택해주세요.");
+        $('#optSelectric').focus();
+        return;
+    }
+
+    // 결제 전 사용자 확인
+    if (!confirm("결제하시겠습니까?")) {
+        return;
+    }
+
+    // 포트원 결제 실행
+    requestPay();  // 아래에 정의
+});
 	
 
 	// 캘린더 오늘 텍스트 추가
@@ -270,7 +230,7 @@ $(document).ready(function() {
 function fnFrpsDtl(){
 	var frpsPrchFrm = $("form[name=frpsPrchFrm]").serialize() ;
 	$.ajax({	
-	    url      : "/adtnprdnew/frps/readFrpsDtlInf.ajax",
+	    url      : "/koBus/adtnprdnew/frps/readFrpsDtlInf.ajax",
 	    type	 : "post",
 	    data 	 : frpsPrchFrm,
 	    dataType : "json",
@@ -508,7 +468,7 @@ function fnAdtnVldTerm(){
 	
 	var frpsPrchFrm = $("form[name=frpsPrchFrm]").serialize() ;
 	$.ajax({	
-        url      : "/adtnprdnew/frps/readFrpsVldTerm.ajax",
+        url      : "/koBus/adtnprdnew/frps/readFrpsVldTerm.ajax",
         type	 : "post",
         data 	 : frpsPrchFrm,
         dataType : "json",

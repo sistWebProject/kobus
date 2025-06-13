@@ -27,7 +27,7 @@ public class DispatcherServlet extends HttpServlet {
 		super.destroy();
 	}
 	
-	// Map 선언 : key=url,  value=모델 객체를 생성해서 
+	// Map �꽑�뼵 : key=url,  value=紐⑤뜽 媛앹껜瑜� �깮�꽦�빐�꽌 
 	   public Map<String, CommandHandler> commandHandlerMap = new HashMap<>();
 
 	@Override
@@ -38,16 +38,16 @@ public class DispatcherServlet extends HttpServlet {
 		String realPath = this.getServletContext().getRealPath(mappingPath);
 		System.out.println("> realPath : " + realPath);
 		
-		// WEB-INF/command.properties 파일읽기
+		// WEB-INF/command.properties �뙆�씪�씫湲�
 		
 		/*
-		 * .properties 파일로부터 URL - 클래스명 매핑 정보를 읽고
-		 *	↓
-		 *	해당 클래스명을 기반으로 리플렉션으로 클래스 로딩 및 객체 생성
-		 *	↓
-		 *	Map<String, CommandHandler> 형태로 저장
-		 *	↓
-		 *	실행 시 URL로 요청이 들어오면 해당 객체를 꺼내 실행
+		 * .properties �뙆�씪濡쒕��꽣 URL - �겢�옒�뒪紐� 留ㅽ븨 �젙蹂대�� �씫怨�
+		 *	�넃
+		 *	�빐�떦 �겢�옒�뒪紐낆쓣 湲곕컲�쑝濡� 由ы뵆�젆�뀡�쑝濡� �겢�옒�뒪 濡쒕뵫 諛� 媛앹껜 �깮�꽦
+		 *	�넃
+		 *	Map<String, CommandHandler> �삎�깭濡� ���옣
+		 *	�넃
+		 *	�떎�뻾 �떆 URL濡� �슂泥��씠 �뱾�뼱�삤硫� �빐�떦 媛앹껜瑜� 爰쇰궡 �떎�뻾
 		 * 
 		 */
 		
@@ -65,8 +65,8 @@ public class DispatcherServlet extends HttpServlet {
 			String url = (String) entry.getKey();
 			String fullName = (String) entry.getValue();
 			
-			// 클래스 객체를 저장할 변수 선언
-			//  Class.forName()으로 로딩할 클래스 정보를 담기 위한 준비
+			// �겢�옒�뒪 媛앹껜瑜� ���옣�븷 蹂��닔 �꽑�뼵
+			//  Class.forName()�쑝濡� 濡쒕뵫�븷 �겢�옒�뒪 �젙蹂대�� �떞湲� �쐞�븳 以�鍮�
 			Class<?> commandHandlerClass = null;
 			
 			try {
@@ -90,7 +90,7 @@ public class DispatcherServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		// 2단계 - 요청URL 분석  
+		// 2�떒怨� - �슂泥쵻RL 遺꾩꽍  
 		String requestURI = req.getRequestURI(); 
 		System.out.println(requestURI);
 		int beginIndex = req.getContextPath().length();
@@ -98,8 +98,14 @@ public class DispatcherServlet extends HttpServlet {
 		requestURI = requestURI.substring(beginIndex);
 		System.out.println(requestURI);
 		
-		// 3단계 - 로직처리하는 모델객체를 commandHandlerMap으로 부터 얻어오기
+		// 3�떒怨� - 濡쒖쭅泥섎━�븯�뒗 紐⑤뜽媛앹껜瑜� commandHandlerMap�쑝濡� 遺��꽣 �뼸�뼱�삤湲�
 		CommandHandler handler = this.commandHandlerMap.get(requestURI);
+		 System.out.println("=== commandHandlerMap 키 목록 ===");
+		    for (String key : commandHandlerMap.keySet()) {
+		        System.out.println(key + " => " + commandHandlerMap.get(key));
+		    }
+
+		    System.out.println("핸들러 매핑 결과: " + handler);
 		String view = null;
 		try {
 			view = handler.process(req, resp);

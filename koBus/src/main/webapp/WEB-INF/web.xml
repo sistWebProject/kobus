@@ -40,6 +40,13 @@
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+	
+	<!-- 결제페이지 달력(승효) -->
+	<servlet-mapping>
+	    <servlet-name>dispatcher</servlet-name>
+	    <url-pattern>*.ajax</url-pattern>
+    </servlet-mapping>
+    <!-- 결제페이지 달력(승효) E -->
 
 	<resource-ref>
 		<description>Oracle Datasource example</description>
@@ -121,7 +128,5 @@
 		<servlet-name>noticeDelete</servlet-name>
 		<url-pattern>/notice/delete.notice</url-pattern>
 	</servlet-mapping>
-	
-
 
 </web-app>
