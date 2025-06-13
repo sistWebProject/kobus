@@ -6,6 +6,22 @@
 
 
 	<display-name>koBus</display-name>
+	
+	<servlet>
+		<servlet-name>default</servlet-name>
+		<servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>0</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/media/*</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<description>koBus MVC 패턴 서블릿</description>
@@ -65,24 +81,9 @@
 		<welcome-file>default.htm</welcome-file>
 	</welcome-file-list>
 
-	<!-- notice 추가 목록 -->
-	<servlet>
-		<servlet-name>noticeList</servlet-name>
-		<servlet-class>board.controller.NoticeListController</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>noticeList</servlet-name>
-		<url-pattern>/notice/list.notice</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>noticeWrite</servlet-name>
-		<servlet-class>board.controller.NoticeWriteController</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>noticeWrite</servlet-name>
-		<url-pattern>/notice/write.notice</url-pattern>
-	</servlet-mapping>
 
+
+</web-app>
 	<servlet>
 		<servlet-name>noticeSave</servlet-name>
 		<servlet-class>board.controller.NoticeSaveController</servlet-class>
@@ -127,6 +128,5 @@
 		<servlet-name>noticeDelete</servlet-name>
 		<url-pattern>/notice/delete.notice</url-pattern>
 	</servlet-mapping>
-	
 
 </web-app>

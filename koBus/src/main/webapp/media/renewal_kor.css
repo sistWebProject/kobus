@@ -188,28 +188,28 @@ caption.sr-only {
 	width: 12px;
 	height: 12px;
 	line-height: 12px;
-	background-image: url("/images/kor/common/ico-arrow-down@2x.png");
+	
 }
 
 .ico-arrow-new-window {
 	width: 14px;
 	height: 14px;
 	line-height: 14px;
-	background-image: url("/images/kor/common/ico-arrow-new-window@2x.png");
+	
 }
 
 .ico-dropdown-arrow {
 	width: 20px;
 	height: 20px;
 	line-height: 20px;
-	background-image: url("/images/kor/common/ico-dropdown-arrow@2x.png");
+	
 }
 
 .ico-home {
 	width: 20px;
 	height: 20px;
 	line-height: 20px;
-	background-image: url("/images/kor/common/ico-home@2x.png");
+	
 }
 
 /* 콘텐츠 내 아이콘 */
@@ -217,7 +217,7 @@ caption.sr-only {
 	width: 15.5px;
 	height: 9px;
 	line-height: 9px;
-	background-image: url("/images/kor/common/ico-more@2x.png");
+	
 }
 
 .ad-frame {
@@ -851,8 +851,6 @@ caption.sr-only {
 	left: -22px;
 	width: 12px;
 	height: 12px;
-	background: url(/images/kor/layout/ico-arrow-breadcrumb01.png) 0 0
-		no-repeat;
 	background-size: 12px 12px;
 }
 
@@ -933,8 +931,7 @@ caption.sr-only {
 	right: -24px;
 	width: 12px;
 	height: 12px;
-	background: url(/images/kor/layout/ico-arrow-breadcrumb02.png) 0 0
-		no-repeat;
+
 	background-size: 12px 12px;
 }
 
@@ -1327,8 +1324,7 @@ caption.sr-only {
 .wrapper-main .keyvisual-area {
 	padding-top: 60px;
 	height: 471px;
-	background: #082867 url(/images/kor/main/bg-pattern.png) repeat center
-		center;
+
 }
 
 .wrapper-main .keyvisual-area .slogan {
@@ -1392,7 +1388,7 @@ caption.sr-only {
 	top: calc(50% - 8.5px);
 	width: 9px;
 	height: 17px;
-	background: url(/images/kor/main/img-tab-arrow.png) 0 0 no-repeat;
+	
 	background-size: cover;
 }
 
@@ -1407,25 +1403,20 @@ caption.sr-only {
 }
 
 .wrapper-main .keyvisual-area .tab-menu-list li:first-child::before {
-	background: url(/images/kor/main/ico-ticketing.png) 0 0 no-repeat;
+	
 	background-size: cover;
 }
 
 .wrapper-main .keyvisual-area .tab-menu-list li:first-child.on::before {
-	background: url(/images/kor/main/ico-ticketing-active.png) 0 0 no-repeat;
 	background-size: cover;
 }
 
 .wrapper-main .keyvisual-area .tab-menu-list li:last-child::before {
-	background: url(/images/kor/main/ico-confirm-reservation.png) 0 0
-		no-repeat;
 	background-size: cover;
 }
 
 .wrapper-main .keyvisual-area .tab-menu-list li:last-child.on::before {
 	width: 36px;
-	background: url(/images/kor/main/ico-confirm-reservation-active.png) 0 0
-		no-repeat;
 	background-size: cover;
 }
 
@@ -1524,7 +1515,6 @@ caption.sr-only {
 	left: calc(50% - 60px);
 	width: 120px;
 	height: 120px;
-	background: url(/images/kor/main/no-ticket.png) no-repeat right center;
 	background-size: 120px 120px;
 }
 
@@ -1636,8 +1626,7 @@ caption.sr-only {
 
 .wrapper-main .keyvisual-area .main_box .route_box .oneway .radio_area .custom_radio input:checked+label
 	{
-	background: url(/images/kor/page/ico_tab_s_on.png) no-repeat right
-		center;
+
 	font-weight: 600;
 	color: var(- -primary-font);
 }
@@ -1730,12 +1719,7 @@ caption.sr-only {
 	color: var(- -primary-font);
 }
 
-.wrapper-main .keyvisual-area .main_box .route_box .grade .custom_radio:not(.grade1) input:checked+label::after
-	{
-	background: url(/images/kor/page/ico_tab_s_on.png) no-repeat;
-}
-
-.wrapper-main .keyvisual-area .main_box .route_box .grade .custom_radio.grade1 input+label
+pper-main .keyvisual-area .main_box .route_box .grade .custom_radio.grade1 input+label
 	{
 	display: -webkit-inline-box;
 	display: -ms-inline-flexbox;
@@ -1788,8 +1772,7 @@ caption.sr-only {
 
 .wrapper-main .keyvisual-area .main_box .route_box .gradeAll input:checked+label
 	{
-	background: url(/images/kor/page/ico_tab_s_on.png) no-repeat;
-	background-position: right 0 top;
+
 	font-weight: 600;
 	color: var(- -primary-font);
 }
@@ -2065,7 +2048,6 @@ caption.sr-only {
 	left: 0px;
 	width: 14px;
 	height: 14px;
-	background: url(/images/kor/common/ico-check-white.png) no-repeat 0 0;
 	background-size: 14px 14px;
 	font-size: 10px;
 }
@@ -2483,19 +2465,16 @@ caption.sr-only {
 
 .wrapper-main .main-content .info-area .info-list li:first-child a::after
 	{
-	background: url(/images/kor/main/img-info01.png) repeat center center;
 	background-size: cover;
 }
 
 .wrapper-main .main-content .info-area .info-list li:nth-child(2) a::after
 	{
-	background: url(/images/kor/main/img-info02.png) repeat center center;
 	background-size: cover;
 }
 
 .wrapper-main .main-content .info-area .info-list li:last-child a::after
 	{
-	background: url(/images/kor/main/img-info03.png) repeat center center;
 	background-size: cover;
 }
 
@@ -2569,57 +2548,8 @@ caption.sr-only {
 	position: relative;
 }
 
-.wrapper-main .main-content .notice-area .slider-controls .btn-prev {
-	background: url(/images/kor/common/ico-slide-prev-gray@2x.png) center
-		center no-repeat;
-	background-size: 12px auto;
-}
 
-.wrapper-main .main-content .notice-area .slider-controls .btn-next {
-	background: url(/images/kor/common/ico-slide-next-gray@2x.png) center
-		center no-repeat;
-	background-size: 12px auto;
-}
 
-.wrapper-main .main-content .notice-area .slider-controls .btn-pause {
-	background: url(/images/kor/common/ico-slide-pause-gray@2x.png) center
-		center no-repeat;
-	background-size: 12px auto;
-}
-
-.wrapper-main .main-content .notice-area .slider-controls .btn-play {
-	background: url(/images/kor/common/ico-slide-play-gray@2x.png) center
-		center no-repeat;
-	background-size: 12px auto;
-}
-
-.wrapper-main .main-content .notice-area .slider-controls .btn:hover.btn-prev
-	{
-	background: url(/images/kor/common/ico-slide-prev-primary@2x.png) center
-		center no-repeat;
-	background-size: 12px auto;
-}
-
-.wrapper-main .main-content .notice-area .slider-controls .btn:hover.btn-next
-	{
-	background: url(/images/kor/common/ico-slide-next-primary@2x.png) center
-		center no-repeat;
-	background-size: 12px auto;
-}
-
-.wrapper-main .main-content .notice-area .slider-controls .btn:hover.btn-pause
-	{
-	background: url(/images/kor/common/ico-slide-pause-darkgray@2x.png)
-		center center no-repeat;
-	background-size: 12px auto;
-}
-
-.wrapper-main .main-content .notice-area .slider-controls .btn:hover.btn-play
-	{
-	background: url(/images/kor/common/ico-slide-play-darkgray@2x.png)
-		center center no-repeat;
-	background-size: 12px auto;
-}
 
 .wrapper-main .main-content .notice-area .btn-more {
 	position: absolute;
@@ -2747,8 +2677,7 @@ caption.sr-only {
 	position: absolute;
 	right: 5px;
 	bottom: 5px;
-	background: url(/images/kor/page/input_after.png) 0 0 no-repeat;
-	background-size: 100%;
+	
 	width: 8px;
 	height: 8px
 }
@@ -2795,7 +2724,7 @@ caption.sr-only {
 	width: 11px;
 	height: 6px;
 	margin-top: -3px;
-	background: url(/images/kor/common/bu_selectArrow.png) 0 0 no-repeat;
+	
 }
 
 .box_inputForm .dropdown-wrap.select-default .text {
@@ -2830,11 +2759,6 @@ caption.sr-only {
 
 .remodal-confirm:hover {
 	background: var(- -primary-font);
-}
-
-.remodal-close.btn-gray:before {
-	background: url(/images/common/pop_close.png) center center no-repeat;
-	background-size: 16px 16px;
 }
 
 p.bul {
@@ -2940,9 +2864,6 @@ p.bul.type2 {
 	right: 0;
 	width: 12px;
 	height: 12px;
-	background: url(/images/kor/main/ico-more-primary.png) no-repeat right
-		center;
-	background-size: 12px auto;
 }
 
 .bx-wrapper .bx-controls-direction a {
@@ -2957,20 +2878,8 @@ p.bul.type2 {
 	outline-offset: 2px;
 }
 
-.bx-wrapper .bx-next {
-	right: 0;
-	background: url(/images/kor/main/ico-controls-next.png) no-repeat 0 0;
-	background-size: 20px auto;
-}
-
 .bx-wrapper .bx-prev:hover, .bx-wrapper .bx-next:hover {
 	background-position: 0 0;
-}
-
-.bx-wrapper .bx-prev {
-	left: 0;
-	background: url(/images/kor/main/ico-controls-prev.png) no-repeat 0 0;
-	background-size: 20px auto;
 }
 
 .bx-wrapper .box_detail_info {
@@ -3014,16 +2923,6 @@ input:placeholder {
 
 .dimm {
 	background: rgba(0, 0, 0, 0.6);
-}
-
-.box_detail .checkList li label:before {
-	top: 0;
-	background: url(/images/kor/common/ico-check-default.png) 0 0 no-repeat;
-	background-size: 18px
-}
-
-.box_detail .checkList li input:checked+label:before {
-	background: url(/images/kor/common/ico_radio_blue.png) 0 -18px no-repeat;
 }
 
 .ticket_chk .custom_radio {

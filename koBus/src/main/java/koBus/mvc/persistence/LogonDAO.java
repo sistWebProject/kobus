@@ -1,0 +1,9 @@
+package koBus.mvc.persistence;
+
+import java.sql.SQLException;
+
+public interface LogonDAO {
+	
+	int logonCheck(String inputId, String inputPasswd) throws SQLException; 
+	
+}
