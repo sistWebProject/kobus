@@ -19,27 +19,49 @@ public class RegionDAOImpl implements RegionDAO {
     }
 
     @Override
-    public List<RegionDTO> selectBySidoCode(String sidoCode) {
-        List<RegionDTO> list = new ArrayList<>();
+    public List<RegionDTO> selectBySidoCode(int sidoCode) {
+    	//25.06.14
+        //List<RegionDTO> list = new ArrayList<>();
+    	List<RegionDTO> list = new ArrayList<>();
 
         String sql = "SELECT * FROM region WHERE sidoCode = ?";
+        
+        
 
         try {
             System.out.println(">>> [DAO] sidoCode 파라미터: " + sidoCode);
 
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, Integer.parseInt(sidoCode));  // 숫자로 변환하여 바인딩
+            pstmt.setInt(1, sidoCode); 
             rs = pstmt.executeQuery();
-
+            
+            //25.06.14 ajh
             while (rs.next()) {
-                RegionDTO dto = new RegionDTO();
-                dto.setRegID(rs.getString("regID"));
-                dto.setRegName(rs.getString("regName"));
-                dto.setSidoCode(rs.getString("sidoCode"));
+                String regID = rs.getString("regID");
+                String regName = rs.getString("regName");
+                int sc = rs.getInt("sidoCode");
+
+                RegionDTO dto = new RegionDTO().builder()
+                        .regID(regID)
+                        .regName(regName)
+                        .sidoCode(sc)
+                        .build();
+
                 list.add(dto);
             }
-
-            System.out.println(">>> [DAO] 조회된 행 수: " + list.size());
+            
+            /* 25.06.14
+           while(rs.next()) {
+                
+                
+                dto.setRegID(rs.getString("regID"));
+                dto.setRegName(rs.getString("regName"));
+                dto.setSidoCode(rs.getInt("sidoCode"));
+                
+                
+            } 
+         */
+        System.out.println(">>> [DAO] 조회된 행 수: " + list.size());
 
         } catch (Exception e) {
             e.printStackTrace();

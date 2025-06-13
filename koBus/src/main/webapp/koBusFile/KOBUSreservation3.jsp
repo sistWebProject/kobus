@@ -1394,12 +1394,12 @@ $(document).ready(function () {
 						</div>
 					</div>
 				</div>
-
+				
 				<script>
 					function fnDeprArvlViewList(sidoCode) {
 						console.log("fnDeprArvlViewList 실행됨: ", sidoCode);
 						$.ajax({
-									url : "<%= request.getContextPath() %>/getTerminals.do",
+									url : "<%=request.getContextPath()%>/getTerminals.do",
 									method : "GET",
 									data : {
 										sidoCode : sidoCode
@@ -1407,14 +1407,15 @@ $(document).ready(function () {
 									dataType : "json",
 									success : function(terminals) {
 										console.log("terminals 받아옴:", terminals);
+									
 										let html = "";
 										terminals
 												.forEach(function(t) {
-													html += `<li><button type="button" onclick="fnDeprChc('${t.regID}', '${t.regName}')">${t.regName}</button></li>`;
+													html += `<li><button type="button" onclick="fnDeprChc('${t.regID}', '${t.regName}')">\${t.regName}</button></li>`;
 												});
 										$("#tableTrmList").html(html);
 									},
-									error : function() {
+									error : function(status, error) {
 										alert("터미널 목록을 불러오지 못했습니다.");
 										console.log("❌ AJAX 실패:", status, error);
 									}

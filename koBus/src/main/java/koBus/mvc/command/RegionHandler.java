@@ -14,27 +14,30 @@ import koBus.mvc.persistence.RegionDAO;
 import koBus.mvc.persistence.RegionDAOImpl;
 
 public class RegionHandler implements CommandHandler {
-
+	
+	
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("> RegionHandler.process() ...");
         
-        
+        Connection conn = null;
 
         String command = request.getRequestURI();
         command = command.substring(request.getContextPath().length()); // /getTerminals.do or /region.do
         System.out.println("command: " + command);  // ★ 확인
         
-        String sidoCode = request.getParameter("sidoCode");
+         int sidoCode = Integer.parseInt(request.getParameter("sidoCode")) ;
+        
         
 
-        try (Connection conn = DBConn.getConnection()) {
+        try  {
+        	conn = DBConn.getConnection();
             RegionDAO dao = new RegionDAOImpl(conn);
             
 
             
             // ✅ AJAX 비동기 요청 처리 (JSON 응답)
-            if (command.equals("/getTerminals.do") && sidoCode != null) {
+            if (command.equals("/getTerminals.do") && sidoCode != 0) {
                 List<RegionDTO> list = dao.selectBySidoCode(sidoCode);
 
                 response.setContentType("application/json; charset=UTF-8");
