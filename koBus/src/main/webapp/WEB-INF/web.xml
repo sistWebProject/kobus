@@ -81,9 +81,6 @@
 		<welcome-file>default.htm</welcome-file>
 	</welcome-file-list>
 
-
-
-</web-app>
 	<servlet>
 		<servlet-name>noticeSave</servlet-name>
 		<servlet-class>board.controller.NoticeSaveController</servlet-class>
