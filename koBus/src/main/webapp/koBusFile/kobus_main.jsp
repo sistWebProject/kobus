@@ -292,12 +292,18 @@ $(document).ready(function () {
 					<nav class="util-menus">
 						<ul class="util-list">
 
-							<li><a href="/koBus/koBusFile/logonMain.jsp"
-								class="login">로그인</a></li>
+							<c:choose>
+								<c:when test="${empty auth}">
+									<li><a class="login" href="/koBus/koBusFile/logonMain.jsp">로그인</a></li>
+									<li><a href="/mbrs/mbrsjoin/mbrsJoin.do">회원가입</a></li>
+								</c:when>
+								<c:otherwise>
+									<li>${auth} | </li> 
+									<li><a class="logout" href="/koBus/logOut.do">로그아웃</a></li>
+								</c:otherwise>
+							</c:choose>
 							<li><a
-								href="javascript:void(0);">회원가입</a></li>
-							<li><a
-								href="javascript:void(0);">마이페이지</a></li>
+								href="/koBus/koBusFile/logonMyPage.jsp">마이페이지</a></li>
 							<li><a
 								href="javascript:void(0);">결제내역조회</a></li>
 							<li><a href="javascript:void(0);">사이트맵</a></li>
