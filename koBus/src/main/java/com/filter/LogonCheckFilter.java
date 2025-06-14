@@ -21,8 +21,8 @@ import javax.servlet.http.HttpSession;
 		dispatcherTypes = {DispatcherType.REQUEST }
 					, 
 		urlPatterns = { 
-				"/day10/admin/*", 
-				"/day10/board/Write.jsp"
+				// 마이페이지 등등 권한 필요한 주소 추가할것. 
+				"/koBusFile/logonMyPage.jsp"
 		})
 public class LogonCheckFilter extends HttpFilter implements Filter {
 
@@ -44,8 +44,6 @@ public class LogonCheckFilter extends HttpFilter implements Filter {
 		boolean isAuth = false;
 		HttpSession session = hrequest.getSession(false);
 		
-		String originalURL = hrequest.getRequestURI();
-		
 		if (session != null) {
 			logonId = (String) session.getAttribute("auth");
 			if (logonId != null) {
@@ -53,34 +51,21 @@ public class LogonCheckFilter extends HttpFilter implements Filter {
 			}
 		}
 		
+		String referer = hrequest.getRequestURI();
+		
 		if (isAuth) {
-			// ?���? o 체크 x
-			// �?리자 x
+			// 인증 o 체크
+			// 관리자 x
 			chain.doFilter(request, response);
-			
-			
 		}else {
-			
-		    System.out.println("originalURL : " + originalURL);
-		    
-		    HttpSession newSession = hrequest.getSession(true);
-            newSession.setAttribute("redirectAfterLogin", originalURL);
-		    
-            String location = "/jspPro/day10/member/Logon.jsp";
-		    hresponse.sendRedirect(location);
+		    // 필터 확인해서 로그인 안되어있으면 로그인 페이지로 이동...
+		    String location = "/koBus/koBusFile/logonMain.jsp";
+			hresponse.sendRedirect(location);
 		}
-		
-		
-		if(!logonId.equals("admin") && originalURL.startsWith("/jspPro/day10/admin")) { 
-			hresponse.sendError(500, "�?리자 ?��?�� ?���? 불�?");
-			return;
-		}
-
-		chain.doFilter(request, response);
 	}
 
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
+		System.out.println("> LoginCheckFilter.init()...");
 	}
 
 }

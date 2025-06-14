@@ -94,9 +94,17 @@
 					</h1>
 					<nav class="util-menus">
 						<ul class="util-list">
-							<li><a class="login" href="/koBus/html/loginMain_cleaned_full.html">로그인</a></li>
-							<li><a href="/mbrs/mbrsjoin/mbrsJoin.do">회원가입</a></li>
-							<li><a href="/mbrs/mbrspage/myPageMain.do">마이페이지</a></li>
+							<c:choose>
+								<c:when test="${empty auth}">
+									<li><a class="login" href="/koBus/koBusFile/logonMain.jsp">로그인</a></li>
+									<li><a href="/mbrs/mbrsjoin/mbrsJoin.do">회원가입</a></li>
+								</c:when>
+								<c:otherwise>
+									<li>${auth} | </li> 
+									<li><a class="logout" href="/koBus/logOut.do">로그아웃</a></li>
+								</c:otherwise>
+							</c:choose>
+							<li><a href="/koBus/koBusFile/logonMyPage.jsp">마이페이지</a></li>
 							<li><a href="/mbrs/trprinqr/pymPtInqr.do">결제내역조회</a></li>
 							<li><a href="/etc/sitemap/SiteMap.do">사이트맵</a></li>
 						</ul>
@@ -269,7 +277,28 @@
 				</div>
 			</div>
 			
+			<!-- 로그아웃시 띄워주는 알림창 -->
+			<c:if test="${param.logout == 'ok'}">
+				<script>
+					alert("로그아웃이 완료되었습니다.");
+				</script>
+			</c:if>
+			
+			
 			<!-- 로그인정보 입력 제대로 안했을때 알림띄워주기 -->
+			<c:if test="${result == 0}">
+				<script>
+					alert("회원정보가 없습니다, 다시 로그인해 주세요.");
+				</script>
+			</c:if>
+			<!-- 로그인 완료시 문구 띄우기 -->
+			<%-- 
+			<c:if test="${result == 1}">
+				<script>
+					alert(${auth} + "님 로그인 완료되었습니다");
+				</script>
+			</c:if> 
+			--%>
 			<script>
 				$("#btn_confirm").on("click", function (event){
 					let logonId = $("#usrId").val();
@@ -278,7 +307,7 @@
 					if (logonId=="" || logonPasswd=="") {
 						alert("아이디와 비밀번호를 제대로 입력하세요");
 						event.preventDefault();
-					}
+					} 			
 				});
 			</script>
 
