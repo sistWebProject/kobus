@@ -6,6 +6,6 @@ import koBus.mvc.domain.RegionDTO;
 
 
 public interface RegionDAO {
-	List<RegionDTO> selectBySidoCode(String sidoCode);
+	List<RegionDTO> selectBySidoCode(int sidoCode);
 	
 }

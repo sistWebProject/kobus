@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+
 <html lang="ko" class="pc"><head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
@@ -22,7 +23,7 @@
 		
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<script type="text/javascript" src="/koBus/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 /*********************************************
  * 상수K
@@ -33,8 +34,6 @@
 <link rel="stylesheet" type="text/css" href="/koBus/css/ui.jqgrid.custom.css">
 
 
-
-<script type="text/javascript" src="/koBus/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 //쿠키 가져오기
 function getCookie( name ) {
@@ -1353,52 +1352,87 @@ $(document).ready(function () {
 			            <button type="button" onclick="fnDeprChc('120','성남(분당)')" name="imptDeprNm" value="120">성남(분당)</button>
 			        </div>
 				</div>
+				<!-- 지역별 터미널 모달창 연동 JSP 코드 -->
 				<div class="terminal_wrap">
 					<h3 class="stit">지역별 터미널</h3>
 					<div class="ternimal_box">
-						<div class="scroll-wrapper area_scroll scrollbar-inner" style="position: relative;"><div class="area_scroll scrollbar-inner scroll-content" style="height: 420px; margin-bottom: 0px; margin-right: 0px; max-height: none;">
-							<!-- <ul class="area_list">
-								<li class="active" id="areaListAll"><span onclick="fnDeprArvlViewList('all');">전체</span></li>
-								<li><span onclick="fnDeprArvlViewList('11');">서울</span></li>
-								<li><span onclick="fnDeprArvlViewList('28');">인천/경기</span></li>
-								<li><span onclick="fnDeprArvlViewList('42');">강원</span></li>
-								<li><span onclick="fnDeprArvlViewList('30');">대전/충남</span></li>
-								<li><span onclick="fnDeprArvlViewList('43');">충북</span></li>
-								<li><span onclick="fnDeprArvlViewList('29');">광주/전남</span></li>
-								<li><span onclick="fnDeprArvlViewList('45');">전북</span></li>
-								<li><span onclick="fnDeprArvlViewList('26');">부산/경남</span></li>
-								<li><span onclick="fnDeprArvlViewList('27');">대구/경북</span></li>
-							</ul> -->
+						<div class="area_scroll scrollbar-inner">
 							<ul class="area_list">
-						        <li class="active" id="areaListAll"><button type="button" onclick="fnDeprArvlViewList('all');" title="선택됨">전체</button></li>
-						        <li><button type="button" onclick="fnDeprArvlViewList('11');">서울</button></li>
-						        <li><button type="button" onclick="fnDeprArvlViewList('28');">인천/경기</button></li>
-						        <li><button type="button" onclick="fnDeprArvlViewList('42');">강원</button></li>
-						        <li><button type="button" onclick="fnDeprArvlViewList('30');">대전/충남</button></li>
-						        <li><button type="button" onclick="fnDeprArvlViewList('43');">충북</button></li>
-						        <li><button type="button" onclick="fnDeprArvlViewList('29');">광주/전남</button></li>
-						        <li><button type="button" onclick="fnDeprArvlViewList('45');">전북</button></li>
-						        <li><button type="button" onclick="fnDeprArvlViewList('26');">부산/경남</button></li>
-						        <li><button type="button" onclick="fnDeprArvlViewList('27');">대구/경북</button></li>
-						    </ul>
-						</div><div class="scroll-element scroll-x"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar"></div></div></div><div class="scroll-element scroll-y"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar"></div></div></div></div>
+								<li class="active" id="areaListAll">
+									<button type="button" onclick="fnDeprArvlViewList('all');"
+										title="선택됨">전체</button>
+								</li>
+								<li><button type="button"
+										onclick="fnDeprArvlViewList('11');">서울</button></li>
+								<li><button type="button"
+										onclick="fnDeprArvlViewList('28');">인천/경기</button></li>
+								<li><button type="button"
+										onclick="fnDeprArvlViewList('42');">강원</button></li>
+								<li><button type="button"
+										onclick="fnDeprArvlViewList('30');">대전/충남</button></li>
+								<li><button type="button"
+										onclick="fnDeprArvlViewList('43');">충북</button></li>
+								<li><button type="button"
+										onclick="fnDeprArvlViewList('29');">광주/전남</button></li>
+								<li><button type="button"
+										onclick="fnDeprArvlViewList('45');">전북</button></li>
+								<li><button type="button"
+										onclick="fnDeprArvlViewList('26');">부산/경남</button></li>
+								<li><button type="button"
+										onclick="fnDeprArvlViewList('27');">대구/경북</button></li>
+							</ul>
+						</div>
+
+						<!-- 터미널 리스트 출력 -->
 						<div class="terminal_list" id="terminalList">
-							<h4 class="sr-only">전체</h4>
-							<div class="scroll-wrapper terminal_scroll scrollbar-inner" style="position: relative;"><div class="terminal_scroll scrollbar-inner scroll-content" style="height: 420px; margin-bottom: 0px; margin-right: 0px; max-height: none;">
-									<ul class="clear" id="tableTrmList">
-										<c:forEach var="region" items="${regionList}">
-											<li>
-												<button type="button"
-													onclick="fnDeprChc('${region.regionCode}', '${region.regionName}');">
-													${region.regionName}</button>
-											</li>
-										</c:forEach>
-									</ul>
-								</div><div class="scroll-element scroll-x"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar"></div></div></div><div class="scroll-element scroll-y"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar"></div></div></div></div>
+							<h4 class="sr-only">지역별 터미널 목록</h4>
+							<div class="terminal_scroll scrollbar-inner">
+								<ul class="clear" id="tableTrmList">
+									<!-- JS에서 동적으로 터미널 버튼 삽입 -->
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
 				
+				<script>
+					function fnDeprArvlViewList(sidoCode) {
+						console.log("fnDeprArvlViewList 실행됨: ", sidoCode);
+						$.ajax({
+									url : "<%=request.getContextPath()%>/getTerminals.do",
+									method : "GET",
+									data : {
+										sidoCode : sidoCode
+									},
+									dataType : "json",
+									success : function(terminals) {
+										console.log("terminals 받아옴:", terminals);
+									
+										let html = "";
+										terminals
+												.forEach(function(t) {
+													html += `<li><button type="button" onclick="fnDeprChc('${t.regID}', '${t.regName}')">\${t.regName}</button></li>`;
+												});
+										$("#tableTrmList").html(html);
+									},
+									error : function(status, error) {
+										alert("터미널 목록을 불러오지 못했습니다.");
+										console.log("❌ AJAX 실패:", status, error);
+									}
+								});
+					}
+
+					function fnDeprChc(deprCd, deprNm) {
+						// 이 함수는 출발지 선택 시 동작하는 사용자 정의 함수
+						// 이후 로직은 기존 예약 폼에 맞게 조정
+						
+						console.log("선택된 터미널:", deprCd, deprNm);
+						$("#popDeprNmSpn").text(deprNm);
+						// 필요시 다른 input 요소에 값 설정도 추가하세요
+					}
+				</script>
+
+
 				<div class="place"> <!-- focus -->
 					<ul>
 						<li id="popDeprChc" class="focuson"> <!--  class="focuson" -->
