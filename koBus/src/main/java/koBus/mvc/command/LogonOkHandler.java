@@ -3,6 +3,7 @@ package koBus.mvc.command;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,9 +16,9 @@ import koBus.mvc.persistence.LogonDAOImpl;
 public class LogonOkHandler implements CommandHandler {
 	
 	@Override
-	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception{
+	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String location = "/koBusFile/kobus_main.jsp";
+		String location = "/koBus/koBusFile/kobus_main.jsp";
 		System.out.println("> LogonOkHandler.process() ... Get");
 		
 		HttpSession session = request.getSession();
@@ -38,11 +39,23 @@ public class LogonOkHandler implements CommandHandler {
 				System.out.println("로그인 성공");
 				
 				session.setAttribute("auth", id);
-				location += "?logon=success";		
+				session.setAttribute("id", id);
+				
+				session.setAttribute("result", dao.logonCheck(id, passwd));
+				location += "?logon=success";	
+				
+				System.out.println("location" + location);
+				response.sendRedirect(location);
+				return null;
 				
 			} else {
 				System.out.println("로그인 실패");
+				request.setAttribute("result", dao.logonCheck(id, passwd));
 				location = "/koBusFile/logonMain.jsp?logon=fail";
+				
+				System.out.println("location" + location);
+				
+				return location;
 			}
 		} catch (SQLException e) {
 			System.out.println("> LogonOkHandler.process() ... Exception");
