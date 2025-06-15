@@ -20,7 +20,7 @@ $(document).ready(function() {
 	var yymmddD0 = yyyy+""+mm2Len+""+ddTo;		//오늘날짜
 	
 	$.ajax({	
-        url      : "/adtnprdnew/pass/readPassRotLinInf.ajax",
+        url      : "/koBus/adtnprdnew/pass/readPassRotLinInf.ajax",
         
         dataType : "json",
         success  : function(arrList){	
@@ -450,7 +450,7 @@ function fnPassDtl(){
 	
 	var passPrchFrm = $("form[name=passPrchFrm]").serialize() ;
 	$.ajax({	
-        url      : "/adtnprdnew/pass/readPassDtlInf.ajax",
+        url      : "/koBus/adtnprdnew/pass/readPassDtlInf.ajax",
         type	 : "post",
         data 	 : passPrchFrm,
         dataType : "json",
