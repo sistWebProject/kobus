@@ -328,7 +328,7 @@ $(document).ready(function () {
 				<div class="container">
 					<div class="gnb-area">
 						<ul id="new-kor-gnb">
-							<li><a href="/koBus/kobus_seat.do">고속버스예매</a>
+							<li><a href="/koBus/kobusSeat.do">고속버스예매</a>
 								<ul>
 									<li><a href="javascript:void(0);">고속버스
 											예매</a></li>
@@ -340,7 +340,7 @@ $(document).ready(function () {
 							<li><a href="javascript:void(0)">운행정보</a>
 								<ul>
 									<li><a
-										href="javascript:void(0);">시간표
+										href="/koBus/kobusSchedule.do">시간표
 											조회</a></li>
 									<li><a
 										href="javascript:void(0);">도착시간
@@ -562,7 +562,7 @@ $(document).ready(function () {
 																		<span class="empty_txt">선택</span><span class="val_txt"
 																			id="deprNmSpn"></span>
 																	</p> <!-- 값이 있을경우 'empty' class가 없음 -->
-															</a>id="datepicker <!-- [2024 마크업 수정] -->
+															</a><!-- [2024 마크업 수정] -->
 																<button type="button" class="btn_change"
 																	onclick="fnCrchDeprArvl();" id="chgDeprArvl"
 																	style="display: block;">

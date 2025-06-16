@@ -3963,7 +3963,7 @@ ul.sel_list>li .btn_wrap ul li .btn+.btn {
 	top: -5px;
 	width: 20px;
 	height: 21px;
-	background: url(/images/kor/common/ico_busChecked.png) 0 0 no-repeat;
+	background: url(/koBus/images/ico_busChecked.png) 0 0 no-repeat;
 }
 
 /* 선택좌석 상세보기 */
