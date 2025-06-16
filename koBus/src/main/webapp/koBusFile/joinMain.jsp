@@ -1,8 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 
-<!-- saved from url=(0045)https://www.kobus.co.kr/mbrs/lgn/loginMain.do -->
 <html class="pc" lang="ko">
 <head>
 <meta charset="utf-8" />
@@ -10,7 +10,7 @@
 	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
 	name="viewport" />
 <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
-<title>로그인 | 고속버스통합예매</title>
+<title>회원가입(약관동의) | 고속버스통합예매</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link href="/koBus/images/favicon.ico" rel="shortcut icon" />
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
@@ -18,7 +18,6 @@
 <link href="/koBus/css/common/ui.jqgrid.custom.css" rel="stylesheet"
 	type="text/css" />
 
-<!-- // 쿠키얻어오는 코드 -->
 
 
 
@@ -42,7 +41,7 @@
 	<div class="wrapper wrapper-kor wrapper-sub">
 		<!-- quick -->
 		<!-- 퀵메뉴 : 서브페이지에만 적용 -->
-		<nav id="new-kor-quickmenu">
+		<nav class="" id="new-kor-quickmenu">
 			<ul class="quickmenu-list">
 				<li><a href="/mrs/rotinf.do"> <span class="ico"><img
 							alt="" src="/koBus/images/kor/layout/ico-quick-menu01.png" /></span> <span
@@ -169,7 +168,7 @@
 					</div>
 					<div class="links">
 						<!-- <a href="https://www.tmoney.co.kr" class="btn btn-tmoney" title="새창" target="_blank">
-					<img src="/images/kor/layout/ico-tmoney-app.png" alt="" />고속버스 티머니
+					<img src="/koBus/images/kor/layout/ico-tmoney-app.png" alt="" />고속버스 티머니
 					<i class="ico ico-arrow-new-window"></i>
 				</a> -->
 						<a class="btn btn-job" href="/cscn/jobmttr/readJobList.do"
@@ -182,7 +181,8 @@
 						<a class="gnb-baaner"
 							href="https://safeconnect.co.kr/sfconn/login/csc_pc?et=psn249R01&amp;ptrSvcSn=psn249"
 							title="새창"> <iframe class="ad-frame"
-								src="/html2/_ad-tubebox-002GNB.html" title="프레임 (전화번호안심 로그인)"></iframe>
+								src="/koBus/html2/_ad-tubebox-002GNB.html"
+								title="프레임 (전화번호안심 로그인)"></iframe>
 						</a>
 					</div>
 				</div>
@@ -195,144 +195,193 @@
 		</nav>
 		<article id="new-kor-content">
 
-			<!-- 20200617 yahan -->
-
-			<link href="/koBus/transkey/transkey.css" rel="stylesheet"
-				type="text/css" />
-
-			<div class="loading" id="loading" style="height: 691px; top: 180px;">
-				<p class="load" style="margin-left: -53px;">
-					<span class="sr-only">로딩중입니다</span>
-				</p>
-			</div>
-			<div class="title_wrap joinT" style="display: none;">
+			<div class="title_wrap in_process joinT" style="display: none;">
 				<a class="back" href="#">back</a> <a class="mo_toggle" href="#">메뉴</a>
-				<h2>로그인</h2>
+				<h2>회원가입</h2>
+				<ol class="process step04">
+					<li class="active">약관동의</li>
+					<li>본인인증</li>
+					<li>정보입력</li>
+					<li class="last">가입완료</li>
+				</ol>
 			</div>
 			<!-- 타이틀 -->
-			<div class="content-header" data-page-title="로그인 | 고속버스통합예매">
+			<div class="content-header" data-page-title="회원가입(약관동의) | 고속버스통합예매">
 				<div class="container">
 					<div class="title-area">
-						<h2 class="page-title">로그인</h2>
+						<h2 class="page-title">회원가입</h2>
+						<ol class="process">
+							<li class="active" title="현재 단계"><span class="num">1</span>
+								약관동의</li>
+							<li><span class="num">2</span> 본인인증</li>
+							<li><span class="num">3</span> 정보입력</li>
+							<li><span class="num">4</span> 가입완료</li>
+						</ol>
 					</div>
 				</div>
 			</div>
-			<div class="content-body">
+			<div class="content-body page_payment">
 				<div class="container">
-					<form action="${pageContext.request.contextPath}/logonOk.do" id="lgnUsrInfForm" method="post" name="lgnUsrInfForm">
-						<div class="login_wrap">
-							<!-- 회원로그인 -->
-							
-							<div class="box_login">
-								<h3 class="mob_h3">회원 로그인</h3>
-								<p class="h3_desc">
-									<span class="text_blue">고속버스 통합 예매 홈페이지</span>는 고속버스모바일앱의 회원
-									아이디와 비밀번호로 이용이 가능합니다.
-								</p>
-								<div class="inner">
-									<fieldset>
-										<legend>회원로그인</legend>
-										<ul class="loginList">
-											<li>
-												<div class="box_inputForm">
-													<label class="label" for="usrId">아이디</label> <span
-														class="box_label"> <input class="input" id="usrId"
-														name="usrId" placeholder="아이디를 입력하세요" type="text" />
-													</span>
-												</div>
-											</li>
-											<li>
-												<div class="box_inputForm">
-													<label class="label" for="usrPwd">비밀번호</label> <span
-														class="box_label"> <input class="input"
-													 	id="usrPwd" name="usrPwd" placeholder="비밀번호를 입력하세요" tabindex="-1" type="password" />
-													</span>
-												</div>
-											</li>
-										</ul>
-									</fieldset>
-									<p class="btn_squareBox">
-										<button class="btn_confirm ready" id="btn_confirm"
-											type="submit">로그인</button>
-									</p>
-									<div class="box_searchId col2">
-										<a href="/koBus/koBusFile/idSearch.jsp"><span
-											class="ico_searchId">아이디찾기</span></a> <a
-											href="/koBus/koBusFile/passwdSearch.jsp"><span
-											class="ico_searchPW">비밀번호찾기</span></a>
+					<div class="noti_wrap taL">
+						<p class="noti">
+							고속버스 통합 예매 홈페이지에서 제공하는 다양한 서비스를 이용하기 위하여 <span class="pc_block">고객님의
+								동의가 필요합니다.</span>
+						</p>
+						<p class="noti">
+							<span style="color: red">본 서비스는 만 14세 이상만 이용이 가능하며,</span> 서비스 이용
+							전 아래 사항을 <span class="pc_block">확인하시고 동의하여 주시기 바랍니다.</span>
+						</p>
+					</div>
+					<div class="section">
+						<div class="agreement_wrap">
+							<div class="agreement_tit">
+								<h4 class="first">
+									개인정보 수집 및 이용동의<span class="txt_essential">(필수)</span>
+								</h4>
+							</div>
+							<div class="scroll-wrapper agreement_cont scrollbar-inner"
+								style="position: relative;">
+								<div
+									class="agreement_cont scrollbar-inner scroll-content scroll-scrolly_visible"
+									style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 118px;">
+									<iframe frameborder="0" height="187" scrolling="no"
+										src="/koBus/cmn/IndlInfClcnUtlzAgrmJoin.do"
+										title="개인정보 수집 및 이용동의" width="100%"></iframe>
+								</div>
+								<div class="scroll-element scroll-x scroll-scrolly_visible">
+									<div class="scroll-element_outer">
+										<div class="scroll-element_size"></div>
+										<div class="scroll-element_track"></div>
+										<div class="scroll-bar" style="width: 88px;"></div>
 									</div>
 								</div>
-							</div>							
-							<div class="join_wrap">
-								<p>
-									<span>고속버스 통합회원으로 가입하시면 홈페이지와 모바일앱과의 예매내역 공유로 더욱 편리한
-										고속버스 이용이 가능합니다.</span> <a class="btn_join"
-										href="/koBus/mbrs/join/joinMain/joinMain_cleaned_full.html">통합회원가입</a>
-								</p>
-							</div>				
+								<div class="scroll-element scroll-y scroll-scrolly_visible">
+									<div class="scroll-element_outer">
+										<div class="scroll-element_size"></div>
+										<div class="scroll-element_track"></div>
+										<div class="scroll-bar" style="height: 66px; top: 0px;"></div>
+									</div>
+								</div>
+							</div>
+							<span class="custom_check chk_blue"> <input id="agree1"
+								type="checkbox" /> <label for="agree1">동의</label>
+							</span>
 						</div>
-						<!-- <div class="bnr_app" >예매부터 탑승까지 원스탑 모바일 서비스! <strong>고속버스 모바일앱</strong></div> -->
-						<!-- 광고 배너 추후 추가 예정 -->
-						<div class="banner-group type-row-A" style="margin-top: 16px;">
-							<iframe class="ad-frame" src="/html2/_ad-tubebox-003A.html"
-								title="프레임 (전화번호안심 로그인)"></iframe>
+						<div class="agreement_wrap">
+							<div class="agreement_tit">
+								<h4>
+									서비스 이용약관 동의<span class="txt_essential">(필수)</span>
+								</h4>
+							</div>
+							<div class="scroll-wrapper agreement_cont scrollbar-inner"
+								style="position: relative;">
+								<div
+									class="agreement_cont scrollbar-inner scroll-content scroll-scrolly_visible"
+									style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 118px;">
+									<iframe frameborder="0" height="2387" scrolling="no"
+										src="/koBus/cmn/SvcUtlzStplAgrm.do" title="서비스 이용약관 동의"
+										width="100%"></iframe>
+								</div>
+								<div class="scroll-element scroll-x scroll-scrolly_visible">
+									<div class="scroll-element_outer">
+										<div class="scroll-element_size"></div>
+										<div class="scroll-element_track"></div>
+										<div class="scroll-bar" style="width: 88px;"></div>
+									</div>
+								</div>
+								<div class="scroll-element scroll-y scroll-scrolly_visible">
+									<div class="scroll-element_outer">
+										<div class="scroll-element_size"></div>
+										<div class="scroll-element_track"></div>
+										<div class="scroll-bar" style="height: 5px; top: 0px;"></div>
+									</div>
+								</div>
+							</div>
+							<span class="custom_check chk_blue"> <input id="agree2"
+								type="checkbox" /> <label for="agree2">동의</label>
+							</span>
 						</div>
-					</form>
+						<p class="agree_all chk_bor">
+							<span class="custom_check chk_purple"> <input
+								id="checkAll" type="checkbox" /> <label for="checkAll">전체
+									약관에 동의합니다.</label>
+							</span>
+						</p>
+					</div>
+					<p class="btns col2">
+						<a class="btnL btn_confirm ready" id="dontAgree" href="/koBus/main.do;">동의하지않음</a> 
+						<a class="btnL btn_confirm" id="finalAgree">동의함</a>
+					</p>
 				</div>
 			</div>
-			
-			<!-- 로그아웃시 띄워주는 알림창 -->
-			<c:if test="${param.logout == 'ok'}">
-				<script>
-					alert("로그아웃이 완료되었습니다.");
-				</script>
-			</c:if>
-			
-			
-			<!-- 로그인정보 입력 제대로 안했을때 알림띄워주기 -->
-			<c:if test="${result == 0}">
-				<script>
-					alert("회원정보가 없습니다, 다시 로그인해 주세요.");
-				</script>
-			</c:if>
-			<!-- 로그인 완료시 문구 띄우기 -->
-			<%-- 
-			<c:if test="${result == 1}">
-				<script>
-					alert(${auth} + "님 로그인 완료되었습니다");
-				</script>
-			</c:if> 
-			--%>
-			<script>
-				$("#btn_confirm").on("click", function (event){
-					let logonId = $("#usrId").val();
-					let logonPasswd = $("#usrPwd").val();
-					
-					if (logonId=="" || logonPasswd=="") {
-						alert("아이디와 비밀번호를 제대로 입력하세요");
-						event.preventDefault();
-					} 			
-				});
-			</script>
-
-			<!-- 20200831 yahan -->
-
-			<link href="/koBus/transkey/transkey.css" rel="stylesheet"
-				type="text/css" />
-
-			<!-- 임시비밀번호 변경 -->
-			<form name="lgnForm">
-				<input id="returnUrl2" name="returnUrl" type="hidden" value="logout" />
-			</form>
-			<!-- 임시비밀번호/ 180일 경과 비밀번호 -->
-
-			<!-- 190129 추가 - 휴면 회원 알림 안내 -->
-			<!-- //190129 추가 - 휴면 회원 알림 안내 -->
-			<!-- 190129 추가 - 휴면 회원 해제 -->
-			<!-- //190129 추가 - 휴면 회원 해제 -->
-			<!-- 휴면회원 -->
 		</article>
 		<!-- footer -->
+		
+		<script>
+			// [js]
+			// agree1,2 누르면 체크버튼 생기게하기
+			/*
+			const ckbAll = document.querySelector("input[id=checkAll]");
+			const ckbs = document.querySelectorAll(".section input[id^=agree]");
+			
+			ckbAll.onclick = function (){
+				// console.log("all check");
+				for (var i = 0; i < ckbs.length; i++) {
+					ckbs[i].checked = this.checked;
+				} // for
+			}
+			
+			for (var i = 0; i < ckbs.length; i++) {
+				ckbs[i].onclick = function (){
+					let isckbsAllChecked = true;
+					for (var i = 0; i < ckbs.length; i++) {
+						isckbsAllChecked = ckbs[i].checked;
+						if(!isckbsAllChecked) break;
+					} // for
+				}
+			} // for
+			*/
+			// [jquery] - 동의하지 않음
+			$("#dontAgree").on("click", function (event){
+				alert("모두 동의를해야 회원가입이 가능합니다.");
+				event.preventDefault();
+			});
+			
+			// [jquery] - 동의함
+			let wholeCkbs = $(":checkbox:not(#checkAll)").length;
+			
+			$("#checkAll").on("click", function() {
+				$(":checkbox:not(#checkAll)").prop("checked", $(this).prop("checked"));
+			});
+
+			$(":checkbox:not(#checkAll)").on("click", function() {
+				let ckbs = $(":checkbox:not(#checkAll):checked").length;
+				console.log(ckbs);
+				$("#checkAll").prop("checked", ckbs == wholeCkbs ? true : false);
+			});
+			
+			$("#finalAgree").on("click", function (event){
+				let ckbs = $(":checkbox:not(#checkAll):checked").length;
+				if (wholeCkbs != ckbs) {
+					alert("모두 동의해 주세요!");
+					event.preventDefault();
+				} else {
+					alert("동의가 완료되었습니다.");
+					location.href = "/koBus/koBusFile/joinVerification.jsp";
+				}
+			});
+			
+		</script>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		<!-- 푸터 -->
 		<footer id="new-kor-footer">
 			<div class="container">
@@ -419,151 +468,10 @@
 			</div>
 		</footer>
 	</div>
-	<div class="remodal-overlay remodal-is-closed" style="display: none;"></div>
-	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
+	<div
+		style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
 		<div
-			class="remodal pop_change_password remodal-is-initialized remodal-is-closed"
-			data-remodal-id="popChangePassword"
-			data-remodal-options="closeOnOutsideClick:false" role="dialog"
-			tabindex="-1">
-			<form id="pwdModLsapForm" method="post" name="pwdModLsapForm">
-				<input id="mbr_mng_no" name="mbr_mng_no" type="hidden" value="" />
-				<div class="title">비밀번호 변경</div>
-				<div class="cont">
-					<div id="oldPwdChgDiv" style="display: none;">
-						<h3 class="pop_h3">고객님께서는 오랜 기간(180일) 비밀번호를 변경하지 않으셨습니다.</h3>
-						<p class="desc">
-							동일한 비밀번호를 장기간 사용할 경우 개인정보 도용 및 유출 등의 위험이 있습니다.<br /> 비밀번호를
-							변경해주세요.
-						</p>
-					</div>
-					<div id="tmpPwdChgDiv" style="display: none;">
-						<h3 class="pop_h3">스스로 지키는 개인정보! 비밀번호를 변경해주세요.</h3>
-						<p class="desc">
-							현재 고객님께서는 <span class="txt_red">임시로 발급된 비밀번호</span>를 사용하고 계십니다.<br />
-							고객님의 소중한 개인정보를 안전하게 지키기 위해 비밀번호를 변경해 주세요.<br />개인정보 도용을 최대한 방지하기
-							위해 <span class="txt_red">비밀번호 변경절차</span>를 거치신 후에만 서비스 이용이 가능합니다.
-						</p>
-					</div>
-					<p class="desc">
-						<strong>[안전한 비밀번호 설정 방법] <span class="txt_red">영문,
-								숫자 조합하여 8자리 이상</span></strong>
-					</p>
-					<div class="box_inputForm">
-						<label class="label" for="usrOldPw">현재 비밀번호</label> <span
-							class="box_label">
-							<button class="transkey_btn" data-id="usrOldPw" type="button">가상키패드
-								입력</button> <input class="input" data-tk-kbdtype="qwerty" id="usrOldPw"
-							name="usrOldPw" placeholder="현재 비밀번호를 입력하세요" tabindex="-1"
-							type="password" />
-						</span> <span class="ico_complete" style="display: none;">가능</span>
-						<!-- 사용가능 아이콘 -->
-					</div> 
-					<div class="box_inputForm" id="pwdDiv">
-						<label class="label" for="usrNewPwd">새 비밀번호</label> <span
-							class="box_label">
-							<button class="transkey_btn" data-id="usrNewPwd" type="button">가상키패드
-								입력</button> <input class="input" data-tk-kbdtype="qwerty" id="usrNewPwd"
-							name="usrNewPwd" placeholder="영문,숫자 8자리 이상" tabindex="-1"
-							type="password" />
-						</span> <span class="ico_complete" style="display: none;">가능</span>
-						<!-- 사용가능 아이콘 -->
-					</div>
-					<div class="box_inputForm" id="pwdCfmDiv">
-						<label class="label" for="pwdCfmCheck">새 비밀번호 확인</label> <span
-							class="box_label">
-							<button class="transkey_btn" data-id="pwdCfmCheck" type="button">가상키패드
-								입력</button> <input class="input" data-tk-kbdtype="qwerty"
-							id="pwdCfmCheck" name="pwdCfmCheck" placeholder="새 비밀번호를 재입력하세요"
-							tabindex="-1" type="password" />
-						</span> <span class="ico_complete" style="display: none;">가능</span>
-					</div>
-					<ul>
-						<li>비밀번호 변경 시 고속버스 모바일앱 에서도 동일하게 적용됩니다.</li>
-					</ul>
-					<p class="btn_squareBox" id="oldPwdChgP" style="display: none;">
-						<button class="btn_confirm" type="button">변경하기</button>
-						<button class="btn_normal" type="button">180일 뒤에 변경하기</button>
-					</p>
-					<p class="btn_squareBox" id="tmpPwdChgP" style="display: none;">
-						<button class="btn_confirm" type="button">변경하기</button>
-					</p>
-					<div class="pop_banner_wrap">
-						<span class="txt_banner">예매부터 탑승까지 원스탑 모바일 서비스!</span> <strong
-							class="tit_ban">고속버스 모바일앱</strong> <span class="bg_ban mobileApp">고속버스
-							모바일앱</span>
-					</div>
-				</div>
-				<button class="remodal-close" data-remodal-action="close">
-					<span class="sr-only">닫기</span>
-				</button>
-			</form>
-		</div>
-	</div>
-	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
-		<div
-			class="remodal pop_dormant_account remodal-is-initialized remodal-is-closed"
-			data-remodal-id="popDormantMember"
-			data-remodal-options="closeOnOutsideClick:false" role="dialog"
-			tabindex="-1">
-			<div class="title">
-				휴면 회원 알림 안내
-				<button aria-label="Close" class="remodal-close"
-					data-remodal-action="close"></button>
-			</div>
-			<div class="cont">
-				<p class="txt">정보통신망 이용 촉진 및 정보보호 등에 관한 법률 제29조 제2항의 개인정보 유효기간제에
-					따라 장기간 동안 사용 이력이 없는 회원을 대상으로 휴면 정책이 적용 되고 있습니다.</p>
-				<p class="txt">고객님께서는 1년 이상 접속하지 않으셨기 때문에 휴면 정책이 적용되어 서비스 이용이 불가
-					합니다.</p>
-				<p class="txt">하기 휴면 회원 해제 서비스를 통해 휴면 회원 해제를 진행하시기 바랍니다.</p>
-			</div>
-			<div class="btns">
-				<button class="remodal-confirm">휴면 회원 해제하기</button>
-				<button class="remodal-cancel">다음에 하기</button>
-			</div>
-		</div>
-	</div>
-	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
-		<div
-			class="remodal pop_remove_dormant remodal-is-initialized remodal-is-closed"
-			data-remodal-id="popRemoveDormant"
-			data-remodal-options="closeOnOutsideClick:false" role="dialog"
-			tabindex="-1">
-			<div class="title type_blue">
-				휴면 회원 해제
-				<button aria-label="Close" class="remodal-close"
-					data-remodal-action="close"></button>
-			</div>
-			<form method="post" name="dormantForm">
-				<input id="mbrMngNo" name="mbrMngNo" type="hidden" value="" />
-				<div class="cont">
-					<div class="login_wrap pop">
-						<div class="box_login">
-							<p class="h3_desc">휴면 회원 해제를 위해 비밀번호를 입력하세요.</p>
-							<div class="inner">
-								<fieldset>
-									<legend>휴면 회원 해제</legend>
-									<ul class="loginList">
-										<li>
-											<div class="box_inputForm">
-												<strong>비밀번호</strong> <span class="box_label"> <!-- <label for="s_ID02">영문,숫자 8자리 이상</label> -->
-													<label for="pwd">영문,숫자 8자리 이상</label> <input class="input"
-													id="pwd" name="pwd" type="password" />
-												</span>
-											</div>
-										</li>
-									</ul>
-								</fieldset>
-								<p class="btn_squareBox">
-									<button class="btn_confirm" type="button">해제하기</button>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>
+			style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
 	</div>
 </body>
 </html>
