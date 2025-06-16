@@ -73,4 +73,42 @@ public class RegionDAOImpl2 implements RegionDAO2 {
 		return list;
 	}
 
+	@Override
+	public List<RegionDTO2> selectByRegion() {
+		List<RegionDTO2> list = new ArrayList<>();
+
+		String sql = "SELECT * FROM region ";
+
+		try {
+
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			//25.06.14 ajh
+			while (rs.next()) {
+				String regID = rs.getString("regID");
+				String regName = rs.getString("regName");
+				int sc = rs.getInt("sidoCode");
+
+				RegionDTO2 dto = new RegionDTO2().builder()
+						.regID(regID)
+						.regName(regName)
+						.sidoCode(sc)
+						.build();
+
+				list.add(dto);
+			}
+
+			System.out.println(">>> [DAO] 조회된 행 수: " + list.size());
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try { if (rs != null) rs.close(); } catch (Exception e) {}
+			try { if (pstmt != null) pstmt.close(); } catch (Exception e) {}
+		}
+
+		return list;
+	}
+
 }

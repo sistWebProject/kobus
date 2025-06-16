@@ -28,27 +28,27 @@ public class StationHandler implements CommandHandler {
 
 		String regionCode = request.getParameter("regionCode");
 		int sidoCode = 11;
-
-
-		if (regionCode == null || regionCode.trim().isEmpty() || 
-				regionCode.equalsIgnoreCase("null") || 
-				regionCode.equalsIgnoreCase("undefined") || regionCode.equals("all")) {
-			regionCode = "11";
-		}
-
-		else {
-			sidoCode = Integer.parseInt(regionCode);
-		}
-
 		List<RegionDTO2> regionList = null;
 
+		
 		try(Connection conn = ConnectionProvider.getConnection();){
+			RegionDAO2 dao = new RegionDAOImpl2(conn);
+			
+			if (regionCode == null || regionCode.trim().isEmpty() || 
+					regionCode.equalsIgnoreCase("null") || 
+					regionCode.equalsIgnoreCase("undefined")) {
+				regionCode = "11";
+				regionList = dao.selectBySidoCode(sidoCode);
+			}else if(regionCode.equals("all")) {
+				regionList = dao.selectByRegion();
+			}
+
+			else {
+				sidoCode = Integer.parseInt(regionCode);
+				regionList = dao.selectBySidoCode(sidoCode);
+			}
 
 			
-			RegionDAO2 dao = new RegionDAOImpl2(conn);
-			regionList = dao.selectBySidoCode(sidoCode);
-
-
 			String ajax = request.getParameter("ajax");
 
 			System.out.println("ajax = " + ajax);
