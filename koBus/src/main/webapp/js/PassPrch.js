@@ -698,11 +698,47 @@ function fnSelOption(value){
 	$("#divTermDesc").css('display', 'block');
 }
 
+function setTermParamsToForm() {
+    // 1. 시작일 추출
+    let dateStr = $("#datepickerView").text().trim(); // 예: "2025. 6. 18. 수"
+    let dateParts = dateStr.split(".");
+    let yyyy = dateParts[0].trim();
+    let mm = dateParts[1].trim().padStart(2, '0');
+    let dd = dateParts[2].trim().padStart(2, '0');
+    let startDate = yyyy + mm + dd;
+
+    // 2. 기간 추출 (option에서 value가 '.../5/...' 식일 경우)
+    let optVal = $("#selOption").val(); // 예: "1/3/1/5/Y/0026"
+    let period = "0";
+    if (optVal) {
+        let parts = optVal.split("/");
+        if (parts.length >= 4) {
+            period = parts[3]; // 5일권의 경우 '5'
+        }
+    }
+
+    // 3. hidden input 추가
+    const $form = $("form[name='passPrchFrm']");
+    if ($form.find("input[name='startDate']").length === 0) {
+        $form.append(`<input type="hidden" name="startDate" value="${startDate}">`);
+    } else {
+        $form.find("input[name='startDate']").val(startDate);
+    }
+
+    if ($form.find("input[name='period']").length === 0) {
+        $form.append(`<input type="hidden" name="period" value="${period}">`);
+    } else {
+        $form.find("input[name='period']").val(period);
+    }
+}
+
+
 //유효기간 가져오기
 function fnAdtnVldTerm(){
+	setTermParamsToForm();
 	var passPrchFrm = $("form[name=passPrchFrm]").serialize() ;
 	$.ajax({	
-        url      : "/adtnprdnew/pass/readPassVldTerm.ajax",
+        url      : "/koBus/adtnprdnew/pass/readPassVldTerm.ajax",
         type	 : "post",
         data 	 : passPrchFrm,
         dataType : "json",
