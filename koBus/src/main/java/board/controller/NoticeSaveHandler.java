@@ -11,8 +11,8 @@ public class NoticeSaveHandler implements CommandHandler {
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 인코딩
-        request.setCharacterEncoding("UTF-8");
-
+    	request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
         // 파라미터 수집
         String notID = request.getParameter("notID");
         String topic = request.getParameter("topic");

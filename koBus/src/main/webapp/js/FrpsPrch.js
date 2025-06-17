@@ -132,7 +132,7 @@ $(document).ready(function() {
 	
 	fnFrpsDtl();
 	
-	fnSetCardCam();
+	// fnSetCardCam();
 	
 	$("#goPrdprchFn").click(function () {
     // 이용약관
@@ -367,7 +367,7 @@ function fnFrpsDtl(){
 	        //alert("connection error");
 	    }
 	});
-	
+	console.log("📌 최종 selOptionText 값:", $("#selOptionText").val());
 }
 
 //이용권종 클릭시
@@ -413,7 +413,7 @@ function fnSelPrdWeek(val){
 	//유효기간 가져오기
 	fnAdtnVldTerm();
 }
-
+/*
 //옵션 선택시  
 function fnSelOption(value){
 	var optVal = value; 
@@ -468,10 +468,113 @@ function fnSelOption(value){
 	$("#divTermDesc").css('display', 'block');
 		
 }
+*/
+function fnSelOption(value){
+	console.log("🔽 [fnSelOption] 선택된 value:", value);
+
+	var optVal = value; 
+	
+	if(optVal == "0"){
+		console.warn("⚠️ 구매옵션 value가 '0'입니다. 선택되지 않음.");
+		return;
+	}
+	
+	var opt = optVal.split("/");
+	console.log("📦 opt 배열:", opt);
+
+	$("#adtnPrdUseNtknCd").val(opt[0]);
+	$("#adtnPrdUseClsCd").val(opt[1]);
+	$("#wkdWkeNtknCd").val(opt[2]);
+	$("#adtnPrdUsePsbDno").val(opt[3]);
+	$("#adtnPrdSno").val(opt[5]);
+
+	console.log("🧪 hidden 값 설정 완료:");
+	console.log("  - adtnPrdUseNtknCd:", opt[0]);
+	console.log("  - adtnPrdUseClsCd:", opt[1]);
+	console.log("  - wkdWkeNtknCd:", opt[2]);
+	console.log("  - adtnPrdUsePsbDno:", opt[3]);
+	console.log("  - adtnPrdSno:", opt[5]);
+
+	// 텍스트 추출 확인
+	var txt = '';
+	if (is_select("selOption")){
+		txt = $("#selOption option:selected").text().split("/");
+	} else{
+		txt = $("#selOptionText").val().split("/");
+	}
+	console.log("📄 txt 배열:", txt);
+
+	$("#kindTd").html(txt[0]);
+	$("#gradeTd").html(txt[1]);
+	$("#weekTd").html(txt[2]);
+
+	console.log("🖨️ 표시된 내용:");
+	console.log("  - kindTd:", txt[0]);
+	console.log("  - gradeTd:", txt[1]);
+	console.log("  - weekTd:", txt[2]);
+
+	if(opt[4] == "Y"){
+		console.log("✅ 임시차 사용 가능");
+		$("#tmpPsbYN").html("※ 해당 옵션은 임시차 배차도 사용 가능합니다.");
+	}else{
+		console.log("🚫 임시차 사용 불가");
+		$("#tmpPsbYN").html("※ 해당 옵션은 임시차 배차는 사용 불가합니다.");
+	}
+	$("#tmpPsbYN").css('display', 'block');
+
+	console.log("🚀 fnAdtnVldTerm 호출");
+	fnAdtnVldTerm();
+
+	$("#divTermDesc").css('display', 'block');
+}
+
+
+function setFrpsTermParamsToForm() {
+    // 1. 시작일 가져오기
+    let dateStr = $("label.text_date1").text().trim(); // 예: "2025. 6. 18. 수"
+    if (!dateStr) return;
+
+    let dateParts = dateStr.split(".");
+    let yyyy = dateParts[0].trim();
+    let mm = dateParts[1].trim().padStart(2, '0');
+    let dd = dateParts[2].trim().padStart(2, '0');
+    let startDate = yyyy + mm + dd;
+
+    // 2. 기간 추출 (옵션 value에서 추출)
+    let optVal = $("#selOption").val(); // 예: "1/3/1/5/Y/0026"
+    let period = "0";
+    if (optVal) {
+        let parts = optVal.split("/");
+        if (parts.length >= 4) {
+            period = parts[3]; // 4번째 항목이 기간
+        }
+    }
+
+    // 3. hidden input으로 form에 삽입
+    const $form = $("form[name='frpsPrchFrm']");
+    
+    if ($form.find("input[name='startDate']").length === 0) {
+        $form.append(`<input type="hidden" name="startDate" value="${startDate}">`);
+    } else {
+        $form.find("input[name='startDate']").val(startDate);
+    }
+
+    if ($form.find("input[name='period']").length === 0) {
+        $form.append(`<input type="hidden" name="period" value="${period}">`);
+    } else {
+        $form.find("input[name='period']").val(period);
+    }
+    console.log("📌 startDate 추가됨?", $form.find("input[name='startDate']").length);
+	console.log("📌 period 추가됨?", $form.find("input[name='period']").length);
+	console.log("📌 form 내용:", $form.html());
+}
+
+
 
 //유효기간 가져오기
 function fnAdtnVldTerm(){		
-	
+	setFrpsTermParamsToForm();
+	console.log("📌 확인용", $("form[name='frpsPrchFrm']").html());
 	var frpsPrchFrm = $("form[name=frpsPrchFrm]").serialize() ;
 	$.ajax({	
         url      : "/koBus/adtnprdnew/frps/readFrpsVldTerm.ajax",
@@ -589,7 +692,7 @@ function fnYyDtmStup(dtVal){ // 날짜 계산
 	
 	fnFrpsDtl();
 }		
-
+/*
 function fnSetCardCam(){
 	$.ajax({	
 	    url      : "/mrs/cardCamList.ajax",
@@ -609,7 +712,7 @@ function fnSetCardCam(){
 	    }
 	});
 }
-
+*/
 function fnSelCardCam(){
 	if($("#cardKndCd").val() != "0"){
 		$("#cardKindList").find('.label').addClass('add');
@@ -930,15 +1033,44 @@ function fnSetCardCd(listCnt,cardCdList){
 }
 
 function onSelectChange(obj, input_val, input_name){
+	console.log("🔥 onSelectChange 실행됨");
+    console.log("  - 선택된 input_name:", input_name);
+    console.log("  - 선택된 input_val:", input_val);
+    console.log("  - 선택된 텍스트:", $(obj).text());
 	$("#"+input_name).val(input_val);
 	dropdown_process(obj);
+	
 
 	if (input_name == 'selOption'){
+		console.log("✅ 선택된 텍스트:", $(obj).text());
 		$("#selOptionText").val($(obj).text());
 		fnSelOption(input_val);
+		fnAdtnVldTerm();
 	}
 }
 
+/*
+function onSelectChange(obj, input_val, input_name){
+	$("#"+input_name).val(input_val);
+	dropdown_process(obj);
+	
+
+	if (input_name == 'selOption'){
+		console.log("✅ 선택된 텍스트:", txt);
+		$("#selOptionText").val($(obj).text());
+		fnSelOption(input_val);
+	}
+	if ($("#selOptionText").length === 0) {
+ 	 console.error("❌ selOptionText 요소 없음!");
+	} else {
+	  let text = obj.textContent || obj.innerText || $(obj).text();
+	  console.log("✅ 추출된 텍스트:", text);
+	  $("#selOptionText").val(text.trim());
+	  console.log("✅ val() 설정됨?", $("#selOptionText").val());
+}
+
+}
+*/
 function setMipMm(value){
 	$('#mipMmNum').val(value);
 }
@@ -978,3 +1110,33 @@ function  fnPayPymWin(){
 		
 	});
 }
+
+// 드롭다운 항목 클릭 시 안전하게 이벤트 바인딩
+$(document).on("click", "#selOptionLi a", function () {
+	console.log("🧪 드롭다운 클릭됨:", $(this).text());
+    const val = $(this).attr("onclick").match(/'(.*?)'/g).map(v => v.replace(/'/g, ''));
+    const input_val = val[0];
+    const input_name = val[1];
+
+    // 반드시 전역에 있는 onSelectChange()가 실행되도록
+    if (typeof onSelectChange === "function") {
+        onSelectChange(this, input_val, input_name);
+    } else {
+        console.error("❌ onSelectChange 함수가 로드되지 않았습니다.");
+    }
+});
+
+$(document).on("click", "#selOptionLi a", function () {
+	console.log("✅ 드롭다운 클릭됨:", $(this).text());
+	let input_val = $(this).attr("onclick").match(/'(.*?)'/g)?.[0]?.replace(/'/g, '');
+	let input_name = $(this).attr("onclick").match(/'(.*?)'/g)?.[1]?.replace(/'/g, '');
+
+	console.log("  - input_val:", input_val);
+	console.log("  - input_name:", input_name);
+
+	if (typeof onSelectChange === "function") {
+		onSelectChange(this, input_val, input_name);
+	} else {
+		console.error("❌ onSelectChange 함수가 정의되지 않았습니다.");
+	}
+});

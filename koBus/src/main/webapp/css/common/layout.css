@@ -684,7 +684,7 @@ body.main #wrap { /* min-height: 828px; */}
 	.title_wrap.in_process { height: 0;}
 	.title_wrap h2 { margin-top: 10px; font-size: 21px; display:none;}
 	.title_wrap .back, .title_wrap .mo_toggle { display: block; position: absolute; font-size: 0; margin-top: 19px;}
-	.title_wrap .back { top: 0; left: ; background: url(/koBus/images/common/mo_back_black.png) 20px center no-repeat; background-size: auto 20px; width: 33px; height: 20px; padding: 20px;}
+	.title_wrap .back { top: 0; left: 0; background: url(/koBus/images/common/mo_back_black.png) 20px center no-repeat; background-size: auto 20px; width: 33px; height: 20px; padding: 20px;}
 	.title_wrap .mo_toggle { top: 0; right: 0; background: url(/koBus/images/common/view_mobile_black.png) center center no-repeat; background-size: auto 15px; width: 20px; height: 15px; padding: 20px 40px 20px 20px;}
 	.title_wrap.in_process .process { margin-top: 10px; display:none;}
 	.title_wrap.in_process .process li { font-size: 13px;}

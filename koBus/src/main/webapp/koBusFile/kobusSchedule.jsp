@@ -497,27 +497,10 @@ $(document).ready(function () {
 
 								<li><a href="https://www.kobus.co.kr/ugd/mrsgd/Mrsgd.do">이용안내</a></li>
 
-
-
-
-
-
 								<li><a
 									href="https://www.kobus.co.kr/cscn/ntcmttr/readNtcList.do">고객지원</a></li>
-
-
-
-
-
-
 								<li><a
 									href="https://www.kobus.co.kr/ugd/bustrop/Bustrop.do">전국고속버스운송사업조합</a></li>
-
-
-
-
-
-
 								<li><a
 									href="https://www.kobus.co.kr/ugd/trmlbizr/Trmlbizr.do">터미널사업자협회</a></li>
 

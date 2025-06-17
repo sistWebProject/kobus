@@ -1218,11 +1218,11 @@ function fnMblTck(mblTckVal){
 		}
 	}
 	
-	fnSetCardCam(mblTckVal);
+	// fnSetCardCam(mblTckVal);
 }
 
 
-
+/*
 function fnSetCardCam(mblTckVal){
 	var stplCfmPymFrm = $("form[name=stplCfmPymFrm]").serialize() ;
 	$.ajax({	
@@ -1245,7 +1245,7 @@ function fnSetCardCam(mblTckVal){
         }
 	});
 }
-
+*/
 
 
 function fnSetCardCd(listCnt,cardCdList,mblTckVal){
@@ -1670,7 +1670,7 @@ function fnAdtnPrdNewChk(){
 	var stplCfmPymFrm = $("form[name=stplCfmPymFrm]").serialize() ;
 	
 	$.ajax({	
-        url      : "/mrs/adtnPrdValNew.ajax",
+        url      : "/koBus/mrs/adtnPrdValNew.ajax",
         type     : "post",
         data : stplCfmPymFrm,
         dataType : "json",
@@ -1999,125 +1999,50 @@ function fnGoSatsChc(){
 
 function fnValYnChk(){
 	var allChk = "Y";
-	if($("input:checkbox[id='agree1']").is(":checked") == false){
-		allChk = "N";
-	}
-	if($("input:checkbox[id='agree2']").is(":checked") == false){
-		allChk = "N";
-	}
-	if($("input:checkbox[id='agree3']").is(":checked") == false){
-		allChk = "N";
-	}
-	var nonMbrsYnChk = $("#nonMbrsYn").val();
-	if(nonMbrsYnChk == "Y"){
-		// 20210218 yahan
-//		var phoneNum1Val = $("#phoneNum11").val()+""+$("#phoneNum12").val()+""+$("#phoneNum13").val();
-//		if(phoneNum1Val == "" || phoneNum1Val.length < 10 ){
-//			allChk = "N";
-//		}	
-//		if($("#nonMbrsPw").val().length < 4 || $("#nonMbrsPwChk").val().length < 4 || ($("#nonMbrsPw").val() != $("#nonMbrsPwChk").val())){
-//			allChk = "N";
-//		}
-		if ($("#nonMbrsAuthYn").val() != "Y"){
-			allChk = "N";
-		}
-	}
-	
-	if($("input:radio[id='payType6']").is(":checked")){ // 간편결제
-		if($("#payBirth").val().length != 6){
-			allChk = "N";
-		}
-		if ($("input:radio[name='pynDtlCd']:checked").length == 0){
-			allChk = "N";
-		}
-	}
-	else if($("input:radio[id='payType1']").is(":checked")){ // 카드결제 체크
-		if($("#cardNum1").val().length < 4 || $("#cardNum2").val().length < 4 || $("#cardNum3").val().length < 4 || $("#cardNum4").val().length == 0){
-			allChk = "N";
-		}
-		if($("#cardMonth").val().length < 2 || $("#cardYear").val().length < 2){
-			allChk = "N";
-		}
-		if($("#cardMonth").val().length == 2 && (Number($("#cardMonth").val()) <= 0 || Number($("#cardMonth").val()) > 12)){
-			allChk = "N";
-		}
-		if($("#cardPw").val().length < 2){
-			allChk = "N";
-		}
-		if($("input:radio[id='caPerson']").is(":checked")){
-			if($("#caBirth").val().length != 6){
-				allChk = "N";
-			}
-		}
-		if($("input:radio[id='caCompany']").is(":checked")){
-			if($("#comNumCard").val().length < 10){
-				allChk = "N";
-			}
-		}
-	}else if($("input:radio[id='payType2']").is(":checked")){//계좌이체
-		if($("#acBirth").val().length != 6){
-			allChk = "N";
-		}
-	
-//		if($("input:radio[id='receiptPhone']").is(":checked")){
-//			if($("#phoneNum2").val() == "" || $("#phoneNum2").val().length < 10 ){
-//				allChk = "N";
-//			}	
-//		}
-//		
-//		if($("input:radio[id='receiptCard']").is(":checked")){
-//			if($("#reCardNum1").val().length < 4 || $("#reCardNum2").val().length < 4 || $("#reCardNum3").val().length < 4 || $("#reCardNum4").val().length < 4){
-//				allChk = "N";
-//			}
-//		}
-		// 20201124 yahan
-		if($("input:radio[id='receiptPerson']").is(":checked")){
-			var value = $("#receiptPersonSelect").val();
-			if (value == "receiptPhone") {
-				if($("#phoneNum2").val() == "" || $("#phoneNum2").val().length < 10 ){
-					allChk = "N";
-				}
-			} else {
-				if($("#reCardNum1").val().length < 4 || $("#reCardNum2").val().length < 4 || $("#reCardNum3").val().length < 4 || $("#reCardNum4").val().length < 4){
-					allChk = "N";
-				}
-			}
-		}
-		if($("input:radio[id='receiptBusiness']").is(":checked")){
-			var value = $("#receiptBusinessSelect").val();
-			if (value == "receiptBizn") {
-				if($("#reBiznNum1").val().length < 3 || $("#reBiznNum2").val().length < 2 || $("#reBiznNum3").val().length < 5){
-					allChk = "N";
-				}
-			} else {
-				if($("#reCardNum1").val().length < 4 || $("#reCardNum2").val().length < 4 || $("#reCardNum3").val().length < 4 || $("#reCardNum4").val().length < 4){
-					allChk = "N";
-				}
-			}
-		}
-//		if($("input:radio[id='receiptNone']").is(":checked")){
-//		}
 
-		
-	}else if($("input:radio[id='payType3']").is(":checked")){	// 정기권 선택시
-		var payType = "perd";
-		if($("#adtnCpnNo").val() == ""){
-			allChk = "N";
-		}				
-	}else if($("input:radio[id='payType4']").is(":checked")){	// 프리패스 선택시
-		var payType = "frps";
-		if($("#adtnCpnNo").val() == ""){
-			allChk = "N";
-		}		
+	// 기본 약관 체크
+	if (!$("input:checkbox[id='agree1']").is(":checked")) {
+		allChk = "N";
 	}
-	else if($("input:radio[id='payType5']").is(":checked")){
-		if($("#coBirth2").val().length != 6){
-			allChk = "N";
-		}
-		if($("#mileagePymYn").val() == "C" || $("#mileagePymYn").val() == "N"){
+	if (!$("input:checkbox[id='agree2']").is(":checked")) {
+		allChk = "N";
+	}
+	if (!$("input:checkbox[id='agree3']").is(":checked")) {
+		allChk = "N";
+	}
+
+	// 비회원 인증 여부 체크
+	var nonMbrsYnChk = $("#nonMbrsYn").val();
+	if (nonMbrsYnChk == "Y") {
+		if ($("#nonMbrsAuthYn").val() != "Y") {
 			allChk = "N";
 		}
 	}
+
+	// 정기권 선택 시
+	if ($("input:radio[id='payType3']").is(":checked")) {
+		if ($("#adtnCpnNo").val() == "") {
+			allChk = "N";
+		}
+	}
+
+	// 프리패스 선택 시
+	if ($("input:radio[id='payType4']").is(":checked")) {
+		if ($("#adtnCpnNo").val() == "") {
+			allChk = "N";
+		}
+	}
+
+	// 마일리지 결제 (선택적)
+	if ($("input:radio[id='payType5']").is(":checked")) {
+		if ($("#coBirth2").val().length != 6) {
+			allChk = "N";
+		}
+		if ($("#mileagePymYn").val() == "C" || $("#mileagePymYn").val() == "N") {
+			allChk = "N";
+		}
+	}
+
 	return allChk;
 }
 

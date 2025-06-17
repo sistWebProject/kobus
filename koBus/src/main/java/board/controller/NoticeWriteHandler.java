@@ -5,11 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import koBus.mvc.command.CommandHandler;
 
-public class NoticeWriteHandler implements CommandHandler  {
-	   @Override
-	    public String process(HttpServletRequest request, HttpServletResponse response) {
-			System.out.println("> writeeeeeeeeeeeeeeee...");
+public class NoticeWriteHandler implements CommandHandler {
+	@Override
+	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		System.out.println("> writeeeeeeeeeeeeeeee...");
 
-		   return "/notice/noticeWrite.jsp";  // DispatcherServlet이 forward 해줌
-	    }
+		return "/notice/noticeWrite.jsp"; // DispatcherServlet이 forward 해줌
 	}
+}

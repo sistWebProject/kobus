@@ -42,6 +42,7 @@
       <servlet-name>default</servlet-name>
       <url-pattern>/images/*</url-pattern>
    </servlet-mapping>
+<<<<<<< HEAD
 
    <servlet-mapping>
       <servlet-name>default</servlet-name>
@@ -97,8 +98,6 @@
       <url-pattern>/*</url-pattern>
       <dispatcher>REQUEST</dispatcher>
    </filter-mapping>
-
-
    <welcome-file-list>
       <welcome-file>index.html</welcome-file>
       <welcome-file>index.jsp</welcome-file>

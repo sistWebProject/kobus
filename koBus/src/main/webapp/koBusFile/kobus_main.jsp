@@ -31,7 +31,195 @@
 	href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
-<script>
+
+
+</script>
+<script type="text/javascript" src="/koBus/js/common/ui.js"></script>
+<script type="text/javascript" src="/koBus/js/common/plugin.js"></script>
+<script type="text/javascript" src="/koBus/js/common/common.js"></script>
+
+<script type="text/javascript" src="/koBus/js/common/jquery.number.js"></script>
+<script type="text/javascript" src="/koBus/js/common/security.js"></script>
+
+
+
+<link rel="stylesheet" type="text/css" href="/koBus/css/common/style.css">
+<script type="text/javascript" src="/koBus/js/common/new-kor-ui.js"></script>
+</head>
+
+
+
+<!-- [리뉴얼] 페이지 개별 스크립트 신규 정의함 -->
+
+
+<body class="main KO" style="">
+	<!-- [리뉴얼] 스킵 네비게이션 신규 정의 -->
+	<div class="pop_dimmed" style="display: none;"></div>
+	<div class="noti_pop_wrap" style="display: block;">
+
+
+	</div>
+	<nav id="skip">
+		<ul>
+			<li><a href="#new-kor-content">본문 바로가기</a></li>
+			<li><a href="#new-kor-gnb">주메뉴 바로가기</a></li>
+			<li><a href="#new-kor-footer">푸터 바로가기</a></li>
+		</ul>
+	</nav>
+
+	<!-- 메인 클래스 : wrapper-main -->
+	<div class="wrapper wrapper-kor wrapper-main full">
+
+
+		<!-- header -->
+
+		<script>
+$(document).ready(function () {
+	var langCd = 'KO';
+	var langLi = $(".dropdown-wrap.lang-select .dropdown-list li");
+	
+	$('.title_wrap').hide();
+});
+</script>
+
+		<!-- 헤더 -->
+		<header id="new-kor-header">
+			<div class="top-menu-area">
+				<div class="container">
+					<h1 id="logo">
+						<a href="javascript:void(0);"> <img
+							src="/koBus/images/logo.png" alt="KOBUS 전국고속버스운송사업조합">
+						</a>
+					</h1>
+					<nav class="util-menus">
+						<ul class="util-list">
+
+							<c:choose>
+								<c:when test="${empty auth}">
+									<li><a class="login" href="/koBus/koBusFile/logonMain.jsp">로그인</a></li>
+									<li><a href="/mbrs/mbrsjoin/mbrsJoin.do">회원가입</a></li>
+								</c:when>
+								<c:otherwise>
+									<li>${auth} | </li> 
+									<li><a class="logout" href="/koBus/logOut.do">로그아웃</a></li>
+								</c:otherwise>
+							</c:choose>
+							<li><a
+								href="/koBus/koBusFile/logonMyPage.jsp">마이페이지</a></li>
+							<li><a
+								href="javascript:void(0);">결제내역조회</a></li>
+							<li><a href="javascript:void(0);">사이트맵</a></li>
+						</ul>
+
+						<div class="dropdown-wrap lang-select">
+							<a href="javascript:void(0)" class="btn-dropdown" title="언어선택"
+								aria-expanded="false"> <span class="text">한국어</span><i
+								class="ico ico-arrow-down"></i></a>
+							<ul class="dropdown-list" style="display: none;">
+								<li class="selected"><a href="javascript:void(0)"
+									data-lang="KO" title="선택됨">한국어</a></li>
+								<li><a href="javascript:void(0)" data-lang="EN">English</a></li>
+								<li><a href="javascript:void(0)" data-lang="CN">中文</a></li>
+								<li><a href="javascript:void(0)" data-lang="JP">日本語</a></li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+			</div>
+			<nav class="gnb-menu-area">
+				<div class="container">
+					<div class="gnb-area">
+						<ul id="new-kor-gnb">
+							<li><a href="/koBus/kobusSeat.do">고속버스예매</a>
+								<ul>
+									<li><a href="javascript:void(0);">고속버스
+											예매</a></li>
+									<li><a href="javascript:void(0);">예매확인/취소/변경</a>
+									</li>
+									<li><a href="javascript:void(0);">영수증발행</a>
+									</li>
+								</ul></li>
+							<li><a href="javascript:void(0)">운행정보</a>
+								<ul>
+									<li><a
+										href="/koBus/kobusSchedule.do">시간표
+											조회</a></li>
+									<li><a
+										href="javascript:void(0);">도착시간
+											안내</a></li>
+								</ul></li>
+
+
+							<li><a href="javascript:void(0)">프리패스/정기권</a>
+								<ul>
+									<li><a
+										href="javascript:void(0);">프리패스
+											여행권</a></li>
+									<li><a
+										href="javascript:void(0);">정기권</a></li>
+									<li><a
+										href="javascript:void(0);">상품
+											구매내역</a></li>
+								</ul></li>
+
+
+							<li><a href="javascript:void(0)">이용안내</a>
+								<ul>
+									<li><a href="javascript:void(0);">예매
+											안내</a></li>
+									<li><a
+										href="javascript:void(0);">결제수단
+											안내</a></li>
+									<li><a href="javascript:void(0);">승차권
+											환불안내</a></li>
+									<li><a href="javascript:void(0);">프리미엄
+											마일리지</a></li>
+
+									<li><a href="/ugd/trtrgd/Trtrgd.do">휴게소
+											환승안내</a></li>
+									<li><a href="/ugd/trmlgd/Trmlgd.do">고속버스
+											터미널</a></li>
+									<li><a href="/ugd/cacmgd/Cacmgd.do">고속버스
+											운송회사</a></li>
+								</ul></li>
+							<li><a href="javascript:void(0)">고객지원</a>
+								<ul>
+									<li><a
+										href="/cscn/ntcmttr/readNtcList.do">공지사항</a></li>
+									<li><a
+										href="/cscn/qna/readQnaList.do">자주찾는
+											질문</a></li>
+									<li><a
+										href="/cscn/lossClnc/readLossClncList.do">유실물센터
+											안내</a></li>
+								</ul></li>
+						</ul>
+					</div>
+					<div class="links">
+						<!-- <a href="https://www.tmoney.co.kr" class="btn btn-tmoney" title="새창" target="_blank">
+					<img src="/images/kor/layout/ico-tmoney-app.png" alt="" />고속버스 티머니
+					<i class="ico ico-arrow-new-window"></i>
+				</a> -->
+
+						<a href="/cscn/jobmttr/readJobList.do"
+							class="btn btn-job" title="새창" target="_blank"> <img
+							src="/koBus/images/ico-job-offer.png" alt="">승무사원 모집 <i
+							class="ico ico-arrow-new-window"></i>
+						</a>
+					</div>
+					<div class="bg-layer">
+						<a
+							href="https://safeconnect.co.kr/sfconn/login/csc_pc?et=psn249R01&amp;ptrSvcSn=psn249"
+							title="새창" class="gnb-baaner"> <img
+							src="/koBus/images/003-GNB.png" alt="ID 찾을 필요 없이, 전화번호 로그인!">
+							<!-- <iframe src="/koBus/images/_ad-tubebox-002GNB.html" title="프레임 (전화번호안심 로그인)" class="ad-frame"></iframe> -->
+						</a>
+					</div>
+				</div>
+			</nav>
+		</header>
+		
+		<script>
 	$( function() {
 		$( ".main-input-box main_box" ).tabs();
 
@@ -83,31 +271,50 @@
 
 	} );
 	</script>
+	
+	
 
+		<script type="text/javascript" src="/koBus/js/MainNew.js"></script>
+		<script type="text/javascript" src="/koBus/js/Main.js"></script>
+		<script type="text/javascript" src="/koBus/js/left.js"></script>
 
-</script>
-<script type="text/javascript" src="/koBus/js/common/ui.js"></script>
-<script type="text/javascript" src="/koBus/js/common/plugin.js"></script>
-<script type="text/javascript" src="/koBus/js/common/common.js"></script>
+		<script type="text/javascript" src="/koBus/js/common/RotInfPup.js"></script>
+		<script type="text/javascript" src="/koBus/js/common/RotInf.js"></script>
+		<script type="text/javascript" src="/koBus/js/MrsCfmLgn.js"></script>
 
-<script type="text/javascript" src="/koBus/js/common/jquery.number.js"></script>
-<script type="text/javascript" src="/koBus/js/common/security.js"></script>
+		<!-- 20200617 yahan -->
+		<!-- <script type="text/javascript" src="/koBus/js/transkey.js"></script>
+<script type="text/javascript" src="/koBus/js/TranskeyLibPack_op.js"></script> -->
+		<script type="text/javascript" src="/koBus/js/rsa_oaep-min.js"></script>
+		<script type="text/javascript" src="/koBus/js/jsbn-min2.js"></script>
+		<script type="text/javascript" src="/koBus/js/typedarray.js"></script>
+		<!-- <script type="text/javascript" src="/koBus/js/transkeyServlet"></script>
+<script type="text/javascript" src="/koBus/js/transkeyServlet(1)"></script>
+<link rel="stylesheet" type="text/css" href="/koBus/js/transkey.css">  -->
+		<script>
+//	$(function(){ initTranskey('lgnFrm'); })
+// 	function setTranskey(obj, formId){
+// 		if(!$("#lgnTab").hasClass("on")){
+// 			return;
+// 		}
+// 		if ($('#hidfrmId').val() != formId){
+// 			initTranskey(formId);
+// 		}
+		
+// 		if ($(obj).attr('id') == 'card_number03' || $(obj).attr('id') == 'card_number04'){
+// 			if ($('#card_number01').val().length != 4 || $('#card_number02').val().length != 4){
+// 				$('#card_number01').focus();
+// 				alert('카드번호를 순서대로 입력해 주세요.');
+// 				return;
+// 			} 
+// 		}
+// 		setTimeout(function(){
+// 			tk.onKeyboard(obj);
+// 		}, 100);
+// 	}
+// </script>
 
-
-<link rel="stylesheet" type="text/css" href="/koBus/css/common/style.css">
-<script type="text/javascript" src="/koBus/js/common/new-kor-ui.js"></script>
-</head>
-
-
-
-<!-- [리뉴얼] 페이지 개별 스크립트 신규 정의함 -->
-
-
-<body class="main KO" style="">
-	<!-- [리뉴얼] 스킵 네비게이션 신규 정의 -->
-	<div class="pop_dimmed" style="display: none;"></div>
-	<div class="noti_pop_wrap" style="display: block;">
-
+		<!-- 출/도착지 선택 레이어팝업 -->
 
 		<!-- <div class="noti_pop type1" id="mainPopKO0" style="z-index: 950; left: 0px; top: 0px; display: none;">
 				<div class="pop_top">
@@ -392,8 +599,8 @@ $(document).ready(function () {
 								</ul></li>
 							<li><a href="javascript:void(0)">고객지원</a>
 								<ul>
-									<li><a
-										href="/cscn/ntcmttr/readNtcList.do">공지사항</a></li>
+									<li><a href="${pageContext.request.contextPath}/go_bus.do">공지사항</a>
+</li>
 									<li><a
 										href="/cscn/qna/readQnaList.do">자주찾는
 											질문</a></li>
@@ -468,7 +675,6 @@ $(document).ready(function () {
 // </script>
 
 		<!-- 출/도착지 선택 레이어팝업 -->
-
 
 		<form name="rotInfFrm" id="rotInfFrm" method="post"
 			action="/mrs/alcnSrch.do">
