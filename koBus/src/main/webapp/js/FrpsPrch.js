@@ -235,6 +235,7 @@ function fnFrpsDtl(){
 	    data 	 : frpsPrchFrm,
 	    dataType : "json",
 	    success  : function(arrList){	
+		console.log("🚀 Ajax 응답:", arrList);
 	    	var allDtlInfAllList  = []; // 부가상품 전체 리스트
 	    	var deprAll ="";
 	     	allDtlrLen = arrList.len;
@@ -251,7 +252,8 @@ function fnFrpsDtl(){
 	    		allDtlInfAllList[inx][8] = arrList.adtnDtlList[inx].adtnPrdSno;			//부가상품일련번호
 	    		allDtlInfAllList[inx][9] = arrList.adtnDtlList[inx].adtnDcYn;			//할인부가상품여부
 	    	}	
-	
+			
+
 	    	/*var weekItem = "";
 	    	var kindItem = "";
 	    	var gradeItem = "";
@@ -278,6 +280,8 @@ function fnFrpsDtl(){
 	        	var saleAlcnYn = "";
 	        	var itemNo = 1;
 	        	
+	        	console.log("🧩 이중배열 allDtlInfAllList:", allDtlInfAllList);
+	        	
 	        	for(var inx=0; inx < allDtlrLen ; inx++){
 	        		if(allDtlInfAllList[inx][7] == "Y"){
 	        			tmpAlcnYn = " / 임시";
@@ -300,10 +304,13 @@ function fnFrpsDtl(){
 	        		if ($("#frpsPrchGdEvent").val() == "Y" && allDtlInfAllList[inx][9] == "Y" ||
 	        			$("#frpsPrchGdEvent").val() != "Y" && allDtlInfAllList[inx][9] != "Y" 	) {
 	        			
+	        			console.log("➡️ 옵션 항목", inx, ":", txt);
+	        			
 	        			blockItem += "<option value="+allDtlInfAllList[inx][3]+"/"+allDtlInfAllList[inx][0]+"/"+allDtlInfAllList[inx][5]+"/"+allDtlInfAllList[inx][2]+"/"+allDtlInfAllList[inx][7]+"/"+allDtlInfAllList[inx][8]+">" + saleAlcnYn + allDtlInfAllList[inx][2] + "일권 / " + allDtlInfAllList[inx][1] + " / " + allDtlInfAllList[inx][6] + " / " + allDtlInfAllList[inx][4]+tmpAlcnYn+"</option>";
 	        		}
 	        	}
-	
+				console.log("📦 최종 드롭다운 HTML:", blockItem);
+
 	        	$("#selOption").html(blockItem);
 	        	$("#selOption").selectric();
 	    	}
@@ -334,8 +341,7 @@ function fnFrpsDtl(){
 	        		 * 20200601 yahan
 	        		 * 이벤트 일때는 할인권만 노출
 	        		 */
-	        		if ($("#frpsPrchGdEvent").val() == "Y" && allDtlInfAllList[inx][9] == "Y" ||
-	        			$("#frpsPrchGdEvent").val() != "Y" && allDtlInfAllList[inx][9] != "Y" 	) {
+	        		if (true) {
 	        			
 	        			var val = allDtlInfAllList[inx][3]+"/"+allDtlInfAllList[inx][0]+"/"+allDtlInfAllList[inx][5]+"/"+allDtlInfAllList[inx][2]+"/"+allDtlInfAllList[inx][7]+"/"+allDtlInfAllList[inx][8];
 	        			var txt = saleAlcnYn + allDtlInfAllList[inx][2] + "일권 / " + allDtlInfAllList[inx][1] + " / " + allDtlInfAllList[inx][6] + " / " + allDtlInfAllList[inx][4]+tmpAlcnYn;

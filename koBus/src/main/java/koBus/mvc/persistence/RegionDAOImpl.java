@@ -19,23 +19,49 @@ public class RegionDAOImpl implements RegionDAO {
     }
 
     @Override
-    public List<RegionDTO> selectBySidoCode(String sidoCode) {
-        List<RegionDTO> list = new ArrayList<>();
+    public List<RegionDTO> selectBySidoCode(int sidoCode) {
+    	//25.06.14
+        //List<RegionDTO> list = new ArrayList<>();
+    	List<RegionDTO> list = new ArrayList<>();
 
-        String sql = " SELECT * FROM region WHERE sidoCode = ? ";
+        String sql = "SELECT * FROM region WHERE sidoCode = ?";
+        
+        
 
         try {
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, sidoCode);  // 여기에서 사용자가 누른 버튼 값이 전달됨
-            rs = pstmt.executeQuery();
+            System.out.println(">>> [DAO] sidoCode 파라미터: " + sidoCode);
 
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, sidoCode); 
+            rs = pstmt.executeQuery();
+            
+            //25.06.14 ajh
             while (rs.next()) {
-                RegionDTO dto = new RegionDTO();
-                dto.setRegID(rs.getString("regID"));
-                dto.setRegName(rs.getString("regName"));
-                dto.setSidoCode(rs.getString("sidoCode"));
+                String regID = rs.getString("regID");
+                String regName = rs.getString("regName");
+                int sc = rs.getInt("sidoCode");
+
+                RegionDTO dto = new RegionDTO().builder()
+                        .regID(regID)
+                        .regName(regName)
+                        .sidoCode(sc)
+                        .build();
+
                 list.add(dto);
             }
+            
+            /* 25.06.14
+           while(rs.next()) {
+                
+                
+                dto.setRegID(rs.getString("regID"));
+                dto.setRegName(rs.getString("regName"));
+                dto.setSidoCode(rs.getInt("sidoCode"));
+                
+                
+            } 
+         */
+        System.out.println(">>> [DAO] 조회된 행 수: " + list.size());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,4 +72,5 @@ public class RegionDAOImpl implements RegionDAO {
 
         return list;
     }
+
 }

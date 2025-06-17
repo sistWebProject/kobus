@@ -1,6 +1,6 @@
 package koBus.mvc.domain;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +23,8 @@ public class SeatDTO {
 	private String seatType; 	/* 좌석 유형 */
 	private int seatFee; 		/* 좌석 요금 */
 	private String seatAble; 	/* 예매 유무 */
+
+
 	
 
 }

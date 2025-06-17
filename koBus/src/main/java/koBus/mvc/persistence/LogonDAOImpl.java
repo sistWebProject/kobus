@@ -44,12 +44,11 @@ public class LogonDAOImpl implements LogonDAO {
 	        this.pstmt.setString(2, inputPasswd.trim());
 	        
 	        this.rs = this.pstmt.executeQuery();
-	        
-	        System.out.println(rs.next()); // rs.next()가 false로 받아져옴 -> 오류해결할것
-	        
+	        	        
 	        if (this.rs.next()) {
 	            result = 1; 
-	        }	     
+	        }	
+	        System.out.println("result값 : " + result);
 	       
 	    } catch(SQLException e){
 	    	e.printStackTrace();
