@@ -3,6 +3,8 @@ package koBus.mvc.persistence;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +31,12 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 
 
 		try {
-			System.out.println(">>> [DAO] sidoCode 파라미터: " + sidoCode);
+			System.out.println("sidoCode " + sidoCode);
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, sidoCode); 
 			rs = pstmt.executeQuery();
 
-			//25.06.14 ajh
 			while (rs.next()) {
 				String regID = rs.getString("regID");
 				String regName = rs.getString("regName");
@@ -50,18 +51,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 				list.add(dto);
 			}
 
-			/* 25.06.14
-           while(rs.next()) {
-
-
-                dto.setRegID(rs.getString("regID"));
-                dto.setRegName(rs.getString("regName"));
-                dto.setSidoCode(rs.getInt("sidoCode"));
-
-
-            } 
-			 */
-			System.out.println(">>> [DAO] 조회된 행 수: " + list.size());
+			System.out.println("list.size() " + list.size());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -84,7 +74,6 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
-			//25.06.14 ajh
 			while (rs.next()) {
 				String regID = rs.getString("regID");
 				String regName = rs.getString("regName");
@@ -99,8 +88,6 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 				list.add(dto);
 			}
 
-			System.out.println(">>> [DAO] 조회된 행 수: " + list.size());
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -109,6 +96,92 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		}
 
 		return list;
+	}
+
+	@Override
+	public List<ScheduleDTO> searchBusSchedule(String deprId, String arrId) throws SQLException {
+		List<ScheduleDTO> schList = new ArrayList<>();
+		
+		System.out.println(deprId);
+		System.out.println(arrId);
+		
+		String sql = "SELECT "
+				+ " BS.BSHID, "
+				+ " BS.ROUID, "
+				+ " BS.BUSID,  "
+				+ " BS.DEPARTUREDATE, "
+				+ " C.COMNAME, "
+				+ " B.BUSGRADE, "
+				+ "	BS.DURMIN,	"	
+				+ " BS.ADULTFARE, "
+				+ " BS.STUFARE, "
+				+ " BS.CHILDFARE, "
+				+ " BS.ARRIVALDATE, "
+				+ " BS.REMAINSEATS,  "
+				+ " B.BUSSEATS  "
+				+ " FROM busschedule BS "
+				+ " JOIN BUS B ON BS.BUSID = B.BUSID "
+				+ " JOIN COMPANY C ON B.COMID = C.COMID "
+				+ " JOIN ROUTE R ON BS.ROUID = R.ROUID "
+				+ " JOIN arrival A ON A.ARRID = R.ARRID "
+				+ " JOIN departure D ON D.DEPID = R.DEPID "
+				+ " JOIN REGION RGD ON D.REGID = RGD.REGID  "
+				+ " JOIN REGION RGA ON A.REGID = RGA.REGID "
+				+ " WHERE RGD.REGID = ? AND RGA.REGID = ? ";
+		
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, deprId); 
+		pstmt.setString(2, arrId); 
+		rs = pstmt.executeQuery();
+		
+		System.out.println(sql);
+		
+		LocalDateTime departureDate;
+		String comName;            
+		String busGrade;           
+		int adultFare;           
+		int stuFare;             
+		int childFare;           
+		LocalDateTime arrivalDate;  
+		int durMin; 			
+		String bshId; 			
+		String busId; 			
+		int remainSeats; 		
+	    int busSeats;  
+	    
+	    if (rs.next()) {
+	    	departureDate = rs.getTimestamp("departureDate").toLocalDateTime();	
+			comName = rs.getString("comName");
+			busGrade = rs.getString("busGrade");
+			adultFare = rs.getInt("adultFare");
+			stuFare = rs.getInt("stuFare");
+			childFare = rs.getInt("childFare");
+			arrivalDate = rs.getTimestamp("arrivalDate").toLocalDateTime();	
+			durMin = rs.getInt("durMin");
+			bshId = rs.getString("bshId");
+			busId = rs.getString("busId");
+			remainSeats = rs.getInt("remainSeats");
+			busSeats = rs.getInt("busSeats");
+			
+			ScheduleDTO schDto = new ScheduleDTO().builder()
+					.departureDate(departureDate)
+					.comName(comName)
+					.busGrade(busGrade)
+					.adultFare(adultFare)
+					.stuFare(stuFare)
+					.childFare(childFare)
+					.arrivalDate(arrivalDate)
+					.durMin(durMin)
+					.bshId(bshId)
+					.busId(busId)
+					.remainSeats(remainSeats)
+					.busSeats(busSeats)
+					.build();
+			
+			schList.add(schDto);
+		}
+
+		return schList;
 	}
 
 }
