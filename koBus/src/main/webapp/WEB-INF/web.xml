@@ -42,11 +42,12 @@
       <servlet-name>default</servlet-name>
       <url-pattern>/images/*</url-pattern>
    </servlet-mapping>
-   
-   <servlet-mapping> <!-- 임시 김승효 -->
+
+   <servlet-mapping>
       <servlet-name>default</servlet-name>
       <url-pattern>/html/*</url-pattern>
    </servlet-mapping>
+
 
 
    <servlet>

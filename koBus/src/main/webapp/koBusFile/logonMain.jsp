@@ -94,22 +94,34 @@
 					</h1>
 					<nav class="util-menus">
 						<ul class="util-list">
-							<li><a class="login" href="/koBus/html/loginMain_cleaned_full.html">로그인</a></li>
-							<li><a href="/mbrs/mbrsjoin/mbrsJoin.do">회원가입</a></li>
-							<li><a href="/mbrs/mbrspage/myPageMain.do">마이페이지</a></li>
-							<li><a href="/mbrs/trprinqr/pymPtInqr.do">결제내역조회</a></li>
-							<li><a href="/etc/sitemap/SiteMap.do">사이트맵</a></li>
+
+							<c:choose>
+								<c:when test="${empty auth}">
+									<li><a class="login" href="/koBus/koBusFile/logonMain.jsp">로그인</a></li>
+									<li><a href="/koBus/koBusFile/joinMain.jsp">회원가입</a></li>
+								</c:when>
+								<c:otherwise>
+									<li>${auth} | </li> 
+									<li><a class="logout" href="/koBus/logOut.do">로그아웃</a></li>
+								</c:otherwise>
+							</c:choose>
+							<li><a
+								href="/koBus/koBusFile/logonMyPage.jsp">마이페이지</a></li>
+							<li><a
+								href="javascript:void(0);">결제내역조회</a></li>
+							<li><a href="javascript:void(0);">사이트맵</a></li>
 						</ul>
+
 						<div class="dropdown-wrap lang-select">
-							<a aria-expanded="false" class="btn-dropdown"
-								href="javascript:void(0)" title="언어선택"> <span class="text">한국어</span><i
+							<a href="javascript:void(0)" class="btn-dropdown" title="언어선택"
+								aria-expanded="false"> <span class="text">한국어</span><i
 								class="ico ico-arrow-down"></i></a>
 							<ul class="dropdown-list" style="display: none;">
-								<li class="selected"><a data-lang="KO"
-									href="javascript:void(0)" title="선택됨">한국어</a></li>
-								<li><a data-lang="EN" href="javascript:void(0)">English</a></li>
-								<li><a data-lang="CN" href="javascript:void(0)">中文</a></li>
-								<li><a data-lang="JP" href="javascript:void(0)">日本語</a></li>
+								<li class="selected"><a href="javascript:void(0)"
+									data-lang="KO" title="선택됨">한국어</a></li>
+								<li><a href="javascript:void(0)" data-lang="EN">English</a></li>
+								<li><a href="javascript:void(0)" data-lang="CN">中文</a></li>
+								<li><a href="javascript:void(0)" data-lang="JP">日本語</a></li>
 							</ul>
 						</div>
 					</nav>
@@ -244,9 +256,9 @@
 											type="submit">로그인</button>
 									</p>
 									<div class="box_searchId col2">
-										<a href="/koBus/mbrs/lgnSearch/idSearch/idSearch_cleaned.html"><span
+										<a href="/koBus/koBusFile/idSearch.jsp"><span
 											class="ico_searchId">아이디찾기</span></a> <a
-											href="/koBus/mbrs/lgnSearch/passwdSearch/passwdSearch_cleaned.html"><span
+											href="/koBus/koBusFile/passwdSearch.jsp"><span
 											class="ico_searchPW">비밀번호찾기</span></a>
 									</div>
 								</div>
@@ -269,7 +281,28 @@
 				</div>
 			</div>
 			
+			<!-- 로그아웃시 띄워주는 알림창 -->
+			<c:if test="${param.logout == 'ok'}">
+				<script>
+					alert("로그아웃이 완료되었습니다.");
+				</script>
+			</c:if>
+			
+			
 			<!-- 로그인정보 입력 제대로 안했을때 알림띄워주기 -->
+			<c:if test="${result == 0}">
+				<script>
+					alert("회원정보가 없습니다, 다시 로그인해 주세요.");
+				</script>
+			</c:if>
+			<!-- 로그인 완료시 문구 띄우기 -->
+			<%-- 
+			<c:if test="${result == 1}">
+				<script>
+					alert(${auth} + "님 로그인 완료되었습니다");
+				</script>
+			</c:if> 
+			--%>
 			<script>
 				$("#btn_confirm").on("click", function (event){
 					let logonId = $("#usrId").val();
@@ -278,7 +311,7 @@
 					if (logonId=="" || logonPasswd=="") {
 						alert("아이디와 비밀번호를 제대로 입력하세요");
 						event.preventDefault();
-					}
+					} 			
 				});
 			</script>
 

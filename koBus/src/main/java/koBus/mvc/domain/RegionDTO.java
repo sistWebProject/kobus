@@ -10,11 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 
-
 public class RegionDTO {
 	private String regID;
 	private String regName;
-	private String sidoCode;
+	private int sidoCode;
 }
 
 

@@ -1,6 +1,16 @@
 <%@ page trimDirectiveWhitespaces="true" language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- 뒤로가기 눌렀을때 로그인 풀리는거 방지 : 캐시 무효화 코드, 모든 jsp파일에 추가해야함 -->
+<%
+	String auth = (String) session.getAttribute("auth");
+%>
+<%
+    response.setHeader("Cache-Control","no-cache, no-store, must-revalidate"); // HTTP 1.1
+    response.setHeader("Pragma","no-cache"); // HTTP 1.0
+    response.setDateHeader ("Expires", 0); // Proxies
+%>
+
 <!DOCTYPE html>
 <!-- saved from url=(0031)/main.do -->
 <html lang="ko" class="pc">
@@ -292,12 +302,18 @@ $(document).ready(function () {
 					<nav class="util-menus">
 						<ul class="util-list">
 
-							<li><a href="/koBus/koBusFile/logonMain.jsp"
-								class="login">로그인</a></li>
+							<c:choose>
+								<c:when test="${empty auth}">
+									<li><a class="login" href="/koBus/koBusFile/logonMain.jsp">로그인</a></li>
+									<li><a href="/koBus/koBusFile/joinMain.jsp">회원가입</a></li>
+								</c:when>
+								<c:otherwise>
+									<li>${auth} | </li> 
+									<li><a class="logout" href="/koBus/logOut.do">로그아웃</a></li>
+								</c:otherwise>
+							</c:choose>
 							<li><a
-								href="javascript:void(0);">회원가입</a></li>
-							<li><a
-								href="javascript:void(0);">마이페이지</a></li>
+								href="/koBus/koBusFile/logonMyPage.jsp">마이페이지</a></li>
 							<li><a
 								href="javascript:void(0);">결제내역조회</a></li>
 							<li><a href="javascript:void(0);">사이트맵</a></li>
