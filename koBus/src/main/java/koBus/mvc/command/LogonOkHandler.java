@@ -44,7 +44,9 @@ public class LogonOkHandler implements CommandHandler {
 				session.setAttribute("result", dao.logonCheck(id, passwd));
 				location += "?logon=success";	
 				
-				System.out.println("location" + location);
+				System.out.println("location" + location); 
+				
+				// 로그인 성공 : 리다이렉트
 				response.sendRedirect(location);
 				return null;
 				
@@ -55,6 +57,7 @@ public class LogonOkHandler implements CommandHandler {
 				
 				System.out.println("location" + location);
 				
+				// 로그인 실패 : 포워딩
 				return location;
 			}
 		} catch (SQLException e) {
