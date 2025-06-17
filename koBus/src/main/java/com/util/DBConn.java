@@ -4,65 +4,64 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-// 싱글톤 (Singleton)
 public class DBConn {
 
-	private static Connection conn = null;
+    private static Connection conn = null;
 
-	private DBConn() {
+    private DBConn() {
+        // private 생성자 (싱글톤 보호용)
+    }
 
-	}
+    // 기본 연결
+    public static synchronized Connection getConnection() {
+        try {
+            if (conn == null || conn.isClosed()) {
+                String className = "oracle.jdbc.driver.OracleDriver";
+                String url = "jdbc:oracle:thin:@localhost:1521:xe";
+                String user = "KOBUS";
+                String password = "1234";
 
-	public static synchronized Connection getConnection() {
-		if (conn == null) {
+                Class.forName(className);
+                conn = DriverManager.getConnection(url, user, password);
+                System.out.println("✅ DBConn: 새로운 연결 생성됨");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("❌ DBConn 오류: " + e.getMessage());
+            e.printStackTrace();
+        }
 
-			String className = "oracle.jdbc.driver.OracleDriver";
-			String url = "jdbc:oracle:thin:@localhost:1521:xe";
-			String user = "KOBUS";
-			String password = "1234";
+        return conn;
+    }
 
-			try {
-				Class.forName(className);
-				conn = DriverManager.getConnection(url, user, password);
+    // 커스텀 연결
+    public static synchronized Connection getConnection(String url, String user, String password) {
+        try {
+            if (conn == null || conn.isClosed()) {
+                String className = "oracle.jdbc.driver.OracleDriver";
+                Class.forName(className);
+                conn = DriverManager.getConnection(url, user, password);
+                System.out.println("✅ DBConn: 사용자 정의 연결 생성됨");
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            System.out.println("❌ 사용자 정의 DBConn 오류: " + e.getMessage());
+            e.printStackTrace();
+        }
 
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return conn;
-	}
-	
-	public static void close() {
-		try {
-			if (conn != null || !conn.isClosed()) {
-				conn.close();				
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		conn = null; // close 하고 초기화 필수!!!!!!!!!!!!
-	}
-	
-	
-	public static synchronized Connection getConnection(String url, String user, String password) {
-		if (conn == null) {
+        return conn;
+    }
 
-			String className = "oracle.jdbc.driver.OracleDriver";
-
-			try {
-				Class.forName(className);
-				conn = DriverManager.getConnection(url, user, password);
-
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return conn;
-	}
+    // 연결 닫기
+    public static void close() {
+        try {
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
+                System.out.println("🛑 DBConn: 연결 종료됨");
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ DBConn 종료 오류: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            conn = null; // 반드시 초기화
+        }
+    }
 }

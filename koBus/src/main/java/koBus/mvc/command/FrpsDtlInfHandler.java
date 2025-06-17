@@ -1,54 +1,49 @@
 package koBus.mvc.command;
 
-import java.io.IOException;
 import java.io.PrintWriter;
-
-import javax.servlet.ServletException;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.JSONObject;
-import net.sf.json.JSONArray;
+import koBus.mvc.domain.FreePassOptionDTO;
+import koBus.mvc.persistence.FreePassOptionDAO;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class FrpsDtlInfHandler implements CommandHandler {
 
     @Override
-    public String process(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        FreePassOptionDAO dao = new FreePassOptionDAO();
+        List<FreePassOptionDTO> list = dao.selectAllOptions();
+
+        JSONObject result = new JSONObject();
+        JSONArray jsonList = new JSONArray();
+        System.out.println("== ÏòµÏÖò Í∞úÏàò: " + list.size());
+
+        for (FreePassOptionDTO dto : list) {
+        	System.out.println("== ÏòµÏÖò: " + dto.getAdtnPrdUseNtknNm());
+            JSONObject obj = new JSONObject();
+            obj.put("adtnPrdSno", dto.getAdtnPrdSno());
+            obj.put("adtnPrdUseClsCd", dto.getAdtnPrdUseClsCd());
+            obj.put("adtnPrdUseClsNm", dto.getAdtnPrdUseClsNm());
+            obj.put("adtnPrdUsePsbDno", dto.getAdtnPrdUsePsbDno());
+            obj.put("adtnPrdUseNtknCd", dto.getAdtnPrdUseNtknCd());
+            obj.put("adtnPrdUseNtknNm", dto.getAdtnPrdUseNtknNm());
+            obj.put("wkdWkeNtknCd", dto.getWkdWkeNtknCd());
+            obj.put("wkdWkeNtknNm", dto.getWkdWkeNtknNm());
+            obj.put("tempAlcnTissuPsbYn", dto.getTempAlcnTissuPsbYn());
+            obj.put("adtnDcYn", dto.getAdtnDcYn());
+            jsonList.put(obj);
+        }
+
+        result.put("adtnDtlList", jsonList);
+        result.put("len", list.size());
 
         response.setContentType("application/json; charset=UTF-8");
         PrintWriter out = response.getWriter();
-
-        JSONArray frpsArray = new JSONArray();
-
-        JSONObject frps1 = new JSONObject();
-        frps1.put("frpsDtlCd", "01");
-        frps1.put("frpsDtlNm", "¡÷¡ﬂ±«(ø˘~±›) 5¿œ±«");
-        frpsArray.add(frps1);
-
-        JSONObject frps2 = new JSONObject();
-        frps2.put("frpsDtlCd", "02");
-        frps2.put("frpsDtlNm", "∆Ú¿œ±«(ø˘~∏Ò) 4¿œ±«");
-        frpsArray.add(frps2);
-
-        JSONObject frps3 = new JSONObject();
-        frps3.put("frpsDtlCd", "03");
-        frps3.put("frpsDtlNm", "¡÷∏ª±«(≈‰~¿œ) 2¿œ±«");
-        frpsArray.add(frps3);
-
-        JSONObject frps4 = new JSONObject();
-        frps4.put("frpsDtlCd", "04");
-        frps4.put("frpsDtlNm", "¿œ¿œ±«(1¿œ±«)");
-        frpsArray.add(frps4);
-
-        // JSø°º≠ ±‚¥Î«œ¥¬ ±∏¡∂∑Œ ¿¿¥‰
-        JSONObject result = new JSONObject();
-        result.put("listCnt", frpsArray.size());
-        result.put("frpsDtlList", frpsArray);
-
         out.print(result.toString());
         out.flush();
 
-        return null;
+        return null;  // AJAX ÏùëÎãµÎßå ÌïòÍ≥† JSPÎ°ú Ïù¥ÎèôÌïòÏßÄ ÏïäÏùå
     }
 }
