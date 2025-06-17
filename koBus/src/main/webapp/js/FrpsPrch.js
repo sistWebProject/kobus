@@ -1,3 +1,5 @@
+console.log('FrpsPrch.js 파일이 정상적으로 실행됨');
+alert('FrpsPrch.js가 진짜 실행중!');
 var allDeprList       = []; // 출발지 리스트
 var allRotInfAllList  = []; // 노선 전체 리스트
 var allRotInfrLen     = 0;  // 노선 전체 데이터 건수
@@ -413,7 +415,7 @@ function fnSelPrdWeek(val){
 	//유효기간 가져오기
 	fnAdtnVldTerm();
 }
-/*
+
 //옵션 선택시  
 function fnSelOption(value){
 	var optVal = value; 
@@ -468,7 +470,7 @@ function fnSelOption(value){
 	$("#divTermDesc").css('display', 'block');
 		
 }
-*/
+
 function fnSelOption(value){
 	console.log("🔽 [fnSelOption] 선택된 value:", value);
 
@@ -1033,19 +1035,14 @@ function fnSetCardCd(listCnt,cardCdList){
 }
 
 function onSelectChange(obj, input_val, input_name){
-	console.log("🔥 onSelectChange 실행됨");
-    console.log("  - 선택된 input_name:", input_name);
-    console.log("  - 선택된 input_val:", input_val);
-    console.log("  - 선택된 텍스트:", $(obj).text());
+	console.log("onSelectChange 실행: input_name =", input_name);
 	$("#"+input_name).val(input_val);
 	dropdown_process(obj);
-	
 
 	if (input_name == 'selOption'){
-		console.log("✅ 선택된 텍스트:", $(obj).text());
 		$("#selOptionText").val($(obj).text());
 		fnSelOption(input_val);
-		fnAdtnVldTerm();
+		console.log("selOptionText 값:", $("#selOptionText").val());
 	}
 }
 
@@ -1125,7 +1122,7 @@ $(document).on("click", "#selOptionLi a", function () {
         console.error("❌ onSelectChange 함수가 로드되지 않았습니다.");
     }
 });
-
+/*
 $(document).on("click", "#selOptionLi a", function () {
 	console.log("✅ 드롭다운 클릭됨:", $(this).text());
 	let input_val = $(this).attr("onclick").match(/'(.*?)'/g)?.[0]?.replace(/'/g, '');
@@ -1140,3 +1137,4 @@ $(document).on("click", "#selOptionLi a", function () {
 		console.error("❌ onSelectChange 함수가 정의되지 않았습니다.");
 	}
 });
+*/
