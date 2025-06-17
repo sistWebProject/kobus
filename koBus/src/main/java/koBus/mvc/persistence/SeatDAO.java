@@ -3,6 +3,7 @@ package koBus.mvc.persistence;
 import java.sql.SQLException;
 import java.util.List;
 
+import koBus.mvc.domain.ScheduleDTO;
 import koBus.mvc.domain.SeatDTO;
 
 public interface SeatDAO {
@@ -11,4 +12,6 @@ public interface SeatDAO {
 	int getTotalSeats(String busId) throws SQLException;
 	
 	List<SeatDTO> searchSeat(String busId) throws SQLException;
+
+	
 }
