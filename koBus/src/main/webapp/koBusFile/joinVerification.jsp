@@ -227,31 +227,27 @@
 					<div class="noti_wrap taL">
 						<p class="noti">본인인증을 위한 휴대폰번호를 입력해주세요.</p>
 					</div>
-					<form method="post" name="askAuthNoForm">
+					<form method="get" name="askAuthNoForm">
 						<div class="border-box box_changeNum">
 							<div class="inner">
 								<div class="box_inputForm">
 									<label class="label" for="usrHp">휴대폰번호</label> <span
 										class="box_label"> <input class="input" id="usrHp"
 										name="usrHp" placeholder="휴대폰번호를 입력하세요" type="text" />
-									</span>
+									</span>		
 								</div>
 							</div>
 						</div>
 						<p class="btns col1">
-							<a class="btnL btn_confirm ready" href="#" id="btn_confirm">인증번호
-								발송</a>
+							<button type="submit" id="submitBtn"><a class="btnL btn_confirm ready" href="" id="btn_confirm">인증번호 발송</a></button>						
 							<!-- ready class 있음 -->
 						</p>
+						<br>
+						<div>
+							<p id="alert" style="text-align: center;"></p>
+						</div>
 					</form>
-					
-					<!-- 인증번호 발송 버튼 누르면 숨어있는 인증번호 입력하는 div태그 나오기 -->
-					<script>
-						$("#btn_confirm").on("click", function (){
-							$("#AuthNoFormId").show();
-						});
-					</script>
-					
+				
 					<!-- 인증번호 발송 후 -->
 					<div id="AuthNoFormId" style="display: none;">
 						<div class="border-box box_changeNum marT30">
@@ -275,9 +271,67 @@
 						<p class="btns col1">
 							<a class="btnL btn_confirm ready mobBlock" href="#">인증번호 재발송</a>
 							<a class="btnL btn_confirm ready" href="#" id="confirmBtn">확인</a>
+							<p id="numCheck" style="text-align: center;"></p>
 							<!-- ready class 있음 -->
 						</p>
 					</div>
+					
+					<!-- 인증번호 발송 버튼 누르면 숨어있는 인증번호 입력하는 div태그 나오기 -->
+					<!-- 전화번호 유효성 검사 완료후 인증번호 발송 누르면, 입력받은 휴대폰에 인증번호 보내기 -->
+					<script>
+						let CertificationOkCode = "";
+						$("#submitBtn").on("click", function (e){
+							e.preventDefault(); // a링크 태그 새로고침 방지
+							
+							let inputPhoneNum = $("#usrHp").val();
+							let phoneNum = inputPhoneNum.trim();
+							console.log("입력번호: " + phoneNum);
+							// 전화번호 유효성 검사 : '-' 없이 입력'
+							var regExp = /^01[0|1|6|7|8|9]-?\d{3,4}-?\d{4}$/; 
+							if (!regExp.test(inputPhoneNum)) {
+								$("#alert").text("올바른 전화번호를 입력해 주세요").css("color", "red");
+							}else{
+								let url = `/koBus/telCertificationNum.do?phoneNum=\${phoneNum}`;
+								$.ajax({
+									url: url,
+									type:"GET",
+									cache:false,
+									dataType:"text",
+									success : function (data){
+										if (data == "error") {
+											console.log("값을 제대로 가져오지 못하였습니다.");
+										} else {
+											console.log("success!!");
+											$("#alert").hide();
+											$("#AuthNoFormId").show(); 
+											CertificationOkCode = data;
+										}	
+									}	
+								});
+								console.log("인증번호: " + CertificationOkCode);
+							}
+						});
+					</script>
+					<script>
+						$("#confirmBtn").on("click", function (event){
+							event.preventDefault(); // a링크 새로고침 방지
+							
+							// 확인버튼을 눌렀을때 휴대폰으로 전송한 인증번호와 입력한 인증번호가 맞는지 확인하는 코딩작성.....
+							if($("#aouNo").val().length <= 0){
+								alert("인증번호를 입력해 주세요");
+								event.preventDefault();
+							}
+							else if($("#aouNo").val() === CertificationOkCode){
+								alert("확인이 완료되었습니다.")
+								location.href = "/koBus/koBusFile/joinEnterInfo.jsp";
+							}
+							else{
+								alert("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
+								event.preventDefault();
+							}
+						});
+					</script>
+					
 					<!-- //인증번호 발송 후 -->
 					<form name="hpAouIdForm">
 						<input class="input" id="hpAouId" name="hpAouId" type="hidden"
