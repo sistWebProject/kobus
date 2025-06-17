@@ -1886,7 +1886,7 @@ dl.desc_list dd {
 	position: absolute;
 	top: 0;
 	right: 0;
-	background: url(/images/kor/page/ico_search_s.png) center center
+	background: url(/koBus/media/ico_search.png) center center
 		no-repeat;
 	background-size: 22px 23px;
 	width: 45px;
@@ -1896,7 +1896,7 @@ dl.desc_list dd {
 }
 /* .pop_place .search_wrap .focus .btn { background: #fff url(/images/kor/page/ico_close.png) center center no-repeat; background-size: 15px auto; } */
 .pop_place .search_wrap .focus .btn {
-	background: #f3f4f6 url(/images/kor/page/ico_search_s.png) center center
+	background: #f3f4f6 url(/koBus/media/ico_search.png) center center
 		no-repeat;
 	background-size: 22px 23px;
 }
@@ -8969,7 +8969,7 @@ span.day-blue-color {
 }
 
 .search_wrap.type2 .search_box button {
-	background: var(- -bg-gray) url(/images/kor/page/ico_search_s.png)
+	background: var(- -bg-gray) url(/koBus/media/ico_search.png)
 		center center no-repeat;
 	width: 45px;
 	height: 38px;
@@ -12005,7 +12005,7 @@ figcaption {
 		margin-top: 0;
 	}
 	.pop_place .search_wrap .btn {
-		background-image: url(/images/kor/page/ico_search.png);
+		background-image: url(/koBus/media/ico_search.png);
 		background-size: 22px auto;
 	}
 	.pop_place .start_wrap, .pop_place .terminal_wrap, .pop_place  .search_wrap
@@ -14373,7 +14373,7 @@ figcaption {
 		position: absolute;
 		top: 0;
 		right: 0;
-		background-image: url(/images/kor/page/ico_search.png);
+		background-image: url(/koBus/media/ico_search.png);
 		background-size: 22px auto;
 	}
 	.search_wrap+.board_list {

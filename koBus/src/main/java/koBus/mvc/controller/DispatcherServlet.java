@@ -109,7 +109,7 @@ public class DispatcherServlet extends HttpServlet {
 		String view = null;
 		try {
 			view = handler.process(req, resp);
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
