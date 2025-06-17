@@ -43,6 +43,12 @@
       <url-pattern>/images/*</url-pattern>
    </servlet-mapping>
 
+   <servlet-mapping>
+      <servlet-name>default</servlet-name>
+      <url-pattern>/html/*</url-pattern>
+   </servlet-mapping>
+
+
 
    <servlet>
       <description>koBus MVC 패턴 서블릿</description>
