@@ -14,36 +14,46 @@ import koBus.mvc.persistence.RegionDAO;
 import koBus.mvc.persistence.RegionDAOImpl;
 
 public class RegionHandler implements CommandHandler {
-	
-	
+
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("> RegionHandler.process() ...");
-        
+
         Connection conn = null;
 
         String command = request.getRequestURI();
-        command = command.substring(request.getContextPath().length()); // /getTerminals.do or /region.do
-        System.out.println("command: " + command);  // ★ 확인
-        
-         int sidoCode = Integer.parseInt(request.getParameter("sidoCode")) ;
-        
-        
+        command = command.substring(request.getContextPath().length()); // /getTerminals.do
+        System.out.println("command: " + command);  // 확인용
 
-        try  {
-        	conn = DBConn.getConnection();
+        String sidoCodeStr = request.getParameter("sidoCode");
+        System.out.println(">>> [DAO] sidoCode 파라미터: " + sidoCodeStr);
+
+        try {
+            conn = DBConn.getConnection();
             RegionDAO dao = new RegionDAOImpl(conn);
-            
 
-            
-            // ✅ AJAX 비동기 요청 처리 (JSON 응답)
-            if (command.equals("/getTerminals.do") && sidoCode != 0) {
-                List<RegionDTO> list = dao.selectBySidoCode(sidoCode);
+            // ✅ AJAX 비동기 요청 처리
+            if (command.equals("/getTerminals.do") && sidoCodeStr != null) {
+                List<RegionDTO> list = null;
 
+                // sidoCode가 "all"이면 전체 조회, 아니면 숫자로 변환
+                if ("all".equalsIgnoreCase(sidoCodeStr)) {
+                    list = dao.selectAll();  // 전체 지역 조회
+                } else {
+                    try {
+                        int sidoCode = Integer.parseInt(sidoCodeStr);
+                        list = dao.selectBySidoCode(sidoCode);
+                    } catch (NumberFormatException e) {
+                        System.out.println("❌ 잘못된 sidoCode: " + sidoCodeStr);
+                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                        return null;
+                    }
+                }
+
+                // JSON 응답 구성
                 response.setContentType("application/json; charset=UTF-8");
                 PrintWriter out = response.getWriter();
 
-                // JSON 수동 생성
                 StringBuilder sb = new StringBuilder();
                 sb.append("[");
                 for (int i = 0; i < list.size(); i++) {
@@ -56,18 +66,16 @@ public class RegionHandler implements CommandHandler {
                     if (i < list.size() - 1) sb.append(",");
                 }
                 sb.append("]");
-                
-                System.out.println(">> JSON 결과: " + sb.toString());  // ✅ 최종 JSON 로그
 
+                System.out.println(">> JSON 결과: " + sb.toString());
                 out.print(sb.toString());
-                out.flush(); // ✅ 꼭 flush 필요
-
+                out.flush();
                 out.close();
-                return null; // JSON 응답만 하고 종료
-            }
-            
 
-            // ✅ JSP 페이지 포워딩용 기본 처리
+                return null;
+            }
+
+            // 기본 JSP 포워딩
             return "KOBUSreservation3.jsp";
 
         } catch (Exception e) {
