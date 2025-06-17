@@ -2869,7 +2869,7 @@ figcaption {position:absolute; left:-9999px; top:-9999px; width:0; height:0; fon
 	.pop_place .place .text { font-size: 22px;}
 	.pop_place .search_wrap { padding: 8px 8px 0;}
 	.pop_place .search_wrap p { margin-top: 0;}
-	.pop_place .search_wrap .btn { background-image: url(/koBus/images/kor/page/ico_search.png); background-size: 22px auto;}
+	.pop_place .search_wrap .btn { background-image: url(/koBus/media/ico_search.png); background-size: 22px auto;}
 	.pop_place .start_wrap, .pop_place .terminal_wrap, .pop_place  .search_wrap { margin-top: 8px; padding-top: 8px;}
 	.pop_place .btns .remodal-confirm { width: 100%;}
 	.pop_place .ternimal_box, .pop_place .area_scroll, .pop_place .terminal_scroll { height: 235px;}
@@ -3639,7 +3639,7 @@ figcaption {position:absolute; left:-9999px; top:-9999px; width:0; height:0; fon
 	.search_wrap.type2 { padding: 8px; border: none;}
 	.search_wrap.type2 .search_box { position: relative; width: 100%;}
 	.search_wrap.type2 .search_box input { width: 100%; padding-right: 45px; -moz-box-sizing: border-box; box-sizing: border-box;}
-	.search_wrap.type2 .search_box button { position: absolute; top: 0; right: 0; background-image: url(/koBus/images/kor/page/ico_search.png); background-size: 22px auto; }
+	.search_wrap.type2 .search_box button { position: absolute; top: 0; right: 0; background-image: url(/koBus/media/ico_search.png); background-size: 22px auto; }
 	.search_wrap + .board_list { margin-top: 0;}
 	.board_list li { display: block; position: relative; padding: 15px 15px 15px 60px;}
 	.board_list .cont span { display: none;}
