@@ -103,7 +103,7 @@ public class SeatDAOImpl implements SeatDAO{
 						seatAble(seatAble).build();
 				list.add(dto);
 				
-				System.out.printf("seatId : %s , seatNo : %d , busId : %s", seatId, seatNo, busId);
+//				System.out.printf("seatId : %s , seatNo : %d , busId : %s", seatId, seatNo, busId);
 				
 			} while (this.rs.next());
 		}

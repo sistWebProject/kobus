@@ -1647,7 +1647,7 @@ function fnUpdRot(){//노선조회로 이동
 		$("#arvlCd").val("170");
 	}
 		
-	$("#satsChcFrm").attr("action","/mrs/rotinf.do");
+	$("#satsChcFrm").attr("action","/koBus/kobusSeat.do");
 	$("#satsChcFrm").submit();
 }
 
@@ -1670,7 +1670,7 @@ function fnUpdAlcn(){//배차조회로 이동
 		$("#arvlCd").val("170");
 	}
 	
-	$("#satsChcFrm").attr("action","/mrs/alcnSrch.do");
+	$("#satsChcFrm").attr("action","/koBus/kobusSeat.do");
 	$("#satsChcFrm").submit();
 }
 
@@ -1678,6 +1678,7 @@ function fnUpdAlcn(){//배차조회로 이동
 
 function fnSatsChcCfm(e){
 	var cfmPrmmDcDvsCd = $("#prmmDcDvsCd").val();
+	
 	
 	try{e.preventDefault();}catch(e){}
 	fnSelSeatCnt();
@@ -1995,15 +1996,18 @@ function fnNonUsrMrs(){
 
 
 
-function fnSetPcpy(){
+/*function fnSetPcpy(){
 	var satsChcFrm = $("form[name=satsChcFrm]").serialize() ;
+	alert("전송할 데이터:" + satsChcFrm);
+	alert("MSG_CD:", setPcpyMap);
 	$.ajax({	
-        url      : "/mrs/setPcpy.ajax",
+        url      : "/koBus/setPcpy.ajax",
         type     : "post",
         data     : satsChcFrm,
         dataType : "json",
         async    : true,
         success  : function(setPcpyMap){
+				
         	if(setPcpyMap.MSG_CD =="ERR"){        		
         		fnFailPcpy("pcpy");
         	}else{
@@ -2059,7 +2063,7 @@ function fnSetPcpy(){
 	        				$("#arvlCd").val("170");
 	        			}
 	        			
-	        			$("#satsChcFrm").attr("action","/mrs/alcnSrch.do");
+	        			$("#satsChcFrm").attr("action","/koBus/kobusSeat.do");
 	        			$("#satsChcFrm").submit();
         			}else if($("#pathStep").val() == "2"){
         				var rtrpDt2 = $("#selSeatCnt").val() //입력매수,일반인할인매수,일반인,중고생,초등생,대학생 순으로','로 구분
@@ -2101,6 +2105,114 @@ function fnSetPcpy(){
         	}
         },
         error:function (e){
+			console.log("AJAX ERROR", e);
+			alert("에러 발생: " + JSON.stringify(e));
+        	fnFailPcpy("pcpy");        	
+        }
+	});
+}*/
+function fnSetPcpy(){
+	var satsChcFrm = $("form[name=satsChcFrm]").serialize() + "&ajax=true";
+	alert("전송할 데이터:" + satsChcFrm);
+	$.ajax({	
+        url      : "/koBus/setPcpy.ajax",
+        type     : "post",
+        data     : satsChcFrm,
+        dataType : "json",
+        async    : true,
+        success  : function(data){
+				console.log(data);
+        		//alert($("#pcpyNoAll").val());
+        		if($("#pathDvs").val() == "rtrp"){
+        			if($("#pathStep").val() == "1"){
+        				var rtrpDt1 = $("#selSeatCnt").val() //입력매수,일반인할인매수,일반인,중고생,초등생,대학생 순으로','로 구분
+	        			+":"+$("#selAdltDcCnt").val()  //일반인할인매수
+	        			+":"+$("#selAdltCnt").val()  //일반인
+	        			+":"+$("#selTeenCnt").val() //중고생
+	        			+":"+$("#selChldCnt").val() //초등생
+	        			+":"+$("#selUvsdCnt").val() //대학생
+	        			+":"+$("#selSncnCnt").val() //경로(권종추가-201906)
+	        			+":"+$("#selDsprCnt").val() //장애인(권종추가-201906)
+	        			+":"+$("#selVtr3Cnt").val() //보훈(권종추가-20210501)
+	        			+":"+$("#ctyPrmmDcYn").val() //시외후등형할인구분
+	        			+":"+$("#estmAmt").val() //예매금액
+	        			+":"+$("#dcAmt").val() //할인금액
+	        			+":"+$("#tissuAmt").val() //결제금액
+	        			+":"+$("#deprDt").val() //출발일
+	        			+":"+$("#deprTime").val() //출발시간
+	        			+":"+$("#indVBusClsCd").val() //버스등급
+	        			+":"+$("#cacmCd").val() //운수사코드
+	        			+":"+$("#prmmDcDvsCd").val() //시외우등형할인코드
+        				+":"+$("#agrmYn").val() //국민차장제 동의 여부 (180705)
+        				+":"+$("#selVtr5Cnt").val() //보훈(권종추가-20210501)
+        				+":"+$("#selVtr7Cnt").val() //보훈(권종추가-20210501)
+        				+":"+$("#selDfptCnt").val(); //후불(권종추가-20220722)
+        			
+	        			$("#pathStep").val("2");
+	        			$("#pcpyNoAll1").val($("#pcpyNoAll").val());
+	        			$("#satsNoAll1").val($("#satsNoAll").val());
+	        			$("#rtrpDtl1").val(rtrpDt1);
+	        			
+	        			// 세종시 터미널 코드 분리로 인한 예외처리 (352,358 중 대표코드 352 사용) 2018.02.22	        			
+	        			if($("#deprCd").val() == "358"){
+	        				$("#deprCd").val("352");
+	        			}
+	        			if($("#arvlCd").val() == "358"){
+	        				$("#arvlCd").val("352");
+	        			}
+	        			
+	        			// 의정부 터미널 코드 분리로 인한 예외처리 (170,173 중 대표코드 170 사용) yahan 2020-01-07
+	        			if($("#deprCd").val() == "173"){
+	        				$("#deprCd").val("170");
+	        			}
+	        			if($("#arvlCd").val() == "173"){
+	        				$("#arvlCd").val("170");
+	        			}
+	        			
+	        			$("#satsChcFrm").attr("action","/koBus/kobusSeat.do");
+	        			$("#satsChcFrm").submit();
+        			}else if($("#pathStep").val() == "2"){
+        				var rtrpDt2 = $("#selSeatCnt").val() //입력매수,일반인할인매수,일반인,중고생,초등생,대학생 순으로','로 구분
+	        			+":"+$("#selAdltDcCnt").val()  //일반인할인매수
+	        			+":"+$("#selAdltCnt").val()  //일반인
+	        			+":"+$("#selTeenCnt").val() //중고생
+	        			+":"+$("#selChldCnt").val() //초등생
+	        			+":"+$("#selUvsdCnt").val() //대학생
+	        			+":"+$("#selSncnCnt").val() //경로(권종추가-201906)
+	        			+":"+$("#selDsprCnt").val() //장애인(권종추가-201906)
+	        			+":"+$("#selVtr3Cnt").val() //보훈(권종추가-20210501)
+	        			+":"+$("#ctyPrmmDcYn").val() //시외후등형할인구분
+	        			+":"+$("#estmAmt").val() //예매금액
+	        			+":"+$("#dcAmt").val() //할인금액
+	        			+":"+$("#tissuAmt").val() //결제금액
+	        			+":"+$("#deprDt").val() //출발일
+	        			+":"+$("#deprTime").val() //출발시간
+	        			+":"+$("#indVBusClsCd").val() //버스등급
+	        			+":"+$("#cacmCd").val() //운수사코드
+	        			+":"+$("#prmmDcDvsCd").val() //시외우등형할인코드
+        				+":"+$("#agrmYn").val() //국민차장제 동의 여부 (180705)
+        				+":"+$("#selVtr5Cnt").val() //보훈(권종추가-20210501)
+        				+":"+$("#selVtr7Cnt").val() //보훈(권종추가-20210501)
+        				+":"+$("#selDfptCnt").val(); //후불(권종추가-20220722)
+        				
+        				$("#satsNoAll2").val($("#satsNoAll").val());
+        				$("#pcpyNoAll2").val($("#pcpyNoAll").val());
+        				$("#rtrpDtl2").val(rtrpDt2);
+        				fnLoginChk();
+        			}
+        		}else{
+					$('#extrComp').val("ARMY");
+        			if ($('#extrComp').val() == 'ARMY'){
+						// 비회원예매
+						fnNonUsrMrs();
+					} else{
+	        			fnLoginChk();
+					}
+        		}
+        },
+        error:function (e){
+			console.log("AJAX ERROR", e);
+			alert("에러 발생: " + JSON.stringify(e));
         	fnFailPcpy("pcpy");        	
         }
 	});

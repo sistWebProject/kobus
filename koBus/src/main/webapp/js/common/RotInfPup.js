@@ -15,7 +15,7 @@ var cmdType = ""; 		// 출,도착지 클릭 구분
 $(document).ready(function() {
 	var agent = fnUserAgent();
 	if(!($("#mainYn").val() == "Y" && agent == "mobile")){
-		getRotLinInf();
+		/*getRotLinInf();*/
 	}
 	
 	/*$("#popDeprChc").on("click",(function() {							// popup 화면에서 출발지 클릭시
@@ -43,7 +43,7 @@ $(document).ready(function() {
 });
 
 
-function getRotLinInf() {
+/*function getRotLinInf() {
 /*	// if (intRotLinInfCnt < 5) {
 	// 	intRotLinInfCnt++;
 	// 	$("#loading").show();
@@ -120,7 +120,37 @@ function getRotLinInf() {
 	// 	$("#loading").hide();
 	// 	intRotLinInfCnt = 0;
 	// 	alert("노선조회에 문제가 있습니다. 잠시후 다시 시도해주시기 바랍니다.");
-	// }*/
+	// }
+}*/
+
+
+function getRotLinInf(regionCode) {
+	$.ajax({
+		url : "/koBus/readRotLinInf.ajax",
+		type:"post",
+		dataType:"json",
+		data: {
+			  ajax: true,
+			  regionCode: regionCode
+			},
+		success: function(data) {
+			const listHtml = data.map(region => {
+				const sidoCode = region.sidoCode;     // 역 코드
+				const regName = region.regName;   // 역 이름
+				return `<li>
+					<button type="button" onclick="fnDeprChc('${sidoCode}', '${regName}');">
+						${regName}
+					</button>
+				</li>`;
+			}).join("");
+			
+			$("#tableTrmList").html(listHtml);
+		},
+		error: function() {
+			alert("역 정보를 불러오는데 실패했습니다");
+		}
+		
+	});
 }
 
 

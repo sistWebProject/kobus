@@ -12,7 +12,7 @@
 	String deprName = "서울 경부";
 	String deprCode = "11";
 	String arrvName = "속초";
-	String arrvCode = "11";
+	String arrvCode = "45";
 	int takeTime = 130;
 	int distance = 225;
 	String company = "(주)동부고속";
