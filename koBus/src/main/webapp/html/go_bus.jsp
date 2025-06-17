@@ -185,7 +185,7 @@ body {
 	align-items: center;
 	padding: 12px 16px;
 	border-bottom: 1px solid #333;
-	color: #fff;
+	/* color: #fff; */
 }
 
 .notice-icon {
@@ -197,7 +197,7 @@ body {
 .notice-title {
 	flex: 1;
 	text-decoration: none;
-	color: #fff;
+/* 	color: #fff; */
 	font-weight: 500;
 }
 
@@ -449,6 +449,7 @@ table#main tbody tr td:nth-child(4) span.upper-stock {
 	text-decoration: none;
 }
 </style>
+
 </head>
 
 <!-- 타이틀 -->
