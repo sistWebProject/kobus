@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.util.ConnectionProvider;
 
-import koBus.mvc.domain.RegionDTO2;
-import koBus.mvc.persistence.RegionDAO2;
-import koBus.mvc.persistence.RegionDAOImpl2;
+import koBus.mvc.domain.ScheduleDTO;
+import koBus.mvc.persistence.ScheduleDAO;
+import koBus.mvc.persistence.ScheduleDAOImpl;
 
 
-public class StationHandler implements CommandHandler {
+public class ScheduleHandler implements CommandHandler {
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -28,11 +28,11 @@ public class StationHandler implements CommandHandler {
 
 		String regionCode = request.getParameter("regionCode");
 		int sidoCode = 11;
-		List<RegionDTO2> regionList = null;
+		List<ScheduleDTO> regionList = null;
 
 		
 		try(Connection conn = ConnectionProvider.getConnection();){
-			RegionDAO2 dao = new RegionDAOImpl2(conn);
+			ScheduleDAO dao = new ScheduleDAOImpl(conn);
 			
 			if (regionCode == null || regionCode.trim().isEmpty() || 
 					regionCode.equalsIgnoreCase("null") || 

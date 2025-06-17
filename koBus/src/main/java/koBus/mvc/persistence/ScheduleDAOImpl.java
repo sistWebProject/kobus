@@ -6,23 +6,23 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import koBus.mvc.domain.RegionDTO2;
+import koBus.mvc.domain.ScheduleDTO;
 
-public class RegionDAOImpl2 implements RegionDAO2 {
+public class ScheduleDAOImpl implements ScheduleDAO {
 
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
 
-	public RegionDAOImpl2(Connection conn) {
+	public ScheduleDAOImpl(Connection conn) {
 		this.conn = conn;
 	}
 
 	@Override
-	public List<RegionDTO2> selectBySidoCode(int sidoCode) {
+	public List<ScheduleDTO> selectBySidoCode(int sidoCode) {
 		//25.06.14
 		//List<RegionDTO> list = new ArrayList<>();
-		List<RegionDTO2> list = new ArrayList<>();
+		List<ScheduleDTO> list = new ArrayList<>();
 
 		String sql = "SELECT * FROM region WHERE sidoCode = ?";
 
@@ -41,7 +41,7 @@ public class RegionDAOImpl2 implements RegionDAO2 {
 				String regName = rs.getString("regName");
 				int sc = rs.getInt("sidoCode");
 
-				RegionDTO2 dto = new RegionDTO2().builder()
+				ScheduleDTO dto = new ScheduleDTO().builder()
 						.regID(regID)
 						.regName(regName)
 						.sidoCode(sc)
@@ -74,8 +74,8 @@ public class RegionDAOImpl2 implements RegionDAO2 {
 	}
 
 	@Override
-	public List<RegionDTO2> selectByRegion() {
-		List<RegionDTO2> list = new ArrayList<>();
+	public List<ScheduleDTO> selectByRegion() {
+		List<ScheduleDTO> list = new ArrayList<>();
 
 		String sql = "SELECT * FROM region ";
 
@@ -90,7 +90,7 @@ public class RegionDAOImpl2 implements RegionDAO2 {
 				String regName = rs.getString("regName");
 				int sc = rs.getInt("sidoCode");
 
-				RegionDTO2 dto = new RegionDTO2().builder()
+				ScheduleDTO dto = new ScheduleDTO().builder()
 						.regID(regID)
 						.regName(regName)
 						.sidoCode(sc)
