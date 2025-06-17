@@ -870,8 +870,7 @@ $(document).ready(function () {
 								
 							</ul>
 							<ul class="date">
-							<!-- temp -->
-		<a href="list.do?sidoCode=11">list</a>
+							
 								<li>
 									<div class="date_picker_wrap">
 										<span class="name">가는날</span>
@@ -1411,7 +1410,7 @@ $(document).ready(function () {
 										let html = "";
 										terminals
 												.forEach(function(t) {
-													html += `<li><button type="button" onclick="fnDeprChc('${t.regID}', '${t.regName}')">\${t.regName}</button></li>`;
+													html += `<li><button type="button" onclick="fnDeprChc('\${t.regID}', '\${t.regName}')">\${t.regName}</button></li>`;
 												});
 										$("#tableTrmList").html(html);
 									},
@@ -1422,15 +1421,72 @@ $(document).ready(function () {
 								});
 					}
 
-					function fnDeprChc(deprCd, deprNm) {
+					function fnDeprChc(regID, regName) {
 						// 이 함수는 출발지 선택 시 동작하는 사용자 정의 함수
 						// 이후 로직은 기존 예약 폼에 맞게 조정
 						
-						console.log("선택된 터미널:", deprCd, deprNm);
-						$("#popDeprNmSpn").text(deprNm);
-						// 필요시 다른 input 요소에 값 설정도 추가하세요
+						console.log("선택된 터미널:", regID, regName);
+						
+						$("#popDeprNmSpn").text(regName);
+						
+						
+						$("#cfmBtn").removeAttr("disabled").addClass("active");
+						$("#cfmBtn").css("background-color", "#003087"); // 파란색 버튼처럼
+						$("#cfmBtn").css("color", "#fff");
+						
+						$("#deprCd").val(regID);
+						
+						
+						
+	
+						
 					}
+					
+					function fnArvlViewList(sidoCode) {
+						console.log("fnArvlViewList 실행됨: ", sidoCode);
+						$.ajax({
+							url: "<%=request.getContextPath()%>/getTerminals.do",
+							method: "GET",
+							data: {
+								sidoCode: sidoCode
+							},
+							dataType: "json",
+							success: function(terminals) {
+								console.log("도착지 terminals 받아옴:", terminals);
+
+								let html = "";
+								terminals.forEach(function(t) {
+									html += `<li><button type="button" onclick="fnArvlChc('${t.regID}', '${t.regName}')">${t.regName}</button></li>`;
+								});
+								$("#tableTrmList").html(html); // 터미널 리스트 위치 조정 필요시 id 변경
+							},
+							error: function(status, error) {
+								alert("도착지 터미널 목록을 불러오지 못했습니다.");
+								console.log("AJAX 실패:", status, error);
+							}
+						});
+					}
+
+					function fnArvlChc(regID, regName) {
+						// 도착지 선택 시 동작하는 함수
+						console.log("선택된 도착지:", regID, regName);
+
+						$("#popArvlNmSpn").text(regName);  // 도착지 이름 표시
+						$("#arvlCd").val(regID);           // form에 숨겨진 도착지 값 설정
+
+						// 버튼 UI 활성화
+						$("#cfmBtn").removeAttr("disabled").addClass("active");
+						$("#cfmBtn").css("background-color", "#003087");
+						$("#cfmBtn").css("color", "#fff");
+					}
+
+					
+					
 				</script>
+				
+				
+				
+				
 
 
 				<div class="place"> <!-- focus -->
