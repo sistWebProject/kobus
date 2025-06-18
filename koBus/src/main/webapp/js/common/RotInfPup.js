@@ -131,14 +131,15 @@ function getRotLinInf(regionCode) {
 		dataType:"json",
 		data: {
 			  ajax: true,
-			  regionCode: regionCode
+			  regionCode: regionCode,
+			  ajaxType:"getStationName"
 			},
 		success: function(data) {
 			const listHtml = data.map(region => {
-				const sidoCode = region.sidoCode;     // 역 코드
+				const regId = region.regID;     // 역 코드
 				const regName = region.regName;   // 역 이름
 				return `<li>
-					<button type="button" onclick="fnDeprChc('${sidoCode}', '${regName}');">
+					<button type="button" onclick="fnDeprChc('${regId}', '${regName}');">
 						${regName}
 					</button>
 				</li>`;

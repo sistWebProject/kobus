@@ -29,6 +29,8 @@ public class SeatHandler implements CommandHandler {
 		String deprId = "REG010";
 		String arrId = "REG001";
 	    String busId = "BUS001";
+	    String deprDtm = "20250618";
+	    String busClsCd = "일반";
 	    int totalSeat = 0;
 	    List<SeatDTO> seatList = null;
 	    List<ScheduleDTO> busList = null;
@@ -41,7 +43,7 @@ public class SeatHandler implements CommandHandler {
 			
 			
 			totalSeat = dao.getTotalSeats(busId);
-			busList = schDAO.searchBusSchedule(deprId, arrId);
+			busList = schDAO.searchBusSchedule(deprId, arrId, deprDtm, busClsCd);
 			
 			System.out.println(busList);
 			

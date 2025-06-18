@@ -84,6 +84,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 						.regName(regName)
 						.sidoCode(sc)
 						.build();
+				
 
 				list.add(dto);
 			}
@@ -99,11 +100,10 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 	}
 
 	@Override
-	public List<ScheduleDTO> searchBusSchedule(String deprId, String arrId) throws SQLException {
+	public List<ScheduleDTO> searchBusSchedule(String deprId, String arrId, String deprDtm, String busClsCd) throws SQLException {
 		List<ScheduleDTO> schList = new ArrayList<>();
 		
-		System.out.println(deprId);
-		System.out.println(arrId);
+		System.out.printf("deprId : %s, arrId : %s, deprDtm : %s, busClsCd :  %s\n", deprId, arrId, deprDtm, busClsCd);
 		
 		String sql = "SELECT "
 				+ " BS.BSHID, "
@@ -127,11 +127,15 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 				+ " JOIN departure D ON D.DEPID = R.DEPID "
 				+ " JOIN REGION RGD ON D.REGID = RGD.REGID  "
 				+ " JOIN REGION RGA ON A.REGID = RGA.REGID "
-				+ " WHERE RGD.REGID = ? AND RGA.REGID = ? ";
+				+ " WHERE RGD.REGID = ? AND RGA.REGID = ? "
+				+ " AND TRUNC(BS.DEPARTUREDATE) = TO_DATE( ? , 'YYYYMMDD') "
+				+ " AND B.BUSGRADE = ? ";
 		
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, deprId); 
 		pstmt.setString(2, arrId); 
+		pstmt.setString(3, deprDtm); 
+		pstmt.setString(4, busClsCd); 
 		rs = pstmt.executeQuery();
 		
 		System.out.println(sql);
@@ -149,39 +153,42 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		int remainSeats; 		
 	    int busSeats;  
 	    
-	    if (rs.next()) {
-	    	departureDate = rs.getTimestamp("departureDate").toLocalDateTime();	
-			comName = rs.getString("comName");
-			busGrade = rs.getString("busGrade");
-			adultFare = rs.getInt("adultFare");
-			stuFare = rs.getInt("stuFare");
-			childFare = rs.getInt("childFare");
-			arrivalDate = rs.getTimestamp("arrivalDate").toLocalDateTime();	
-			durMin = rs.getInt("durMin");
-			bshId = rs.getString("bshId");
-			busId = rs.getString("busId");
-			remainSeats = rs.getInt("remainSeats");
-			busSeats = rs.getInt("busSeats");
-			
-			ScheduleDTO schDto = new ScheduleDTO().builder()
-					.departureDate(departureDate)
-					.comName(comName)
-					.busGrade(busGrade)
-					.adultFare(adultFare)
-					.stuFare(stuFare)
-					.childFare(childFare)
-					.arrivalDate(arrivalDate)
-					.durMin(durMin)
-					.bshId(bshId)
-					.busId(busId)
-					.remainSeats(remainSeats)
-					.busSeats(busSeats)
-					.build();
-			
-			schList.add(schDto);
-		}
+	    	
+	    	while (rs.next()) {
+	    		departureDate = rs.getTimestamp("departureDate").toLocalDateTime();	
+				comName = rs.getString("comName");
+				busGrade = rs.getString("busGrade");
+				adultFare = rs.getInt("adultFare");
+				stuFare = rs.getInt("stuFare");
+				childFare = rs.getInt("childFare");
+				arrivalDate = rs.getTimestamp("arrivalDate").toLocalDateTime();	
+				durMin = rs.getInt("durMin");
+				bshId = rs.getString("bshId");
+				busId = rs.getString("busId");
+				remainSeats = rs.getInt("remainSeats");
+				busSeats = rs.getInt("busSeats");
+				
+				ScheduleDTO schDto = new ScheduleDTO().builder()
+						.departureDate(departureDate)
+						.comName(comName)
+						.busGrade(busGrade)
+						.adultFare(adultFare)
+						.stuFare(stuFare)
+						.childFare(childFare)
+						.arrivalDate(arrivalDate)
+						.durMin(durMin)
+						.bshId(bshId)
+						.busId(busId)
+						.remainSeats(remainSeats)
+						.busSeats(busSeats)
+						.build();
+				
+				schList.add(schDto);
+			}
+	    	
 
 		return schList;
 	}
+
 
 }
