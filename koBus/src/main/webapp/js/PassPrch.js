@@ -697,7 +697,7 @@ function fnSelOption(value){
 	fnAdtnVldTerm();
 	$("#divTermDesc").css('display', 'block');
 }
-
+/*
 function setTermParamsToForm() {
     // 1. 시작일 추출
     let dateStr = $("#datepickerView").text().trim(); // 예: "2025. 6. 18. 수"
@@ -731,12 +731,22 @@ function setTermParamsToForm() {
         $form.find("input[name='period']").val(period);
     }
 }
-
+*/
 
 //유효기간 가져오기
 function fnAdtnVldTerm(){
-	setTermParamsToForm();
+	// setTermParamsToForm();
 	var passPrchFrm = $("form[name=passPrchFrm]").serialize() ;
+	
+	// [2] 파라미터 유효성 체크 추가
+    var startDate = $("input[name='startDate']").val();
+    var period = $("input[name='period']").val();
+    if(!startDate || !period) {
+        console.log("[경고] ajax 호출 차단 - startDate, period 값 없음!", startDate, period);
+        // 필요하다면 alert("사용 시작일과 이용기간을 모두 선택해주세요!");
+        return;
+    }
+	
 	$.ajax({	
         url      : "/koBus/adtnprdnew/pass/readPassVldTerm.ajax",
         type	 : "post",
