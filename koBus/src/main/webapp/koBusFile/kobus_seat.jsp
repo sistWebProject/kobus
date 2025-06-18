@@ -12,11 +12,7 @@
 	String deprName = "서울 경부";
 	String deprCode = "11";
 	String arrvName = "속초";
-	String arrvCode = "11";
-	int takeTime = 130;
-	int distance = 225;
-	String company = "(주)동부고속";
-	String grade = "일반";
+	String arrvCode = "45";
 	LocalDate deprDate = LocalDate.of(2025, 6, 11);
 	LocalTime deprTime = LocalTime.of(7, 30);
 	
@@ -24,10 +20,6 @@
 	request.setAttribute("deprCode", deprCode);
 	request.setAttribute("arrvName", arrvName);
 	request.setAttribute("arrvCode", arrvCode);
-	request.setAttribute("takeTime", takeTime);
-	request.setAttribute("distance", distance);
-	request.setAttribute("company", company);
-	request.setAttribute("grade", grade);
 	
 	request.setAttribute("deprDate", deprDate);
 	request.setAttribute("deprTime", deprTime);
@@ -431,15 +423,14 @@ $(document).ready(function () {
 
 		feeList[tck+'_'+dc] = fee;
 	
-
-	console.log(feeList);
 </script>
 
 			<script type="text/javascript"
 				src="/koBus/js/SatsChc.js"></script>
-
+				
+			<c:set var="bus" value="${busList[0]}" />
 			<form name="satsChcFrm" id="satsChcFrm" method="post"
-				action="https://www.kobus.co.kr/mrs/satschc.do">
+				action="/koBus/kobusSeat.do">
 				<input type="hidden" name="deprCd" id="deprCd" value="${deprCode }">
 				<!-- 출발지코드 -->
 				<%-- <input type="hidden" name="deprCd" id="deprCd" value="${param.deprCode}"> --%>
@@ -474,7 +465,7 @@ $(document).ready(function () {
 				<!-- 오는날(왕복) -->
 				<input type="hidden" name="busClsCd" id="busClsCd" value="0">
 				<!-- 버스등급 -->
-				<input type="hidden" name="takeDrtmOrg" id="takeDrtmOrg" value="${takeTime }">
+				<input type="hidden" name="takeDrtmOrg" id="takeDrtmOrg" value="${bus.durMin }">
 				<!-- 소요시간 -->
 				<input type="hidden" name="distOrg" id="distOrg" value="${distance }">
 				<!-- 거리 -->
@@ -503,11 +494,11 @@ $(document).ready(function () {
 				<input type="hidden" name="arvlThruSeq" id="arvlThruSeq" value="4">
 				<!-- 도착경유순서 -->
 
-				<input type="hidden" name="adltFee" id="adltFee" value="31900">
+				<input type="hidden" name="adltFee" id="adltFee" value="${bus.adultFare }">
 				<!-- 일반금액 -->
-				<input type="hidden" name="chldFee" id="chldFee" value="16000">
+				<input type="hidden" name="chldFee" id="chldFee" value="${bus.childFare }">
 				<!-- 초등생금액 -->
-				<input type="hidden" name="teenFee" id="teenFee" value="25500">
+				<input type="hidden" name="teenFee" id="teenFee" value="${bus.stuFare }">
 				<!-- 중고생금액 -->
 				<input type="hidden" name="uvsdFee" id="uvsdFee" value="">
 				<!-- 대학생금액 -->
@@ -649,6 +640,19 @@ $(document).ready(function () {
 				<!-- 할인금액 -->
 				<input type="hidden" name="tissuAmt" id="tissuAmt" value="">
 				<!-- 결제금액 -->
+				
+				<input type="hidden" name="adltTotPrice" id="adltTotPrice" value="">
+				<!-- 일반금액 -->
+				
+				<input type="hidden" name="chldTotPrice" id="chldTotPrice" value="">
+				<!-- 중고생금액 -->
+				
+				<input type="hidden" name="teenTotPrice" id="teenTotPrice" value="">
+				<!-- 초등생금액 -->
+				
+				<input type="hidden" name="allTotAmtPrice" id="allTotAmtPrice" value="">
+				<!-- 결제금액 -->
+				
 
 				<input type="hidden" name="rtrpDtl1" id="rtrpDtl1" value="">
 				<!-- 왕복시 왕편데이터중 선점을 제외한 나머지 데이터 입력매수,일반인할인매수,일반인,중고생,초등생,대학생,시외우등형할인구분,예매금액,할인금액,결제금액,출발일,출발시간 순으로':'로 구분 -->
@@ -775,11 +779,11 @@ $(document).ready(function () {
 											<tbody>
 												<tr>
 													<th scope="row">고속사</th>
-													<td>${company }</td>
+													<td>${bus.comName }</td>
 												</tr>
 												<tr>
 													<th scope="row">등급</th>
-													<td>${grade }</td>
+													<td>${bus.busGrade }</td>
 												</tr>
 												<tr>
 													<th scope="row">출발</th>
@@ -878,7 +882,7 @@ $(document).ready(function () {
 										<div class="inner">
 											<div class="box_count">
 											
-												<span class="count_num">잔여 6석 / 전체 ${totalSeat}석</span> <span
+												<span class="count_num">잔여 ${bus.remainSeats}석 / 전체 ${bus.busSeats}석</span> <span
 													class="count_desc"> <span class="ico_square orange">여성/노약자
 														우선</span> <!-- 20200724 yahan 뒷좌석 할인 노출조건변경 -->
 												</span>
@@ -1049,12 +1053,25 @@ $(document).ready(function () {
 									<ul class="checkList">
 
 
-
-										<!-- 왕복이 아닐겨우 단체,사전,뒷좌석할인 적용  -->
-										<li><input type="radio" name="salesInfo" id="salesInfo_b"
-											onclick="fnCtyPrmmDC(&#39;b&#39;,this);" value="b"> <label
+										<!-- 오늘 요일(월=1, ... 일=7) 구하기 -->
+										<fmt:formatDate var="todayDay" value="${now}" pattern="u" />
+										
+										<c:choose>
+										  <c:when test="${todayDay == 6 || todayDay == 7}">
+										    <li><input type="radio" name="salesInfo" id="salesInfo_b"
+											onclick="fnCtyPrmmDC(b,this);" value="b"> <label
 											for="salesInfo_b">주말 할인<span class="price"
 												id="holiMrsDc">0원</span></label></li>
+										  </c:when>
+										  <c:otherwise>
+										    <li><input type="radio" name="salesInfo" id="salesInfo_a"
+											onclick="fnCtyPrmmDC(a,this);" value="a"> <label
+											for="salesInfo_a">주중 할인<span class="price"
+												id="dayMrsDc">0원</span></label></li>
+										  </c:otherwise>
+										</c:choose>
+										<!-- 왕복이 아닐겨우 단체,사전,뒷좌석할인 적용  -->
+										
 
 
 										<li style="font-size: 11px;">- 가장 높은 할인율이 자동 적용됩니다.

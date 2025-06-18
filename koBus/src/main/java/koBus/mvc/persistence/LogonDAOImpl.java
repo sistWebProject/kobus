@@ -59,5 +59,36 @@ public class LogonDAOImpl implements LogonDAO {
 	    
 	    return result;
 	}
+	
+	// 회원가입할때 아이디 중복확인하는 함수 입력값을 매개변수로 받아서 검색이되면 success, 검색이 안되면 fail을 넘겨줌
+	@Override
+	public String idDupCheck(String inputId) throws SQLException {
+		// 아이디 중복체크~~
+		String result="";
+		
+		String sql = "SELECT id FROM kobususer WHERE id = ? ";
+		
+		try {
+	        this.pstmt = conn.prepareStatement(sql);
+	        this.pstmt.setString(1, inputId.trim());
+	        
+	        this.rs = this.pstmt.executeQuery();
+	        	        
+	        if (this.rs.next()) {
+	            result = "success"; 
+	        }else {
+	        	result = "fail";
+	        }
+	        System.out.println("result값 : " + result);
+	       
+	    } catch(SQLException e){
+	    	e.printStackTrace();
+	    }finally {
+	        try { if (this.rs != null) this.rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+	        try { if (this.pstmt != null) this.pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+	    }
+	    
+		return result;
+	}
 
 }

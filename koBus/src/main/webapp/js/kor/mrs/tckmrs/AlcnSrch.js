@@ -387,7 +387,7 @@ function fnReturnReloadAjax(){
 
 
 function fnUpdRot(){
-	$("#alcnSrchFrm").attr("action","/mrs/rotinf.do");
+	$("#alcnSrchFrm").attr("action","/koBus/kobus_seat.do");
 	$("#alcnSrchFrm").submit();
 }
 
@@ -651,7 +651,7 @@ function fnSeatStaChk(alcnDeprTrmlNo, alcnArvlTrmlNo, prvtBbizEmpAcmtRt, chldSft
 	$("#dsprSatsYn").val(dsprSatsYn);
 	
 	// 20210430 yahan
-	$("#alcnSrchFrm").attr("action","/mrs/satschc.do");
+	$("#alcnSrchFrm").attr("action","/koBus/kobus_seat.do");
 	$("#alcnSrchFrm").submit();
 	return;
 	/*

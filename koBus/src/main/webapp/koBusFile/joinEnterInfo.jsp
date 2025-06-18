@@ -238,21 +238,26 @@
 							<div class="inner member-info-form">
 								<div class="box_inputForm" id="idDiv">
 									<label class="label" for="usrId">아이디</label>
-									<div class="box_label">
+									<div class="box_label" style="display: flex; align-items: center;">
 										<input class="input" id="usrId" name="usrId"
-											placeholder="이메일 주소를 입력하세요" type="text" />
+											placeholder="아이디를 입력하세요" type="text" style="flex: 1;" />
+										<button type="button" class="btn_check" id="idDupCheck" style="margin-left: 8px;">중복확인</button>
 									</div>
 									<span class="ico_complete" style="display: none;">가능</span>
 								</div>
+								<span class="noti_box" id="noti_box_idFail" style="display: none;">사용 불가한 아이디형식 입니다.</span>
+								<span class="noti_box" id="noti_box_idOk" style="display: none;">사용가능한 아이디형식 입니다.중복확인을 진행하세요.</span>
 								<div class="box_inputForm" id="pwdDiv">
 									<label class="label" for="usrPwd">비밀번호</label>
 									<div class="box_label">
 										<input class="input" data-tk-kbdtype="qwerty" id="usrPwd"
-											name="usrPwd" placeholder="영문, 숫자 8자리 이상" tabindex="-1"
+											name="usrPwd" placeholder="8~16자 이상" tabindex="-1"
 											type="password" />
 									</div>
 									<span class="ico_complete" style="display: none;">가능</span>
 								</div>
+								<span class="noti_box" id="noti_box_pwFail" style="display: none;">사용 불가한 비밀번호입니다.</span>
+								<span class="noti_box" id="noti_box_pwOk" style="display: none;">사용가능한 비밀번호입니다.</span>
 								<div class="box_inputForm" id="pwdCfmDiv">
 									<label class="label" for="pwdCfmCheck">비밀번호 확인</label>
 									<div class="box_label">
@@ -262,14 +267,18 @@
 									</div>
 									<span class="ico_complete" style="display: none;">가능</span>
 								</div>
+								<span class="noti_box" id="noti_box_rePwFail" style="display: none;">일치하지않습니다.</span>
+								<span class="noti_box" id="noti_box_rePwOk" style="display: none;">비밀번호가 일치합니다.</span>
 								<div class="box_inputForm" id="emiDiv">
 									<label class="label" for="emi">이메일</label>
 									<div class="box_label">
 										<input class="input" id="emi" name="emi"
-											placeholder="보조 이메일 주소를 입력하세요" type="text" />
+											placeholder="이메일 주소를 입력하세요" type="text" />
 									</div>
 									<span class="ico_complete" style="display: none;">가능</span>
 								</div>
+								<span class="noti_box" id="noti_box_emailFail" style="display: none;">올바른 형식의 이메일로 입력하세요.</span>
+								<span class="noti_box" id="noti_box_emailOk" style="display: none;">사용가능한 이메일입니다.</span>
 								<div class="box_inputForm click_box inselect">
 									<!-- 직접입력 선택시 display: none; 처리 -->
 									<strong class="label">출생년도</strong>
@@ -335,27 +344,150 @@
 						</p>
 						
 					</form>
-					
 					<script>
+						// 유효성검사 확인 변수
+						let isValidUserId = false; // 아이디 제대로 입력했는지
+						let isValidUserPasswd = false; // 비밀번호 제대로 입력했는지
+						let isValidUserCheckPasswd = false; // 비밀번호 재입력 제대로 했는지
+						let isValidUserEmail = false; // 이메일 제대로 입력했는지
+						let isValidUserBirth = false; // 출생년도 제대로 선택했는지
+						let isValidUserGender = false; // 성별 제대로 선택했는지
+						
+						// 아이디 유효성 검사 및 중복확인
+						$("#usrId").on("propertychange change keyup paste input", function (){
+							let inputUserId = $("#usrId").val();
+							let checkedId="";
+							var regExp = /^[0-9a-zA-Z]{4,10}$/; // 영문 + 숫자 4~10자리
+							if (!regExp.test(inputUserId)) {
+								$("#noti_box_idOk").hide();
+								$("#noti_box_idFail").show();
+								setTimeout(function() {
+								    $("#noti_box_idFail").hide();
+								}, 2000);
+								isValidUserId = false;
+							} else if(regExp.test(inputUserId)&&!isValidUserId) {
+								$("#noti_box_idFail").hide();
+								$("#noti_box_idOk").show();
+								setTimeout(function() {
+								    $("#noti_box_idOk").hide();
+								}, 2000);
+								isValidUserId = false;
+								
+								// 아이디값 중복확인 ajax
+								$("#idDupCheck").on("click", function (){
+									// console.log("보내주는 아이디: " + inputUserId);
+									let url = `/koBus/usrIdDupCheck.do?checkid=\${inputUserId}`;
+									console.log("ajax url : " + url);
+									$.ajax({
+										url:url,
+										type:"GET",
+										cache:false,
+										dataType:"text",
+										success : function (data){
+											if (data === "success") {
+												console.log("아이디값 존재");
+												$("#noti_box_idFail").text("아이디가 존재합니다 다른 아이디를 입력하세요.").show();
+												setTimeout(function() {
+												    $("#noti_box_idFail").hide();
+												}, 2000);
+												isValidUserId = false;
+											} else {
+												console.log("아이디 사용가능");
+												$("#noti_box_idOk").text("사용가능한 아이디입니다.").show();
+												setTimeout(function() {
+												    $("#noti_box_idOk").hide();
+												}, 2000);
+												isValidUserId = true;
+												checkedId = data;
+											}	
+										}	
+									});
+								});
+							}
+						});
+						
+						// 비밀번호 유효성 검사
+						$("#usrPwd").on("propertychange change keyup paste input", function (){
+							let checkPw = $("#usrPwd").val();
+							let regExp = /^[a-zA-Z\d`~!@#$%^&*()-_=+]{8,16}$/; // 비밀번호 8~16자
+							if (!regExp.test(checkPw)) {
+								$("#noti_box_pwFail").show();
+								setTimeout(function() {
+								    $("#noti_box_pwFail").hide();
+								}, 2000);
+								isValidUserPasswd = false;
+							} else {
+								$("#noti_box_pwFail").hide();
+								$("#noti_box_pwOk").show();
+								setTimeout(function() {
+								    $("#noti_box_pwOk").hide();
+								}, 2000);
+								isValidUserPasswd = true;
+							}
+						});
+						// 비밀번호 확인 동일한지 검사
+						$("#pwdCfmCheck").on("propertychange change keyup paste input", function (){
+							let checkRePw = $("#pwdCfmCheck").val();
+							if(checkRePw != $("#usrPwd").val()){
+								$("#noti_box_rePwFail").show();
+								setTimeout(function() {
+								    $("#noti_box_rePwFail").hide();
+								}, 2000);
+								isValidUserCheckPasswd = false;
+							} else {
+								$("#noti_box_rePwFail").hide();
+								$("#noti_box_rePwOk").show();
+								setTimeout(function() {
+								    $("#noti_box_rePwOk").hide();
+								}, 2000);
+								isValidUserCheckPasswd = true;
+							}
+						});
+						
+						// 이메일 유효성 검사
+						$("#emi").on("propertychange change keyup paste input", function(){
+							let checkEmail = $("#emi").val();
+							let regExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // 이메일 정규표현식
+							if (!regExp.test(checkEmail)) {
+								$("#noti_box_emailOk").hide();
+								$("#noti_box_emailFail").show();
+								setTimeout(function() {
+								    $("#noti_box_emailFail").hide();
+								}, 2000);
+								isValidUserEmail = false;
+							} else {
+								$("#noti_box_emailFail").hide();
+								$("#noti_box_emailOk").show();
+								isValidUserEmail = true;
+							}
+						});
+						
+						
+					</script>
+					<script>
+						// 출생년도 선택하는 함수
 						$(document).ready(function() {
 						  const currentYear = new Date().getFullYear();
 						  const endYear = currentYear - 120;
-						
+							
+						  // for문으로 현재년도 ~ 현재년도-120까지 동적으로 표시
 						  for (let year = currentYear; year >= endYear; year--) {
-						    $("#yearList").append(`<li><a href="#">${year}</a></li>`);
+						    $("#yearList").append(`<li><a href="#">\${year}</a></li>`);
 						  }
 						
 						  $(".btn-dropdown").on("click", function(e) {
-						    e.preventDefault();
-						    $(this).next(".dropdown-list").toggle();
+						    e.preventDefault(); // a태그 url : # 으로가는거 막는 코드
+						    $(this).next(".dropdown-list").toggle(); // 리스트 내리기
 						  });
-						
+							
+						  // 년도 선택한뒤 값 표시해주기
 						  $("#yearList").on("click", "li a", function(e) {
 						    e.preventDefault();
 						    const selectedYear = $(this).text();
-						    $(".btn-dropdown .text").text(selectedYear);
+						    $("#new-kor-content > div.content-body > div > form > div > div > div.box_inputForm.click_box.inselect > div > a .text").text(selectedYear);
 						    $("#ageYear").val(selectedYear);
 						    $(".dropdown-list").hide();
+						    isValidUserBirth = true;
 						  });
 						
 						  $(document).on("click", function(e) {
@@ -363,6 +495,17 @@
 						      $(".dropdown-list").hide();
 						    }
 						  });
+						});
+					</script>
+					<script>
+						// 성별선택하는 함수
+						$("input[name='s_Gender']").on("click", function () {
+						    let selectedText = $("label[for='" + this.id + "']").text();
+						    console.log("선택한 라벨 텍스트: " + selectedText);
+						    
+						    // text값 $("hpNo")의 val로 넘겨줄것.....
+						    $("hpNo").val(selectedText);
+						    console.log("넘겨주는값: " + $("hpNo").val());
 						});
 					</script>
 					
