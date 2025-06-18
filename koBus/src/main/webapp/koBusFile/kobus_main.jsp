@@ -1,5 +1,4 @@
-<%@ page trimDirectiveWhitespaces="true" language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -14,10 +13,8 @@
 
 <title>고속버스통합예매</title>
 
-<link rel="shortcut icon"
-	href="/images/favicon.ico">
-<link rel="stylesheet" type="text/css"
-	href="/koBus/css/common/ui.jqgrid.custom.css">
+<link rel="shortcut icon" href="/images/favicon.ico">
+<link rel="stylesheet" type="text/css" href="/koBus/css/common/ui.jqgrid.custom.css">
 <link rel="stylesheet"
 	href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -26,11 +23,21 @@
 <script type="text/javascript" src="/koBus/js/common/ui.js"></script>
 <script type="text/javascript" src="/koBus/js/common/plugin.js"></script>
 <script type="text/javascript" src="/koBus/js/common/common.js"></script>
-
 <script type="text/javascript" src="/koBus/js/common/jquery.number.js"></script>
 <script type="text/javascript" src="/koBus/js/common/security.js"></script>
 
+<link rel="stylesheet" type="text/css" href="/koBus/css/common/style.css">
+<script type="text/javascript" src="/koBus/js/common/new-kor-ui.js"></script>
 
+</head>
+
+<%@ include file="common/header.jsp" %>
+
+<script>
+	$(function () {
+		$(".main-input-box main_box").tabs();
+	});
+</script>
 
 <link rel="stylesheet" type="text/css" href="/koBus/css/common/style.css">
 <script type="text/javascript" src="/koBus/js/common/new-kor-ui.js"></script>
@@ -470,6 +477,7 @@ $(document).ready(function () {
 																			src="/koBus/images/ico_calender.png" alt="오는날 선택 달력">
 																	</button> -->
 																	<label for="datepicker2" class="text_date text_date2">2025. 6. 26. 목</label>
+
 																	<span class="date_wrap"> <a
 																		href="javascript:void(0)" id="arvlThddChc"
 																		class="active"

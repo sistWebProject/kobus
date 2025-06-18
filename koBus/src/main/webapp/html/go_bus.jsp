@@ -13,7 +13,7 @@ out.print(realPath);
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 <meta name="viewport"
 	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -174,8 +174,20 @@ out.print(realPath);
 	}
 </script>
 
-<!-- 작업 -->
 <style>
+.btn-wrap {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+}
+
+.btn {
+	padding: 6px 14px;
+	background: #114397;
+	color: white;
+	border-radius: 4px;
+	text-decoration: none;
+}
 body {
       font-family: 'Pretendard GOV Variable', sans-serif;
     }
@@ -185,7 +197,7 @@ body {
 	align-items: center;
 	padding: 12px 16px;
 	border-bottom: 1px solid #333;
-	color: #fff;
+	/* color: #fff; */
 }
 
 .notice-icon {
@@ -197,7 +209,7 @@ body {
 .notice-title {
 	flex: 1;
 	text-decoration: none;
-	color: #fff;
+/* 	color: #fff; */
 	font-weight: 500;
 }
 
@@ -207,8 +219,6 @@ body {
 	color: #aaa;
 	font-size: 14px;
 }
-</style>
-<style>
 * {
 	margin: 0;
 	padding: 0;
@@ -434,21 +444,7 @@ table#main tbody tr td:nth-child(4) span.upper-stock {
 	width: 0
 }
 </style>
-<style>
-.btn-wrap {
-	display: flex;
-	justify-content: flex-end;
-	gap: 10px;
-}
 
-.btn {
-	padding: 6px 14px;
-	background: #114397;
-	color: white;
-	border-radius: 4px;
-	text-decoration: none;
-}
-</style>
 </head>
 
 <!-- 타이틀 -->

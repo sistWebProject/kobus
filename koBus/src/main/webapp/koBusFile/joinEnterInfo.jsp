@@ -247,6 +247,8 @@
 								</div>
 								<span class="noti_box" id="noti_box_idFail" style="display: none;">사용 불가한 아이디형식 입니다.</span>
 								<span class="noti_box" id="noti_box_idOk" style="display: none;">사용가능한 아이디형식 입니다.중복확인을 진행하세요.</span>
+								<span class="noti_box" id="noti_box_idOkMsg" style="display: none;">사용가능한 아이디 입니다.</span>
+								<span class="noti_box" id="noti_box_idFailMsg" style="display: none;">사용이 불가한 아이디입니다, 다른 아이디를 입력하세요.</span>
 								<div class="box_inputForm" id="pwdDiv">
 									<label class="label" for="usrPwd">비밀번호</label>
 									<div class="box_label">
@@ -352,58 +354,72 @@
 						let isValidUserEmail = false; // 이메일 제대로 입력했는지
 						let isValidUserBirth = false; // 출생년도 제대로 선택했는지
 						let isValidUserGender = false; // 성별 제대로 선택했는지
+						let isValidUserAgree = false; // 개인정보 수집 및 이용동의 선택했는지
+						
+						
+						let checkedId="";
 						
 						// 아이디 유효성 검사 및 중복확인
 						$("#usrId").on("propertychange change keyup paste input", function (){
+							const currentVal = $(this).val();
+						    const regExp = /^[0-9a-zA-Z]{4,10}$/; // 영문 + 숫자 4~10자리
+
+						    if (!regExp.test(currentVal)) {
+						        $("#noti_box_idOk").hide();
+						        $("#noti_box_idFail").show();
+						        setTimeout(function () {
+						            $("#noti_box_idFail").hide();
+						        }, 2000);
+						        isValidUserId = false;
+						    } else {
+						        $("#noti_box_idFail").hide();
+						        $("#noti_box_idOk").show();
+						        setTimeout(function () {
+						            $("#noti_box_idOk").hide();
+						        }, 2000);
+						        
+						     // 이전에 중복확인했던 아이디와 현재 입력값이 다르면 다시 중복확인해야 함
+						        if (currentVal !== checkedId) {
+						            isValidUserId = false;
+						        }
+						    }
+						        
+						});
+						
+						// 아이디값 중복확인 ajax
+						$("#idDupCheck").on("click", function (){
 							let inputUserId = $("#usrId").val();
-							let checkedId="";
-							var regExp = /^[0-9a-zA-Z]{4,10}$/; // 영문 + 숫자 4~10자리
-							if (!regExp.test(inputUserId)) {
-								$("#noti_box_idOk").hide();
-								$("#noti_box_idFail").show();
-								setTimeout(function() {
-								    $("#noti_box_idFail").hide();
-								}, 2000);
-								isValidUserId = false;
-							} else if(regExp.test(inputUserId)&&!isValidUserId) {
-								$("#noti_box_idFail").hide();
-								$("#noti_box_idOk").show();
-								setTimeout(function() {
-								    $("#noti_box_idOk").hide();
-								}, 2000);
-								isValidUserId = false;
-								
-								// 아이디값 중복확인 ajax
-								$("#idDupCheck").on("click", function (){
-									// console.log("보내주는 아이디: " + inputUserId);
-									let url = `/koBus/usrIdDupCheck.do?checkid=\${inputUserId}`;
-									console.log("ajax url : " + url);
-									$.ajax({
-										url:url,
-										type:"GET",
-										cache:false,
-										dataType:"text",
-										success : function (data){
-											if (data === "success") {
-												console.log("아이디값 존재");
-												$("#noti_box_idFail").text("아이디가 존재합니다 다른 아이디를 입력하세요.").show();
-												setTimeout(function() {
-												    $("#noti_box_idFail").hide();
-												}, 2000);
-												isValidUserId = false;
-											} else {
-												console.log("아이디 사용가능");
-												$("#noti_box_idOk").text("사용가능한 아이디입니다.").show();
-												setTimeout(function() {
-												    $("#noti_box_idOk").hide();
-												}, 2000);
-												isValidUserId = true;
-												checkedId = data;
-											}	
-										}	
-									});
-								});
+							let url = `/koBus/usrIdDupCheck.do?checkid=\${inputUserId}`;
+							console.log("ajax url : " + url);
+							$.ajax({
+								url:url,
+								type:"GET",
+								cache:false,
+								dataType:"text",
+								success : function (data){
+									if (data === "success") {
+										console.log("아이디값 존재");
+										alert("사용이 불가한 아이디입니다, 다른 아이디를 입력하세요.")
+										$("#noti_box_idFailMsg").show();
+										setTimeout(function() {
+										    $("#noti_box_idFailMsg").hide();
+										}, 2000);
+										isValidUserId = false;
+									} else {
+										console.log("아이디 사용가능");
+										alert("사용가능한 아이디 입니다.");
+										$("#noti_box_idOkMsg").show();
+										setTimeout(function() {
+										    $("#noti_box_idOkMsg").hide();
+										}, 2000);
+										isValidUserId = true;
+										checkedId = inputUserId;
+									}	
+								},
+							error : function(){
+								alert("AJAX 오류발생");
 							}
+							});
 						});
 						
 						// 비밀번호 유효성 검사
@@ -487,6 +503,7 @@
 						    $("#new-kor-content > div.content-body > div > form > div > div > div.box_inputForm.click_box.inselect > div > a .text").text(selectedYear);
 						    $("#ageYear").val(selectedYear);
 						    $(".dropdown-list").hide();
+						    console.log("선택한 년도 : " + $("#ageYear").val());
 						    isValidUserBirth = true;
 						  });
 						
@@ -504,9 +521,36 @@
 						    console.log("선택한 라벨 텍스트: " + selectedText);
 						    
 						    // text값 $("hpNo")의 val로 넘겨줄것.....
-						    $("hpNo").val(selectedText);
-						    console.log("넘겨주는값: " + $("hpNo").val());
+						    $("#hpNo").val(selectedText);
+						    console.log("넘겨주는값: " + $("#hpNo").val());
+						    isValidUserGender = true; 
 						});
+					</script>
+					<script>
+						// 이용동의 클릭 함수
+						$("#agree1").on("click", function(){
+							alert("동의완료 되었습니다.");
+							isValidUserAgree = true;
+						});
+					</script>
+					<script>
+						// 회원가입 버튼 누르는 함수
+						$("#joinBtn").on("click", function(){
+							if (
+								isValidUserId === true&&
+								isValidUserPasswd === true&&
+								isValidUserCheckPasswd === true&&
+								isValidUserEmail === true&&
+								isValidUserBirth === true&&
+								isValidUserGender === true
+							) {
+								alert("회원가입이 완료되었습니다.");
+								// submit 시켜주는 코드 입력, form 액션태그에 .do매핑한 url적기
+							} else {
+								alert("값을 모두 제대로 입력해주세요.");
+							}
+						})
+						
 					</script>
 					
 					<ul class="desc_list">
