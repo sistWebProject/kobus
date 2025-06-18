@@ -24,18 +24,20 @@ public class RegionDAOImpl implements RegionDAO {
         //List<RegionDTO> list = new ArrayList<>();
     	List<RegionDTO> list = new ArrayList<>();
 
+    	
         String sql = "SELECT * FROM region WHERE sidoCode = ?";
         
         
 
         try {
             System.out.println(">>> [DAO] sidoCode 파라미터: " + sidoCode);
-
+            
+            
             pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, sidoCode); 
             rs = pstmt.executeQuery();
             
-            //25.06.14 ajh
+            
             while (rs.next()) {
                 String regID = rs.getString("regID");
                 String regName = rs.getString("regName");
@@ -50,7 +52,7 @@ public class RegionDAOImpl implements RegionDAO {
                 list.add(dto);
             }
             
-            /* 25.06.14
+            /* 25.06.15
            while(rs.next()) {
                 
                 
@@ -63,6 +65,35 @@ public class RegionDAOImpl implements RegionDAO {
          */
         System.out.println(">>> [DAO] 조회된 행 수: " + list.size());
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try { if (rs != null) rs.close(); } catch (Exception e) {}
+            try { if (pstmt != null) pstmt.close(); } catch (Exception e) {}
+        }
+
+        return list;
+    }
+    
+    @Override
+    public List<RegionDTO> selectAll() {
+        List<RegionDTO> list = new ArrayList<>();
+        String sql = "SELECT * FROM region ORDER BY regName ASC";
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                RegionDTO dto = RegionDTO.builder()
+                        .regID(rs.getString("regID"))
+                        .regName(rs.getString("regName"))
+                        .sidoCode(rs.getInt("sidoCode"))
+                        .build();
+                list.add(dto);
+            }
+
+            System.out.println(">>> [DAO] 전체 지역 조회된 행 수: " + list.size());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

@@ -112,7 +112,9 @@ $(document).ready(function() {
 		lngCdCookie = lngCd;
 		//document.location.reload();
 		location.href = "/main.do";
-	}); 
+	});
+	
+	
 });
 
 
@@ -870,8 +872,7 @@ $(document).ready(function () {
 								
 							</ul>
 							<ul class="date">
-							<!-- temp -->
-		<a href="list.do?sidoCode=11">list</a>
+							
 								<li>
 									<div class="date_picker_wrap">
 										<span class="name">가는날</span>
@@ -1396,41 +1397,90 @@ $(document).ready(function () {
 				</div>
 				
 				<script>
-					function fnDeprArvlViewList(sidoCode) {
-						console.log("fnDeprArvlViewList 실행됨: ", sidoCode);
-						$.ajax({
-									url : "<%=request.getContextPath()%>/getTerminals.do",
-									method : "GET",
-									data : {
-										sidoCode : sidoCode
-									},
-									dataType : "json",
-									success : function(terminals) {
-										console.log("terminals 받아옴:", terminals);
-									
-										let html = "";
-										terminals
-												.forEach(function(t) {
-													html += `<li><button type="button" onclick="fnDeprChc('${t.regID}', '${t.regName}')">\${t.regName}</button></li>`;
-												});
-										$("#tableTrmList").html(html);
-									},
-									error : function(status, error) {
-										alert("터미널 목록을 불러오지 못했습니다.");
-										console.log("❌ AJAX 실패:", status, error);
-									}
-								});
-					}
+				var cmdType = "";
+				
+				$("#readDeprInfoList").on("click", function () {
+					cmdType = "depr";
+					
+				});
+				
+				$("#readArvlInfoList").on("click", function () {
+					cmdType = "arvl";
+					
+				});
+				
+					
+				function fnDeprArvlViewList(sidoCode) {
+					console.log("fnDeprArvlViewList 실행됨: ", sidoCode);
 
-					function fnDeprChc(deprCd, deprNm) {
+					$.ajax({
+						url : "<%=request.getContextPath()%>/getTerminals.do",
+						method : "GET",
+						data : {
+							sidoCode : sidoCode
+						},
+						dataType : "json",
+						success : function(terminals) {
+							console.log("terminals 받아옴:", terminals);
+
+							let html = "";
+							terminals.forEach(function(t) {
+								if (cmdType === "depr") {
+									html += `<li><button type="button" onclick="fnDeprChc('\${t.regID}', '\${t.regName}')">\${t.regName}</button></li>`;
+								} else if (cmdType === "arvl") {
+									html += `<li><button type="button" onclick="fnArvlChc('\${t.regID}', '\${t.regName}')">\${t.regName}</button></li>`;
+								} else {
+									console.warn(" cmdType이 설정되지 않았습니다. 기본값 depr 사용");
+									html += `<li><button type="button" onclick="fnDeprChc('\${t.regID}', '\${t.regName}')">\${t.regName}</button></li>`;
+								}
+							});
+							$("#tableTrmList").html(html);  // 기존 위치 그대로 유지
+						},
+						error : function(status, error) {
+							alert("터미널 목록을 불러오지 못했습니다.");
+							console.log(" AJAX 실패:", status, error);
+						}
+					});
+				}
+
+					
+
+					function fnDeprChc(regID, regName) {
 						// 이 함수는 출발지 선택 시 동작하는 사용자 정의 함수
 						// 이후 로직은 기존 예약 폼에 맞게 조정
 						
-						console.log("선택된 터미널:", deprCd, deprNm);
-						$("#popDeprNmSpn").text(deprNm);
-						// 필요시 다른 input 요소에 값 설정도 추가하세요
+						console.log("선택된 터미널:", regID, regName);
+						
+						$("#popDeprNmSpn").text(regName);
+						$("#deprCd").val(regID);
+						
+						$("#cfmBtn").removeAttr("disabled").addClass("active");
+						$("#cfmBtn").css("background-color", "#003087"); // 파란색 버튼처럼
+						$("#cfmBtn").css("color", "#fff");
+						
+						
+
 					}
+					
+					
+
+					function fnArvlChc(regID, regName) {
+						// 도착지 선택 시 동작하는 함수
+						console.log("선택된 도착지:", regID, regName);
+
+						$("#popArvlNmSpn").text(regName);  // 도착지 이름 표시
+						$("#arvlCd").val(regID);           // form에 숨겨진 도착지 값 설정
+
+						// 버튼 UI 활성화
+						$("#cfmBtn").removeAttr("disabled").addClass("active");
+						$("#cfmBtn").css("background-color", "#003087");
+						$("#cfmBtn").css("color", "#fff");
+					}
+
 				</script>
+				
+				
+				
 
 
 				<div class="place"> <!-- focus -->
