@@ -103,28 +103,28 @@ public class noticeDAO {
 
 	// 게시글 수정
 	public static int updateNotice(NoticeDTO dto) {
-	    Connection conn = null;
-	    PreparedStatement pstmt = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
 
-	    String sql = "UPDATE notice SET topic = ?, content = ? WHERE notID = ?";
+		String sql = "UPDATE notice SET topic = ?, content = ? WHERE notID = ?";
 
-	    try {
-	        conn = ConnectionProvider.getConnection();
-	        pstmt = conn.prepareStatement(sql);
-	        pstmt.setString(1, dto.getTopic());
-	        pstmt.setString(2, dto.getContent());
-	        pstmt.setString(3, dto.getNotID());
+		try {
+			conn = ConnectionProvider.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getTopic());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setString(3, dto.getNotID());
 
-	        return pstmt.executeUpdate();
+			return pstmt.executeUpdate();
 
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    } finally {
-	        JdbcUtil.close(pstmt);
-	        JdbcUtil.close(conn);
-	    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(conn);
+		}
 
-	    return 0;
+		return 0;
 	}
 
 	// 글 삭제
@@ -169,23 +169,24 @@ public class noticeDAO {
 
 		return null;
 	}
+
 	public static List<NoticeDTO> getAllNotices() throws SQLException, Exception {
-	    List<NoticeDTO> list = new ArrayList<>();
+		List<NoticeDTO> list = new ArrayList<>();
 
-	    String sql = "SELECT * FROM notice ORDER BY regdate DESC";
-	    try (Connection conn = ConnectionProvider.getConnection();
-	         PreparedStatement pstmt = conn.prepareStatement(sql);
-	         ResultSet rs = pstmt.executeQuery()) {
+		String sql = "SELECT * FROM notice ORDER BY regdate DESC";
+		try (Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery()) {
 
-	        while (rs.next()) {
-	            NoticeDTO dto = new NoticeDTO();
-	            dto.setNotID(rs.getString("notID"));
-	            dto.setTopic(rs.getString("topic"));
-	            dto.setNotDate(rs.getDate("regdate"));
-	            list.add(dto);
-	        }
-	    }
-	    return list;
+			while (rs.next()) {
+				NoticeDTO dto = new NoticeDTO();
+				dto.setNotID(rs.getString("notID"));
+				dto.setTopic(rs.getString("topic"));
+				dto.setNotDate(rs.getDate("regdate"));
+				list.add(dto);
+			}
+		}
+		return list;
 	}
 
 	public static List<NoticeDTO> searchNotices(String search) {
@@ -193,7 +194,7 @@ public class noticeDAO {
 		String sql = "SELECT * FROM notice WHERE topic LIKE ? ORDER BY regdate DESC";
 
 		try (Connection conn = ConnectionProvider.getConnection();
-			 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+				PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
 			pstmt.setString(1, "%" + search + "%");
 
@@ -211,5 +212,51 @@ public class noticeDAO {
 		}
 		return list;
 	}
+
+	public static List<NoticeDTO> selectImportantNotices() {
+		List<NoticeDTO> list = new ArrayList<>();
+		String sql = "SELECT * FROM notice WHERE importance = 1 ORDER BY regdate DESC FETCH FIRST 6 ROWS ONLY";
+
+		try (Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery()) {
+
+			while (rs.next()) {
+				NoticeDTO dto = new NoticeDTO();
+				dto.setNotID(rs.getString("notID"));
+				dto.setTopic(rs.getString("topic"));
+				dto.setNotDate(rs.getDate("regdate"));
+				list.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	public static List<NoticeDTO> selectGeneralNotices() {
+		List<NoticeDTO> list = new ArrayList<>();
+		String sql = "SELECT * FROM notice WHERE importance = 0 ORDER BY regdate DESC";
+
+		try (Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery()) {
+
+			while (rs.next()) {
+				NoticeDTO dto = new NoticeDTO();
+				dto.setNotID(rs.getString("notID"));
+				dto.setTopic(rs.getString("topic"));
+				dto.setNotDate(rs.getDate("regdate"));
+				list.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	
 
 }
