@@ -635,6 +635,7 @@ function fnSelPrdDay(val){
 
 //옵션 선택시  
 function fnSelOption(value){
+	console.log("[fnSelOption] value:", value);
 	var optVal = value; 
 	
 	if(optVal == "0"){
@@ -667,12 +668,20 @@ function fnSelOption(value){
 	} else{
 		txt = $("#selOptionText").val().split("/");
 	}
-	
+	/*
 	$("#kindTd").html(txt[0]);
 	$("#gradeTd").html(txt[2]);
 	$("#weekTd").html(txt[3]);
 	$("#dayTd").html(txt[1]);
+	*/
+	// 달력에서 선택한 날짜 텍스트 가져오기
+	var selectedDateText = $("label.text_date1").text().trim();
 	
+	$("#kindTd").html(opt[0] == "1" ? "전일권" : "평일권");     // 이용권종
+	$("#gradeTd").html(opt[1] == "2" ? "고속, 심야고속" : "전체등급(프리미엄 제외)"); // 등급
+	$("#weekTd").html(selectedDateText);
+	$("#dayTd").html(opt[3] + "일권");                            // 이용가능일수
+	$("#fulTermTd").html($("#spanTermDt").text().trim());
 	//임시차 가능여부 문구 노출	
 	if(opt[4] == "Y"){
 		$("#tmpPsbYN").html("※ 해당 옵션은 임시차 배차도 사용 가능합니다.");
@@ -697,7 +706,7 @@ function fnSelOption(value){
 	fnAdtnVldTerm();
 	$("#divTermDesc").css('display', 'block');
 }
-/*
+
 function setTermParamsToForm() {
     // 1. 시작일 추출
     let dateStr = $("#datepickerView").text().trim(); // 예: "2025. 6. 18. 수"
@@ -730,17 +739,19 @@ function setTermParamsToForm() {
     } else {
         $form.find("input[name='period']").val(period);
     }
+    console.log("[setTermParamsToForm] startDate:", $("input[name='startDate']").val(), "period:", $("input[name='period']").val());
 }
-*/
+
 
 //유효기간 가져오기
 function fnAdtnVldTerm(){
-	// setTermParamsToForm();
+	setTermParamsToForm();
 	var passPrchFrm = $("form[name=passPrchFrm]").serialize() ;
 	
 	// [2] 파라미터 유효성 체크 추가
     var startDate = $("input[name='startDate']").val();
     var period = $("input[name='period']").val();
+    console.log("[fnAdtnVldTerm] ajax 호출 전 startDate:", startDate, "period:", period);
     if(!startDate || !period) {
         console.log("[경고] ajax 호출 차단 - startDate, period 값 없음!", startDate, period);
         // 필요하다면 alert("사용 시작일과 이용기간을 모두 선택해주세요!");
@@ -753,7 +764,13 @@ function fnAdtnVldTerm(){
         data 	 : passPrchFrm,
         dataType : "json",
         success  : function(termMap){
-console.log(termMap);
+			console.log("[Ajax 응답 termMap]", termMap);
+			if(termMap && termMap.fulTerm){
+		        $("#spanTermDt").html(termMap.fulTerm);
+		        console.log("[spanTermDt 세팅됨]:", termMap.fulTerm);
+		    } else {
+		        console.log("[spanTermDt 세팅 실패]:", termMap);
+		    }
 
 			// 20200515 yahan
 			if (termMap.adtnDupPrchYn == "Y" &&
@@ -1230,6 +1247,7 @@ function onSelectChange(obj, input_val, input_name){
 	}
 
 	if (input_name == 'selOption'){
+		console.log("[onSelectChange] input_val:", input_val, "input_name:", input_name, "obj text:", $(obj).text());
 		$("#selOptionText").val($(obj).text());
 		fnSelOption(input_val);
 	}
