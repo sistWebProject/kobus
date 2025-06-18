@@ -261,7 +261,7 @@ function fnRotVldChc(){
 	$("#loading").show();
 	var rotInfFrm = $("form[name=rotInfFrm]").serialize();
 	$.ajax({	
-        url      : "/readAlcnSrch.ajax",
+        url      : "/searchSchedule/readAlcnSrch.ajax",
         type     : "post",
         data : rotInfFrm,
         dataType : "json",

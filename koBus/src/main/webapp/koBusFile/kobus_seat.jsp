@@ -8,7 +8,6 @@
 <%@ page language="java" trimDirectiveWhitespaces="true" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="common/header.jsp" %>
 <%
 	String deprName = "서울 경부";
 	String deprCode = "11";
@@ -27,7 +26,56 @@
 
 %>	
 
+	
+<!DOCTYPE html>
+<html lang="ko" class="pc">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 
+<title>예매정보입력(매수 및 좌석선택) | 고속버스예매 | 고속버스예매 | 고속버스통합예매</title>
+
+
+<link rel="shortcut icon"
+	href="https://www.kobus.co.kr/images/favicon.ico">
+
+
+<script type="text/javascript">
+/*********************************************
+ * 상수
+ *********************************************/
+</script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="/koBus/css/common/ui.jqgrid.custom.css">
+
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+<script type="text/javascript"
+	src="/koBus/js/common/ui.js"></script>
+<script type="text/javascript"
+	src="/koBus/js/common/plugin.js"></script>
+<script type="text/javascript"
+	src="/koBus/js/common/common.js"></script>
+
+<script type="text/javascript"
+	src="/koBus/js/common/jquery.number.js"></script>
+<script type="text/javascript"
+	src="/koBus/js/common/security.js"></script>
+
+
+<link rel="stylesheet" type="text/css"
+	href="/koBus/css/common/style.css">
+<script type="text/javascript"
+	src="/koBus/js/new-kor-ui.js"></script>
+</head>
+
+<%@ include file="common/header.jsp" %>
 
 		<!-- breadcrumb -->
 

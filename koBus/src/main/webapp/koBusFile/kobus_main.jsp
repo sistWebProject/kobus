@@ -1,60 +1,64 @@
 <%@ page trimDirectiveWhitespaces="true" language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!DOCTYPE html>
+<!-- saved from url=(0031)/main.do -->
+<html lang="ko" class="pc">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+<title>고속버스통합예매</title>
+
+<link rel="shortcut icon"
+	href="/images/favicon.ico">
+<link rel="stylesheet" type="text/css"
+	href="/koBus/css/common/ui.jqgrid.custom.css">
+<link rel="stylesheet"
+	href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+
+<script type="text/javascript" src="/koBus/js/common/ui.js"></script>
+<script type="text/javascript" src="/koBus/js/common/plugin.js"></script>
+<script type="text/javascript" src="/koBus/js/common/common.js"></script>
+
+<script type="text/javascript" src="/koBus/js/common/jquery.number.js"></script>
+<script type="text/javascript" src="/koBus/js/common/security.js"></script>
+
+
+
+<link rel="stylesheet" type="text/css" href="/koBus/css/common/style.css">
+<script type="text/javascript" src="/koBus/js/common/new-kor-ui.js"></script>
+</head>
+
 <%@ include file="common/header.jsp" %>
 		
-		<script>
-	$( function() {
-		$( ".main-input-box main_box" ).tabs();
+<script>
+$( function() {
+	$( ".main-input-box main_box" ).tabs();
 
-		// datepicker 날짜가 선택되었을 때 자동 검사
-		$("#datepicker1, #datepicker2").on("change", function () {
-			validateDates();
-		});
+	$("#startdate_btn").click(function() {
+		$("#datepicker1").datepicker("show");
+	});
 
-		function formatDate(date) {
-		var year = date.getFullYear();
-		var month = ('0' + (date.getMonth() + 1)).slice(-2);
-		var day = ('0' + date.getDate()).slice(-2);
-		return year + '-' + month + '-' + day;
-		}
-
-		var today = new Date();
-		var tomorrow = new Date();
-		tomorrow.setDate(today.getDate() + 1); // 오늘 기준 +1일
-
-		var formattedDate = formatDate(today);
-		var formattedTomorrow = formatDate(tomorrow);
-
-		$("#datepicker1").val(formattedDate);
-		$("#datepicker2").val(formattedTomorrow);
+	$("#enddate_btn").click(function() {
+		$("#datepicker2").datepicker("show");
+	});
 
 
-		$("#datepicker1").datepicker({
-			dateFormat: "yy-mm-dd",
-			changeMonth: true,
-			changeYear: true,
-			showOn: "focus"
-		});
-
-		$("#datepicker2").datepicker({
-			dateFormat: "yy-mm-dd",
-			changeMonth: true,
-			changeYear: true,
-			showOn: "focus"
-		});
-
-		$("#startdate_btn").click(function() {
-			$("#datepicker1").datepicker("show");
-		});
-
-		$("#enddate_btn").click(function() {
-			$("#datepicker2").datepicker("show");
-		});
-
-
-	} );
-	</script>
+} );
+</script>
+	
+	<style>
+	#datepicker1, #datepicker2 {
+		display:none;
+	}
+	</style>
 	
 	
 
@@ -416,43 +420,35 @@ $(document).ready(function () {
 														</li>
 													</ul>
 													<div class="tab_cont">
-														<ul class="place">
-															<li><a href="javascript:void(0)"
-																id="readDeprInfoList"
-																onclick="fnReadDeprInfoList(event);"> <span
-																	class="name">출발지</span>
-																	<p class="text empty">
-																		<span class="empty_txt">선택</span><span class="val_txt"
-																			id="deprNmSpn"></span>
-																	</p> <!-- 값이 있을경우 'empty' class가 없음 -->
-															</a><!-- [2024 마크업 수정] -->
-																<button type="button" class="btn_change"
-																	onclick="fnCrchDeprArvl();" id="chgDeprArvl"
-																	style="display: block;">
-																	<span class="sr-only">출발지, 도착지 교체</span>
-																</button> <!-- // [2024 마크업 수정] --></li>
-															<li><a href="javascript:void(0)"
-																id="readArvlInfoList"
-																onclick="fnReadArvlInfoList(event);"> <span
-																	class="name">도착지</span>
-																	<p class="text empty">
-																		<span class="empty_txt">선택</span><span class="val_txt"
-																			id="arvlNmSpn"></span>
-																	</p> <!-- 값이 없을경우 'empty' class가 있음 -->
-															</a></li>
-														</ul>
-														<ul class="date">
+													<ul class="place">
+														<li><a href="javascript:void(0)"
+															id="readDeprInfoList"
+															onclick="fnReadDeprInfoList(event);"> <span
+																class="name">출발지</span>
+																<p class="text empty">
+																	<span class="empty_txt">선택</span><span class="val_txt"
+																		id="deprNmSpn"></span>
+																</p> <!-- 값이 있을경우 p에 'empty' class가 없음 -->
+														</a>
+															<p class="btn_change" onclick="fnCrchDeprArvl();">출,도착지
+																교체</p></li>
+														<li><a href="javascript:void(0)"
+															id="readArvlInfoList"
+															onclick="fnReadArvlInfoList(event);"> <span
+																class="name">도착지</span>
+																<p class="text empty">
+																	<span class="empty_txt">선택</span><span class="val_txt"
+																		id="arvlNmSpn"></span>
+																</p> <!-- 값이 없을경우 p에 'empty' class가 있음 -->
+														</a></li>
+													</ul>
+													<ul class="date">
 															<li>
 																<div class="date_picker_wrap">
 																	<span class="name">가는날</span> <input type="text"
 																		id="datepicker1" tabindex="-1" title="가는날"
 																		readonly="true">
-																	<button type="button" class="datepicker-btn"
-																		id="startdate_btn">
-																		<img class="ui-datepicker-trigger"
-																			src="/koBus/images/ico_calender.png" alt="가는날 선택 달력">
-																	</button>
-																	<!-- <label for="datepicker1" class="text_date text_date1">2025. 6. 7. 토</label> -->
+																	<label for="datepicker1" class="text_date text_date1">2025. 6. 7. 토</label>
 																	<span class="date_wrap"> <a
 																		href="javascript:void(0)" id="deprThddChc"
 																		class="active"
@@ -468,11 +464,12 @@ $(document).ready(function () {
 																	<!-- [2024 마크업 수정] -->
 																	<input type="text" id="datepicker2" tabindex="-1"
 																		title="오는날" readonly="">
-																	<button type="button" class="datepicker-btn"
+																	<!-- <button type="button" class="datepicker-btn"
 																		id="enddate_btn">
 																		<img class="ui-datepicker-trigger"
 																			src="/koBus/images/ico_calender.png" alt="오는날 선택 달력">
-																	</button>
+																	</button> -->
+																	<label for="datepicker2" class="text_date text_date2">2025. 6. 26. 목</label>
 																	<span class="date_wrap"> <a
 																		href="javascript:void(0)" id="arvlThddChc"
 																		class="active"
@@ -1588,158 +1585,9 @@ $(document).ready(function () {
 					$("#areaListAll").removeClass("active");
 					$(this).addClass("active");
 					
-
-					// 지역 코드별 역 목록
-					const terminalMap = {
-						"all": ["강릉", "강진", "경북도청", "고성", "광주", "광주터미널", "구미", "군산", "김제", "김천", 
-								"김해", "남원", "논산", "대구", "대전", "동서울", "마산", "목포", "무안", "부산", "부천", "사천", 
-								"서대전", "서울", "서울남부터미널", "성남", "속초", "순천", "안산", "양산", "양양", "여수", "영광", 
-								"영덕", "영산포", "영암", "오산", "완도", "용인", "울산", "익산", "인천", "전주", "제주", "진도", 
-								"진주", "창원", "천안", "청주", "춘천", "충주", "통영", "포항", "해남", "홍성", "화순"],
-						"11": ["동서울", "서울경부", "센트럴시티(서울)"],
-						"28": ["인천", "계양", "부평"],
-						"42": ["춘천", "원주"],
-						"30": ["대전", "천안", "청주"],
-						"43": ["대구", "동성로", "칠곡"],
-						"29": ["부산", "서면", "울산삼산"],
-						"45": ["창원", "진주"],
-						"26": ["광주상무", "목포", "제주"],
-						"27": ["광주상무", "목포", "제주"]
-					};
-
-					const terminalList = [
-						  { code: "200", name: "강릉" },
-						  { code: "535", name: "강진" },
-						  { code: "852", name: "경북도청" },
-						  { code: "815", name: "경주" },
-						  { code: "201", name: "경포해변" },
-						  { code: "355", name: "고대조치원" },
-						  { code: "116", name: "고양백석" },
-						  { code: "635", name: "고창" },
-						  { code: "540", name: "고흥" },
-						  { code: "320", name: "공주" },
-						  { code: "520", name: "광양" },
-						  { code: "500", name: "광주(유·스퀘어)" },
-						  { code: "503", name: "광주비아" },
-						  { code: "422", name: "교통대" },
-						  { code: "519", name: "구례" },
-						  { code: "169", name: "구리" },
-						  { code: "810", name: "구미" },
-						  { code: "610", name: "군산" },
-						  { code: "330", name: "금산" },
-						  { code: "620", name: "김제" },
-						  { code: "735", name: "김해" },
-						  { code: "736", name: "김해장유" },
-						  { code: "530", name: "나주" },
-						  { code: "531", name: "나주혁신" },
-						  { code: "824", name: "낙동강(휴)상행" },
-						  { code: "823", name: "낙동강(휴)하행" },
-						  { code: "625", name: "남원" },
-						  { code: "390", name: "내포" },
-						  { code: "545", name: "녹동" },
-						  { code: "370", name: "논산" },
-						  { code: "587", name: "능주" },
-						  { code: "582", name: "담양" },
-						  { code: "312", name: "당진" },
-						  { code: "388", name: "당진기지시" },
-						  { code: "807", name: "대구용계" },
-						  { code: "307", name: "대전도룡" },
-						  { code: "300", name: "대전복합" },
-						  { code: "305", name: "대전청사(샘머리)" },
-						  { code: "399", name: "덕산스파" },
-						  { code: "525", name: "동광양(중마)" },
-						  { code: "801", name: "동대구" },
-						  { code: "032", name: "동서울" },
-						  { code: "210", name: "동해" },
-						  { code: "705", name: "마산" },
-						  { code: "706", name: "마산내서" },
-						  { code: "505", name: "목포" },
-						  { code: "550", name: "무안" },
-						  { code: "337", name: "배방정류소" },
-						  { code: "555", name: "벌교" },
-						  { code: "395", name: "보령" },
-						  { code: "554", name: "보성" },
-						  { code: "700", name: "부산" },
-						  { code: "220", name: "삼척" },
-						  { code: "221", name: "삼척해변" },
-						  { code: "825", name: "상주" },
-						  { code: "805", name: "서대구" },
-						  { code: "703", name: "서부산(사상)" },
-						  { code: "393", name: "서산" },
-						  { code: "010", name: "서울경부" },
-						  { code: "419", name: "서충주" },
-						  { code: "347", name: "선문대" },
-						  { code: "813", name: "선산(휴)상행" },
-						  { code: "812", name: "선산(휴)하행" },
-						  { code: "900", name: "고성" },
-						  { code: "901", name: "광주" },
-						  { code: "902", name: "광주터미널" },
-						  { code: "904", name: "김천" },
-						  { code: "906", name: "대구" },
-						  { code: "907", name: "대전" },
-						  { code: "909", name: "사천" },
-						  { code: "910", name: "서대전" },
-						  { code: "911", name: "서울" },
-						  { code: "912", name: "서울남부터미널" },
-						  { code: "913", name: "성남" },
-						  { code: "914", name: "속초" },
-						  { code: "915", name: "순천" },
-						  { code: "916", name: "안산" },
-						  { code: "917", name: "양산" },
-						  { code: "918", name: "양양" },
-						  { code: "919", name: "여수" },
-						  { code: "920", name: "영광" },
-						  { code: "921", name: "영덕" },
-						  { code: "922", name: "영산포" },
-						  { code: "923", name: "영암" },
-						  { code: "924", name: "오산" },
-						  { code: "925", name: "완도" },
-						  { code: "926", name: "용인" },
-						  { code: "928", name: "익산" },
-						  { code: "930", name: "전주" },
-						  { code: "931", name: "제주" },
-						  { code: "932", name: "진도" },
-						  { code: "933", name: "진주" },
-						  { code: "934", name: "창원" },
-						  { code: "935", name: "천안" },
-						  { code: "936", name: "청주" },
-						  { code: "937", name: "춘천" },
-						  { code: "938", name: "충주" },
-						  { code: "939", name: "통영" },
-						  { code: "940", name: "포항" },
-						  { code: "941", name: "해남" },
-						  { code: "942", name: "홍성" },
-						  { code: "943", name: "화순" },
-						  { code: "012", name: "센트럴시티(서울)" },
-						  { code: "013", name: "계양" },
-						  { code: "014", name: "부평" },
-						  { code: "015", name: "원주" },
-						  { code: "018", name: "동성로" },
-						  { code: "019", name: "칠곡" },
-						  { code: "020", name: "서면" },
-						  { code: "023", name: "광주상무" }
-						];
-
-
-					// 선택한 지역의 극장 목록 가져오기
-					const terminals = terminalMap[regionCode] || [];
-
-					// ul 내부 내용 교체
-					function getCodeByName(name) {
-						const terminal = terminalList.find(t => t.name === name);
-						return terminal ? terminal.code : "";
-					}
-
-
-					// ul 내부 내용 생성 (code와 name 모두 넘김)
-					const listHtml = terminals.map(name => {
-						const code = getCodeByName(name);
-						return `<li><button type="button" onclick="fnDeprChc('\${code}','\${name}');">\${name}</button></li>`;
-					}).join("");
-					
-					$("#tableTrmList").html(listHtml);
+					getRotLinInf(regionCode);
 				}
-
+				
 				let isSelectingDepr = true;
 
 				$("#readDeprInfoList").on("click", function() {
@@ -1779,17 +1627,6 @@ $(document).ready(function () {
 
 
 				}
-
-				// function fncfmBtnChc() {
-
-				// 	if (isSelectingDepr) {
-				// 		$("#readDeprInfoList > p").removeClass("empty");
-				// 		$("#deprNmSpn").text(deprName);
-				// 	} else {
-				// 		$("#readArvlInfoList > p").removeClass("empty");
-				// 		$("#arvlNmSpn").text(arvlName);
-				// 	}
-				// }
 
 			</script>
 

@@ -1992,11 +1992,11 @@ function fnLoginChk(){
 	//var rotInfFrm = $("form[name=rotInfFrm]").serialize() ;
 	let login = $(".util-list > li:nth-child(1)").text();
 	
-	if(login.equal("로그인")) {
+/*	if(login.equal("로그인")) {
 		var popLogin = $('[data-remodal-id=popLogin]').remodal().open();
 	}else {
 		$("#nonMbrsYn").val("N");
-	}
+	}*/
 	
 	
 /*	if(LoginChkMap.loginYn == "N" || LoginChkMap.mbrsDvsCd == "1"){
