@@ -13,8 +13,7 @@
 
 <title>고속버스통합예매</title>
 
-<link rel="shortcut icon"
-	href="/images/favicon.ico">
+<link rel="shortcut icon" href="/images/favicon.ico">
 <link rel="stylesheet" type="text/css"
 	href="/koBus/css/common/ui.jqgrid.custom.css">
 <link rel="stylesheet"
@@ -22,45 +21,7 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 <script>
-	$( function() {
-		$( ".main-input-box main_box" ).tabs();
-
-		// datepicker 날짜가 선택되었을 때 자동 검사
-		$("#datepicker1, #datepicker2").on("change", function () {
-			validateDates();
-		});
-
-		function formatDate(date) {
-		var year = date.getFullYear();
-		var month = ('0' + (date.getMonth() + 1)).slice(-2);
-		var day = ('0' + date.getDate()).slice(-2);
-		return year + '-' + month + '-' + day;
-		}
-
-		var today = new Date();
-		var tomorrow = new Date();
-		tomorrow.setDate(today.getDate() + 1); // 오늘 기준 +1일
-
-		var formattedDate = formatDate(today);
-		var formattedTomorrow = formatDate(tomorrow);
-
-		$("#datepicker1").val(formattedDate);
-		$("#datepicker2").val(formattedTomorrow);
-
-
-		$("#datepicker1").datepicker({
-			dateFormat: "yy-mm-dd",
-			changeMonth: true,
-			changeYear: true,
-			showOn: "focus"
-		});
-
-		$("#datepicker2").datepicker({
-			dateFormat: "yy-mm-dd",
-			changeMonth: true,
-			changeYear: true,
-			showOn: "focus"
-		});
+	$(function() {
 
 		$("#startdate_btn").click(function() {
 			$("#datepicker1").datepicker("show");
@@ -70,12 +31,16 @@
 			$("#datepicker2").datepicker("show");
 		});
 
-
-	} );
-	</script>
-
-
+	});
 </script>
+
+<style>
+#datepicker1, #datepicker2 {
+	display: none;
+}
+</style>
+
+
 <script type="text/javascript" src="/koBus/js/common/ui.js"></script>
 <script type="text/javascript" src="/koBus/js/common/plugin.js"></script>
 <script type="text/javascript" src="/koBus/js/common/common.js"></script>
@@ -84,354 +49,19 @@
 <script type="text/javascript" src="/koBus/js/common/security.js"></script>
 
 
-<link rel="stylesheet" type="text/css" href="/koBus/css/common/style.css">
+<link rel="stylesheet" type="text/css"
+	href="/koBus/css/common/style.css">
 <script type="text/javascript" src="/koBus/js/common/new-kor-ui.js"></script>
+
+<script type="text/javascript" src="/koBus/js/common/RotInfPup.js"></script>
+<script type="text/javascript" src="/koBus/js/common/RotInf.js"></script>
+<script type="text/javascript" src="/koBus/js/MrsCfmLgn.js"></script>
+
 </head>
-
-
-
-<!-- [리뉴얼] 페이지 개별 스크립트 신규 정의함 -->
-
-
-<body class="main KO" style="">
-	<!-- [리뉴얼] 스킵 네비게이션 신규 정의 -->
-	<div class="pop_dimmed" style="display: none;"></div>
-	<div class="noti_pop_wrap" style="display: block;">
-
-
-		<!-- <div class="noti_pop type1" id="mainPopKO0" style="z-index: 950; left: 0px; top: 0px; display: none;">
-				<div class="pop_top">
-					<p class="pop_tit">취소수수료 변경 안내</p>
-				</div>
-				<div class="scroll-wrapper pop_cont_wrap scrollbar-inner" style="position: relative; max-height: 1413.67px;"><div class="pop_cont_wrap scrollbar-inner scroll-content" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 1413.67px;">
-					<div class="pop_cont" style="overflow: auto; -webkit-overflow-scrolling: touch;"> -->
-		<!-- <form action="/readMainPup.do" id="popForm0" name="popForm0" target="popIfr0">
-							<input type="hidden" id="pupNo0" name="pupNo" value="20250417001"> 
-						</form> -->
-		<!-- <iframe name="popIfr0" frameborder="0" scrolling="no" width="100%" height="200" onload="resize(this);" title="" src="/koBus/images/saved_resource.html"></iframe> -->
-		<!-- 취소수수료 변경 안내 -->
-		<!-- <a name="popIfr" frameborder="0" scrolling="no" width="100%" height="200" onload="resize(this);" title="공지 링크" href="/koBus/images/saved_resource.html" target="_blank">취소수수료 변경 안내</a>
-					</div>
-				</div>
-				<div class="scroll-element scroll-x"><div class="scroll-element_outer">
-					<div class="scroll-element_size"></div><div class="scroll-element_track"></div>
-					<div class="scroll-bar" style="width: 100px;"></div>
-				</div>
-			</div>
-			<div class="scroll-element scroll-y">
-				<div class="scroll-element_outer">
-					<div class="scroll-element_size"></div>
-					<div class="scroll-element_track"></div>
-					<div class="scroll-bar" style="height: 100px;"></div>
-				</div>
-			</div>
-		</div> -->
-		<!-- 설문조사 팝업은 오늘하루보지않기 없애기예외처리 -->
-		<!-- 				
-				<div class="btns today-hidden-type">
-					<div class="today-hidden-wrap">
-						<input type="checkbox" id="chk_mainPopKO0" class="btn-today-hidden">
-						<label for="chk_mainPopKO0">오늘 하루 보지 않기</label>
-					</div>
-					
-					 
-					  -->
-		<!-- <button type="button" class="btnM btn_close one">오`늘 하루 보지 않기</button> 오늘하루 보지않기 버튼만 있을경우 class="one" -->
-		<!-- </div>
-				
-				<a href="javascript:void(0)" class="pop_close" data-id="mainPopKO0"><span class="sr-only">닫기</span></a>
-			</div>
-		 -->
-
-
-		<!-- <div class="noti_pop type2" id="mainPopKO1" style="z-index: 940; left: 320px; top: 0px; display: none;">
-				<div class="pop_top">
-					<p class="pop_tit">와이파이 서비스 안내</p>
-				</div>
-				<div class="scroll-wrapper pop_cont_wrap scrollbar-inner" style="position: relative; max-height: 1413.67px;"><div class="pop_cont_wrap scrollbar-inner scroll-content" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 1413.67px;">
-					<div class="pop_cont" style="overflow: auto; -webkit-overflow-scrolling: touch;">
-						<form action="/readMainPup.do" id="popForm1" name="popForm1" target="popIfr1">
-							<input type="hidden" id="pupNo1" name="pupNo" value="20250327001"> 
-						</form> -->
-		<!-- <iframe name="popIfr1" frameborder="0" scrolling="no" width="100%" height="463" onload="resize(this);" title="와이파이 서비스 안내" src="/koBus/images/saved_resource(1).html"></iframe> -->
-		<!-- </div>
-				</div>
-				<div class="scroll-element scroll-x">
-					<div class="scroll-element_outer">
-						<div class="scroll-element_size"></div>
-						<div class="scroll-element_track"></div>
-						<div class="scroll-bar" style="width: 100px;"></div>
-					</div>
-				</div>
-				
-				<div class="scroll-element scroll-y">
-					<div class="scroll-element_outer">
-						<div class="scroll-element_size"></div>
-						<div class="scroll-element_track"></div>
-						<div class="scroll-bar" style="height: 100px;"></div>
-					</div>
-				</div> -->
-		<!-- 설문조사 팝업은 오늘하루보지않기 없애기예외처리 -->
-		<!-- 				
-				<div class="btns today-hidden-type">
-					<div class="today-hidden-wrap">
-						<input type="checkbox" id="chk_mainPopKO1" class="btn-today-hidden">
-						<label for="chk_mainPopKO1">오늘 하루 보지 않기</label>
-					</div>
-					
-					 
-					  -->
-		<!-- <button type="button" class="btnM btn_close one">오`늘 하루 보지 않기</button> 오늘하루 보지않기 버튼만 있을경우 class="one" -->
-		<!-- </div>
-				
-				<a href="javascript:void(0)" class="pop_close" data-id="mainPopKO1"><span class="sr-only">닫기</span></a>
-			</div>
-		 -->
-
-
-		<!-- <div class="noti_pop type3" id="mainPopKO2" style="z-index: 930; left: 640px; top: 0px; display: none;">
-				<div class="pop_top">
-					<p class="pop_tit">고속버스 승차홈 변경 안내</p>
-				</div>
-				<div class="scroll-wrapper pop_cont_wrap scrollbar-inner" style="position: relative; max-height: 1413.67px;"><div class="pop_cont_wrap scrollbar-inner scroll-content" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 1413.67px;">
-					<div class="pop_cont" style="overflow: auto; -webkit-overflow-scrolling: touch;">
-						<form action="/readMainPup.do" id="popForm2" name="popForm2" target="popIfr2">
-							<input type="hidden" id="pupNo2" name="pupNo" value="20250304001"> 
-						</form> -->
-		<!-- <iframe name="popIfr2" frameborder="0" scrolling="no" width="100%" height="566" onload="resize(this);" title="고속버스 승차홈 변경 안내" src="/koBus/images/saved_resource(2).html"></iframe> -->
-		<!-- </div>
-				</div><div class="scroll-element scroll-x"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar" style="width: 100px;"></div></div></div><div class="scroll-element scroll-y"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar" style="height: 100px;"></div></div></div></div>
-				 -->
-		<!-- 설문조사 팝업은 오늘하루보지않기 없애기예외처리 -->
-
-		<!-- <div class="btns today-hidden-type">
-					<div class="today-hidden-wrap">
-						<input type="checkbox" id="chk_mainPopKO2" class="btn-today-hidden">
-						<label for="chk_mainPopKO2">오늘 하루 보지 않기</label>
-					</div>
-					
-					 
-					  -->
-		<!-- <button type="button" class="btnM btn_close one">오`늘 하루 보지 않기</button> 오늘하루 보지않기 버튼만 있을경우 class="one" -->
-		<!-- </div>
-				
-				<a href="javascript:void(0)" class="pop_close" data-id="mainPopKO2"><span class="sr-only">닫기</span></a>
-			</div>
-		
-	 -->
-
-
-
-
-		<!-- <div class="noti_pop type4" id="mainPopKO3" style="z-index: 920; left: 960px; top: 0px; display: none;">
-				<div class="pop_top">
-					<p class="pop_tit">정시출발 안내</p>
-				</div>
-				<div class="scroll-wrapper pop_cont_wrap scrollbar-inner" style="position: relative; max-height: 1413.67px;"><div class="pop_cont_wrap scrollbar-inner scroll-content" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 1413.67px;">
-					<div class="pop_cont" style="overflow: auto; -webkit-overflow-scrolling: touch;">
-						<form action="/readMainPup.do" id="popForm3" name="popForm3" target="popIfr3">
-							<input type="hidden" id="pupNo3" name="pupNo" value="20170630003"> 
-						</form> -->
-		<!-- <iframe name="popIfr3" frameborder="0" scrolling="no" width="100%" height="248" onload="resize(this);" title="정시출발 안내" src="/koBus/images/saved_resource(3).html"></iframe> -->
-		<!-- </div>
-				</div><div class="scroll-element scroll-x"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar" style="width: 100px;"></div></div></div><div class="scroll-element scroll-y"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar" style="height: 100px;"></div></div></div></div>
-				 -->
-		<!-- 설문조사 팝업은 오늘하루보지않기 없애기예외처리 -->
-
-		<!-- <div class="btns today-hidden-type">
-					<div class="today-hidden-wrap">
-						<input type="checkbox" id="chk_mainPopKO3" class="btn-today-hidden">
-						<label for="chk_mainPopKO3">오늘 하루 보지 않기</label>
-					</div>
-					
-					  -->
-
-		<!-- <button type="button" class="btnM btn_close one">오`늘 하루 보지 않기</button> 오늘하루 보지않기 버튼만 있을경우 class="one" -->
-		<!-- </div>
-				
-				<a href="javascript:void(0)" class="pop_close" data-id="mainPopKO3"><span class="sr-only">닫기</span></a>
-			</div> -->
-
-
-	</div>
-	<nav id="skip">
-		<ul>
-			<li><a href="#new-kor-content">본문 바로가기</a></li>
-			<li><a href="#new-kor-gnb">주메뉴 바로가기</a></li>
-			<li><a href="#new-kor-footer">푸터 바로가기</a></li>
-		</ul>
-	</nav>
-
-	<!-- 메인 클래스 : wrapper-main -->
-	<div class="wrapper wrapper-kor wrapper-main full">
-
-
-		<!-- header -->
-
-
-		<script type="text/javascript" src="/koBus/js/common/RotInfPup.js"></script>
-		<script type="text/javascript" src="/koBus/js/common/RotInf.js"></script>
-		<script type="text/javascript" src="/koBus/js/MrsCfmLgn.js"></script>
-
-
-		<script>
-$(document).ready(function () {
-	var langCd = 'KO';
-	var langLi = $(".dropdown-wrap.lang-select .dropdown-list li");
-	
-	$('.title_wrap').hide();
-});
-</script>
-
-		<!-- 헤더 -->
-		<header id="new-kor-header">
-			<div class="top-menu-area">
-				<div class="container">
-					<h1 id="logo">
-						<a href="javascript:void(0);"> <img
-							src="/koBus/images/logo.png" alt="KOBUS 전국고속버스운송사업조합">
-						</a>
-					</h1>
-					<nav class="util-menus">
-						<ul class="util-list">
-
-							<c:choose>
-								<c:when test="${empty auth}">
-									<li><a class="login" href="/koBus/koBusFile/logonMain.jsp">로그인</a></li>
-									<li><a href="/mbrs/mbrsjoin/mbrsJoin.do">회원가입</a></li>
-								</c:when>
-								<c:otherwise>
-									<li>${auth} | </li> 
-									<li><a class="logout" href="/koBus/logOut.do">로그아웃</a></li>
-								</c:otherwise>
-							</c:choose>
-							<li><a
-								href="/koBus/koBusFile/logonMyPage.jsp">마이페이지</a></li>
-							<li><a
-								href="javascript:void(0);">결제내역조회</a></li>
-							<li><a href="javascript:void(0);">사이트맵</a></li>
-						</ul>
-
-						<div class="dropdown-wrap lang-select">
-							<a href="javascript:void(0)" class="btn-dropdown" title="언어선택"
-								aria-expanded="false"> <span class="text">한국어</span><i
-								class="ico ico-arrow-down"></i></a>
-							<ul class="dropdown-list" style="display: none;">
-								<li class="selected"><a href="javascript:void(0)"
-									data-lang="KO" title="선택됨">한국어</a></li>
-								<li><a href="javascript:void(0)" data-lang="EN">English</a></li>
-								<li><a href="javascript:void(0)" data-lang="CN">中文</a></li>
-								<li><a href="javascript:void(0)" data-lang="JP">日本語</a></li>
-							</ul>
-						</div>
-					</nav>
-				</div>
-			</div>
-			<nav class="gnb-menu-area">
-				<div class="container">
-					<div class="gnb-area">
-						<ul id="new-kor-gnb">
-							<li><a href="/koBus/kobusSeat.do">고속버스예매</a>
-								<ul>
-									<li><a href="javascript:void(0);">고속버스
-											예매</a></li>
-									<li><a href="javascript:void(0);">예매확인/취소/변경</a>
-									</li>
-									<li><a href="javascript:void(0);">영수증발행</a>
-									</li>
-								</ul></li>
-							<li><a href="javascript:void(0)">운행정보</a>
-								<ul>
-									<li><a
-										href="javascript:void(0);">시간표
-											조회</a></li>
-									<li><a
-										href="javascript:void(0);">도착시간
-											안내</a></li>
-								</ul></li>
-
-
-							<li><a href="javascript:void(0)">프리패스/정기권</a>
-								<ul>
-									<li><a
-										href="javascript:void(0);">프리패스
-											여행권</a></li>
-									<li><a
-										href="javascript:void(0);">정기권</a></li>
-									<li><a
-										href="javascript:void(0);">상품
-											구매내역</a></li>
-								</ul></li>
-
-
-							<li><a href="javascript:void(0)">이용안내</a>
-								<ul>
-									<li><a href="javascript:void(0);">예매
-											안내</a></li>
-									<li><a
-										href="javascript:void(0);">결제수단
-											안내</a></li>
-									<li><a href="javascript:void(0);">승차권
-											환불안내</a></li>
-									<li><a href="javascript:void(0);">프리미엄
-											마일리지</a></li>
-
-									<li><a href="/ugd/trtrgd/Trtrgd.do">휴게소
-											환승안내</a></li>
-									<li><a href="/ugd/trmlgd/Trmlgd.do">고속버스
-											터미널</a></li>
-									<li><a href="/ugd/cacmgd/Cacmgd.do">고속버스
-											운송회사</a></li>
-								</ul></li>
-							<li><a href="javascript:void(0)">고객지원</a>
-								<ul>
-									<li><a
-										href="/cscn/ntcmttr/readNtcList.do">공지사항</a></li>
-									<li><a
-										href="/cscn/qna/readQnaList.do">자주찾는
-											질문</a></li>
-									<li><a
-										href="/cscn/lossClnc/readLossClncList.do">유실물센터
-											안내</a></li>
-								</ul></li>
-						</ul>
-					</div>
-					<div class="links">
-						<!-- <a href="https://www.tmoney.co.kr" class="btn btn-tmoney" title="새창" target="_blank">
-					<img src="/images/kor/layout/ico-tmoney-app.png" alt="" />고속버스 티머니
-					<i class="ico ico-arrow-new-window"></i>
-				</a> -->
-
-						<a href="/cscn/jobmttr/readJobList.do"
-							class="btn btn-job" title="새창" target="_blank"> <img
-							src="/koBus/images/ico-job-offer.png" alt="">승무사원 모집 <i
-							class="ico ico-arrow-new-window"></i>
-						</a>
-					</div>
-					<div class="bg-layer">
-						<a
-							href="https://safeconnect.co.kr/sfconn/login/csc_pc?et=psn249R01&amp;ptrSvcSn=psn249"
-							title="새창" class="gnb-baaner"> <img
-							src="/koBus/images/003-GNB.png" alt="ID 찾을 필요 없이, 전화번호 로그인!">
-							<!-- <iframe src="/koBus/images/_ad-tubebox-002GNB.html" title="프레임 (전화번호안심 로그인)" class="ad-frame"></iframe> -->
-						</a>
-					</div>
-				</div>
-			</nav>
-		</header>
-
+<%@ include file="common/header.jsp" %>
 
 		<!-- breadcrumb -->
 
-
-
-
-
-
-
-
-
-		<!-- 브레드크럼 -->
 		<nav id="new-kor-breadcrumb">
 			<div class="container">
 
@@ -607,24 +237,21 @@ $(document).ready(function () {
 						<ul class="date">
 							<li>
 								<div class="date_picker_wrap">
-									<span class="name">가는날</span>
-									<p class="text">
-										<input type="text" id="datepicker1" tabindex="-1" title="가는날"
-											readonly="" class="hasDatepicker">
-										<button type="button" class="datepicker-btn">
-											<img class="ui-datepicker-trigger"
-												src="/ico_calender.png"
-												alt="가는날 선택 달력">
-										</button>
-										<label for="datepicker1" class="text_date text_date1">2025.
-											6. 16. 월</label>
-									</p>
-									<span class="date_wrap"> <a href="javascript:void(0)"
-										id="deprThddChc" class="active"
-										onclick="fnYyDtmStup(0,&#39;text_date1&#39;,&#39;0&#39;);"
-										title="선택됨">오늘</a> <a href="javascript:void(0)"
-										id="deprNxdChc"
-										onclick="fnYyDtmStup(1,&#39;text_date1&#39;,&#39;0&#39;);">내일</a>
+									<span class="name">가는날</span> <input type="text"
+										id="datepicker1" tabindex="-1" title="가는날"
+										readonly="true">
+									<!-- <button type="button" class="datepicker-btn"
+										id="startdate_btn">
+										<img class="ui-datepicker-trigger"
+											src="/koBus/images/ico_calender.png" alt="가는날 선택 달력">
+									</button> -->
+									<label for="datepicker1" class="text_date text_date1">2025. 6. 7. 토</label>
+									<span class="date_wrap"> <a
+										href="javascript:void(0)" id="deprThddChc"
+										class="active"
+										onclick="fnYyDtmStup(0,'text_date1','0');" title="선택됨">오늘</a>
+										<a href="javascript:void(0)" id="deprNxdChc"
+										onclick="fnYyDtmStup(1,'text_date1','0');">내일</a>
 									</span>
 								</div>
 							</li>
@@ -879,17 +506,6 @@ $(document).ready(function () {
 							style="position: relative;">
 							<div class="area_scroll scrollbar-inner scroll-content"
 								style="height: 420px; margin-bottom: 0px; margin-right: 0px; max-height: none;">
-								<!-- <ul class="area_list">
-								<li class="active" id="areaListAll"><span onclick="fnDeprArvlViewList('all');">전체</span></li>
-								<li><span onclick="fnDeprArvlViewList('11');">서울</span></li>
-								<li><span onclick="fnDeprArvlViewList('28');">인천/경기</span></li>
-								<li><span onclick="fnDeprArvlViewList('42');">강원</span></li>
-								<li><span onclick="fnDeprArvlViewList('30');">대전/충남</span></li>
-								<li><span onclick="fnDeprArvlViewList('43');">충북</span></li>
-								<li><span onclick="fnDeprArvlViewList('29');">광주/전남</span></li>
-								<li><span onclick="fnDeprArvlViewList('45');">전북</span></li>
-								<li><span onclick="fnDeprArvlViewList('26');">부산/경남</span></li>
-								<li><span onclick="fnDeprArvlViewList('27');">대구/경북</span></li>
 							</ul> -->
 								<ul class="area_list">
 									<li class="active" id="areaListAll"><button type="button"
