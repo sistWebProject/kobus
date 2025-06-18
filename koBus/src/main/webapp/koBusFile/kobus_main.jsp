@@ -42,42 +42,6 @@
 	$( function() {
 		$( ".main-input-box main_box" ).tabs();
 
-		// datepicker 날짜가 선택되었을 때 자동 검사
-		$("#datepicker1, #datepicker2").on("change", function () {
-			validateDates();
-		});
-
-		function formatDate(date) {
-		var year = date.getFullYear();
-		var month = ('0' + (date.getMonth() + 1)).slice(-2);
-		var day = ('0' + date.getDate()).slice(-2);
-		return year + '-' + month + '-' + day;
-		}
-
-		var today = new Date();
-		var tomorrow = new Date();
-		tomorrow.setDate(today.getDate() + 1); // 오늘 기준 +1일
-
-		var formattedDate = formatDate(today);
-		var formattedTomorrow = formatDate(tomorrow);
-
-		$("#datepicker1").val(formattedDate);
-		$("#datepicker2").val(formattedTomorrow);
-
-
-		$("#datepicker1").datepicker({
-			dateFormat: "yy-mm-dd",
-			changeMonth: true,
-			changeYear: true,
-			showOn: "focus"
-		});
-
-		$("#datepicker2").datepicker({
-			dateFormat: "yy-mm-dd",
-			changeMonth: true,
-			changeYear: true,
-			showOn: "focus"
-		});
 
 		$("#startdate_btn").click(function() {
 			$("#datepicker1").datepicker("show");
@@ -482,12 +446,7 @@ $(document).ready(function () {
 																	<span class="name">가는날</span> <input type="text"
 																		id="datepicker1" tabindex="-1" title="가는날"
 																		readonly="true">
-																	<button type="button" class="datepicker-btn"
-																		id="startdate_btn">
-																		<img class="ui-datepicker-trigger"
-																			src="/koBus/images/ico_calender.png" alt="가는날 선택 달력">
-																	</button>
-																	<!-- <label for="datepicker1" class="text_date text_date1">2025. 6. 7. 토</label> -->
+																	<label for="datepicker1" class="text_date text_date1">2025. 6. 7. 토</label>
 																	<span class="date_wrap"> <a
 																		href="javascript:void(0)" id="deprThddChc"
 																		class="active"
@@ -503,11 +462,7 @@ $(document).ready(function () {
 																	<!-- [2024 마크업 수정] -->
 																	<input type="text" id="datepicker2" tabindex="-1"
 																		title="오는날" readonly="">
-																	<button type="button" class="datepicker-btn"
-																		id="enddate_btn">
-																		<img class="ui-datepicker-trigger"
-																			src="/koBus/images/ico_calender.png" alt="오는날 선택 달력">
-																	</button>
+												
 																	<span class="date_wrap"> <a
 																		href="javascript:void(0)" id="arvlThddChc"
 																		class="active"
