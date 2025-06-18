@@ -34,8 +34,24 @@ public class ReadPassDtlInfHandler implements CommandHandler {
             obj.put("adtnPrdUseNtknNm", dto.getPeriodNm());
             obj.put("wkdWkeNtknNm", dto.getBusGradeNm());
             obj.put("adtnPrdSno", dto.getOptionId());
+            
+         // ✅ 여기에 금액 계산 추가
+            int basePricePerDay = 10000;
+            int discountPricePerDay = 9000;
+            int days = Integer.parseInt(dto.getUseDays());
+            int price;
 
+            // ✅ 등급명이 전체등급이면 할인 적용
+            if ("전체등급(프리미엄 제외)".equals(dto.getUseClsNm().trim())) {
+                price = discountPricePerDay * days;
+            } else {
+                price = basePricePerDay * days;
+            }
+
+            obj.put("pubAmt", price);
+            
             optionList.put(obj);
+
         }
 
         result.put("adtnDtlList", optionList);
