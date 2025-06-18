@@ -2,6 +2,7 @@ package koBus.mvc.command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import koBus.mvc.persistence.CertificationCodeDAO;
 import koBus.mvc.persistence.CertificationCodeDAOImpl;
