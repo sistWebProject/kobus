@@ -193,23 +193,17 @@ out.print(realPath);
 		}
 	}
 </script>
-<script type="text/javascript"
-	src="/koBus/media/ui.js"></script>
-<script type="text/javascript"
-	src="/koBus/media/plugin.js"></script>
-<script type="text/javascript"
-	src="/koBus/media/common.js"></script>
+<script type="text/javascript" src="/koBus/media/ui.js"></script>
+<script type="text/javascript" src="/koBus/media/plugin.js"></script>
+<script type="text/javascript" src="/koBus/media/common.js"></script>
 
-<script type="text/javascript"
-	src="/koBus/media/jquery.number.js"></script>
-<script type="text/javascript"
-	src="/koBus/media/security.js"></script>
+<script type="text/javascript" src="/koBus/media/jquery.number.js"></script>
+<script type="text/javascript" src="/koBus/media/security.js"></script>
 
 
-<link rel="stylesheet" type="text/css"
-	href="/koBus/media/style.css">
-<script type="text/javascript"
-	src="/koBus/media/new-kor-ui.js"></script>
+<link rel="stylesheet" type="text/css"	href="/koBus/media/style.css">
+<script type="text/javascript"	src="/koBus/media/new-kor-ui.js"></script>
+
 </head>
 
 
@@ -222,9 +216,7 @@ out.print(realPath);
 	<!-- [리뉴얼] 스킵 네비게이션 신규 정의 -->
 	<nav id="skip">
 		<ul>
-			<li><a
-				href="https://www.kobus.co.kr/cscn/qna/readQnaList.do#new-kor-content">본문
-					바로가기</a></li>
+			<li><a href="https://www.kobus.co.kr/cscn/qna/readQnaList.do#new-kor-content">본문 바로가기</a></li>
 			<li><a
 				href="https://www.kobus.co.kr/cscn/qna/readQnaList.do#new-kor-gnb">주메뉴
 					바로가기</a></li>
