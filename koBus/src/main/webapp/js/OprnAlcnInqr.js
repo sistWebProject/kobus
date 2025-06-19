@@ -275,9 +275,9 @@ function fnRotVldChc(){
         		$("#readAlcnInqr").show();
         		var timeListChk ="";
         		var alcnList = "";
-        		if(alcnListMap.timeChcList != null){
-        			for(var inx  = 0 ; inx < alcnListMap.timeChcList.length ; inx++){
-        				timeListChk += "<li class='"+alcnListMap.timeChcList[inx].mdntChc+"'>"+"<a href='#none' class='"+alcnListMap.timeChcList[inx].timeChcCss+"' data-time='"+alcnListMap.timeChcList[inx].time2Len+"'>"+alcnListMap.timeChcList[inx].time+"</a></li>";
+        		if(alcnListMap.alcnAllList != null){
+        			for(var inx  = 0 ; inx <= alcnListMap.alcnAllList.length ; inx++){
+        				timeListChk += "<li class='daytime'>"+"<a href='#none'>"+inx+"</a></li>";
         			}
         		}else{
         			timeListChk += "<li><a href='#none'>00</a></li>";
@@ -288,7 +288,8 @@ function fnRotVldChc(){
     			});
         		
         		if(alcnListMap.alcnAllList != null){
-        			$("#takeDrtm").text(alcnListMap.alcnCmnMap.takeDrtm);
+					let takeDrtm = parseInt(alcnListMap.alcnCmnMap.takeDrtm/60)+"시간 "+(alcnListMap.alcnCmnMap.takeDrtm%60)+"분 소요";
+        			$("#takeDrtm").text(takeDrtm);
         			for(var inx  = 0 ; inx < alcnListMap.alcnAllList.length ; inx++){
         				alcnList +="<p class='"+alcnListMap.alcnAllList[inx].BUS_CLS_CD_CSS+"' data-time='"+alcnListMap.alcnAllList[inx].TIME_CHC+"' role='row' tabindex='0'>";
         				alcnList +="<span class='start_time' role='cell' aria-labelledby='start_time_header'>"+alcnListMap.alcnAllList[inx].DEPR_TIME_DVS+"</span>";

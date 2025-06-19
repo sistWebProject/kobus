@@ -290,26 +290,26 @@
 								<ul class="time" id="timelistChk">
 								</ul>
 								<div class="bustime_wrap" role="table"
-									aria-label="시간표조회에 대한 목록이며 출발, 고속사, 등급, 어른요금, 초등생요금, 중고생요금, 잔여석/총좌석 정보 제공">
+											aria-label="시간표조회에 대한 목록이며 출발, 고속사, 등급, 어른요금, 초등생요금, 중고생요금, 잔여석/총좌석 정보 제공">
 									<p class="bustime_head" role="row">
 										<span id="start_time_header" class="start_time"
 											role="columnheader">출발시각</span>
 										<!-- 170119 텍스트수정 -->
-										<span id="bus_info_header" class="bus_info"
-											role="columnheader">고속사/등급</span>
+										<span id="bus_info_header" class="bus_info" role="columnheader">고속사/등급</span>
 										<!-- tablet / mobile 사이즈에서 보임 -->
 										<span id="bus_com_header" class="bus_com" role="columnheader">고속사</span>
 										<!-- pc 사이즈에서만 보임 -->
 										<span id="grade_header" class="grade" role="columnheader">등급</span>
 										<!-- pc 사이즈에서만 보임 -->
 										<span id="adult_haeder" class="adult" role="columnheader">어른요금</span>
-										<span id="child_header" class="child" role="columnheader">초등생요금</span>
 										<span id="youth_header" class="youth" role="columnheader">
-											중고생요금</span> <span id="remain_header" class="remain"
+											중고생요금</span> 
+										<span id="child_header" class="child" role="columnheader">초등생요금</span>
+											<span id="remain_header" class="remain"
 											role="columnheader">잔여석 <span class="total_seat">/
 												총 좌석</span></span>
 									</p>
-
+		
 									<div class="bus_time" id="alcnList" role="row"
 										aria-rowindex="1">
 										<!-- 동양고속 class="dyexpress" 삼화고속 class="samhwa" 중앙고속 class="jabus" 금호고속 class="kumho" 천일고속 class="chunil" 한일고속 class="hanil" 동부고속 class="dongbu" 금호속리산고속 class="songnisan" 코버스 class="kobus" -->
