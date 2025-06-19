@@ -6,6 +6,8 @@
 /*	Version: 1.0
 /*	Author: 
 /****************************************/
+
+ 
 input[type=text]::-ms-clear {
 	display: none;
 }
@@ -1416,7 +1418,7 @@ dl.desc_list dd {
 	position: absolute;
 	right: 5px;
 	bottom: 5px;
-	background: url(/images/kor/page/input_after.png) 0 0 no-repeat;
+	background: url('/koBus/media/input_after.png') 0 0 no-repeat;
 	background-size: 100%;
 	width: 8px;
 	height: 8px;
@@ -5665,7 +5667,7 @@ ul.sel_list>li .btn_wrap ul li .btn+.btn {
 	position: absolute;
 	right: 5px;
 	bottom: 5px;
-	background: url(/images/kor/page/input_after.png) 0 0 no-repeat;
+	background: url('/koBus/media/input_after.png') 0 0 no-repeat;
 	background-size: 100%;
 	width: 8px;
 	height: 8px;
@@ -9172,7 +9174,7 @@ span.day-blue-color {
 	position: absolute;
 	top: 50%;
 	right: 20px;
-	background: url(/images/kor/page/arrow_faq.png) 0 0 no-repeat;
+	background: url('/koBus/media/arrow_faq.png') 0 0 no-repeat; 
 	background-size: 18px auto;
 	width: 18px;
 	height: 10px;
@@ -16928,8 +16930,5 @@ body.JP, .JP p, .JP h1, .JP h2, .JP h3, .JP h4, .JP h5, .JP h6, .JP ul,
 		margin-left: 0;
 	}
 }
-
-
-
-
+ 
 }

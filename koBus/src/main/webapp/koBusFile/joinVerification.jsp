@@ -280,11 +280,13 @@
 					<!-- 전화번호 유효성 검사 완료후 인증번호 발송 누르면, 입력받은 휴대폰에 인증번호 보내기 -->
 					<script>
 						let CertificationOkCode = "";
+						let inputPhoneNum="";
+						let phoneNum="";
 						$("#submitBtn").on("click", function (e){
 							e.preventDefault(); // a링크 태그 새로고침 방지
 							
-							let inputPhoneNum = $("#usrHp").val();
-							let phoneNum = inputPhoneNum.trim();
+							inputPhoneNum = $("#usrHp").val();
+							phoneNum = inputPhoneNum.trim();
 							console.log("입력번호: " + phoneNum);
 							// 전화번호 유효성 검사 : '-' 없이 입력'
 							var regExp = /^01[0|1|6|7|8|9]-?\d{3,4}-?\d{4}$/; 
@@ -311,10 +313,11 @@
 								console.log("인증번호: " + CertificationOkCode);
 							}
 						});
-					</script>
-					<script>
+						
+						// 확인버튼 눌렀을때 함수
 						$("#confirmBtn").on("click", function (event){
 							event.preventDefault(); // a링크 새로고침 방지
+							console.log("다음페이지에 넘겨줄 입력번호 : " + phoneNum);
 							
 							// 확인버튼을 눌렀을때 휴대폰으로 전송한 인증번호와 입력한 인증번호가 맞는지 확인하는 코딩작성.....
 							if($("#aouNo").val().length <= 0){
@@ -323,7 +326,7 @@
 							}
 							else if($("#aouNo").val() === CertificationOkCode){
 								alert("확인이 완료되었습니다.")
-								location.href = "/koBus/koBusFile/joinEnterInfo.jsp";
+								location.href = `/koBus/koBusFile/joinEnterInfo.jsp?phoneNum=\${phoneNum}`;
 							}
 							else{
 								alert("인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.");
