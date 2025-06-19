@@ -1,6 +1,8 @@
 /* 전역변수 : 모든 전역변수에 접두사로 all 사용
  * 최종확인변수 : 모든 변수에 접미사 cfm 사용 
  */
+let amount = 0;
+
 $(document).ready(function() {
 	
 	fnAdtnPrdNewChk();
@@ -354,8 +356,24 @@ function  fnChkNext(obj,nextFld){
 //	}
 }
 
-
-
+function fetchAmountFromServer() {
+    $.ajax({
+        url: '/frps/getAmount.ajax',  // ← 이 부분, 실제 핸들러 경로로
+        type: 'POST',
+        data: {
+            passType: $("#selPassType").val(),
+            // 추가 옵션 필요시
+        },
+        dataType: "json",
+        success: function(data) {
+            amount = data.amount;  // 서버에서 amount로 응답
+            $("#amountSpan").text(amount.toLocaleString() + "원"); // UI 표시
+        },
+        error: function(xhr, status, error) {
+            alert("금액 조회 실패!");
+        }
+    });
+}
 
 function requestPay() {
 	if(!fnVldtCmn()){
@@ -372,7 +390,7 @@ function requestPay() {
 		return;
 	}
 	
-    var IMP = window.IMP;
+	var IMP = window.IMP;
     IMP.init('imp31168041'); // 테스트용 가맹점 식별코드
 
     IMP.request_pay({
@@ -380,16 +398,34 @@ function requestPay() {
         pay_method: ['card', 'trans'],
         merchant_uid: 'ORD_TEST_' + new Date().getTime(),
         name: '테스트 상품명',
-        amount: 100,
-        buyer_email: 'testuser@example.com',
-        buyer_name: '테스트 사용자',
-        buyer_tel: '010-1234-5678',
-        buyer_addr: '테스트시 테스트구 테스트동',
-        buyer_postcode: '12345'
+        amount: 100, // 이 부분에 서버에서 조회한 금액 변수를 대입!
+        // buyer_xxx 등은 필요 없으면 생략
     }, function (rsp) {
         if (rsp.success) {
             alert('테스트 결제 성공! imp_uid: ' + rsp.imp_uid);
-            console.log('결제 응답:', rsp);
+
+            // 서버로 결제 데이터 전송 (이 부분이 핵심!)
+            $.ajax({
+                url: '/koBus/payment/savePayment.do',
+                type: 'POST',
+                data: {
+                    imp_uid: rsp.imp_uid,
+                    merchant_uid: rsp.merchant_uid,
+                    pay_method: rsp.pay_method,
+                    amount: rsp.amount,
+                    pay_status: 'SUCCESS',
+                    pg_tid: rsp.pg_tid,
+                    paid_at: rsp.paid_at
+                },
+                success: function(data) {
+                    alert('결제 정보가 서버에 저장되었습니다!');
+                    // location.href = "/결제완료페이지.do";
+                },
+                error: function(xhr, status, error) {
+                    alert('결제 정보 저장에 실패했습니다!');
+                    console.error('결제 저장 오류:', error);
+                }
+            });
         } else {
             var msg = '테스트 결제에 실패하였습니다.';
             msg += '\n에러 내용: ' + rsp.error_msg;
