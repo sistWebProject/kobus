@@ -18,8 +18,8 @@ public class CharacterEncodingFilter implements Filter{
 			throws IOException, ServletException {
 		/* System.out.println("CharacterEncodingFilter doFilter"); */
 		
-		
-		request.setCharacterEncoding("utf-8");
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
 		chain.doFilter(request, response);
 		
 	}

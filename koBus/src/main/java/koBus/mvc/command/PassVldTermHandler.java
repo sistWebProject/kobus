@@ -1,74 +1,74 @@
 package koBus.mvc.command;
 
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.json.JSONObject;
 
+
 public class PassVldTermHandler implements CommandHandler {
-
     @Override
-    public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // 1. 요청값 받기
-        String startDate = request.getParameter("startDate"); // 예: "20250618"
-        String periodStr = request.getParameter("period");    // 예: "5"
+    public String process(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        // 1. 파라미터 받기
+        String startDate = req.getParameter("startDate"); // 예: 20250620
+        String periodStr = req.getParameter("period");    // 예: 5
+        
+        if (startDate == null || periodStr == null || startDate.trim().isEmpty() || periodStr.trim().isEmpty()) {
+            System.out.println("[Warn] 파라미터 누락! (startDate, period) -> startDate: [" + startDate + "], period: [" + periodStr + "]");
+            JSONObject result = new JSONObject();
+            result.put("fulTerm", "");
+            result.put("rotAllCnt", 0);
+            result.put("termSttDt", "");
+            resp.setContentType("application/json; charset=UTF-8");
+            PrintWriter out = resp.getWriter();
+            out.write(result.toString());
+            out.close();
+            return null;
+        }
+        
+        System.out.println("startDate: [" + startDate + "], period: [" + periodStr + "]");
 
-        JSONObject termMap = new JSONObject();
+        JSONObject result = new JSONObject();
 
         try {
-            if (startDate == null || periodStr == null) {
-                termMap.put("error", "startDate 또는 period 누락");
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            } else {
-                // 2. 종료일 계산
-                int periodDays = Integer.parseInt(periodStr);
-                String endDate = calculateEndDate(startDate, periodDays);
+            startDate = startDate.trim();
+            periodStr = periodStr.trim();
+            // 2. 날짜 계산
+            LocalDate stt = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("yyyyMMdd"));
+            int period = Integer.parseInt(periodStr);
 
-                // 3. 전체 유효기간 텍스트 만들기
-                String fulTerm = formatDate(startDate) + " ~ " + formatDate(endDate);
+            // 3. 종료일 = 시작일 + (기간-1)
+            LocalDate end = stt.plusDays(period - 1);
 
-                // 4. 응답 데이터 구성
-                termMap.put("termSttDt", startDate);
-                termMap.put("timDte", endDate);
-                termMap.put("fulTerm", fulTerm);
-                termMap.put("pubAmt", 45000); // 임의의 가격
-                termMap.put("rotAllCnt", 1);  // 노선 개수 ≥ 1
-                termMap.put("adtnDupPrchYn", "N"); // 중복 구매 여부
-            }
+            // 4. 출력형태: 2025.06.20 ~ 2025.06.24
+            String fulTerm = stt.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")) +
+                             " ~ " +
+                             end.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+            
+            String termSttDt = stt.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            // int pubAmt = 10000 * period;
 
-            // 5. 응답 전송
-            response.setContentType("application/json; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.print(termMap.toString());
-            out.flush();
-
+            result.put("fulTerm", fulTerm);
+            // (필요하면 기타값 추가)
+            result.put("rotAllCnt", 1); // 정상응답 표식 등, 프론트에서 rotAllCnt 체크함
+            result.put("termSttDt", termSttDt);
+            result.put("timDte", termSttDt);
+            // result.put("pubAmt", pubAmt);
         } catch (Exception e) {
-            e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "서버 오류 발생");
+        	e.printStackTrace();
+        	System.out.println("startDate: [" + startDate + "], period: [" + periodStr + "]");
+            result.put("fulTerm", "");
+            result.put("rotAllCnt", 0);
+            
         }
 
-        return null; // Ajax 응답이라 JSP 이동 없음
-    }
+        resp.setContentType("application/json; charset=UTF-8");
+        PrintWriter out = resp.getWriter();
+        out.write(result.toString());
+        out.close();
 
-    // 시작일 + N일 후 날짜 구하기
-    private String calculateEndDate(String startDateStr, int days) throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        Date startDate = sdf.parse(startDateStr);
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(startDate);
-        cal.add(Calendar.DATE, days - 1); // 시작일 포함
-        return sdf.format(cal.getTime());
-    }
-
-    // yyyyMMdd → yyyy.MM.dd 포맷 변경
-    private String formatDate(String dateStr) throws Exception {
-        SimpleDateFormat sdfIn = new SimpleDateFormat("yyyyMMdd");
-        SimpleDateFormat sdfOut = new SimpleDateFormat("yyyy.MM.dd");
-        return sdfOut.format(sdfIn.parse(dateStr));
+        return null; // view 이동 없음(ajax json 응답)
     }
 }

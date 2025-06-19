@@ -7,11 +7,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.util.DBConn;
+import com.util.ConnectionProvider;
 
 import koBus.mvc.domain.RegionDTO;
 import koBus.mvc.persistence.RegionDAO;
 import koBus.mvc.persistence.RegionDAOImpl;
+
 
 public class RegionHandler implements CommandHandler {
 
@@ -23,22 +24,20 @@ public class RegionHandler implements CommandHandler {
 
         String command = request.getRequestURI();
         command = command.substring(request.getContextPath().length()); // /getTerminals.do
-        System.out.println("command: " + command);  // 확인용
+        System.out.println("command: " + command);
 
         String sidoCodeStr = request.getParameter("sidoCode");
         System.out.println(">>> [DAO] sidoCode 파라미터: " + sidoCodeStr);
 
         try {
-            conn = DBConn.getConnection();
-            RegionDAO dao = new RegionDAOImpl(conn);
+            conn = ConnectionProvider.getConnection(); 
+            RegionDAO dao = new RegionDAOImpl();
 
-            // ✅ AJAX 비동기 요청 처리
             if (command.equals("/getTerminals.do") && sidoCodeStr != null) {
                 List<RegionDTO> list = null;
 
-                // sidoCode가 "all"이면 전체 조회, 아니면 숫자로 변환
                 if ("all".equalsIgnoreCase(sidoCodeStr)) {
-                    list = dao.selectAll();  // 전체 지역 조회
+                    list = dao.selectAll();
                 } else {
                     try {
                         int sidoCode = Integer.parseInt(sidoCodeStr);
@@ -50,7 +49,6 @@ public class RegionHandler implements CommandHandler {
                     }
                 }
 
-                // JSON 응답 구성
                 response.setContentType("application/json; charset=UTF-8");
                 PrintWriter out = response.getWriter();
 
@@ -75,8 +73,7 @@ public class RegionHandler implements CommandHandler {
                 return null;
             }
 
-            // 기본 JSP 포워딩
-            return "KOBUSreservation3.jsp";
+            return "/koBusFile/KOBUSreservation3.jsp";
 
         } catch (Exception e) {
             e.printStackTrace();

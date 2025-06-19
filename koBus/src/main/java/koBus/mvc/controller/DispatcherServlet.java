@@ -2,10 +2,8 @@ package koBus.mvc.controller;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -89,7 +87,8 @@ public class DispatcherServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+	    resp.setContentType("text/html; charset=UTF-8");   // ⬅ 추가
+	    resp.setCharacterEncoding("UTF-8");
 		// 2�떒怨� - �슂泥쵻RL 遺꾩꽍  
 		String requestURI = req.getRequestURI(); 
 		System.out.println(requestURI);
@@ -100,10 +99,11 @@ public class DispatcherServlet extends HttpServlet {
 		
 		// 3�떒怨� - 濡쒖쭅泥섎━�븯�뒗 紐⑤뜽媛앹껜瑜� commandHandlerMap�쑝濡� 遺��꽣 �뼸�뼱�삤湲�
 		CommandHandler handler = this.commandHandlerMap.get(requestURI);
-		 System.out.println("=== commandHandlerMap 키 목록 ===");
-		    for (String key : commandHandlerMap.keySet()) {
-		        System.out.println(key + " => " + commandHandlerMap.get(key));
-		    }
+		/*
+		 * System.out.println("=== commandHandlerMap 키 목록 ==="); for (String key :
+		 * commandHandlerMap.keySet()) { System.out.println(key + " => " +
+		 * commandHandlerMap.get(key)); }
+		 */
 
 		    System.out.println("핸들러 매핑 결과: " + handler);
 		String view = null;

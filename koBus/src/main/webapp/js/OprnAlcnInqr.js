@@ -259,9 +259,10 @@ function fnBusClsCd(value){
 
 function fnRotVldChc(){
 	$("#loading").show();
-	var rotInfFrm = $("form[name=rotInfFrm]").serialize();
+	var rotInfFrm = $("form[name=rotInfFrm]").serialize() + "&ajax=true&ajaxType=searchSch";
+	alert(rotInfFrm);
 	$.ajax({	
-        url      : "/readAlcnSrch.ajax",
+        url      : "/koBus/searchSchedule/readAlcnSrch.ajax",
         type     : "post",
         data : rotInfFrm,
         dataType : "json",

@@ -1,15 +1,5 @@
-<%@ page trimDirectiveWhitespaces="true" language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- 뒤로가기 눌렀을때 로그인 풀리는거 방지 : 캐시 무효화 코드, 모든 jsp파일에 추가해야함 -->
-<%
-	String auth = (String) session.getAttribute("auth");
-%>
-<%
-    response.setHeader("Cache-Control","no-cache, no-store, must-revalidate"); // HTTP 1.1
-    response.setHeader("Pragma","no-cache"); // HTTP 1.0
-    response.setDateHeader ("Expires", 0); // Proxies
-%>
 
 <!DOCTYPE html>
 <!-- saved from url=(0031)/main.do -->
@@ -23,254 +13,57 @@
 
 <title>고속버스통합예매</title>
 
-<link rel="shortcut icon"
-	href="/images/favicon.ico">
-<link rel="stylesheet" type="text/css"
-	href="/koBus/css/common/ui.jqgrid.custom.css">
+<link rel="shortcut icon" href="/images/favicon.ico">
+<link rel="stylesheet" type="text/css" href="/koBus/css/common/ui.jqgrid.custom.css">
 <link rel="stylesheet"
 	href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
 
-
-</script>
 <script type="text/javascript" src="/koBus/js/common/ui.js"></script>
 <script type="text/javascript" src="/koBus/js/common/plugin.js"></script>
 <script type="text/javascript" src="/koBus/js/common/common.js"></script>
-
 <script type="text/javascript" src="/koBus/js/common/jquery.number.js"></script>
 <script type="text/javascript" src="/koBus/js/common/security.js"></script>
 
+<link rel="stylesheet" type="text/css" href="/koBus/css/common/style.css">
+<script type="text/javascript" src="/koBus/js/common/new-kor-ui.js"></script>
 
+</head>
+
+<%@ include file="common/header.jsp" %>
+
+<script>
+	$(function () {
+		$(".main-input-box main_box").tabs();
+	});
+</script>
 
 <link rel="stylesheet" type="text/css" href="/koBus/css/common/style.css">
 <script type="text/javascript" src="/koBus/js/common/new-kor-ui.js"></script>
 </head>
-
-
-
-<!-- [리뉴얼] 페이지 개별 스크립트 신규 정의함 -->
-
-
-<body class="main KO" style="">
-	<!-- [리뉴얼] 스킵 네비게이션 신규 정의 -->
-	<div class="pop_dimmed" style="display: none;"></div>
-	<div class="noti_pop_wrap" style="display: block;">
-
-
-	</div>
-	<nav id="skip">
-		<ul>
-			<li><a href="#new-kor-content">본문 바로가기</a></li>
-			<li><a href="#new-kor-gnb">주메뉴 바로가기</a></li>
-			<li><a href="#new-kor-footer">푸터 바로가기</a></li>
-		</ul>
-	</nav>
-
-	<!-- 메인 클래스 : wrapper-main -->
-	<div class="wrapper wrapper-kor wrapper-main full">
-
-
-		<!-- header -->
-
-		<script>
-$(document).ready(function () {
-	var langCd = 'KO';
-	var langLi = $(".dropdown-wrap.lang-select .dropdown-list li");
-	
-	$('.title_wrap').hide();
-});
-</script>
-
-		<!-- 헤더 -->
-		<header id="new-kor-header">
-			<div class="top-menu-area">
-				<div class="container">
-					<h1 id="logo">
-						<a href="javascript:void(0);"> <img
-							src="/koBus/images/logo.png" alt="KOBUS 전국고속버스운송사업조합">
-						</a>
-					</h1>
-					<nav class="util-menus">
-						<ul class="util-list">
-
-							<c:choose>
-								<c:when test="${empty auth}">
-									<li><a class="login" href="/koBus/koBusFile/logonMain.jsp">로그인</a></li>
-									<li><a href="/mbrs/mbrsjoin/mbrsJoin.do">회원가입</a></li>
-								</c:when>
-								<c:otherwise>
-									<li>${auth} | </li> 
-									<li><a class="logout" href="/koBus/logOut.do">로그아웃</a></li>
-								</c:otherwise>
-							</c:choose>
-							<li><a
-								href="/koBus/koBusFile/logonMyPage.jsp">마이페이지</a></li>
-							<li><a
-								href="javascript:void(0);">결제내역조회</a></li>
-							<li><a href="javascript:void(0);">사이트맵</a></li>
-						</ul>
-
-						<div class="dropdown-wrap lang-select">
-							<a href="javascript:void(0)" class="btn-dropdown" title="언어선택"
-								aria-expanded="false"> <span class="text">한국어</span><i
-								class="ico ico-arrow-down"></i></a>
-							<ul class="dropdown-list" style="display: none;">
-								<li class="selected"><a href="javascript:void(0)"
-									data-lang="KO" title="선택됨">한국어</a></li>
-								<li><a href="javascript:void(0)" data-lang="EN">English</a></li>
-								<li><a href="javascript:void(0)" data-lang="CN">中文</a></li>
-								<li><a href="javascript:void(0)" data-lang="JP">日本語</a></li>
-							</ul>
-						</div>
-					</nav>
-				</div>
-			</div>
-			<nav class="gnb-menu-area">
-				<div class="container">
-					<div class="gnb-area">
-						<ul id="new-kor-gnb">
-							<li><a href="/koBus/kobusSeat.do">고속버스예매</a>
-								<ul>
-									<li><a href="javascript:void(0);">고속버스
-											예매</a></li>
-									<li><a href="javascript:void(0);">예매확인/취소/변경</a>
-									</li>
-									<li><a href="javascript:void(0);">영수증발행</a>
-									</li>
-								</ul></li>
-							<li><a href="javascript:void(0)">운행정보</a>
-								<ul>
-									<li><a
-										href="/koBus/kobusSchedule.do">시간표
-											조회</a></li>
-									<li><a
-										href="javascript:void(0);">도착시간
-											안내</a></li>
-								</ul></li>
-
-
-							<li><a href="javascript:void(0)">프리패스/정기권</a>
-								<ul>
-									<li><a
-										href="javascript:void(0);">프리패스
-											여행권</a></li>
-									<li><a
-										href="javascript:void(0);">정기권</a></li>
-									<li><a
-										href="javascript:void(0);">상품
-											구매내역</a></li>
-								</ul></li>
-
-
-							<li><a href="javascript:void(0)">이용안내</a>
-								<ul>
-									<li><a href="javascript:void(0);">예매
-											안내</a></li>
-									<li><a
-										href="javascript:void(0);">결제수단
-											안내</a></li>
-									<li><a href="javascript:void(0);">승차권
-											환불안내</a></li>
-									<li><a href="javascript:void(0);">프리미엄
-											마일리지</a></li>
-
-									<li><a href="/ugd/trtrgd/Trtrgd.do">휴게소
-											환승안내</a></li>
-									<li><a href="/ugd/trmlgd/Trmlgd.do">고속버스
-											터미널</a></li>
-									<li><a href="/ugd/cacmgd/Cacmgd.do">고속버스
-											운송회사</a></li>
-								</ul></li>
-							<li><a href="javascript:void(0)">고객지원</a>
-								<ul>
-									<li><a
-										href="/cscn/ntcmttr/readNtcList.do">공지사항</a></li>
-									<li><a
-										href="/cscn/qna/readQnaList.do">자주찾는
-											질문</a></li>
-									<li><a
-										href="/cscn/lossClnc/readLossClncList.do">유실물센터
-											안내</a></li>
-								</ul></li>
-						</ul>
-					</div>
-					<div class="links">
-						<!-- <a href="https://www.tmoney.co.kr" class="btn btn-tmoney" title="새창" target="_blank">
-					<img src="/images/kor/layout/ico-tmoney-app.png" alt="" />고속버스 티머니
-					<i class="ico ico-arrow-new-window"></i>
-				</a> -->
-
-						<a href="/cscn/jobmttr/readJobList.do"
-							class="btn btn-job" title="새창" target="_blank"> <img
-							src="/koBus/images/ico-job-offer.png" alt="">승무사원 모집 <i
-							class="ico ico-arrow-new-window"></i>
-						</a>
-					</div>
-					<div class="bg-layer">
-						<a
-							href="https://safeconnect.co.kr/sfconn/login/csc_pc?et=psn249R01&amp;ptrSvcSn=psn249"
-							title="새창" class="gnb-baaner"> <img
-							src="/koBus/images/003-GNB.png" alt="ID 찾을 필요 없이, 전화번호 로그인!">
-							<!-- <iframe src="/koBus/images/_ad-tubebox-002GNB.html" title="프레임 (전화번호안심 로그인)" class="ad-frame"></iframe> -->
-						</a>
-					</div>
-				</div>
-			</nav>
-		</header>
 		
-		<script>
-	$( function() {
-		$( ".main-input-box main_box" ).tabs();
+<script>
+$( function() {
+	$( ".main-input-box main_box" ).tabs();
 
-		// datepicker 날짜가 선택되었을 때 자동 검사
-		$("#datepicker1, #datepicker2").on("change", function () {
-			validateDates();
-		});
+	$("#startdate_btn").click(function() {
+		$("#datepicker1").datepicker("show");
+	});
 
-		function formatDate(date) {
-		var year = date.getFullYear();
-		var month = ('0' + (date.getMonth() + 1)).slice(-2);
-		var day = ('0' + date.getDate()).slice(-2);
-		return year + '-' + month + '-' + day;
-		}
-
-		var today = new Date();
-		var tomorrow = new Date();
-		tomorrow.setDate(today.getDate() + 1); // 오늘 기준 +1일
-
-		var formattedDate = formatDate(today);
-		var formattedTomorrow = formatDate(tomorrow);
-
-		$("#datepicker1").val(formattedDate);
-		$("#datepicker2").val(formattedTomorrow);
+	$("#enddate_btn").click(function() {
+		$("#datepicker2").datepicker("show");
+	});
 
 
-		$("#datepicker1").datepicker({
-			dateFormat: "yy-mm-dd",
-			changeMonth: true,
-			changeYear: true,
-			showOn: "focus"
-		});
-
-		$("#datepicker2").datepicker({
-			dateFormat: "yy-mm-dd",
-			changeMonth: true,
-			changeYear: true,
-			showOn: "focus"
-		});
-
-		$("#startdate_btn").click(function() {
-			$("#datepicker1").datepicker("show");
-		});
-
-		$("#enddate_btn").click(function() {
-			$("#datepicker2").datepicker("show");
-		});
-
-
-	} );
-	</script>
+} );
+</script>
+	
+	<style>
+	#datepicker1, #datepicker2 {
+		display:none;
+	}
+	</style>
 	
 	
 
@@ -497,143 +290,6 @@ $(document).ready(function () {
 });
 </script>
 
-		<!-- 헤더 -->
-		<header id="new-kor-header">
-			<div class="top-menu-area">
-				<div class="container">
-					<h1 id="logo">
-						<a href="javascript:void(0);"> <img
-							src="/koBus/images/logo.png" alt="KOBUS 전국고속버스운송사업조합">
-						</a>
-					</h1>
-					<nav class="util-menus">
-						<ul class="util-list">
-
-							<c:choose>
-								<c:when test="${empty auth}">
-									<li><a class="login" href="/koBus/koBusFile/logonMain.jsp">로그인</a></li>
-									<li><a href="/koBus/koBusFile/joinMain.jsp">회원가입</a></li>
-								</c:when>
-								<c:otherwise>
-									<li>${auth} | </li> 
-									<li><a class="logout" href="/koBus/logOut.do">로그아웃</a></li>
-								</c:otherwise>
-							</c:choose>
-							<li><a
-								href="/koBus/koBusFile/logonMyPage.jsp">마이페이지</a></li>
-							<li><a
-								href="javascript:void(0);">결제내역조회</a></li>
-							<li><a href="javascript:void(0);">사이트맵</a></li>
-						</ul>
-
-						<div class="dropdown-wrap lang-select">
-							<a href="javascript:void(0)" class="btn-dropdown" title="언어선택"
-								aria-expanded="false"> <span class="text">한국어</span><i
-								class="ico ico-arrow-down"></i></a>
-							<ul class="dropdown-list" style="display: none;">
-								<li class="selected"><a href="javascript:void(0)"
-									data-lang="KO" title="선택됨">한국어</a></li>
-								<li><a href="javascript:void(0)" data-lang="EN">English</a></li>
-								<li><a href="javascript:void(0)" data-lang="CN">中文</a></li>
-								<li><a href="javascript:void(0)" data-lang="JP">日本語</a></li>
-							</ul>
-						</div>
-					</nav>
-				</div>
-			</div>
-			<nav class="gnb-menu-area">
-				<div class="container">
-					<div class="gnb-area">
-						<ul id="new-kor-gnb">
-							<li><a href="/koBus/kobusSeat.do">고속버스예매</a>
-								<ul>
-									<li><a href="javascript:void(0);">고속버스
-											예매</a></li>
-									<li><a href="javascript:void(0);">예매확인/취소/변경</a>
-									</li>
-									<li><a href="javascript:void(0);">영수증발행</a>
-									</li>
-								</ul></li>
-							<li><a href="javascript:void(0)">운행정보</a>
-								<ul>
-									<li><a
-										href="/koBus/kobusSchedule.do">시간표
-											조회</a></li>
-									<li><a
-										href="javascript:void(0);">도착시간
-											안내</a></li>
-								</ul></li>
-
-
-							<li><a href="javascript:void(0)">프리패스/정기권</a>
-								<ul>
-									<li><a
-										href="javascript:void(0);">프리패스
-											여행권</a></li>
-									<li><a
-										href="javascript:void(0);">정기권</a></li>
-									<li><a
-										href="javascript:void(0);">상품
-											구매내역</a></li>
-								</ul></li>
-
-
-							<li><a href="javascript:void(0)">이용안내</a>
-								<ul>
-									<li><a href="javascript:void(0);">예매
-											안내</a></li>
-									<li><a
-										href="javascript:void(0);">결제수단
-											안내</a></li>
-									<li><a href="javascript:void(0);">승차권
-											환불안내</a></li>
-									<li><a href="javascript:void(0);">프리미엄
-											마일리지</a></li>
-
-									<li><a href="/ugd/trtrgd/Trtrgd.do">휴게소
-											환승안내</a></li>
-									<li><a href="/ugd/trmlgd/Trmlgd.do">고속버스
-											터미널</a></li>
-									<li><a href="/ugd/cacmgd/Cacmgd.do">고속버스
-											운송회사</a></li>
-								</ul></li>
-							<li><a href="javascript:void(0)">고객지원</a>
-								<ul>
-									<li><a href="${pageContext.request.contextPath}/go_bus.do">공지사항</a>
-</li>
-									<li><a
-										href="/cscn/qna/readQnaList.do">자주찾는
-											질문</a></li>
-									<li><a
-										href="/cscn/lossClnc/readLossClncList.do">유실물센터
-											안내</a></li>
-								</ul></li>
-						</ul>
-					</div>
-					<div class="links">
-						<!-- <a href="https://www.tmoney.co.kr" class="btn btn-tmoney" title="새창" target="_blank">
-					<img src="/images/kor/layout/ico-tmoney-app.png" alt="" />고속버스 티머니
-					<i class="ico ico-arrow-new-window"></i>
-				</a> -->
-
-						<a href="/cscn/jobmttr/readJobList.do"
-							class="btn btn-job" title="새창" target="_blank"> <img
-							src="/koBus/images/ico-job-offer.png" alt="">승무사원 모집 <i
-							class="ico ico-arrow-new-window"></i>
-						</a>
-					</div>
-					<div class="bg-layer">
-						<a
-							href="https://safeconnect.co.kr/sfconn/login/csc_pc?et=psn249R01&amp;ptrSvcSn=psn249"
-							title="새창" class="gnb-baaner"> <img
-							src="/koBus/images/003-GNB.png" alt="ID 찾을 필요 없이, 전화번호 로그인!">
-							<!-- <iframe src="/koBus/images/_ad-tubebox-002GNB.html" title="프레임 (전화번호안심 로그인)" class="ad-frame"></iframe> -->
-						</a>
-					</div>
-				</div>
-			</nav>
-		</header>
-
 		<script type="text/javascript" src="/koBus/js/MainNew.js"></script>
 		<script type="text/javascript" src="/koBus/js/Main.js"></script>
 		<script type="text/javascript" src="/koBus/js/left.js"></script>
@@ -769,43 +425,35 @@ $(document).ready(function () {
 														</li>
 													</ul>
 													<div class="tab_cont">
-														<ul class="place">
-															<li><a href="javascript:void(0)"
-																id="readDeprInfoList"
-																onclick="fnReadDeprInfoList(event);"> <span
-																	class="name">출발지</span>
-																	<p class="text empty">
-																		<span class="empty_txt">선택</span><span class="val_txt"
-																			id="deprNmSpn"></span>
-																	</p> <!-- 값이 있을경우 'empty' class가 없음 -->
-															</a><!-- [2024 마크업 수정] -->
-																<button type="button" class="btn_change"
-																	onclick="fnCrchDeprArvl();" id="chgDeprArvl"
-																	style="display: block;">
-																	<span class="sr-only">출발지, 도착지 교체</span>
-																</button> <!-- // [2024 마크업 수정] --></li>
-															<li><a href="javascript:void(0)"
-																id="readArvlInfoList"
-																onclick="fnReadArvlInfoList(event);"> <span
-																	class="name">도착지</span>
-																	<p class="text empty">
-																		<span class="empty_txt">선택</span><span class="val_txt"
-																			id="arvlNmSpn"></span>
-																	</p> <!-- 값이 없을경우 'empty' class가 있음 -->
-															</a></li>
-														</ul>
-														<ul class="date">
+													<ul class="place">
+														<li><a href="javascript:void(0)"
+															id="readDeprInfoList"
+															onclick="fnReadDeprInfoList(event);"> <span
+																class="name">출발지</span>
+																<p class="text empty">
+																	<span class="empty_txt">선택</span><span class="val_txt"
+																		id="deprNmSpn"></span>
+																</p> <!-- 값이 있을경우 p에 'empty' class가 없음 -->
+														</a>
+															<p class="btn_change" onclick="fnCrchDeprArvl();">출,도착지
+																교체</p></li>
+														<li><a href="javascript:void(0)"
+															id="readArvlInfoList"
+															onclick="fnReadArvlInfoList(event);"> <span
+																class="name">도착지</span>
+																<p class="text empty">
+																	<span class="empty_txt">선택</span><span class="val_txt"
+																		id="arvlNmSpn"></span>
+																</p> <!-- 값이 없을경우 p에 'empty' class가 있음 -->
+														</a></li>
+													</ul>
+													<ul class="date">
 															<li>
 																<div class="date_picker_wrap">
 																	<span class="name">가는날</span> <input type="text"
 																		id="datepicker1" tabindex="-1" title="가는날"
 																		readonly="true">
-																	<button type="button" class="datepicker-btn"
-																		id="startdate_btn">
-																		<img class="ui-datepicker-trigger"
-																			src="/koBus/images/ico_calender.png" alt="가는날 선택 달력">
-																	</button>
-																	<!-- <label for="datepicker1" class="text_date text_date1">2025. 6. 7. 토</label> -->
+																	<label for="datepicker1" class="text_date text_date1">2025. 6. 7. 토</label>
 																	<span class="date_wrap"> <a
 																		href="javascript:void(0)" id="deprThddChc"
 																		class="active"
@@ -821,11 +469,13 @@ $(document).ready(function () {
 																	<!-- [2024 마크업 수정] -->
 																	<input type="text" id="datepicker2" tabindex="-1"
 																		title="오는날" readonly="">
-																	<button type="button" class="datepicker-btn"
+																	<!-- <button type="button" class="datepicker-btn"
 																		id="enddate_btn">
 																		<img class="ui-datepicker-trigger"
 																			src="/koBus/images/ico_calender.png" alt="오는날 선택 달력">
-																	</button>
+																	</button> -->
+																	<label for="datepicker2" class="text_date text_date2">2025. 6. 26. 목</label>
+
 																	<span class="date_wrap"> <a
 																		href="javascript:void(0)" id="arvlThddChc"
 																		class="active"
@@ -1867,7 +1517,6 @@ $(document).ready(function () {
 								<div class="terminal_scroll scrollbar-inner scroll-content"
 									style="height: 420px; margin-bottom: 0px; margin-right: 0px; max-height: none;">
 									<ul class="clear" id="tableTrmList">
-										<!-- <li class="over"><button type="button" onclick="fnDeprChc('200','강릉');">강릉</button></li><li><button type="button" onclick="fnDeprChc('535','강진');">강진</button></li><li><button type="button" onclick="fnDeprChc('852','경북도청');">경북도청</button></li><li><button type="button" onclick="fnDeprChc('815','경주');">경주</button></li><li><button type="button" onclick="fnDeprChc('201','경포해변');">경포해변</button></li><li><button type="button" onclick="fnDeprChc('355','고대조치원');">고대조치원</button></li><li><button type="button" onclick="fnDeprChc('116','고양백석');">고양백석</button></li><li><button type="button" onclick="fnDeprChc('635','고창');">고창</button></li><li><button type="button" onclick="fnDeprChc('540','고흥');">고흥</button></li><li><button type="button" onclick="fnDeprChc('320','공주');">공주</button></li><li><button type="button" onclick="fnDeprChc('520','광양');">광양</button></li><li><button type="button" onclick="fnDeprChc('500','광주(유·스퀘어)');">광주(유·스퀘어)</button></li><li><button type="button" onclick="fnDeprChc('503','광주비아');">광주비아</button></li><li><button type="button" onclick="fnDeprChc('422','교통대');">교통대</button></li><li><button type="button" onclick="fnDeprChc('519','구례');">구례</button></li><li><button type="button" onclick="fnDeprChc('169','구리');">구리</button></li><li><button type="button" onclick="fnDeprChc('810','구미');">구미</button></li><li><button type="button" onclick="fnDeprChc('610','군산');">군산</button></li><li><button type="button" onclick="fnDeprChc('330','금산');">금산</button></li><li><button type="button" onclick="fnDeprChc('620','김제');">김제</button></li><li><button type="button" onclick="fnDeprChc('735','김해');">김해</button></li><li><button type="button" onclick="fnDeprChc('736','김해장유');">김해장유</button></li><li><button type="button" onclick="fnDeprChc('530','나주');">나주</button></li><li><button type="button" onclick="fnDeprChc('531','나주혁신');">나주혁신</button></li><li><button type="button" onclick="fnDeprChc('824','낙동강(휴)상행');">낙동강(휴)상행</button></li><li><button type="button" onclick="fnDeprChc('823','낙동강(휴)하행');">낙동강(휴)하행</button></li><li><button type="button" onclick="fnDeprChc('625','남원');">남원</button></li><li><button type="button" onclick="fnDeprChc('390','내포');">내포</button></li><li><button type="button" onclick="fnDeprChc('545','녹동');">녹동</button></li><li><button type="button" onclick="fnDeprChc('370','논산');">논산</button></li><li><button type="button" onclick="fnDeprChc('587','능주');">능주</button></li><li><button type="button" onclick="fnDeprChc('582','담양');">담양</button></li><li><button type="button" onclick="fnDeprChc('312','당진');">당진</button></li><li><button type="button" onclick="fnDeprChc('388','당진기지시');">당진기지시</button></li><li><button type="button" onclick="fnDeprChc('807','대구용계');">대구용계</button></li><li><button type="button" onclick="fnDeprChc('307','대전도룡');">대전도룡</button></li><li><button type="button" onclick="fnDeprChc('300','대전복합');">대전복합</button></li><li><button type="button" onclick="fnDeprChc('305','대전청사(샘머리)');">대전청사(샘머리)</button></li><li><button type="button" onclick="fnDeprChc('399','덕산스파');">덕산스파</button></li><li><button type="button" onclick="fnDeprChc('525','동광양(중마)');">동광양(중마)</button></li><li><button type="button" onclick="fnDeprChc('801','동대구');">동대구</button></li><li><button type="button" onclick="fnDeprChc('032','동서울');">동서울</button></li><li><button type="button" onclick="fnDeprChc('210','동해');">동해</button></li><li><button type="button" onclick="fnDeprChc('705','마산');">마산</button></li><li><button type="button" onclick="fnDeprChc('706','마산내서');">마산내서</button></li><li><button type="button" onclick="fnDeprChc('505','목포');">목포</button></li><li><button type="button" onclick="fnDeprChc('550','무안');">무안</button></li><li><button type="button" onclick="fnDeprChc('337','배방정류소');">배방정류소</button></li><li><button type="button" onclick="fnDeprChc('555','벌교');">벌교</button></li><li><button type="button" onclick="fnDeprChc('395','보령');">보령</button></li><li><button type="button" onclick="fnDeprChc('554','보성');">보성</button></li><li><button type="button" onclick="fnDeprChc('700','부산');">부산</button></li><li><button type="button" onclick="fnDeprChc('220','삼척');">삼척</button></li><li><button type="button" onclick="fnDeprChc('221','삼척해변');">삼척해변</button></li><li><button type="button" onclick="fnDeprChc('825','상주');">상주</button></li><li><button type="button" onclick="fnDeprChc('805','서대구');">서대구</button></li><li><button type="button" onclick="fnDeprChc('703','서부산(사상)');">서부산(사상)</button></li><li><button type="button" onclick="fnDeprChc('393','서산');">서산</button></li><li><button type="button" onclick="fnDeprChc('010','서울경부');">서울경부</button></li><li><button type="button" onclick="fnDeprChc('419','서충주');">서충주</button></li><li><button type="button" onclick="fnDeprChc('347','선문대');">선문대</button></li><li><button type="button" onclick="fnDeprChc('813','선산(휴)상행');">선산(휴)상행</button></li><li><button type="button" onclick="fnDeprChc('812','선산(휴)하행');">선산(휴)하행</button></li><li><button type="button" onclick="fnDeprChc('529','섬진강(휴)상행');">섬진강(휴)상행</button></li><li><button type="button" onclick="fnDeprChc('528','섬진강(휴)하행');">섬진강(휴)하행</button></li><li><button type="button" onclick="fnDeprChc('120','성남(분당)');">성남(분당)</button></li><li><button type="button" onclick="fnDeprChc('361','세종국무조정실');">세종국무조정실</button></li><li><button type="button" onclick="fnDeprChc('362','세종시청');">세종시청</button></li><li><button type="button" onclick="fnDeprChc('351','세종연구단지');">세종연구단지</button></li><li><button type="button" onclick="fnDeprChc('353','세종청사');">세종청사</button></li><li><button type="button" onclick="fnDeprChc('352','세종터미널');">세종터미널</button></li><li><button type="button" onclick="fnDeprChc('021','센트럴시티(서울)');">센트럴시티(서울)</button></li><li><button type="button" onclick="fnDeprChc('230','속초');">속초</button></li><li><button type="button" onclick="fnDeprChc('110','수원');">수원</button></li><li><button type="button" onclick="fnDeprChc('645','순창');">순창</button></li><li><button type="button" onclick="fnDeprChc('515','순천');">순천</button></li><li><button type="button" onclick="fnDeprChc('513','순천신대지구');">순천신대지구</button></li><li><button type="button" onclick="fnDeprChc('195','시흥(시화)');">시흥(시화)</button></li><li><button type="button" onclick="fnDeprChc('114','신갈시외(두진A)');">신갈시외(두진A)</button></li><li><button type="button" onclick="fnDeprChc('119','신갈영덕(고속도로)');">신갈영덕(고속도로)</button></li><li><button type="button" onclick="fnDeprChc('512','신대');">신대</button></li><li><button type="button" onclick="fnDeprChc('344','아산둔포');">아산둔포</button></li><li><button type="button" onclick="fnDeprChc('341','아산서부(호서대)');">아산서부(호서대)</button></li><li><button type="button" onclick="fnDeprChc('336','아산시외');">아산시외</button></li><li><button type="button" onclick="fnDeprChc('340','아산온양');">아산온양</button></li><li><button type="button" onclick="fnDeprChc('342','아산탕정사무소');">아산탕정사무소</button></li><li><button type="button" onclick="fnDeprChc('338','아산테크노밸리');">아산테크노밸리</button></li><li><button type="button" onclick="fnDeprChc('840','안동');">안동</button></li><li><button type="button" onclick="fnDeprChc('396','안면도');">안면도</button></li><li><button type="button" onclick="fnDeprChc('190','안산');">안산</button></li><li><button type="button" onclick="fnDeprChc('130','안성');">안성</button></li><li><button type="button" onclick="fnDeprChc('133','안성공도');">안성공도</button></li><li><button type="button" onclick="fnDeprChc('137','안성대림');">안성대림</button></li><li><button type="button" onclick="fnDeprChc('131','안성중대');">안성중대</button></li><li><button type="button" onclick="fnDeprChc('132','안성풍림');">안성풍림</button></li><li><button type="button" onclick="fnDeprChc('134','안성한경');">안성한경</button></li><li><button type="button" onclick="fnDeprChc('138','안성회관');">안성회관</button></li><li><button type="button" onclick="fnDeprChc('177','안중');">안중</button></li><li><button type="button" onclick="fnDeprChc('176','안중오거리');">안중오거리</button></li><li><button type="button" onclick="fnDeprChc('619','애통리');">애통리</button></li><li><button type="button" onclick="fnDeprChc('270','양양');">양양</button></li><li><button type="button" onclick="fnDeprChc('510','여수');">여수</button></li><li><button type="button" onclick="fnDeprChc('140','여주');">여주</button></li><li><button type="button" onclick="fnDeprChc('139','여주대');">여주대</button></li><li><button type="button" onclick="fnDeprChc('141','여주프리미엄아울렛');">여주프리미엄아울렛</button></li><li><button type="button" onclick="fnDeprChc('509','여천');">여천</button></li><li><button type="button" onclick="fnDeprChc('380','연무대');">연무대</button></li><li><button type="button" onclick="fnDeprChc('560','영광');">영광</button></li><li><button type="button" onclick="fnDeprChc('843','영덕');">영덕</button></li><li><button type="button" onclick="fnDeprChc('570','영암');">영암</button></li><li><button type="button" onclick="fnDeprChc('272','영월');">영월</button></li><li><button type="button" onclick="fnDeprChc('835','영주');">영주</button></li><li><button type="button" onclick="fnDeprChc('845','영천');">영천</button></li><li><button type="button" onclick="fnDeprChc('846','영천망정동');">영천망정동</button></li><li><button type="button" onclick="fnDeprChc('112','영통');">영통</button></li><li><button type="button" onclick="fnDeprChc('398','예산');">예산</button></li><li><button type="button" onclick="fnDeprChc('851','예천');">예천</button></li><li><button type="button" onclick="fnDeprChc('127','오산');">오산</button></li><li><button type="button" onclick="fnDeprChc('588','옥과');">옥과</button></li><li><button type="button" onclick="fnDeprChc('575','완도');">완도</button></li><li><button type="button" onclick="fnDeprChc('150','용인');">용인</button></li><li><button type="button" onclick="fnDeprChc('161','용인기흥역');">용인기흥역</button></li><li><button type="button" onclick="fnDeprChc('111','용인신갈(고가밑)');">용인신갈(고가밑)</button></li><li><button type="button" onclick="fnDeprChc('149','용인유림');">용인유림</button></li><li><button type="button" onclick="fnDeprChc('715','울산');">울산</button></li><li><button type="button" onclick="fnDeprChc('716','울산신복');">울산신복</button></li><li><button type="button" onclick="fnDeprChc('578','원동');">원동</button></li><li><button type="button" onclick="fnDeprChc('240','원주');">원주</button></li><li><button type="button" onclick="fnDeprChc('246','원주기업도시');">원주기업도시</button></li><li><button type="button" onclick="fnDeprChc('245','원주문막');">원주문막</button></li><li><button type="button" onclick="fnDeprChc('244','원주혁신');">원주혁신</button></li><li><button type="button" onclick="fnDeprChc('360','유성');">유성</button></li><li><button type="button" onclick="fnDeprChc('170','의정부');">의정부</button></li><li><button type="button" onclick="fnDeprChc('160','이천');">이천</button></li><li><button type="button" onclick="fnDeprChc('172','이천부발(신하리)');">이천부발(신하리)</button></li><li><button type="button" onclick="fnDeprChc('615','익산');">익산</button></li><li><button type="button" onclick="fnDeprChc('616','익산팔봉');">익산팔봉</button></li><li><button type="button" onclick="fnDeprChc('325','인삼랜드(휴)상행');">인삼랜드(휴)상행</button></li><li><button type="button" onclick="fnDeprChc('324','인삼랜드(휴)하행');">인삼랜드(휴)하행</button></li><li><button type="button" onclick="fnDeprChc('100','인천');">인천</button></li><li><button type="button" onclick="fnDeprChc('105','인천공항T1');">인천공항T1</button></li><li><button type="button" onclick="fnDeprChc('117','인천공항T2');">인천공항T2</button></li><li><button type="button" onclick="fnDeprChc('622','자치인재원');">자치인재원</button></li><li><button type="button" onclick="fnDeprChc('583','장성');">장성</button></li><li><button type="button" onclick="fnDeprChc('580','장흥');">장흥</button></li><li><button type="button" onclick="fnDeprChc('621','전북혁신');">전북혁신</button></li><li><button type="button" onclick="fnDeprChc('602','전주고속터미널');">전주고속터미널</button></li><li><button type="button" onclick="fnDeprChc('605','전주호남제일문');">전주호남제일문</button></li><li><button type="button" onclick="fnDeprChc('850','점촌');">점촌</button></li><li><button type="button" onclick="fnDeprChc('392','정산');">정산</button></li><li><button type="button" onclick="fnDeprChc('316','정안(휴)상행');">정안(휴)상행</button></li><li><button type="button" onclick="fnDeprChc('315','정안(휴)하행');">정안(휴)하행</button></li><li><button type="button" onclick="fnDeprChc('630','정읍');">정읍</button></li><li><button type="button" onclick="fnDeprChc('450','제천');">제천</button></li><li><button type="button" onclick="fnDeprChc('449','제천하소');">제천하소</button></li><li><button type="button" onclick="fnDeprChc('350','조치원');">조치원</button></li><li><button type="button" onclick="fnDeprChc('202','주문진');">주문진</button></li><li><button type="button" onclick="fnDeprChc('118','죽전');">죽전</button></li><li><button type="button" onclick="fnDeprChc('585','지도');">지도</button></li><li><button type="button" onclick="fnDeprChc('590','진도');">진도</button></li><li><button type="button" onclick="fnDeprChc('722','진주');">진주</button></li><li><button type="button" onclick="fnDeprChc('723','진주개양');">진주개양</button></li><li><button type="button" onclick="fnDeprChc('724','진주혁신');">진주혁신</button></li><li><button type="button" onclick="fnDeprChc('704','진해');">진해</button></li><li><button type="button" onclick="fnDeprChc('397','창기리');">창기리</button></li><li><button type="button" onclick="fnDeprChc('710','창원');">창원</button></li><li><button type="button" onclick="fnDeprChc('711','창원역');">창원역</button></li><li><button type="button" onclick="fnDeprChc('310','천안');">천안</button></li><li><button type="button" onclick="fnDeprChc('346','천안3공단');">천안3공단</button></li><li><button type="button" onclick="fnDeprChc('343','천안아산역');">천안아산역</button></li><li><button type="button" onclick="fnDeprChc('391','청양');">청양</button></li><li><button type="button" onclick="fnDeprChc('401','청주(센트럴)');">청주(센트럴)</button></li><li><button type="button" onclick="fnDeprChc('400','청주고속터미널');">청주고속터미널</button></li><li><button type="button" onclick="fnDeprChc('407','청주공항');">청주공항</button></li><li><button type="button" onclick="fnDeprChc('405','청주대정류소');">청주대정류소</button></li><li><button type="button" onclick="fnDeprChc('406','청주북부');">청주북부</button></li><li><button type="button" onclick="fnDeprChc('250','춘천');">춘천</button></li><li><button type="button" onclick="fnDeprChc('420','충주');">충주</button></li><li><button type="button" onclick="fnDeprChc('349','탕정삼성LCD');">탕정삼성LCD</button></li><li><button type="button" onclick="fnDeprChc('394','태안');">태안</button></li><li><button type="button" onclick="fnDeprChc('730','통영');">통영</button></li><li><button type="button" onclick="fnDeprChc('180','평택');">평택</button></li><li><button type="button" onclick="fnDeprChc('175','평택대');">평택대</button></li><li><button type="button" onclick="fnDeprChc('174','평택용이동');">평택용이동</button></li><li><button type="button" onclick="fnDeprChc('830','포항');">포항</button></li><li><button type="button" onclick="fnDeprChc('828','포항시청');">포항시청</button></li><li><button type="button" onclick="fnDeprChc('834','풍기');">풍기</button></li><li><button type="button" onclick="fnDeprChc('581','함평');">함평</button></li><li><button type="button" onclick="fnDeprChc('595','해남');">해남</button></li><li><button type="button" onclick="fnDeprChc('552','해제');">해제</button></li><li><button type="button" onclick="fnDeprChc('354','홍대조치원');">홍대조치원</button></li><li><button type="button" onclick="fnDeprChc('389','홍성');">홍성</button></li><li><button type="button" onclick="fnDeprChc('586','화순');">화순</button></li><li><button type="button" onclick="fnDeprChc('440','황간');">황간</button></li><li><button type="button" onclick="fnDeprChc('239','횡성(휴)상행');">횡성(휴)상행</button></li><li><button type="button" onclick="fnDeprChc('238','횡성(휴)하행');">횡성(휴)하행</button></li><li><button type="button" onclick="fnDeprChc('634','흥덕');">흥덕</button></li> -->
 									</ul>
 								</div>
 								<div class="scroll-element scroll-x">
@@ -1941,158 +1590,9 @@ $(document).ready(function () {
 					$("#areaListAll").removeClass("active");
 					$(this).addClass("active");
 					
-
-					// 지역 코드별 역 목록
-					const terminalMap = {
-						"all": ["강릉", "강진", "경북도청", "고성", "광주", "광주터미널", "구미", "군산", "김제", "김천", 
-								"김해", "남원", "논산", "대구", "대전", "동서울", "마산", "목포", "무안", "부산", "부천", "사천", 
-								"서대전", "서울", "서울남부터미널", "성남", "속초", "순천", "안산", "양산", "양양", "여수", "영광", 
-								"영덕", "영산포", "영암", "오산", "완도", "용인", "울산", "익산", "인천", "전주", "제주", "진도", 
-								"진주", "창원", "천안", "청주", "춘천", "충주", "통영", "포항", "해남", "홍성", "화순"],
-						"11": ["동서울", "서울경부", "센트럴시티(서울)"],
-						"28": ["인천", "계양", "부평"],
-						"42": ["춘천", "원주"],
-						"30": ["대전", "천안", "청주"],
-						"43": ["대구", "동성로", "칠곡"],
-						"29": ["부산", "서면", "울산삼산"],
-						"45": ["창원", "진주"],
-						"26": ["광주상무", "목포", "제주"],
-						"27": ["광주상무", "목포", "제주"]
-					};
-
-					const terminalList = [
-						  { code: "200", name: "강릉" },
-						  { code: "535", name: "강진" },
-						  { code: "852", name: "경북도청" },
-						  { code: "815", name: "경주" },
-						  { code: "201", name: "경포해변" },
-						  { code: "355", name: "고대조치원" },
-						  { code: "116", name: "고양백석" },
-						  { code: "635", name: "고창" },
-						  { code: "540", name: "고흥" },
-						  { code: "320", name: "공주" },
-						  { code: "520", name: "광양" },
-						  { code: "500", name: "광주(유·스퀘어)" },
-						  { code: "503", name: "광주비아" },
-						  { code: "422", name: "교통대" },
-						  { code: "519", name: "구례" },
-						  { code: "169", name: "구리" },
-						  { code: "810", name: "구미" },
-						  { code: "610", name: "군산" },
-						  { code: "330", name: "금산" },
-						  { code: "620", name: "김제" },
-						  { code: "735", name: "김해" },
-						  { code: "736", name: "김해장유" },
-						  { code: "530", name: "나주" },
-						  { code: "531", name: "나주혁신" },
-						  { code: "824", name: "낙동강(휴)상행" },
-						  { code: "823", name: "낙동강(휴)하행" },
-						  { code: "625", name: "남원" },
-						  { code: "390", name: "내포" },
-						  { code: "545", name: "녹동" },
-						  { code: "370", name: "논산" },
-						  { code: "587", name: "능주" },
-						  { code: "582", name: "담양" },
-						  { code: "312", name: "당진" },
-						  { code: "388", name: "당진기지시" },
-						  { code: "807", name: "대구용계" },
-						  { code: "307", name: "대전도룡" },
-						  { code: "300", name: "대전복합" },
-						  { code: "305", name: "대전청사(샘머리)" },
-						  { code: "399", name: "덕산스파" },
-						  { code: "525", name: "동광양(중마)" },
-						  { code: "801", name: "동대구" },
-						  { code: "032", name: "동서울" },
-						  { code: "210", name: "동해" },
-						  { code: "705", name: "마산" },
-						  { code: "706", name: "마산내서" },
-						  { code: "505", name: "목포" },
-						  { code: "550", name: "무안" },
-						  { code: "337", name: "배방정류소" },
-						  { code: "555", name: "벌교" },
-						  { code: "395", name: "보령" },
-						  { code: "554", name: "보성" },
-						  { code: "700", name: "부산" },
-						  { code: "220", name: "삼척" },
-						  { code: "221", name: "삼척해변" },
-						  { code: "825", name: "상주" },
-						  { code: "805", name: "서대구" },
-						  { code: "703", name: "서부산(사상)" },
-						  { code: "393", name: "서산" },
-						  { code: "010", name: "서울경부" },
-						  { code: "419", name: "서충주" },
-						  { code: "347", name: "선문대" },
-						  { code: "813", name: "선산(휴)상행" },
-						  { code: "812", name: "선산(휴)하행" },
-						  { code: "900", name: "고성" },
-						  { code: "901", name: "광주" },
-						  { code: "902", name: "광주터미널" },
-						  { code: "904", name: "김천" },
-						  { code: "906", name: "대구" },
-						  { code: "907", name: "대전" },
-						  { code: "909", name: "사천" },
-						  { code: "910", name: "서대전" },
-						  { code: "911", name: "서울" },
-						  { code: "912", name: "서울남부터미널" },
-						  { code: "913", name: "성남" },
-						  { code: "914", name: "속초" },
-						  { code: "915", name: "순천" },
-						  { code: "916", name: "안산" },
-						  { code: "917", name: "양산" },
-						  { code: "918", name: "양양" },
-						  { code: "919", name: "여수" },
-						  { code: "920", name: "영광" },
-						  { code: "921", name: "영덕" },
-						  { code: "922", name: "영산포" },
-						  { code: "923", name: "영암" },
-						  { code: "924", name: "오산" },
-						  { code: "925", name: "완도" },
-						  { code: "926", name: "용인" },
-						  { code: "928", name: "익산" },
-						  { code: "930", name: "전주" },
-						  { code: "931", name: "제주" },
-						  { code: "932", name: "진도" },
-						  { code: "933", name: "진주" },
-						  { code: "934", name: "창원" },
-						  { code: "935", name: "천안" },
-						  { code: "936", name: "청주" },
-						  { code: "937", name: "춘천" },
-						  { code: "938", name: "충주" },
-						  { code: "939", name: "통영" },
-						  { code: "940", name: "포항" },
-						  { code: "941", name: "해남" },
-						  { code: "942", name: "홍성" },
-						  { code: "943", name: "화순" },
-						  { code: "012", name: "센트럴시티(서울)" },
-						  { code: "013", name: "계양" },
-						  { code: "014", name: "부평" },
-						  { code: "015", name: "원주" },
-						  { code: "018", name: "동성로" },
-						  { code: "019", name: "칠곡" },
-						  { code: "020", name: "서면" },
-						  { code: "023", name: "광주상무" }
-						];
-
-
-					// 선택한 지역의 극장 목록 가져오기
-					const terminals = terminalMap[regionCode] || [];
-
-					// ul 내부 내용 교체
-					function getCodeByName(name) {
-						const terminal = terminalList.find(t => t.name === name);
-						return terminal ? terminal.code : "";
-					}
-
-
-					// ul 내부 내용 생성 (code와 name 모두 넘김)
-					const listHtml = terminals.map(name => {
-						const code = getCodeByName(name);
-						return `<li><button type="button" onclick="fnDeprChc('\${code}','\${name}');">\${name}</button></li>`;
-					}).join("");
-					
-					$("#tableTrmList").html(listHtml);
+					getRotLinInf(regionCode);
 				}
-
+				
 				let isSelectingDepr = true;
 
 				$("#readDeprInfoList").on("click", function() {
@@ -2132,17 +1632,6 @@ $(document).ready(function () {
 
 
 				}
-
-				// function fncfmBtnChc() {
-
-				// 	if (isSelectingDepr) {
-				// 		$("#readDeprInfoList > p").removeClass("empty");
-				// 		$("#deprNmSpn").text(deprName);
-				// 	} else {
-				// 		$("#readArvlInfoList > p").removeClass("empty");
-				// 		$("#arvlNmSpn").text(arvlName);
-				// 	}
-				// }
 
 			</script>
 

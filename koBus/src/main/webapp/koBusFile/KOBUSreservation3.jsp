@@ -2,6 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/ui/1.14.1/jquery-ui.js"></script>
+<style>
+   #datepicker1, #datepicker2 {
+      display:none;
+   }
+</style>
 <html lang="ko" class="pc"><head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
@@ -33,6 +41,17 @@
 
 <link rel="stylesheet" type="text/css" href="/koBus/css/ui.jqgrid.custom.css">
 
+<script>
+     $( function() {
+     $("#startdate_btn").click(function(){
+		 $("#datepicker1").datepicker("show");
+	});
+
+	 $("#enddate_btn").click(function(){
+		 $("#datepicker2").datepicker("show");
+	});
+ });
+</script>
 
 <script type="text/javascript">
 //쿠키 가져오기
@@ -87,7 +106,7 @@ $(document).ready(function() {
 				location.href.indexOf("/adtnprdnew/prchpt/adtnrecppubmbl.do") < 0 && 
 				location.href.indexOf("/adtnprdnew/frps/frpsPrchGdMbl.do") < 0 &&
 				location.href.indexOf("/mbrs/mbrsscsn.do") < 0) {
-			location.href = "/mblIdx.do";
+			/* location.href = "/mblIdx.do"; */
 			return false;
 		}
 	} else {
@@ -135,30 +154,18 @@ if (lngCd == "KO") {
 }
 
 </script>
-<script type="text/javascript" src="/koBus/js/ui.js?v=0102"></script>
+<script type="text/javascript" src="/koBus/js/common/ui.js"></script>
 <script type="text/javascript" src="/koBus/js/plugin.js"></script>
-<script type="text/javascript" src="/koBus/js/common.js?v=0102.1"></script>
+<script type="text/javascript" src="/koBus/js/common.js"></script>
 
 <script type="text/javascript" src="/koBus/js/jquery/jquery.number.js"></script>
-<script type="text/javascript" src="/koBus/js/security.js?v=0.3"></script>
+<script type="text/javascript" src="/koBus/js/security.js"></script>
 	
 	
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" type="text/css" href="/koBus/css/kor/style.css"><script type="text/javascript" src="/koBus/js/kor/new-kor-ui.js?v=0102.0"></script></head>
 
-
+<%@ include file="common/header.jsp" %>
 	
-	
-		
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -681,8 +688,9 @@ $(document).ready(function () {
 	노선조회팝업화면 호출시 RotInfPup.js와 RotInfPup.jsp를 호출해준다.
 	RotInfPup.js 에서 fnEmptyCssStup() 를 호출한다. 부모페이지에서 해당 function 생성해서 해당page에 맞는 내용으로 변경해준다.
  -->
-<script type="text/javascript" src="/koBus/js/common/kor/popup/RotInfPup.js?v=0102.0"></script>
-<script type="text/javascript" src="/koBus/js/kor/mrs/rotinf/RotInf.js?v=0530"></script>
+<script type="text/javascript" src="/koBus/js/common/RotInfPup.js"></script>
+		<script type="text/javascript" src="/koBus/js/common/RotInf.js"></script>
+		<script type="text/javascript" src="/koBus/js/MrsCfmLgn.js"></script>
 <style>
 .oneway { width:100%; }
 
@@ -871,43 +879,45 @@ $(document).ready(function () {
 								
 								
 							</ul>
-							<ul class="date">
 							
-								<li>
-									<div class="date_picker_wrap">
-										<span class="name">가는날</span>
-										<p class="text">
-											<!-- [2024 마크업 수정] -->
-											<input type="text" id="datepicker11" tabindex="-1" title="가는날" readonly="" class="hasDatepicker"><button type="button" class="datepicker-btn"><img class="ui-datepicker-trigger" src="/koBus/images/page/ico_calender.png" alt="가는날 선택 달력"></button>
-											<label for="datepicker11" class="text_date text_date1">2025. 6. 7. 토</label>
-											<!-- // [2024 마크업 수정] -->
-										</p>
-										
-											<span class="date_wrap">
-												<a href="javascript:void(0)" id="deprThddChc" class="active" onclick="fnYyDtmStup(0,'text_date1','0');" title="선택됨">오늘</a>
-												<a href="javascript:void(0)" id="deprNxdChc" onclick="fnYyDtmStup(1,'text_date1','0');">내일</a>
-											</span>
-										
-									</div>
-								</li>
-								<li class="return">
-									
-									<div class="date_picker_wrap">
-										<span class="name">오는날</span>
-										<p class="text">
-											<!-- [2024 마크업 수정] -->
-											<input type="text" id="datepicker22" tabindex="-1" title="오는날" readonly="" class="hasDatepicker"><button type="button" class="datepicker-btn"><img class="ui-datepicker-trigger" src="/koBus/images/page/ico_calender.png" alt="오는날 선택 달력"></button>
-											<label for="datepicker22" class="text_date text_date2">2025. 6. 7. 토</label>
-											<!-- // [2024 마크업 수정] -->
-										</p>
-										<span class="date_wrap">
-											<a href="javascript:void(0)" id="arvlThddChc" class="active" onclick="fnYyDtmStup(0,'text_date2','0');" title="선택됨">오늘</a>
-											<a href="javascript:void(0)" id="arvlNxdChc" onclick="fnYyDtmStup(1,'text_date2','0');">내일</a>
-										</span>
-									</div>
-								</li>
-							</ul>
-							<div class="grade">
+							<ul class="date">
+                                             <li>
+                                                <div class="date_picker_wrap">
+                                                   <span class="name">가는날</span> <input type="text"
+                                                      id="datepicker1" tabindex="-1" title="가는날"
+                                                      readonly="true">
+
+                                                   <label for="datepicker1" class="text_date text_date1">2025. 6. 7. 토</label>
+                                                   <span class="date_wrap"> <a
+                                                      href="javascript:void(0)" id="deprThddChc"
+                                                      class="active"
+                                                      onclick="fnYyDtmStup(0,'text_date1','0');" title="선택됨">오늘</a>
+                                                      <a href="javascript:void(0)" id="deprNxdChc"
+                                                      onclick="fnYyDtmStup(1,'text_date1','0');">내일</a>
+                                                   </span>
+                                                </div>
+                                             </li>
+                                             <li class="return">
+                                                <div class="date_picker_wrap">
+                                                   <span class="name">오는날</span>
+                                                   <!-- [2024 마크업 수정] -->
+                                                   <input type="text" id="datepicker2" tabindex="-1"
+                                                      title="오는날" readonly="">
+
+                                                  <!--  <label for="datepicker2" class="text_date text_date2">2025. 6. 26. 목</label> -->
+                                                   <span class="date_wrap"> <a
+                                                      href="javascript:void(0)" id="arvlThddChc"
+                                                      class="active"
+                                                      onclick="fnYyDtmStup(0,'text_date2','0');" title="선택됨">오늘</a>
+                                                      <a href="javascript:void(0)" id="arvlNxdChc"
+                                                      onclick="fnYyDtmStup(1,'text_date2','0');">내일</a>
+                                                   </span>
+                                                </div>
+                                             </li>
+                                 </ul>
+                                 
+
+								<div class="grade">
 								<span class="name">등급</span>
 								<p>
 									<span class="custom_radio custom_radio_area gradeAll" style="margin-left: 45.3333px;">
@@ -1760,35 +1770,46 @@ $(document).ready(function () {
 		<button data-remodal-action="confirm" class="remodal-confirm" onclick="fnRotVldChc();">확인</button>
 	</div>
 	<button data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
-</div></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div class="remodal pop_route remodal-is-initialized remodal-is-closed" data-remodal-id="popTmpTml" role="dialog" tabindex="-1">
-	<div class="title">
-		<h2>광양 임시터미널 안내</h2>
+</div></div>
+	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
+		<div
+			class="remodal pop_route remodal-is-initialized remodal-is-closed"
+			data-remodal-id="popTmpTml" role="dialog" tabindex="-1">
+			<div class="title">
+				<h2>광양 임시터미널 안내</h2>
+			</div>
+			<div class="cont">
+				<ul class="txt">
+					<li><strong>광양 임시터미널(인동숲 주차장) 안내</strong>
+						<p style="margin-top: 10px;">
+							<img src="/koBus/images/page/pop_img01.png"
+								alt="광양임시터미널 - 타이어뱅크와 국민은행 사이 옆길 진입도" width="640">
+						</p></li>
+					<li><strong>광양 임시터미널 승차홈</strong>
+						<p>
+							<img src="/koBus/images/page/pop_img02.png"
+								alt="광양임시터미널 승차홈별 지역(상세 다음 참고)" width="640">
+						</p>
+						<div class="sr-only">
+							<ul>
+								<li>1승차홈 : 서울(센트럴), 동서울, 대전, 청주, 통영</li>
+								<li>2승차홈 : 광주, 목포, 인천공항</li>
+								<li>3승차홈 : 동광양, 대구/부천, 성남/수원, 안산/안양, 인천/전주</li>
+								<li>4승차홈 : 경주, 노포, 동래, 부산사상, 포항</li>
+								<li>5승차홈 : 김해, 남해, 마산, 울산, 진교, 진주</li>
+								<li>6승차홈 : 광영/녹동, 순천/여천, 여수/완도, 태인도, 해남</li>
+							</ul>
+						</div>
+						<p></p></li>
+				</ul>
+			</div>
+			<div class="btns">
+				<button data-remodal-action="confirm" class="remodal-confirm"
+					onclick="fnRotVldChc();">확인</button>
+			</div>
+			<button data-remodal-action="close" class="remodal-close">
+				<span class="sr-only">닫기</span>
+			</button>
+		</div>
 	</div>
-	<div class="cont">
-		<ul class="txt">
-			<li>
-				<strong>광양 임시터미널(인동숲 주차장) 안내</strong>
-				<p style="margin-top:10px;"><img src="/koBus/images/page/pop_img01.png" alt="광양임시터미널 - 타이어뱅크와 국민은행 사이 옆길 진입도" width="640"></p>
-			</li>
-			<li><strong>광양 임시터미널 승차홈</strong>
-				<p>
-					<img src="/koBus/images/page/pop_img02.png" alt="광양임시터미널 승차홈별 지역(상세 다음 참고)" width="640">
-					</p><div class="sr-only">
-						<ul>
-							<li>1승차홈 : 서울(센트럴), 동서울, 대전, 청주, 통영</li>
-							<li>2승차홈 : 광주, 목포, 인천공항</li>
-							<li>3승차홈 : 동광양, 대구/부천, 성남/수원, 안산/안양, 인천/전주</li>
-							<li>4승차홈 : 경주, 노포, 동래, 부산사상, 포항</li>
-							<li>5승차홈 : 김해, 남해, 마산, 울산, 진교, 진주</li>
-							<li>6승차홈 : 광영/녹동, 순천/여천, 여수/완도, 태인도, 해남</li>
-						</ul>
-					</div>
-				<p></p>
-			</li>
-		</ul>
-	</div>
-	<div class="btns">
-		<button data-remodal-action="confirm" class="remodal-confirm" onclick="fnRotVldChc();">확인</button>
-	</div>
-	<button data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
-</div></div><div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all hasDatepicker" tabindex="0"><div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all"><a class="ui-datepicker-prev ui-corner-all ui-state-disabled" title="이전달"><span class="ui-icon ui-icon-circle-triangle-w">이전달</span></a><a class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click" title="다음달"><span class="ui-icon ui-icon-circle-triangle-e">다음달</span></a><div class="ui-datepicker-title"><span class="ui-datepicker-year">2025</span>.&nbsp;<span class="ui-datepicker-month">6</span></div></div><table class="ui-datepicker-calendar"><caption>날짜 선택 달력</caption><thead><tr><th scope="col" class="ui-datepicker-week-end"><span title="일요일">일</span></th><th scope="col"><span title="월요일">월</span></th><th scope="col"><span title="화요일">화</span></th><th scope="col"><span title="수요일">수</span></th><th scope="col"><span title="목요일">목</span></th><th scope="col"><span title="금요일">금</span></th><th scope="col" class="ui-datepicker-week-end"><span title="토요일">토</span></th></tr></thead><tbody><tr><td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">1</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">2</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">3</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">4</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">5</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">6</span></td><td class=" ui-datepicker-week-end ui-datepicker-days-cell-over  ui-datepicker-current-day ui-datepicker-today" data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default ui-state-highlight ui-state-active ui-state-hover" href="#">7</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">8</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">9</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">10</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">11</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">12</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">13</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">14</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">15</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">16</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">17</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">18</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">19</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">20</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">21</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">22</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">23</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">24</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">25</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">26</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">27</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">28</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">29</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">30</a></td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td></tr></tbody></table><div class="ui-datepicker-inline ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" style="display: block;"><div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all"><a class="ui-datepicker-prev ui-corner-all" data-handler="prev" data-event="click" title="이전달"><span class="ui-icon ui-icon-circle-triangle-w">이전달</span></a><a class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click" title="다음달"><span class="ui-icon ui-icon-circle-triangle-e">다음달</span></a><div class="ui-datepicker-title"><span class="ui-datepicker-year">2025</span>.&nbsp;<span class="ui-datepicker-month">6</span></div></div><table class="ui-datepicker-calendar"><caption>날짜 선택 달력</caption><thead><tr><th scope="col" class="ui-datepicker-week-end"><span title="일요일">일</span></th><th scope="col"><span title="월요일">월</span></th><th scope="col"><span title="화요일">화</span></th><th scope="col"><span title="수요일">수</span></th><th scope="col"><span title="목요일">목</span></th><th scope="col"><span title="금요일">금</span></th><th scope="col" class="ui-datepicker-week-end"><span title="토요일">토</span></th></tr></thead><tbody><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">1</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">2</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">3</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">4</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">5</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">6</a></td><td class=" ui-datepicker-week-end ui-datepicker-days-cell-over ui-datepicker-today ui-datepicker-current-day ui-datepicker-today" title="오늘" data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default ui-state-highlight ui-state-active ui-state-hover" href="#">7</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">8</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">9</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">10</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">11</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">12</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">13</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">14</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">15</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">16</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">17</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">18</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">19</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">20</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">21</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">22</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">23</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">24</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">25</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">26</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">27</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">28</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">29</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">30</a></td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td></tr></tbody></table></div></div></body></html>
+</body></html>
