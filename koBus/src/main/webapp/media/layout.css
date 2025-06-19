@@ -42,7 +42,7 @@
 	position: absolute;
 	right: 5px;
 	bottom: 5px;
-	background: url(/images/kor/page/input_after.png) 0 0 no-repeat;
+	background: url('/koBus/media/input_after.png') 0 0 no-repeat;
 	background-size: 100%;
 	width: 8px;
 	height: 8px;

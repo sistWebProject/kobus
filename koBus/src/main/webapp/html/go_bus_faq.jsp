@@ -4,6 +4,11 @@
 <%@page import="java.sql.Connection"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+ <%
+ServletContext context = request.getServletContext();
+String realPath = context.getRealPath("/");
+out.print(realPath);
+%> 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport"
 	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
@@ -13,6 +18,8 @@
 <!-- CSS -->
 <link rel="stylesheet" href="/koBus/media/style.css">
 <link rel="stylesheet" href="/koBus/media/ui.jqgrid.custom.css">
+<link rel="stylesheet" href="/koBus/media/layout.css">
+<link rel="stylesheet" href="/koBus/media/content.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
 
 <!-- JS -->
@@ -124,7 +131,7 @@
 											.indexOf("/adtnprdnew/frps/frpsPrchGdMbl.do") < 0
 									&& location.href
 											.indexOf("/mbrs/mbrsscsn.do") < 0) {
-								location.href = "/mblIdx.do";
+								/* location.href = "/mblIdx.do"; */
 								return false;
 							}
 						} else {
@@ -186,23 +193,17 @@
 		}
 	}
 </script>
-<script type="text/javascript"
-	src="/koBus/media/ui.js"></script>
-<script type="text/javascript"
-	src="/koBus/media/plugin.js"></script>
-<script type="text/javascript"
-	src="/koBus/media/common.js"></script>
+<script type="text/javascript" src="/koBus/media/ui.js"></script>
+<script type="text/javascript" src="/koBus/media/plugin.js"></script>
+<script type="text/javascript" src="/koBus/media/common.js"></script>
 
-<script type="text/javascript"
-	src="/koBus/media/jquery.number.js"></script>
-<script type="text/javascript"
-	src="/koBus/media/security.js"></script>
+<script type="text/javascript" src="/koBus/media/jquery.number.js"></script>
+<script type="text/javascript" src="/koBus/media/security.js"></script>
 
 
-<link rel="stylesheet" type="text/css"
-	href="/koBus/media/style.css">
-<script type="text/javascript"
-	src="/koBus/media/new-kor-ui.js"></script>
+<link rel="stylesheet" type="text/css"	href="/koBus/media/style.css">
+<script type="text/javascript"	src="/koBus/media/new-kor-ui.js"></script>
+
 </head>
 
 
@@ -215,9 +216,7 @@
 	<!-- [리뉴얼] 스킵 네비게이션 신규 정의 -->
 	<nav id="skip">
 		<ul>
-			<li><a
-				href="https://www.kobus.co.kr/cscn/qna/readQnaList.do#new-kor-content">본문
-					바로가기</a></li>
+			<li><a href="https://www.kobus.co.kr/cscn/qna/readQnaList.do#new-kor-content">본문 바로가기</a></li>
 			<li><a
 				href="https://www.kobus.co.kr/cscn/qna/readQnaList.do#new-kor-gnb">주메뉴
 					바로가기</a></li>
@@ -1297,35 +1296,35 @@
 					<ul class="express-bus-company-list">
 						<li><a href="http://www.kumhobuslines.co.kr/" target="_blank"
 							title="새창"><img
-								src="./자주하는 질문 _ 고객지원 _ 고속버스통합예매_files/logo-kumho-express.png"
+								src="/koBus/media/logo-kumho-express.png"
 								alt="금호고속"></a></li>
 						<li><a href="http://www.dongbubus.com/" target="_blank"
 							title="새창"><img
-								src="./자주하는 질문 _ 고객지원 _ 고속버스통합예매_files/logo-dongbu-express.png"
+								src="/koBus/media/logo-dongbu-express.png"
 								alt="동부고속"></a></li>
 						<li><a href="http://www.songnisanbuslines.co.kr/"
 							target="_blank" title="새창"><img
-								src="./자주하는 질문 _ 고객지원 _ 고속버스통합예매_files/logo-sokrisan-express.png"
+								src="/koBus/media/logo-sokrisan-express.png"
 								alt="속리산고속"></a></li>
 						<li><a href="http://www.dyexpress.co.kr/" target="_blank"
 							title="새창"><img
-								src="./자주하는 질문 _ 고객지원 _ 고속버스통합예매_files/logo-dongyang-express.png"
+								src="/koBus/media/logo-dongyang-express.png"
 								alt="동양고속"></a></li>
 						<li><a href="http://www.samhwaexpress.co.kr/" target="_blank"
 							title="새창"><img
-								src="./자주하는 질문 _ 고객지원 _ 고속버스통합예매_files/logo-samhwa-express.png"
+								src="/koBus/media/logo-samhwa-express.png"
 								alt="삼화고속"></a></li>
 						<li><a href="http://www.jabus.co.kr/" target="_blank"
 							title="새창"><img
-								src="./자주하는 질문 _ 고객지원 _ 고속버스통합예매_files/logo-joongang-express.png"
+								src="/koBus/media/logo-joongang-express.png"
 								alt="중앙고속"></a></li>
 						<li><a href="http://www.chunilexpress.co.kr/" target="_blank"
 							title="새창"><img
-								src="./자주하는 질문 _ 고객지원 _ 고속버스통합예매_files/logo-chunil-express.png"
+								src="/koBus/media/logo-chunil-express.png"
 								alt="천일고속"></a></li>
 						<li><a href="http://www.hanilexpress.co.kr/" target="_blank"
 							title="새창"><img
-								src="./자주하는 질문 _ 고객지원 _ 고속버스통합예매_files/logo-hanil-express.png"
+								src="/koBus/media/logo-hanil-express.png"
 								alt="한일고속"></a></li>
 					</ul>
 					<!-- dropdown-top 클래스 추가 시, 드롭다운 목록 위로 노출 -->
@@ -1374,17 +1373,17 @@
 						<li><a
 							href="http://www.wa.or.kr/board/list.asp?search=total&amp;SearchString=%B0%ED%BC%D3%B9%F6%BD%BA&amp;BoardID=0006"
 							target="_blank" title="새창"><img
-								src="./자주하는 질문 _ 고객지원 _ 고속버스통합예매_files/logo-accessibility2.png"
+								src="/koBus/media/logo-accessibility2.png"
 								alt="(사)한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크(WA인증마크)"
 								height="40"></a></li>
 						<li><a href="https://www.kobus.co.kr/ugd/bustrop/Bustrop.do"
 							title="이사장 인사말 바로가기"><img
-								src="./자주하는 질문 _ 고객지원 _ 고속버스통합예매_files/logo-kobus.png"
+								src="/koBus/media/logo-kobus.png"
 								alt="KOBUS 전국고속버스운송사업조합"></a></li>
 						<li><a
 							href="https://www.kobus.co.kr/ugd/trmlbizr/Trmlbizr.do"
 							title="협회장 인사말 바로가기"><img
-								src="./자주하는 질문 _ 고객지원 _ 고속버스통합예매_files/logo-npvtba-express.png"
+								src="/koBus/media/logo-npvtba-express.png"
 								alt="전국여객자동차터미널사업자협회"></a></li>
 					</ul>
 				</div>
