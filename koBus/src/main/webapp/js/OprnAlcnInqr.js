@@ -245,8 +245,9 @@ function fnAlcnSrch(){ //배차목록 조회하기 최종확인변수:모든 변
 			$('#readArvlInfoList').focus();
 			return;
 		}
-	
+		$("#rotInfFrm").submit();
 	}
+	
 }
 
 
@@ -260,6 +261,7 @@ function fnBusClsCd(value){
 function fnRotVldChc(){
 	$("#loading").show();
 	var rotInfFrm = $("form[name=rotInfFrm]").serialize() + "&ajax=true&ajaxType=searchSch";
+	
 	alert(rotInfFrm);
 	$.ajax({	
         url      : "/koBus/searchSchedule/readAlcnSrch.ajax",
