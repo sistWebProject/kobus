@@ -48,11 +48,14 @@ public class PassVldTermHandler implements CommandHandler {
                              end.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
             
             String termSttDt = stt.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+            // int pubAmt = 10000 * period;
 
             result.put("fulTerm", fulTerm);
             // (필요하면 기타값 추가)
             result.put("rotAllCnt", 1); // 정상응답 표식 등, 프론트에서 rotAllCnt 체크함
             result.put("termSttDt", termSttDt);
+            result.put("timDte", termSttDt);
+            // result.put("pubAmt", pubAmt);
         } catch (Exception e) {
         	e.printStackTrace();
         	System.out.println("startDate: [" + startDate + "], period: [" + periodStr + "]");

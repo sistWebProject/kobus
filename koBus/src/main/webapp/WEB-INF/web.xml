@@ -45,6 +45,7 @@
       <servlet-name>dispatcher</servlet-name>
       <url-pattern>*.do</url-pattern>
       <url-pattern>*.ajax</url-pattern>
+      <url-pattern>/pay/confirm</url-pattern> <!-- 결제확인용 김승효 -->
    </servlet-mapping>
 
    <!-- 결제페이지 달력(승효) -->
