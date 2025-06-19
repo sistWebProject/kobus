@@ -99,10 +99,11 @@ public class DispatcherServlet extends HttpServlet {
 		
 		// 3�떒怨� - 濡쒖쭅泥섎━�븯�뒗 紐⑤뜽媛앹껜瑜� commandHandlerMap�쑝濡� 遺��꽣 �뼸�뼱�삤湲�
 		CommandHandler handler = this.commandHandlerMap.get(requestURI);
-		 System.out.println("=== commandHandlerMap 키 목록 ===");
-		    for (String key : commandHandlerMap.keySet()) {
-		        System.out.println(key + " => " + commandHandlerMap.get(key));
-		    }
+		/*
+		 * System.out.println("=== commandHandlerMap 키 목록 ==="); for (String key :
+		 * commandHandlerMap.keySet()) { System.out.println(key + " => " +
+		 * commandHandlerMap.get(key)); }
+		 */
 
 		    System.out.println("핸들러 매핑 결과: " + handler);
 		String view = null;

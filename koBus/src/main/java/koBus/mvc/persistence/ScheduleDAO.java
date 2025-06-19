@@ -11,6 +11,6 @@ public interface ScheduleDAO {
 
 	List<ScheduleDTO> selectByRegion();
 	
-	List<ScheduleDTO> searchBusSchedule(String deprId, String arrId) throws SQLException;
+	List<ScheduleDTO> searchBusSchedule(String deprId, String arrId, String deprDtm, String busClsCd) throws SQLException;
 	
 }

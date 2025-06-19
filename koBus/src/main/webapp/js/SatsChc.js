@@ -2141,7 +2141,7 @@ function fnNonUsrMrs(){
 	});
 }*/
 function fnSetPcpy(){
-	var satsChcFrm = $("form[name=satsChcFrm]").serialize() + "&ajax=true";
+	var satsChcFrm = $("form[name=satsChcFrm]").serialize() + "&ajax=true&ajaxType=setPcpy";
 	console.log("전송할 데이터:" + satsChcFrm);
 	$.ajax({	
         url      : "/koBus/setPcpy.ajax",
