@@ -121,68 +121,16 @@ if (lngCd == "KO") {
 <script src="/koBus/js/security.js?v=0.3" type="text/javascript"></script>
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/><link href="/koBus/css/kor/style.css" rel="stylesheet" type="text/css"/><script src="/koBus/js/kor/new-kor-ui.js?v=0102.0" type="text/javascript"></script></head>
 <!-- [리뉴얼] 페이지 개별 스크립트 신규 정의함 -->
-<body class="KO" style="">
-&lt;%
+
+<!-- &lt;%
     String departureDateStr = request.getParameter("departureDate");
     if (departureDateStr != null) {
         // 여기에 나중에 SQL 조회나 기타 로직 추가 가능
         out.println("선택한 날짜: " + departureDateStr);
     }
-%&gt;
+%&gt; -->
 
-<!-- [리뉴얼] 스킵 네비게이션 신규 정의 -->
-<nav id="skip">
-<ul>
-<li><a href="#new-kor-content">본문 바로가기</a></li>
-<li><a href="#new-kor-gnb">주메뉴 바로가기</a></li>
-<li><a href="#new-kor-footer">푸터 바로가기</a></li>
-</ul>
-</nav>
-<!-- 메인 클래스 : wrapper-main -->
-<div class="wrapper wrapper-kor wrapper-sub">
-<!-- quick -->
-<!-- 퀵메뉴 : 서브페이지에만 적용 -->
-<nav class="" id="new-kor-quickmenu">
-<ul class="quickmenu-list">
-<li>
-<a href="/mrs/rotinf.do">
-<span class="ico"><img alt="" src="/koBus/images/kor/layout/ico-quick-menu01.png"/></span>
-<span class="text">고속버스 예매</span>
-</a>
-</li>
-<li>
-<a href="/mrs/mrscfm.do">
-<span class="ico"><img alt="" src="/koBus/images/kor/layout/ico-quick-menu02.png"/></span>
-<span class="text">예매확인</span>
-</a>
-</li>
-<li>
-<a href="/oprninf/arscgd/oprnArscGd.do">
-<span class="ico"><img alt="" src="/koBus/images/kor/layout/ico-quick-menu03.png"/></span>
-<span class="text">도착시간 안내</span>
-</a>
-</li>
-<li>
-<a href="/adtnprdnew/frps/frpsPrchGd.do">
-<span class="ico"><img alt="" src="/koBus/images/kor/layout/ico-quick-menu04.png"/></span>
-<span class="text">프리패스 구매</span>
-</a>
-</li>
-<li>
-<a href="/adtnprdnew/pass/passPrchGd.do">
-<span class="ico"><img alt="" src="/koBus/images/kor/layout/ico-quick-menu05.png"/></span>
-<span class="text">정기권 구매</span>
-</a>
-</li>
-<li class="to-top">
-<a href="javascript:void(0)">
-<span class="ico"><img alt="" src="/koBus/images/kor/layout/ico-to-top.png"/></span>
-<span class="text">TOP</span>
-</a>
-</li>
-</ul>
-</nav>
-<!-- header -->
+
 <script>
 $(document).ready(function () {
 	var langCd = 'KO';
@@ -199,107 +147,7 @@ $(document).ready(function () {
 });
 </script>
 <!-- 헤더 -->
-<header id="new-kor-header">
-<div class="top-menu-area">
-<div class="container">
-<h1 id="logo">
-<a href="/main.do">
-<img alt="KOBUS 전국고속버스운송사업조합" src="/koBus/images/kor/layout/logo.png"/>
-</a>
-</h1>
-<nav class="util-menus">
-<ul class="util-list">
-<li class="id-area"><strong class="login-id">timeg0esfast@naver.com</strong></li>
-<li><a class="logout" href="/mbrs/lgn/logoutMain.do">로그아웃</a></li>
-<li><a href="/mbrs/mbrspage/myPageMain.do">마이페이지</a></li>
-<li><a href="/mbrs/trprinqr/pymPtInqr.do">결제내역조회</a></li>
-<li><a href="/etc/sitemap/SiteMap.do">사이트맵</a></li>
-</ul>
-<div class="dropdown-wrap lang-select">
-<a aria-expanded="false" class="btn-dropdown" href="javascript:void(0)" title="언어선택">
-<span class="text">한국어</span><i class="ico ico-arrow-down"></i></a>
-<ul class="dropdown-list" style="display: none;">
-<li class="selected"><a data-lang="KO" href="javascript:void(0)" title="선택됨">한국어</a></li>
-<li><a data-lang="EN" href="javascript:void(0)">English</a></li>
-<li><a data-lang="CN" href="javascript:void(0)">中文</a></li>
-<li><a data-lang="JP" href="javascript:void(0)">日本語</a></li>
-</ul>
-</div>
-</nav>
-</div>
-</div>
-<nav class="gnb-menu-area">
-<div class="container">
-<div class="gnb-area">
-<ul id="new-kor-gnb">
-<li>
-<a href="javascript:void(0)">고속버스예매</a>
-<ul>
-<li>
-<a href="/mrs/rotinf.do">고속버스 예매</a>
-</li>
-<li>
-<a href="/mrs/mrscfm.do">예매확인/취소/변경</a>
-</li>
-<li><a href="/mrs/mrsrecplist.do">영수증발행</a></li>
-</ul>
-</li>
-<li>
-<a href="javascript:void(0)">운행정보</a>
-<ul>
-<li><a href="/oprninf/alcninqr/oprnAlcnPage.do">시간표 조회</a></li>
-<li><a href="/oprninf/arscgd/oprnArscGd.do">도착시간 안내</a></li>
-</ul>
-</li>
-<li>
-<a href="javascript:void(0)">프리패스/정기권</a>
-<ul>
-<li><a href="/adtnprdnew/frps/frpsPrchGd.do">프리패스 여행권</a></li>
-<li><a href="/adtnprdnew/pass/passPrchGd.do">정기권</a></li>
-<li><a href="/adtnprdnew/prchpt/prdPrchPt.do">상품 구매내역</a></li>
-</ul>
-</li>
-<li>
-<a href="javascript:void(0)">이용안내</a>
-<ul>
-<li><a href="/ugd/mrsgd/Mrsgd.do">예매 안내</a></li>
-<li><a href="/ugd/mrsgd/MrdgdPrch.do">결제수단 안내</a></li>
-<li><a href="/ugd/rygd/Rygd.do">승차권 환불안내</a></li>
-<li><a href="/ugd/mlggd/Mlggd.do">프리미엄 마일리지</a></li>
-<li><a href="/ugd/trtrgd/Trtrgd.do">휴게소 환승안내</a></li>
-<li><a href="/ugd/trmlgd/Trmlgd.do">고속버스 터미널</a></li>
-<li><a href="/ugd/cacmgd/Cacmgd.do">고속버스 운송회사</a></li>
-</ul>
-</li>
-<li>
-<a href="javascript:void(0)">고객지원</a>
-<ul>
-<li><a href="/cscn/ntcmttr/readNtcList.do">공지사항</a></li>
-<li><a href="/cscn/qna/readQnaList.do">자주찾는 질문</a></li>
-<li><a href="/cscn/lossClnc/readLossClncList.do">유실물센터 안내</a></li>
-</ul>
-</li>
-</ul>
-</div>
-<div class="links">
-<!-- <a href="https://www.tmoney.co.kr" class="btn btn-tmoney" title="새창" target="_blank">
-					<img src="/images/kor/layout/ico-tmoney-app.png" alt="" />고속버스 티머니
-					<i class="ico ico-arrow-new-window"></i>
-				</a> -->
-<a class="btn btn-job" href="/cscn/jobmttr/readJobList.do" target="_blank" title="새창">
-<img alt="" src="/koBus/images/kor/layout/ico-job-offer.png"/>승무사원 모집
-					<i class="ico ico-arrow-new-window"></i>
-</a>
-</div>
-<div class="bg-layer">
-<a class="gnb-baaner" href="https://safeconnect.co.kr/sfconn/login/csc_pc?et=psn249R01&amp;ptrSvcSn=psn249" title="새창">
-<iframe class="ad-frame" src="/koBus/html2/_ad-tubebox-002GNB.html" title="프레임 (전화번호안심 로그인)"></iframe>
-</a>
-</div>
-</div>
-</nav>
-</header>
-<!-- breadcrumb -->
+<%@ include file="common/header.jsp" %>
 <!-- 브레드크럼 -->
 <nav id="new-kor-breadcrumb">
 <div class="container">

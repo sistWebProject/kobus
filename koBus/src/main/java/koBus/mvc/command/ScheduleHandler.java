@@ -36,12 +36,15 @@ public class ScheduleHandler implements CommandHandler {
 		List<ScheduleDTO> regionList = null;
 		List<ScheduleDTO> schList = null;
 		StringBuilder jsonBuilder = new StringBuilder();
+		String sourcePage = request.getParameter("sourcePage");
 		
 		try(Connection conn = ConnectionProvider.getConnection();){
 			ScheduleDAO dao = new ScheduleDAOImpl(conn);
 			
 			String ajax = request.getParameter("ajax");
 			String ajaxType = request.getParameter("ajaxType");
+			
+			
 
 			System.out.println("ajax = " + ajax);
 			System.out.println("ajaxType = " + ajaxType);
@@ -185,9 +188,15 @@ public class ScheduleHandler implements CommandHandler {
 		}
 
 		request.setAttribute("regionList", regionList);
+		
+		if (sourcePage.equals("KOBUSreservation3.jsp")) {
+			return "/koBusFile/KOBUSreservation2.jsp";
+		} else {
+			return "/koBusFile/kobusSchedule.jsp";
+		}
 
 
-		return "/koBusFile/kobusSchedule.jsp";
+		
 
 	}
 
