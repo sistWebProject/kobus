@@ -20,7 +20,7 @@ public class LogOutHandler implements CommandHandler {
 			session.invalidate();  // 세션 무효화
 		}
 		
-		response.sendRedirect("/koBus/koBusFile/logonMain.jsp?logout=ok");  // 클라이언트에게 리다이렉트 지시
+		response.sendRedirect("/koBus/page/logonMain.do?logout=ok");  // 클라이언트에게 리다이렉트 지시
 		return null;  // 직접 응답을 완료했기 때문에 null 리턴
 		
 	}

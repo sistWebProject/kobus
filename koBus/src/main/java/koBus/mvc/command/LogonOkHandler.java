@@ -18,7 +18,7 @@ public class LogonOkHandler implements CommandHandler {
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String location = "/koBus/koBusFile/kobus_main.jsp";
+		String location = "/koBus/main.do";
 		System.out.println("> LogonOkHandler.process() ... Get");
 		
 		HttpSession session = request.getSession();
