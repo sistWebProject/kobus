@@ -12,6 +12,6 @@ public class NoticeWriteHandler implements CommandHandler {
 		response.setCharacterEncoding("UTF-8");
 		System.out.println("> writeeeeeeeeeeeeeeee...");
 
-		return "/notice/noticeWrite.jsp"; // DispatcherServlet이 forward 해줌
+		return "/notice/noticeWrite.jsp"; 
 	}
 }

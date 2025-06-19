@@ -13,28 +13,31 @@ import java.sql.Connection;
 
 public class NoticeDeleteHandler implements CommandHandler {
 
-    @Override
-    public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String param = request.getParameter("notID");
+	@Override
+	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    request.setCharacterEncoding("UTF-8");
 
-        if (param == null || param.trim().equals("")) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "삭제할 게시글 ID가 없습니다.");
-            return null;
-        }
+	    String notID = request.getParameter("notID");  // ★ 여기서 바로 String으로 받아야 함
 
-        int notID = Integer.parseInt(param);
-        Connection conn = null;
+	    Connection conn = null;
+	    try {
+	        conn = ConnectionProvider.getConnection();
+	        noticeDAO dao = new noticeDAO();
+	        int result = dao.delete(conn, notID);  // ★ 여기서도 그대로 String 넘김
 
-        try {
-            conn = ConnectionProvider.getConnection();
-            noticeDAO dao = new noticeDAO(); // ✅ getInstance() 없이 직접 생성
-            dao.delete(conn, notID);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        } finally {
-            JdbcUtil.close(conn);
-        }
+	        if (result > 0) {
+	            response.sendRedirect("/koBus/notice/noticeDelete.jsp");
+	            return null;
+	        } else {
+	            request.setAttribute("error", "삭제 실패");
+	            return "/html/noticeDelete.jsp";
+	        }
+	    } catch (Exception e) {
+	        throw new RuntimeException(e);
+	    } finally {
+	        JdbcUtil.close(conn);
+	    }
+	}
 
-        return "/notice/noticeDelete.jsp";
-    }
+
 }

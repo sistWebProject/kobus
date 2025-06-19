@@ -3,183 +3,12 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<script src="/koBus/media/jquery-1.12.4.min.js"></script>
-<script src="/koBus/media/jquery-ui.min.js"></script>
-<script src="/koBus/media/jquery.jqGrid.min.js"></script>
-<link rel="stylesheet" href="/koBus/media/style.css">
-<link rel="stylesheet" href="/koBus/media/renewal_kor.css">
-<link rel="stylesheet" href="/koBus/media/renewal_wchr.css">
-<link rel="stylesheet" href="/koBus/media/content.css">
-<script src="/koBus/media/jquery-1.12.4.min.js"></script>
 <meta charset="UTF-8">
-
 <title>자주하는 질문</title>
+<link rel="stylesheet" href="/koBus/media/style.css">
+<link rel="stylesheet" href="/koBus/media/faq.css">
+<script src="/koBus/media/jquery-1.12.4.min.js"></script>
 </head>
-
-<!-- 뒤로가기 눌렀을때 로그인 풀리는거 방지 : 캐시 무효화 코드, 모든 jsp파일에 추가해야함 -->
-<!-- [리뉴얼] 페이지 개별 스크립트 신규 정의함 -->
-
-
-<body class="main KO" style="">
-   <!-- [리뉴얼] 스킵 네비게이션 신규 정의 -->
-   <div class="pop_dimmed" style="display: none;"></div>
-   <div class="noti_pop_wrap" style="display: block;">
-
-
-   </div>
-   <nav id="skip">
-      <ul>
-         <li><a href="#new-kor-content">본문 바로가기</a></li>
-         <li><a href="#new-kor-gnb">주메뉴 바로가기</a></li>
-         <li><a href="#new-kor-footer">푸터 바로가기</a></li>
-      </ul>
-   </nav>
-
-   <!-- 메인 클래스 : wrapper-main -->
-   <div class="wrapper wrapper-kor wrapper-main full">
-
-
-      <!-- header -->
-
-      <script>
-$(document).ready(function () {
-   var langCd = 'KO';
-   var langLi = $(".dropdown-wrap.lang-select .dropdown-list li");
-   
-   $('.title_wrap').hide();
-});
-</script>
-
-      <!-- 헤더 -->
-      <header id="new-kor-header">
-         <div class="top-menu-area">
-            <div class="container">
-               <h1 id="logo">
-                  <a href="javascript:void(0);"> <img
-                     src="/koBus/images/logo.png" alt="KOBUS 전국고속버스운송사업조합">
-                  </a>
-               </h1>
-               <nav class="util-menus">
-                  <ul class="util-list">
-
-                     <li><a class="login" href="/koBus/koBusFile/logonMain.jsp">로그인</a></li>
-                           <li><a href="/mbrs/mbrsjoin/mbrsJoin.do">회원가입</a></li>
-                        <li><a
-                        href="/koBus/koBusFile/logonMyPage.jsp">마이페이지</a></li>
-                     <li><a
-                        href="javascript:void(0);">결제내역조회</a></li>
-                     <li><a href="javascript:void(0);">사이트맵</a></li>
-                  </ul>
-
-                  <div class="dropdown-wrap lang-select">
-                     <a href="javascript:void(0)" class="btn-dropdown" title="언어선택"
-                        aria-expanded="false"> <span class="text">한국어</span><i
-                        class="ico ico-arrow-down"></i></a>
-                     <ul class="dropdown-list" style="display: none;">
-                        <li class="selected"><a href="javascript:void(0)"
-                           data-lang="KO" title="선택됨">한국어</a></li>
-                        <li><a href="javascript:void(0)" data-lang="EN">English</a></li>
-                        <li><a href="javascript:void(0)" data-lang="CN">中文</a></li>
-                        <li><a href="javascript:void(0)" data-lang="JP">日本語</a></li>
-                     </ul>
-                  </div>
-               </nav>
-            </div>
-         </div>
-         <nav class="gnb-menu-area">
-            <div class="container">
-               <div class="gnb-area">
-                  <ul id="new-kor-gnb">
-                     <li><a href="/koBus/kobusSeat.do">고속버스예매</a>
-                        <ul>
-                           <li><a href="javascript:void(0);">고속버스
-                                 예매</a></li>
-                           <li><a href="javascript:void(0);">예매확인/취소/변경</a>
-                           </li>
-                           <li><a href="javascript:void(0);">영수증발행</a>
-                           </li>
-                        </ul></li>
-                     <li><a href="javascript:void(0)">운행정보</a>
-                        <ul>
-                           <li><a
-                              href="/koBus/kobusSchedule.do">시간표
-                                 조회</a></li>
-                           <li><a
-                              href="javascript:void(0);">도착시간
-                                 안내</a></li>
-                        </ul></li>
-
-
-                     <li><a href="javascript:void(0)">프리패스/정기권</a>
-                        <ul>
-                           <li><a
-                              href="javascript:void(0);">프리패스
-                                 여행권</a></li>
-                           <li><a
-                              href="javascript:void(0);">정기권</a></li>
-                           <li><a
-                              href="javascript:void(0);">상품
-                                 구매내역</a></li>
-                        </ul></li>
-
-
-                     <li><a href="javascript:void(0)">이용안내</a>
-                        <ul>
-                           <li><a href="javascript:void(0);">예매
-                                 안내</a></li>
-                           <li><a
-                              href="javascript:void(0);">결제수단
-                                 안내</a></li>
-                           <li><a href="javascript:void(0);">승차권
-                                 환불안내</a></li>
-                           <li><a href="javascript:void(0);">프리미엄
-                                 마일리지</a></li>
-
-                           <li><a href="/ugd/trtrgd/Trtrgd.do">휴게소
-                                 환승안내</a></li>
-                           <li><a href="/ugd/trmlgd/Trmlgd.do">고속버스
-                                 터미널</a></li>
-                           <li><a href="/ugd/cacmgd/Cacmgd.do">고속버스
-                                 운송회사</a></li>
-                        </ul></li>
-                     <li><a href="javascript:void(0)">고객지원</a>
-                        <ul>
-                           <li><a
-                              href="noticeList.do">공지사항</a></li>
-                           <li><a
-                              href="/cscn/qna/readQnaList.do">자주찾는
-                                 질문</a></li>
-                           <li><a
-                              href="/cscn/lossClnc/readLossClncList.do">유실물센터
-                                 안내</a></li>
-                        </ul></li>
-                  </ul>
-               </div>
-               <div class="links">
-                  <!-- <a href="https://www.tmoney.co.kr" class="btn btn-tmoney" title="새창" target="_blank">
-               <img src="/images/kor/layout/ico-tmoney-app.png" alt="" />고속버스 티머니
-               <i class="ico ico-arrow-new-window"></i>
-            </a> -->
-
-                  <a href="/cscn/jobmttr/readJobList.do"
-                     class="btn btn-job" title="새창" target="_blank"> <img
-                     src="/koBus/images/ico-job-offer.png" alt="">승무사원 모집 <i
-                     class="ico ico-arrow-new-window"></i>
-                  </a>
-               </div>
-               <div class="bg-layer">
-                  <a
-                     href="https://safeconnect.co.kr/sfconn/login/csc_pc?et=psn249R01&amp;ptrSvcSn=psn249"
-                     title="새창" class="gnb-baaner"> <img
-                     src="/koBus/images/003-GNB.png" alt="ID 찾을 필요 없이, 전화번호 로그인!">
-                     <!-- <iframe src="/koBus/images/_ad-tubebox-002GNB.html" title="프레임 (전화번호안심 로그인)" class="ad-frame"></iframe> -->
-                  </a>
-               </div>
-            </div>
-         </nav>
-      </header>
-
-
 <body class="KO">
 	<div class="container">
 		<h2>자주하는 질문</h2>
@@ -192,7 +21,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						예매 가능일자와 관련하여 따로 정해진 기간은 없으며, 배차 정보가 입력되어 있는 경우에 조회/예매가 가능합니다.<br>
@@ -208,7 +37,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>신용카드, 체크카드, 간편결제(카카오페이, 페이코 등), 계좌이체 등을 지원합니다.</p>
 				</div>
@@ -222,7 +51,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						예매 가능일자와 관련하여 따로 정해진 기간은 없으며, 배차 정보가 입력되어 있는 경우에 조회/예매가 가능합니다.<br>배차정보는
@@ -239,7 +68,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						배차정보가 아직 입력되어 있지 않은 상태이며, 배차 정보가 입력되어 있어야만 조회/예매가 가능합니다. <br>배차정보는
@@ -254,7 +83,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						일부 소도시 터미널은 신용카드 발권을 도입하지 않고 있습니다. 전산센터 입장에서는 신용카드 발권 도입을 권유하고 있지만
@@ -269,7 +98,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>카드결제를 통한 예매의 경우 예매시 사용하신 카드를 지참하셔야 하며, 기타 결제수단을 통한 예매의 경우에는
 						본인 휴대폰번호와 생년월일 정보를 창구에서 말씀하시면 승차권 발권이 가능합니다.</p>
@@ -281,7 +110,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>예매는 홈페이지, 모바일, 터미널에서 본인이 직접 하셔야 하며, 상담원 연결을 통한 예매는 불가합니다.</p>
 				</div>
@@ -292,7 +121,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						카드에 대한 문제나 정보입력상에 오류가 있을 경우 예매 진행이 어려울 수 있습니다. <br>연체,
@@ -307,7 +136,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						예매하신 승차권 발권은 예매에 사용한 카드를 소지 후 출발시간 이전에 해당 터미널 매표창구에서 발권할 수 있습니다.<br>발권시
@@ -322,7 +151,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>예매에 특별히 정해진 시간은 없으며, 해당 출발지 터미널의 배차정보가 입력되어 있으면 홈페이지 또는
 						고속버스모바일앱을 통해 예매가 가능합니다. &lt;br&gt;</p>
@@ -334,7 +163,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>고속버스 요금할인은 일반적으로 아동/중고생으로 구분되어 있으나 예외적으로 일부 고속사의 노선별 운영정책에
 						따라 대학생 할인 요금이 적용되는 노선이 있으며, 고속버스 요금할인 정책은 노선별, 구간별로 고속사마다 다르게 운영되고
@@ -349,7 +178,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>1회 최대 예매 매수는 6매입니다.(일부 시외우등 노선에 한정하여 10매까지 예매가능)</p>
 				</div>
@@ -360,7 +189,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						홈페이지에서 예매 진행 시 "환승" 구분을 선택 후 출발지/도착지를 설정하여 조회하시기 바랍니다.<br>먼저
@@ -375,7 +204,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						홈페이지에서 예매 진행 시 "모바일티켓"으로 예매할 수 있습니다.<br>"모바일티켓"으로 예매하셔야만
@@ -389,7 +218,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>무분별한 날짜 변경으로 인한 승차권 부족 현상을 방지하기 위하여 예매 변경 시 날짜 변경이 불가하도록
 						제한하고 있으니 양해 부탁드립니다.</p>
@@ -401,7 +230,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						시간변경은 동일 날짜/노선에 한하여 차량 출발시간 1시간 이전까지 시간변경 기능을 통해 가능합니다.(1회 가능)<br>시간변경
@@ -419,7 +248,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						승차권 예매 후 바로 영수증 출력이 가능합니다.<br>영수증은 [예매확인]→[예매 확인/취소/변경] 메뉴로
@@ -434,7 +263,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						고객님께서 비회원으로 예매하신 승차권을 회원 가입하여 예매 승차권을 조회하시면 조회가 불가합니다. 비회원으로 예매하신
@@ -449,7 +278,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						승차권을 예매하신 후 당일 취소 하실 경우 대부분의 신용카드사에서는 승인 취소 문자가 발송되고 있습니다. 그러나
@@ -466,7 +295,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						예매에 사용한 분실카드나 갱신 전 카드번호를 꼭 인지하셔야 합니다. <br>터미널에서 분실/갱신 전 카드로
@@ -481,7 +310,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>현행법상 신용카드는 타인에게 대여, 양도를 할수 없으므로 발권이 불가능합니다.</p>
 				</div>
@@ -492,7 +321,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						신용카드(Check, Plus, Virtual)와 선불성카드의 경우, 발권 후 환불이나 취소시 해당 카드의 특성상
@@ -507,7 +336,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>예매에 사용한 카드를 소지하지 않고 카드 번호와 비밀번호만 인지하고 있을 경우에는 발권이 불가능합니다.</p>
 				</div>
@@ -518,7 +347,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						-카드로 승차권을 구매한 당일 환불이나 취소를 할 경우 : <br>카드 사용내역 조회시 카드매표 구매사항이
@@ -536,7 +365,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						신용카드정보는 128-bit SSL(Secure Socket Layer)을 통해 암호화되어 전송됩니다.<br>인증서는
@@ -552,7 +381,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>홈페이지에서 승차권 예매시 카드결제, 계좌이체, 부가상품(프리패스)의 결제수단을 이용하실 수
 						있습니다.&lt;br&gt;결제 수단에 대한 자세한 사항은 [이용안내]→[결제수단 안내] 메뉴에서 확인 가능합니다.</p>
@@ -564,7 +393,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>계좌이체 예매 후 승차권을 터미널에서 발권할 경우에는 예매 당시 입력한 휴대폰번호(회원의 경우 가입 시
 						입력한 휴대폰번호)와 생년월일(법인은 사업자 등록번호)가 필요합니다.</p>
@@ -576,7 +405,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>계좌이체 예매 취소시 즉시 예매 당시의 출금계좌로 입금되나 장애 발생 시 최대 한 시간까지 입금이 지연될 수
 						있습니다.</p>
@@ -588,7 +417,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>계좌이체 예매시 현금영수증 발급정보(휴대폰번호 또는 사업자 등록 번호, 현금영수증 카드 번호)를 통해
 						현금영수증을 발급받으실 수 있습니다.</p>
@@ -600,7 +429,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						계좌이체 예매시 개인 계좌의 경우 365일 24시간 이용 가능하나, 법인 계좌일 경우 평일 및 토요일에는 오전 8시부터
@@ -615,7 +444,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>해당 차량이 출발된 이후의 승차권 환불은 차량출발 후 도착예정시간까지 출발지 터미널 및 홈페이지에서
 						가능합니다.</p>
@@ -627,7 +456,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						홈페이지에 접속하시면 홈티켓 재발행이 가능합니다. 프린터가 연결된 PC에서 홈페이지 접속 후 재발행 하시기 바랍니다.<br>모바일
@@ -641,7 +470,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>고속버스 운행에 관한 모든 사항은 고속사에서 결정 및 관리하고 있으므로, 해당노선의 고속회사 홈페이지나
 						담당부서에 문의하셔야 합니다.</p>
@@ -653,7 +482,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>· 고속사에서 제공하는 마일리지(프리미엄)는 프리미엄 고속버스 이용 시마다 승차권 금액의 2%가 포인트로
 						적립됩니다. * 적립일로부터 2년이 경과될 경우 해당 마일리지(프리미엄)는 자동 소멸합니다. · 프리미엄 요금할인
@@ -667,7 +496,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>홈페이지에서 예매시 비회원으로 예매 가능합니다.회원으로 예매하시면 홈페이지뿐 아니라 모바일앱에서도 승차권,
 						결제 내역이 공유되며 마일리지(프리미엄)적립 등 다양한 혜택과 편의성이 제공됩니다.고속버스 통합홈페이지는 티머니
@@ -680,7 +509,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>아이디, 비밀번호를 잊으셨을 경우, [로그인]→[아이디찾기]/[비밀번호찾기] 메뉴를 통해 회원정보를 조회하실
 						수 있습니다.</p>
@@ -692,7 +521,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>로그인 후 [마이페이지]에서 비밀번호와 휴대폰번호 변경이 가능합니다.</p>
 				</div>
@@ -703,7 +532,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>로그인 후 [마이페이지]에 접속후 회원탈퇴 버튼을 선택하여 진행하시기 바랍니다.</p>
 				</div>
@@ -714,7 +543,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						서울 강남고속버스터미널은 경부선과 호남선(센트럴시티)으로 건물이 나누어져 있습니다. <br>출발지 선택 시
@@ -729,7 +558,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>다른 여객에게 위해를 끼치거나 불쾌감을 줄 우려가 있는 동물은 탑승이 불가하며 장애인보조견 및 애완동물 동반
 						탑승시 전용운반상자를 이용해야 합니다.</p>
@@ -741,7 +570,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						통합고객센터로 문의하시기 바랍니다.<br>문의처 : 1644-9030 (평일 09시 ~ 18시, 장애/오류
@@ -755,7 +584,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						전국의 고속버스 터미널은 각각의 사업장으로 별도로 존재합니다. <br>따라서 매표원의 불친절이나 터미널들 대한
@@ -770,7 +599,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>분실물과 유실물은 고속버스 운송회사별 각 지역센터에서 운영되고 있으며, 운송회사 연락처는
 						[고객센터]→[유실물 센터 안내] 메뉴에서 확인 가능합니다.</p>
@@ -782,7 +611,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>고객님 홈페이지에서 예매 하신건은 홈페이지 또는 창구에서 승차권 변경또는 취소가 가능하며 모바일 환경에서는
 						진행되지 않습니다.</p>
@@ -794,7 +623,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>고객님, 모바일 웹은 개인 정보 보호와 고객님의 손실을 막기 위해 사용이 되지 않습니다. 고속 버스 모바일
 						어플을 설치 하셔서 안전하게 사용하시기 바라며, 일부 노선에 대해서는 홈페이지에서만 예매 가능하고, 해당 승차권의 변경
@@ -808,7 +637,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>노선은 순차적으로 오픈을 하고 있습니다. 고객님들의 안전한 전자 승차권 사용을 위해 지속적으로 노력 하고
 						있사오니, 양해 해 주시기 바랍니다.</p>
@@ -820,7 +649,7 @@ $(document).ready(function () {
 				</button>
 			</dt>
 			<dd style="display: none;">
-				<span class="a"></span>
+				<span class="a">A</span>
 				<div class="answer">
 					<p>
 						고속버스 승차권 취소 수수료 정책은 공지사항의 ‘고속버스 취소수수료 변경 안내’ 게시글을 참조바랍니다.<br>
