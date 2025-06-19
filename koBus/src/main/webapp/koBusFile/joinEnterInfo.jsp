@@ -233,7 +233,7 @@
 					<div class="noti_wrap mobNone">
 						<p class="noti">회원정보를 입력해주세요.</p>
 					</div>
-					<form method="post" name="insertInfoForm">
+					<form action="/koBus/joinOkEnterInfo.do" method="get" name="insertInfoForm" id="joinFormTag">
 						<div class="border-box box_changeNum join-wrap">
 							<div class="inner member-info-form">
 								<div class="box_inputForm" id="idDiv">
@@ -249,6 +249,15 @@
 								<span class="noti_box" id="noti_box_idOk" style="display: none;">사용가능한 아이디형식 입니다.중복확인을 진행하세요.</span>
 								<span class="noti_box" id="noti_box_idOkMsg" style="display: none;">사용가능한 아이디 입니다.</span>
 								<span class="noti_box" id="noti_box_idFailMsg" style="display: none;">사용이 불가한 아이디입니다, 다른 아이디를 입력하세요.</span>
+								<div class="box_inputForm" id="telDiv">
+									<label class="label" for="usrTel">전화번호</label>
+									<div class="box_label">
+										<input class="input" data-tk-kbdtype="qwerty" id="usrTel"
+											name="usrTel" value="${param.phoneNum}" tabindex="-1"
+											type="text" readonly />
+									</div>
+									<span class="ico_complete" style="display: none;">가능</span>
+								</div>
 								<div class="box_inputForm" id="pwdDiv">
 									<label class="label" for="usrPwd">비밀번호</label>
 									<div class="box_label">
@@ -535,7 +544,7 @@
 					</script>
 					<script>
 						// 회원가입 버튼 누르는 함수
-						$("#joinBtn").on("click", function(){
+						$("#joinBtn").on("click", function(event){
 							if (
 								isValidUserId === true&&
 								isValidUserPasswd === true&&
@@ -546,7 +555,9 @@
 							) {
 								alert("회원가입이 완료되었습니다.");
 								// submit 시켜주는 코드 입력, form 액션태그에 .do매핑한 url적기
+								$("#joinFormTag").submit();
 							} else {
+								event.preventDefault();
 								alert("값을 모두 제대로 입력해주세요.");
 							}
 						})

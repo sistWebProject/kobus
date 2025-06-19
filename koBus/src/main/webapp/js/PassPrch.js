@@ -3,8 +3,22 @@ var allRotInfAllList  = []; // 노선 전체 리스트
 var allRotInfrLen     = 0;  // 노선 전체 데이터 건수
 var allplen = 0; // tab 구분자
 var allPrchAmt = 0; // 할부 개월수를 표시할지 말지
+var g_passOptionList = [];  // 정기권 옵션 리스트 전역 저장용
+
 
 $(document).ready(function() {	
+	$("#goPrdprchFn").click(function(){
+        var formData = $("form[name=passPrchFrm]").serialize();
+        console.log("🧾 결제 전송 데이터:", formData);
+        
+        $.post("/koBus/pay/confirm", formData, function(response){
+        if (response.status === "success") {
+            alert("결제 금액 확인 완료!");  // 이후 실제 결제 처리
+        } else {
+            alert("금액 불일치! 관리자에게 문의하세요.");
+        }
+    });
+    });
 	//사용시작일 
 	//fnYyDtmStup(0,'text_date1','0');
 //	$("#divAdtnDtl").css('display', 'none');
@@ -99,7 +113,7 @@ $(document).ready(function() {
         }
     });
 	
-	fnSetCardCam();
+	// fnSetCardCam();
 	
 	$("#goPrdprchFn").click(function(){ //결제하기 유효성 검사
 				
@@ -378,6 +392,7 @@ function fn_selChange(value){
 //	$("#useableInfo > tr").hide();
 //	$("#useableInfo > tr[data-id='"+value+"']").show();
 	$('[data-remodal-id=useableInfo]').remodal().open();
+
 }
 
 function test(mmm){
@@ -455,12 +470,20 @@ function fnPassDtl(){
         data 	 : passPrchFrm,
         dataType : "json",
         success  : function(arrList){
-console.log(arrList);
+			console.log("✅ 옵션 응답 도착:", arrList);
+		    if (!arrList.adtnDtlList || arrList.adtnDtlList.length === 0) {
+		        console.warn("🚨 옵션 리스트가 비어있습니다");
+		    }
+			g_passOptionList = arrList.adtnDtlList;  // pubAmt 포함된 리스트 저장
 
         	var allDtlInfAllList  = []; // 부가상품 전체 리스트
         	var deprAll ="";
          	allDtlrLen = arrList.len;
         	for(var inx = 0 ; inx < allDtlrLen ; inx++){					//8.for문으로 return받은 map안의 list정보들을 빼와서 다시 이중배열에 넣기
+        		if (!arrList.adtnDtlList[inx]) {
+			        console.warn("❗ 항목 누락:", inx);
+			        continue;
+			    }
         		allDtlInfAllList[inx] = new Array();								//8.1 javascript에선 이중배열을 쓸수 없기 때문에 list생성후 배열을 뒤에 붙여야한다.
         		allDtlInfAllList[inx][0] = arrList.adtnDtlList[inx].adtnPrdUseClsCd;	//부가상품사용등급코드
         		allDtlInfAllList[inx][1] = arrList.adtnDtlList[inx].adtnPrdUseClsNm;	//부가상품사용등급명
@@ -472,6 +495,7 @@ console.log(arrList);
         		allDtlInfAllList[inx][7] = arrList.adtnDtlList[inx].tempAlcnTissuPsbYn;	//임시배차발권가능여부
         		allDtlInfAllList[inx][8] = arrList.adtnDtlList[inx].adtnPrdSno;			//부가상품일련번호
         		allDtlInfAllList[inx][9] = arrList.adtnDtlList[inx].adtnDcYn;			//할인부가상품여부
+        		allDtlInfAllList[inx][10] = arrList.adtnDtlList[inx].pubAmt;  			// ✅ 금액(pubAmt) 추가
         	}
 
         	/*var weekItem = "";
@@ -569,7 +593,7 @@ console.log(arrList);
         	$("#gradeList").html(gradeItem);
         	$("#dayList").html(dayItem);*/
         	
-        	$("#rotTd").html($("#selUseRot").find('option:selected').text());
+        	// $("#rotTd").html($("#selUseRot").find('option:selected').text());
         	
         	$("#weekTd").html("");
         	$("#kindTd").html("");
@@ -633,8 +657,28 @@ function fnSelPrdDay(val){
 	fnAdtnVldTerm();
 }
 
+function comma(num){
+	if (typeof num !== "number" && typeof num !== "string") {
+        console.warn("⚠️ comma()에 잘못된 값:", num);
+        return "0";
+    }
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 //옵션 선택시  
 function fnSelOption(value){
+	var opt = value.split("/");
+    var selectedId = opt[5];  // 상품 ID (ex: F1001)
+
+    var matched = g_passOptionList.find(obj => obj.adtnPrdSno === selectedId);
+    if (matched && matched.pubAmt){
+        $("#pubAmt").html(comma(matched.pubAmt) + " 원");
+        $("#goodsPrice").val(matched.pubAmt);
+    } else {
+        $("#pubAmt").html("0 원");  // fallback
+        $("#goodsPrice").val("0");
+    }
+    
 	console.log("[fnSelOption] value:", value);
 	var optVal = value; 
 	
@@ -767,6 +811,7 @@ function fnAdtnVldTerm(){
 			console.log("[Ajax 응답 termMap]", termMap);
 			if(termMap && termMap.fulTerm){
 		        $("#spanTermDt").html(termMap.fulTerm);
+		        $("#fulTermTd").html(termMap.fulTerm);
 		        console.log("[spanTermDt 세팅됨]:", termMap.fulTerm);
 		    } else {
 		        console.log("[spanTermDt 세팅 실패]:", termMap);
@@ -808,20 +853,19 @@ function fnAdtnVldTerm(){
         		$("#fulTermTd").html(termMap.fulTerm);
         		$("#spanTermDt").html(termMap.fulTerm);
         		
-        		$("#pubAmt").html(comma(termMap.pubAmt) + " 원");
-        		$("#goodsPrice").val(termMap.pubAmt); // 20241010 간편결제 금액설정
+        		// ✅ ① pubAmt가 정상인 경우에만 금액 표시 및 저장
+				if (termMap.pubAmt !== undefined && termMap.pubAmt !== null) {
+				    $("#pubAmt").html(comma(termMap.pubAmt) + " 원");
+				    $("#goodsPrice").val(termMap.pubAmt);
+				    allPrchAmt = termMap.pubAmt;
+	   
+				} else {
+				    console.warn("❗ termMap.pubAmt 없음 → 금액 설정 생략");
+				}
 
         		var mm2Len = Number(mm) < 10 ? "0"+mm : mm;
         		var dd2Len = Number(dd) < 10 ? "0"+dd : dd;
         		$("#exdtEndDt").val(yyyy+""+mm2Len+""+dd2Len);
-        		
-        		allPrchAmt = termMap.pubAmt; // 예상 금액 설정
-        		
-        		if(Number(termMap.pubAmt) >= 50000){ // 할부 개월 콤보박스는 5만원으로 분기
-        			$("#mipMmShow").css("display","block");
-	        	}else{
-	        		$("#mipMmShow").css("display","none");
-	        	}
         		
         		/*
         		 * 20200909 yahan
@@ -848,7 +892,7 @@ function fnAdtnVldTerm(){
         }
     });
 }
-
+/*
 function fnSetCardCam(){
 	$.ajax({	
 	    url      : "/mrs/cardCamList.ajax",
@@ -868,7 +912,7 @@ function fnSetCardCam(){
 	    }
 	});
 }
-
+*/
 function fnSelCardCam(){
 	if($("#cardKndCd").val() != "0"){
 		$("#cardKindList").find('.label').addClass('add');
@@ -978,7 +1022,7 @@ function fn_isNumber(obj){ // 숫자인가
 }
 
 function fn_chkMonth(obj, spt){ 
-	
+	/*
 	if((spt == 1) && ($("#cardMonth").val().length == 2)){
 		// 유효기간 월
 		var chkItem = $("#cardMonth").val();
@@ -987,6 +1031,7 @@ function fn_chkMonth(obj, spt){
 			$("#cardMonth").val("");
 		}
 	}
+	*/
 	if((spt == 2) && ($("#caBirth").val().length == 8)){
 		// 생년월일
 		var item = $("#caBirth").val();
@@ -1083,7 +1128,7 @@ function fnBrnChk(divVal){
 	}
 }
 
-
+/*
 function fnVldtCard(){
 	
 	if($('#cardKndCd').val() == "0" || $('#cardKndCd').val() == ""){
@@ -1154,9 +1199,6 @@ function fnVldtCard(){
 		}
 	}		
 	
-	/**
-	 * 20200617 yahan
-	 */
 	if (ajaxDecode('cardNum3') == false) { return false; }
 	if (ajaxDecode('cardNum4') == false) { return false; }
 	if (ajaxDecode('cardPwd') == false) { return false; }
@@ -1169,7 +1211,7 @@ function fnVldtCard(){
 	
 	return true;
 }
-
+*/
 function fnVldtPay(){
 //	if($("#payBirth").val().length != 6){
 //		alert("간편결제 생년월일을 정확하게 입력하시기 바랍니다.");
@@ -1184,7 +1226,7 @@ function fnVldtPay(){
 
 	return true;
 }
-
+/*
 function fnSetCardCd(listCnt,cardCdList){
 	// asis
 	if (is_select("cardKndCd")){ // select 태크처리
@@ -1214,13 +1256,18 @@ function fnSetCardCd(listCnt,cardCdList){
 		$("#cardKndCdLi").html(selectOption);
 	}
 }
-
+*/
 function onSelectChange(obj, input_val, input_name){
 	$("#"+input_name).val(input_val);
 	dropdown_process(obj);
-
+	
 	if (input_name == 'selUseRot'){
 		fn_selChange(input_val);
+		
+		setTimeout(function(){
+            var rotText = $(obj).text().trim();
+            $("#rotTd").html(rotText);
+        }, 10);
 		
 		
 		var dt = new Date();		//오늘날짜 전체
@@ -1301,3 +1348,4 @@ $(document).ready(function() {
 		}
 	});
 });
+

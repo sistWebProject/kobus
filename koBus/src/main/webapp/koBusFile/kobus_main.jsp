@@ -42,7 +42,6 @@
 <link rel="stylesheet" type="text/css" href="/koBus/css/common/style.css">
 <script type="text/javascript" src="/koBus/js/common/new-kor-ui.js"></script>
 </head>
-
 		
 <script>
 $( function() {

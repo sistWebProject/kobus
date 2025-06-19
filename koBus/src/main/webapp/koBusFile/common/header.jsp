@@ -60,7 +60,7 @@ $(document).ready(function () {
                      <c:choose>
                         <c:when test="${empty auth}">
                            <li><a class="login" href="/koBus/koBusFile/logonMain.jsp">로그인</a></li>
-                           <li><a href="/mbrs/mbrsjoin/mbrsJoin.do">회원가입</a></li>
+                           <li><a href="/koBus/koBusFile/joinMain.jsp">회원가입</a></li>
                         </c:when>
                         <c:otherwise>
                            <li>${auth} | </li> 
