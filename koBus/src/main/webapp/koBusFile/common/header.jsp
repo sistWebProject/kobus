@@ -97,7 +97,7 @@ $(document).ready(function () {
                         <ul>
                            <li><a href="javascript:void(0);">고속버스
                                  예매</a></li>
-                           <li><a href="javascript:void(0);">예매확인/취소/변경</a>
+                           <li><a href="/koBus/manageReservations.do">예매확인/취소/변경</a>
                            </li>
                            <li><a href="javascript:void(0);">영수증발행</a>
                            </li>
