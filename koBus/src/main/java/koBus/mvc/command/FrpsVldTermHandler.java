@@ -65,13 +65,25 @@ public class FrpsVldTermHandler implements CommandHandler {
             String fulTerm = String.join("/", validDateList);
 
             System.out.println("최종 result = " + validDateList);
+            
+            String adtnPrdSno = parts[parts.length - 1];
+            System.out.println("프론트에서 받은 옵션 PK(adtn_prd_sno) = " + adtnPrdSno);
+            // 금액 조회
+            int pubAmt = 0;
+            try {
+                koBus.mvc.persistence.FreePassOptionDAO dao = new koBus.mvc.persistence.FreePassOptionDAO();
+                pubAmt = dao.getAmountBySno(adtnPrdSno); // DAO 메서드 호출
+            } catch (Exception e) {
+                e.printStackTrace();
+                pubAmt = 0;
+            }
 
             // 6. JSON 응답 구성
             result.put("termSttDt", startDate);
             result.put("timDte", endDate);
             result.put("fulTerm", fulTerm);
 
-            result.put("pubAmt", 45000);
+            result.put("pubAmt", pubAmt);
             result.put("rotAllCnt", 1);
             result.put("adtnDupPrchYn", "N");
 

@@ -43,12 +43,16 @@ public class FreePassOptionDAO {
     public int getAmountBySno(String adtnPrdSno) throws Exception {
         int amount = 0;
         String sql = "SELECT amount FROM free_pass_option WHERE adtn_prd_sno = ?";
+        System.out.println("[DAO] getAmountBySno() adtnPrdSno = " + adtnPrdSno);
         try (Connection conn = ConnectionProvider.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, adtnPrdSno);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
                     amount = rs.getInt("amount");
+                    System.out.println("[DAO] 조회된 amount = " + amount);
+                } else {
+                    System.out.println("[DAO] 해당 PK의 row가 없습니다!");
                 }
             }
         }
