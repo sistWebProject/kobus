@@ -315,9 +315,9 @@ table#main tbody tr td:nth-child(4) span.upper-stock {
 </style>
 
 </head>
-
+<body class="main KO" style="">
 <!-- 타이틀 -->
-
+<%@ include file="../koBusFile/common/header.jsp" %>
 <div class="content-body customer">
 	<div class="container">
 
@@ -343,8 +343,8 @@ table#main tbody tr td:nth-child(4) span.upper-stock {
 					<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 					<div class="btn-wrap">
-						<a id="list" href="boardList.do" class="btn">List</a> <a
-							id="write" href="boardWrite.do" class="btn">글쓰기</a>
+						<a id="list" href="/koBus/html/boardList.do" class="btn">List</a> <a
+							id="write" href="/koBus/html/boardWrite.do" class="btn">글쓰기</a>
 					</div>
 					<!-- 작업  -->
 					<c:forEach var="dto" items="${list}">

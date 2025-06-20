@@ -19,7 +19,7 @@
 <body>
   <div class="message-box">
     <h2>게시글이 성공적으로 삭제되었습니다.</h2>
-    <a href="${pageContext.request.contextPath}/html/noticeList.do" class="button">공지사항 목록으로 이동</a>
+    <a href="${pageContext.request.contextPath}/html/boardList.do" class="button">공지사항 목록으로 이동</a>
 
   </div>
 </body>

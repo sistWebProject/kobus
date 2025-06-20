@@ -15,7 +15,7 @@
 <!-- [리뉴얼] 페이지 개별 스크립트 신규 정의함 -->
 
 
-<body class="main KO" style="">
+
    <!-- [리뉴얼] 스킵 네비게이션 신규 정의 -->
    <div class="pop_dimmed" style="display: none;"></div>
    <div class="noti_pop_wrap" style="display: block;">
@@ -148,7 +148,7 @@ $(document).ready(function () {
                      <li><a href="javascript:void(0)">고객지원</a>
                         <ul>
                            <li><a
-                              href="noticeList.do">공지사항</a></li>
+                              href="/koBus/html/boardList.do">공지사항</a></li>
                            <li><a
                               href="/cscn/qna/readQnaList.do">자주찾는
                                  질문</a></li>
