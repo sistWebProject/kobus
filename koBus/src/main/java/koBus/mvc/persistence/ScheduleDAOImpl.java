@@ -128,14 +128,22 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 				+ " JOIN REGION RGD ON D.REGID = RGD.REGID  "
 				+ " JOIN REGION RGA ON A.REGID = RGA.REGID "
 				+ " WHERE RGD.REGID = ? AND RGA.REGID = ? "
-				+ " AND TRUNC(BS.DEPARTUREDATE) = TO_DATE( ? , 'YYYYMMDD') "
-				+ " AND B.BUSGRADE = ? ";
+				+ " AND TRUNC(BS.DEPARTUREDATE) = TO_DATE( ? , 'YYYYMMDD') ";
 		
+		if (!busClsCd.equals("전체")) {
+		    sql += " AND B.BUSGRADE = ? ";
+		}
+
+		// prepareStatement는 sql이 완성된 후에 실행
 		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, deprId); 
-		pstmt.setString(2, arrId); 
-		pstmt.setString(3, deprDtm); 
-		pstmt.setString(4, busClsCd); 
+		pstmt.setString(1, deprId);
+		pstmt.setString(2, arrId);
+		pstmt.setString(3, deprDtm);
+
+		if (!busClsCd.equals("전체")) {
+		    pstmt.setString(4, busClsCd);
+		}
+		
 		rs = pstmt.executeQuery();
 		
 		System.out.println(sql);
