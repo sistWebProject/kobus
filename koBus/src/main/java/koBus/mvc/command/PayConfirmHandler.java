@@ -16,7 +16,7 @@ public class PayConfirmHandler implements CommandHandler {
 
     @Override
     public String process(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        // 1. 요청 파라미터 받기
+        // 1. 요청 파라미터 받기(정기권)
         String prdSno = req.getParameter("adtnPrdSno");
         String inputAmt = req.getParameter("goodsPrice");
 
