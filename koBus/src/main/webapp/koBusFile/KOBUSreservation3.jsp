@@ -479,11 +479,13 @@ $(document).ready(function () {
 	<input type="hidden" name="pathStep" id="pathStep" value="1"><!-- 왕복,환승 가는편순번 -->
 	<input type="hidden" name="pathStepRtn" id="pathStepRtn" value="1"><!-- 왕복,환승 가는편순번 -->
 	<input type="hidden" name="crchDeprArvlYn" id="crchDeprArvlYn" value="N"><!-- 출도착지 스왑여부 -->
-	<input type="hidden" name="deprDtm" id="deprDtm" value="20250607"><!-- 가는날(편도,왕복) -->
-	<input type="hidden" name="deprDtmAll" id="deprDtmAll" value="2025. 6. 7. 토"><!-- 가는날(편도,왕복) -->
-	<input type="hidden" name="arvlDtm" id="arvlDtm" value="20250607"><!-- 오는날(왕복) -->
-	<input type="hidden" name="arvlDtmAll" id="arvlDtmAll" value="2025. 6. 7. 토"><!-- 오는날(왕복) -->
-	<input type="hidden" name="busClsCd" id="busClsCd" value="0"><!-- 버스등급 -->
+	<input type="hidden" name="deprDtm" id="deprDtm" value=""><!-- 가는날(편도,왕복) -->
+	<!-- <input type="hidden" name="deprDtmAll" id="deprDtmAll" value="2025. 6. 7. 토"> -->
+	<input type="hidden" name="deprDtmAll" id="deprDtmAll" value=""><!-- 가는날(편도,왕복) -->
+	<!-- <input type="hidden" name="arvlDtm" id="arvlDtm" value="20250607"> -->
+	<input type="hidden" name="arvlDtm" id="arvlDtm" value=""><!-- 오는날(왕복) -->
+	<input type="hidden" name="arvlDtmAll" id="arvlDtmAll" value=""><!-- 오는날(왕복) -->
+	<input type="hidden" name="busClsCd" id="busClsCd" value=""><!-- 버스등급 -->
 	<input type="hidden" name="abnrData" id="abnrData" value=""><!-- 결과값여부 -->
 	<input type="hidden" name="prmmDcYn" id="prmmDcYn" value="N"><!-- 시외우등할인대상노선 -->
 	<input type="hidden" name="takeTime" id="takeTime" value="0"><!-- 시외우등할인대상노선 -->
@@ -1216,6 +1218,7 @@ $(document).ready(function () {
 						
 						$("#popDeprNmSpn").text(regName);
 						$("#deprCd").val(regID);
+						$("#deprNm").val(regName);
 						
 						$("#cfmBtn").removeAttr("disabled").addClass("active");
 						$("#cfmBtn").css("background-color", "#003087"); // 파란색 버튼처럼
@@ -1233,6 +1236,7 @@ $(document).ready(function () {
 
 						$("#popArvlNmSpn").text(regName);  // 도착지 이름 표시
 						$("#arvlCd").val(regID);           // form에 숨겨진 도착지 값 설정
+						$("#arvlNm").val(regName);          
 
 						// 버튼 UI 활성화
 						$("#cfmBtn").removeAttr("disabled").addClass("active");

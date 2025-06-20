@@ -173,6 +173,39 @@ public class ScheduleHandler implements CommandHandler {
 
 				
 			}
+			
+			// ==============================
+			else if ("getDuration".equals(ajaxType)) {
+			    String deprCd = request.getParameter("deprCd");
+			    String arvlCd = request.getParameter("arvlCd");
+			    
+			    System.out.println("[getDuration] 출발지 REGID: " + deprCd);
+			    System.out.println("[getDuration] 도착지 REGID: " + arvlCd);
+
+			    int duration = 0;
+
+			    try {
+			        // 이미 위에서 dao = new ScheduleDAOImpl(conn); 로 생성되어 있음
+			    	duration = dao.getDurationFromRoute(deprCd, arvlCd);  // ← route 테이블에서 조회
+			    	
+			    	System.out.println("[getDuration] 조회된 duration: " + duration);
+			    	
+			    } catch (Exception e) {
+			        e.printStackTrace();
+			    }
+
+			    Map<String, Integer> result = new HashMap<>();
+			    result.put("duration", duration);
+
+			    String json = new Gson().toJson(result);
+			    PrintWriter out = response.getWriter();
+			    out.print(json);
+			    out.flush();
+
+			    return null;
+			}
+
+			// ==============================
 
 
 		}catch (NamingException e) {

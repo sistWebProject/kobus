@@ -1,11 +1,16 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-  System.out.println(">> deprDate: " + request.getParameter("deprDate"));
-  System.out.println(">> deprName: " + request.getParameter("deprName"));
-  System.out.println(">> arvlName: " + request.getParameter("arvlName"));
+System.out.println(">> deprDate: " + request.getParameter("deprDtmAll"));
+System.out.println(">> deprName: " + request.getParameter("deprNm"));
+System.out.println(">> arvlName: " + request.getParameter("arvlNm"));
+System.out.println(">> busrank: " + request.getParameter("busClsCd"));
 %>
 <!DOCTYPE html>
-
+<style>
+   #datepicker1, #datepicker2 {
+      display:none;
+   }
+</style>
 <html class="pc" lang="ko">
 <head>
 <meta charset="utf-8" />
@@ -24,6 +29,45 @@
 <link href="/koBus/css/ui.jqgrid.custom.css" rel="stylesheet"
 	type="text/css" />
 <script src="/koBus/js/jquery-1.12.4.min.js" type="text/javascript"></script>
+
+<script>
+$(document).ready(function () {
+    const deprCd = $("#deprCd").val();
+    const arvlCd = $("#arvlCd").val();
+
+    if (deprCd && arvlCd) {
+        $.ajax({
+            url: "<%=request.getContextPath()%>/getDuration.ajax",
+            type: "GET",
+            data: {
+                ajax: "true",                 // ✔ 필수
+                ajaxType: "getDuration",     // ✔ 정확히 입력
+                deprCd: deprCd,
+                arvlCd: arvlCd
+            },
+            dataType: "json",
+            success: function (data) {
+                if (data.duration !== undefined && data.duration > 0) {
+                    const hours = Math.floor(data.duration / 60);
+                    const minutes = data.duration % 60;
+                    let timeText = "";
+                    if (hours > 0) timeText += `${hours}시간 `;
+                    if (minutes > 0) timeText += `${minutes}분 `;
+                    timeText += "소요";
+                    $("#takeDrtm").text(timeText);
+                } else {
+                    $("#takeDrtm").text("소요시간 없음");
+                }
+            },
+            error: function () {
+                $("#takeDrtm").text("조회 실패");
+            }
+        });
+    }
+});
+
+</script>
+
 <script type="text/javascript">
 	//쿠키 가져오기
 	function getCookie(name) {
@@ -241,11 +285,13 @@
 		name="alcnSrchFrm">
 		<input id="deprCd" name="deprCd" type="hidden" value="032" />
 		<!-- 출발지코드 -->
-		<input id="deprNm" name="deprNm" type="hidden" value="동서울" />
+		<!-- <input id="deprNm" name="deprNm" type="hidden" value="동서울" /> -->
+		<input id="deprNm" name="deprNm" type="hidden" value="<%= request.getParameter("deprNm") %>" />
 		<!-- 출발지명 -->
 		<input id="arvlCd" name="arvlCd" type="hidden" value="220" />
 		<!-- 도착지코드 -->
-		<input id="arvlNm" name="arvlNm" type="hidden" value="삼척" />
+		<!-- <input id="arvlNm" name="arvlNm" type="hidden" value="삼척" /> -->
+		<input id="arvlNm" name="arvlNm" type="hidden" value="<%= request.getParameter("arvlNm") %>" />
 		<!-- 도착지명 -->
 		<input id="tfrCd" name="tfrCd" type="hidden" value="" />
 		<!-- 환승지코드 -->
@@ -257,17 +303,17 @@
 		<!-- 직통sngl,환승trtr,왕복rtrp -->
 		<input id="pathStep" name="pathStep" type="hidden" value="1" />
 		<!-- 왕복,환승 가는편순번 -->
-		<input id="deprDtm" name="deprDtm" type="hidden" value="20250617" />
+		<!-- <input id="deprDtm" name="deprDtm" type="hidden" value="20250617" /> -->
+		<input id="deprDtm" name="deprDtm" type="hidden" value="<%= request.getParameter("deprDtm") %>" />
 		<!-- 가는날(편도,왕복) -->
-		<input id="deprDtmAll" name="deprDtmAll" type="hidden"
-			value="2025. 6. 17. 화" />
+		<input id="deprDtmAll" name="deprDtmAll" type="hidden" value="<%= request.getParameter("deprDtmAll") %>" />
 		<!-- 가는날(편도,왕복) -->
-		<input id="arvlDtm" name="arvlDtm" type="hidden" value="20250617" />
+		<input id="arvlDtm" name="arvlDtm" type="hidden" value="" />
 		<!-- 오는날(왕복) -->
 		<input id="arvlDtmAll" name="arvlDtmAll" type="hidden"
 			value="2025. 6. 17. 화" />
 		<!-- 오는날(왕복) -->
-		<input id="busClsCd" name="busClsCd" type="hidden" value="0" />
+		<input id="busClsCd" name="busClsCd" type="hidden" value="<%= request.getParameter("busClsCd") %>" />
 		<!-- 버스등급 -->
 		<input id="takeDrtmOrg" name="takeDrtmOrg" type="hidden" value="200" />
 		<!-- 소요시간 -->
@@ -377,22 +423,25 @@
 				<!-- 좌측 infoBox -->
 				<div class="infoBox">
 					<!-- <p class="date" id="alcnDeprDtm">2025. 6. 17. 화</p> -->
-					<p class="date" id="alcnDeprDtm"><%= request.getParameter("deprDate") %></p>
+					<p class="date" id="alcnDeprDtm"><%= request.getParameter("deprDtm") %></p>
 					<!-- //왕복시 노출 추가 2017-02-10 -->
 					<div class="route_wrap" id="alcnRotInfo">
 						<div class="inner">
 							<dl class="roundBox departure kor">
 								<dt>출발</dt>
-								<dd id="alcnDeprTmlNm">동서울</dd>
+								<!-- <dd id="alcnDeprTmlNm">동서울</dd> -->
+								<dd id="alcnDeprTmlNm"><%= request.getParameter("deprNm") %></dd>
 							</dl>
 							<dl class="roundBox arrive kor">
 								<dt>도착</dt>
-								<dd id="alcnArvlTmlNm">삼척</dd>
+								<!-- <dd id="alcnArvlTmlNm">삼척</dd> -->
+								<dd id="alcnArvlTmlNm"><%= request.getParameter("arvlNm") %></dd>
 							</dl>
 						</div>
 						<div class="detail_info">
-							<span id="takeDrtm">3시간 20분 소요</span> <span id="dist">260.8
-								Km</span>
+							<!-- <span id="takeDrtm">3시간 20분 소요</span> <span id="dist">260.8
+								Km</span> -->
+							<span id="takeDrtm">소요시간 표시</span>
 						</div>
 						<div class="btn_r">
 							<a class="btn btn_modify white" href="javascript:void(0)"
@@ -509,7 +558,7 @@
 								<!-- 선택할수 목록(1. 시간이 지났을경우, 2. 잔여좌석이 0일경우) 에 class = 'noselect', 등급이 프리미엄일 경우 class = "premium" -->
 								<p class="" data-time="05" role="row">
 									<a class="" href="javascript:void(0)"
-										onclick="fnSatsChc('20250617','064500','064500','032','220','1','02','0','Y','N','032','220','N','N','N','N');">
+										onclick="fnSatsChc('<%= request.getParameter("deprDtm") %>','064500','064500','032','220','1','02','0','Y','N','032','220','N','N','N','N');">
 										<span aria-labelledby="start_time_header" class="start_time"
 										role="cell">06 : 45</span> <span class="bus_info"> <span
 											class="dongbu">(주)동부고속</span> <span class="grade_mo">우등</span>
@@ -540,7 +589,7 @@
 								<p class="premium" data-time="07" role="row">
 									<span class="label"><span class="sr-only">프리미엄</span></span> <a
 										class="" href="javascript:void(0)"
-										onclick="fnSatsChc('20250617','072000','072000','032','220','7','02','0','Y','N','032','220','N','N','N','N');">
+										onclick="fnSatsChc('<%= request.getParameter("deprDtm") %>','072000','072000','032','220','7','02','0','Y','N','032','220','N','N','N','N');">
 										<span aria-labelledby="start_time_header" class="start_time"
 										role="cell">07 : 20</span> <span class="bus_info"> <span
 											class="dongbu">(주)동부고속</span> <span class="grade_mo">프리미엄</span>
@@ -570,7 +619,7 @@
 								<!-- 선택할수 목록(1. 시간이 지났을경우, 2. 잔여좌석이 0일경우) 에 class = 'noselect', 등급이 프리미엄일 경우 class = "premium" -->
 								<p class="" data-time="" role="row">
 									<a class="" href="javascript:void(0)"
-										onclick="fnSatsChc('20250617','085000','085000','032','220','2','02','0','Y','N','032','220','N','N','N','N');">
+										onclick="fnSatsChc('<%= request.getParameter("deprDtm") %>','085000','085000','032','220','2','02','0','Y','N','032','220','N','N','N','N');">
 										<span aria-labelledby="start_time_header" class="start_time"
 										role="cell">08 : 50</span> <span class="bus_info"> <span
 											class="dongbu">(주)동부고속</span> <span class="grade_mo">고속</span>
@@ -600,7 +649,7 @@
 								<!-- 선택할수 목록(1. 시간이 지났을경우, 2. 잔여좌석이 0일경우) 에 class = 'noselect', 등급이 프리미엄일 경우 class = "premium" -->
 								<p class="" data-time="11" role="row">
 									<a class="" href="javascript:void(0)"
-										onclick="fnSatsChc('20250617','113000','113000','032','220','2','02','0','Y','N','032','220','N','N','N','N');">
+										onclick="fnSatsChc('<%= request.getParameter("deprDtm") %>','113000','113000','032','220','2','02','0','Y','N','032','220','N','N','N','N');">
 										<span aria-labelledby="start_time_header" class="start_time"
 										role="cell">11 : 30</span> <span class="bus_info"> <span
 											class="dongbu">(주)동부고속</span> <span class="grade_mo">고속</span>

@@ -31,6 +31,7 @@ public class ScheduleDTO {
 	private String busId; 					/* 버스 ID */
 	private int remainSeats; 				/* 잔여석 */
     private int busSeats;    				/*총 좌석*/
+    private int duration;
 }
 
 
