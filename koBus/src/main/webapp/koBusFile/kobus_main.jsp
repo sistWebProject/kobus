@@ -31,7 +31,6 @@
 
 </head>
 
-<%@ include file="common/header.jsp" %>
 
 <script>
 	$(function () {
@@ -85,6 +84,7 @@ $( function() {
 <script type="text/javascript" src="/koBus/js/transkeyServlet(1)"></script>
 <link rel="stylesheet" type="text/css" href="/koBus/js/transkey.css">  -->
 		<script>
+		
 //	$(function(){ initTranskey('lgnFrm'); })
 // 	function setTranskey(obj, formId){
 // 		if(!$("#lgnTab").hasClass("on")){
@@ -106,6 +106,10 @@ $( function() {
 // 		}, 100);
 // 	}
 // </script>
+
+<body class="main KO" style="">
+
+<%@ include file="common/header.jsp" %>
 
 		<!-- 출/도착지 선택 레이어팝업 -->
 

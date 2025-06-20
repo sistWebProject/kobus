@@ -13,4 +13,5 @@ public interface ScheduleDAO {
 	
 	List<ScheduleDTO> searchBusSchedule(String deprId, String arrId, String deprDtm, String busClsCd) throws SQLException;
 	
+	public int getDurationFromRoute(String deprCd, String arvlCd) throws SQLException;
 }

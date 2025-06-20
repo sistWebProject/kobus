@@ -29,5 +29,6 @@ public class ResvDTO {
 	private int durMin;
 	private int amount; 			/* 총 결제금액 */
 	private String payType;
+	private int totalCount;
 
 }

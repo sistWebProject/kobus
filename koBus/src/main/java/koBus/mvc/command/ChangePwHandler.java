@@ -13,17 +13,17 @@ import com.util.ConnectionProvider;
 import koBus.mvc.persistence.MyPageDAO;
 import koBus.mvc.persistence.MyPageDAOImpl;
 
-public class LogonMyPageHandler implements CommandHandler {
+public class ChangePwHandler implements CommandHandler {
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, Exception, Throwable {
-		System.out.println("> LogonMyPageHandler.process()...");
 		
-		// 세션에 담겨있는 auth를 이용해 
-		// 예매내역 행갯수, 프리패스/정기권 행개수, 휴대폰번호를 가져와서 페이지에 뿌려줌 
+		System.out.println("> ChangePwHandler.process()...");
 		HttpSession session = request.getSession();
+		
 		String auth = (String) session.getAttribute("auth");
+		String usrPwd = request.getParameter("usrPwd");
 		
 		System.out.println("auth : " + auth);
 		
@@ -31,22 +31,21 @@ public class LogonMyPageHandler implements CommandHandler {
 		MyPageDAO dao = new MyPageDAOImpl(conn);
 		
 		try {
-			int reservationCount = dao.reservationCount(auth);
-			int couponCount = dao.couponCount(auth);
-			String tel = dao.getTelNum(auth);
 			
-			request.setAttribute("reservationCount", reservationCount);
-			request.setAttribute("couponCount", couponCount);
-			request.setAttribute("tel", tel);
+			int result = dao.update(auth, usrPwd);
+			
+			if (result == 1) {
+				System.out.println("업데이트 성공");
+			} else {
+				System.out.println("업데이트 실패");
+			}
 			
 		} catch (Exception e) {
-			System.out.println("> LogonMyPageHandler.process() ... Exception");
+			System.out.println("> ChangePwHandler.process() Exception...");
 			e.printStackTrace();
-		} finally {
-			conn.close();
 		}
 		
-		return "/koBusFile/logonMyPage.jsp";
+		return "/page/logonMyPage.do";
 	}
-	
+
 }
