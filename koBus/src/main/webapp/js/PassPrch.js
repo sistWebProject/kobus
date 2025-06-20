@@ -4,21 +4,10 @@ var allRotInfrLen     = 0;  // 노선 전체 데이터 건수
 var allplen = 0; // tab 구분자
 var allPrchAmt = 0; // 할부 개월수를 표시할지 말지
 var g_passOptionList = [];  // 정기권 옵션 리스트 전역 저장용
-
+let amount = 0;
 
 $(document).ready(function() {	
-	$("#goPrdprchFn").click(function(){
-        var formData = $("form[name=passPrchFrm]").serialize();
-        console.log("🧾 결제 전송 데이터:", formData);
-        
-        $.post("/koBus/pay/confirm", formData, function(response){
-        if (response.status === "success") {
-            alert("결제 금액 확인 완료!");  // 이후 실제 결제 처리
-        } else {
-            alert("금액 불일치! 관리자에게 문의하세요.");
-        }
-    });
-    });
+	
 	//사용시작일 
 	//fnYyDtmStup(0,'text_date1','0');
 //	$("#divAdtnDtl").css('display', 'none');
@@ -186,37 +175,107 @@ $(document).ready(function() {
 			return;
 		}
 		
-		var payType="card";
-		if($("input:radio[id='payType6']").is(":checked")){ // 간편결제
-			if(!fnVldtPay()){
-				return;
-			}
-			payType="pay";
-		}
-		else{
-			//if($("input:radio[id='payType1']").is(":checked"))
-			{ // 신용카드
-				if(!fnVldtCard()){
-					return;
-				}
-				payType="card";
-			}
-		}
+		var formData = $("form[name=passPrchFrm]").serialize();
+        console.log("🧾 결제 전송 데이터:", formData);
+        
+        $.post("/koBus/pay/confirm", formData, function(response){
+	    if (response.status === "success") {
+	        alert("결제 금액 확인 완료!");  // 이후 실제 결제 처리
+	        amount = response.serverAmt; // 서버에서 받은 금액 세팅
+	        requestPay(); // ✅ 여기에서 호출!
+	    } else {
+	        alert("금액 불일치! 관리자에게 문의하세요.");
+	        return; // ❌ 아래로 진행 막기(실제 결제 차단)
+	    }
 
-		$("#pymType").val(payType);
-		
-		if(!confirm("결제하시겠습니까?")){
-			return;
-		}
-
-		if(payType == "pay"){ // 간편결제
-			fnPayPymWin();	
-		} else {
-			//fn_PrdprchFn(); // 결제 진행
-			fnStplCfmPym();
-		}
 	});
 });
+}); // document
+function fetchAmountFromServer() {
+    $.ajax({
+        url: '/koBus/pay/confirm',  // ← 이 부분, 실제 핸들러 경로로
+        type: 'POST',
+        data: {
+            passType: $("#selPassType").val(),
+            // 추가 옵션 필요시
+        },
+        dataType: "json",
+        success: function(data) {
+            amount = data.amount;  // 서버에서 amount로 응답
+            $("#amountSpan").text(amount.toLocaleString() + "원"); // UI 표시
+        },
+        error: function(xhr, status, error) {
+            alert("금액 조회 실패!");
+        }
+    });
+}
+
+function requestPay() {
+	// amount 값 체크
+    console.log("requestPay 호출 시 amount 값:", amount);
+    // 또는
+    console.log("결제금액 #goodsPrice 값:", $("#goodsPrice").val());
+     if (amount <= 0) {
+        alert("결제 금액이 올바르지 않습니다. 구매옵션 선택 후 다시 시도해 주세요!");
+        return;
+    }
+	var nonMbrsYnChk = $("#nonMbrsYn").val();
+//	if(!fnNonMbrsYn(nonMbrsYnChk)){
+//		return;
+//	}
+	// 20210218 yahan 비회원 변경
+	if($("#nonMbrsYn").val() == "Y" && $("#nonMbrsAuthYn").val() != "Y"){
+		$("#nonMbrsHp").focus();
+		alert("비회원 인증이 필요합니다.");
+		return;
+	}
+	
+	var selectedOptionText = $("#selOptionText").val();
+	
+	var IMP = window.IMP;
+    IMP.init('imp31168041'); // 테스트용 가맹점 식별코드
+
+    IMP.request_pay({
+        pg: 'html5_inicis.INIpayTest',
+        pay_method: ['card', 'trans'],
+        merchant_uid: 'ORD_TEST_' + new Date().getTime(),
+        name: selectedOptionText,
+        amount: amount, // 이 부분에 서버에서 조회한 금액 변수를 대입!
+        // buyer_xxx 등은 필요 없으면 생략
+    }, function (rsp) {
+        if (rsp.success) {
+            alert('테스트 결제 성공! imp_uid: ' + rsp.imp_uid);
+
+            // 서버로 결제 데이터 전송 (이 부분이 핵심!)
+            $.ajax({
+                url: '/koBus/payment/savePayment.do',
+                type: 'POST',
+                data: {
+                    imp_uid: rsp.imp_uid,
+                    merchant_uid: rsp.merchant_uid,
+                    pay_method: rsp.pay_method,
+                    amount: rsp.amount,
+                    pay_status: 'SUCCESS',
+                    pg_tid: rsp.pg_tid,
+                    paid_at: rsp.paid_at
+                },
+                success: function(data) {
+                    alert('결제 정보가 서버에 저장되었습니다!');
+                    // location.href = "/결제완료페이지.do";
+                },
+                error: function(xhr, status, error) {
+                    alert('결제 정보 저장에 실패했습니다!');
+                    console.error('결제 저장 오류:', error);
+                }
+            });
+        } else {
+            var msg = '테스트 결제에 실패하였습니다.';
+            msg += '\n에러 내용: ' + rsp.error_msg;
+            alert(msg);
+            console.error('결제 실패 응답:', rsp);
+        }
+    });
+}
 
 function getDateDiff(cStartDate,cEndDate)
 {
@@ -749,6 +808,7 @@ function fnSelOption(value){
 	//유효기간 가져오기
 	fnAdtnVldTerm();
 	$("#divTermDesc").css('display', 'block');
+	
 }
 
 function setTermParamsToForm() {

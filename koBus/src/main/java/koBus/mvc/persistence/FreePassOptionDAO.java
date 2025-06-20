@@ -38,4 +38,20 @@ public class FreePassOptionDAO {
 
         return list;
     }
+    
+    // 특정 프리패스 옵션(PK)으로 금액만 조회하는 메서드
+    public int getAmountBySno(String adtnPrdSno) throws Exception {
+        int amount = 0;
+        String sql = "SELECT amount FROM free_pass_option WHERE adtn_prd_sno = ?";
+        try (Connection conn = ConnectionProvider.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, adtnPrdSno);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    amount = rs.getInt("amount");
+                }
+            }
+        }
+        return amount;
+    }
 }
