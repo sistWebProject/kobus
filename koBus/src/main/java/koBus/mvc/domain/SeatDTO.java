@@ -21,7 +21,6 @@ public class SeatDTO {
 	private String busId; 		/* 버스 ID */
 	private int seatNo; 		/* 좌석 번호 */
 	private String seatType; 	/* 좌석 유형 */
-	private int seatFee; 		/* 좌석 요금 */
 	private String seatAble; 	/* 예매 유무 */
 
 

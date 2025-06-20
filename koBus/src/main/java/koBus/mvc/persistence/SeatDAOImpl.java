@@ -66,14 +66,13 @@ public class SeatDAOImpl implements SeatDAO{
 	public List<SeatDTO> searchSeat(String busId) throws SQLException {
 		
 		List<SeatDTO> list = null;
-		String sql = "select seatid, busid, seatno, seattype, seatfee, seatable "
+		String sql = "select seatid, busid, seatno, seattype, seatable "
 				+ " from seat "
 				+ " where busid = ? ";
 		
 		String seatId; 		
 		int seatNo; 		
 		String seatType; 
-		int seatFee; 		
 		String seatAble;
 		
 		this.pstmt = conn.prepareStatement(sql);
@@ -91,7 +90,6 @@ public class SeatDAOImpl implements SeatDAO{
 				seatNo = this.rs.getInt("seatNo");
 				busId = this.rs.getString("busId");
 				seatType = this.rs.getString("seatType");
-				seatFee = this.rs.getInt("seatFee");
 				seatAble = this.rs.getString("seatAble");
 				
 				this.dto = new SeatDTO().builder().
@@ -99,7 +97,6 @@ public class SeatDAOImpl implements SeatDAO{
 						seatNo(seatNo).
 						busId(busId).
 						seatType(seatType).
-						seatFee(seatFee).
 						seatAble(seatAble).build();
 				list.add(dto);
 				
