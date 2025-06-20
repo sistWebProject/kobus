@@ -14,13 +14,12 @@ public class NoticeSaveHandler implements CommandHandler {
     	request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
         // 파라미터 수집
-        String notID = request.getParameter("notID");
+        
         String topic = request.getParameter("topic");
         String content = request.getParameter("content");
 
         // DTO + DAO
         NoticeDTO dto = new NoticeDTO();
-        dto.setNotID(notID);
         dto.setTopic(topic);
         dto.setContent(content);
 
@@ -28,7 +27,7 @@ public class NoticeSaveHandler implements CommandHandler {
         dao.insertNotice(dto);
 
         // 저장 후 목록으로 이동
-        response.sendRedirect("noticeList.do"); // 또는 "list.notice" 등 네가 지정한 경로
-        return null; // forward 안 할 거면 null
+        response.sendRedirect("noticeList.do");
+        return null; 
     }
 }

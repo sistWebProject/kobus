@@ -148,7 +148,7 @@ $(document).ready(function () {
                      <li><a href="javascript:void(0)">고객지원</a>
                         <ul>
                            <li><a
-                              href="/cscn/ntcmttr/readNtcList.do">공지사항</a></li>
+                              href="noticeList.do">공지사항</a></li>
                            <li><a
                               href="/cscn/qna/readQnaList.do">자주찾는
                                  질문</a></li>
