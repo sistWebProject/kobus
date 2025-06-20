@@ -50,7 +50,7 @@ $(document).ready(function () {
          <div class="top-menu-area">
             <div class="container">
                <h1 id="logo">
-                  <a href="javascript:void(0);"> <img
+                  <a href="/koBus/main.do"> <img
                      src="/koBus/images/logo.png" alt="KOBUS 전국고속버스운송사업조합">
                   </a>
                </h1>
@@ -59,8 +59,8 @@ $(document).ready(function () {
 
                      <c:choose>
                         <c:when test="${empty auth}">
-                           <li><a class="login" href="/koBus/koBusFile/logonMain.jsp">로그인</a></li>
-                           <li><a href="/koBus/koBusFile/joinMain.jsp">회원가입</a></li>
+                           <li><a class="login" href="/koBus/page/logonMain.do">로그인</a></li>
+                           <li><a href="/koBus/page/joinMain.do">회원가입</a></li>
                         </c:when>
                         <c:otherwise>
                            <li>${auth} | </li> 
@@ -68,7 +68,7 @@ $(document).ready(function () {
                         </c:otherwise>
                      </c:choose>
                      <li><a
-                        href="/koBus/koBusFile/logonMyPage.jsp">마이페이지</a></li>
+                        href="/koBus/page/logonMyPage.do">마이페이지</a></li>
                      <li><a
                         href="javascript:void(0);">결제내역조회</a></li>
                      <li><a href="javascript:void(0);">사이트맵</a></li>
@@ -148,7 +148,7 @@ $(document).ready(function () {
                      <li><a href="javascript:void(0)">고객지원</a>
                         <ul>
                            <li><a
-                              href="/cscn/ntcmttr/readNtcList.do">공지사항</a></li>
+                              href="noticeList.do">공지사항</a></li>
                            <li><a
                               href="/cscn/qna/readQnaList.do">자주찾는
                                  질문</a></li>

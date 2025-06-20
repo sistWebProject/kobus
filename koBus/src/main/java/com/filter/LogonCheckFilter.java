@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 					, 
 		urlPatterns = { 
 				// 마이페이지 등등 권한 필요한 주소 추가할것. 
-				"/koBusFile/logonMyPage.jsp"
+				"/page/logonMyPage.do"
 		})
 public class LogonCheckFilter extends HttpFilter implements Filter {
 
@@ -59,7 +59,7 @@ public class LogonCheckFilter extends HttpFilter implements Filter {
 			chain.doFilter(request, response);
 		}else {
 		    // 필터 확인해서 로그인 안되어있으면 로그인 페이지로 이동...
-		    String location = "/koBus/koBusFile/logonMain.jsp";
+		    String location = "/koBus/page/logonMain.do";
 			hresponse.sendRedirect(location);
 		}
 	}

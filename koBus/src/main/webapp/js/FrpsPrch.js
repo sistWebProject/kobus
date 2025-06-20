@@ -175,14 +175,34 @@ $(document).ready(function() {
         return;
     }
 
-    // 결제 전 사용자 확인
-    if (!confirm("결제하시겠습니까?")) {
-        return;
-    }
+    // 구매옵션 값
+    var adtn_prd_sno = $("#adtn_prd_sno").val();
+    // 사용자가 볼 금액(화면의 금액, 또는 window.realAmount 등)
+    var clientAmount = window.realAmount;
 
-    // 포트원 결제 실행
-    requestPay();  // 아래에 정의
+    // 결제 전 서버 금액 검증
+    $.ajax({
+        url: '/freepass/payment/fetchAmount.ajax', // 서버에서 금액 가져오는 핸들러
+        type: 'GET',
+        data: { adtn_prd_sno: adtn_prd_sno },
+        async: false, // 금액 검증 후에만 결제창 열기 (권장: 동기처리)
+        success: function (result) {
+            // 서버에서 받아온 실제 금액과 클라이언트 금액 비교
+            if (result.amount != clientAmount) {
+                alert("금액 불일치! 결제를 중단합니다. 관리자에게 문의하세요.");
+                return;
+            } else {
+                // 금액이 정상적으로 일치하면 결제창 실행
+                requestPay();
+            }
+        },
+        error: function () {
+            alert("서버와 통신 오류가 발생했습니다. 관리자에게 문의하세요.");
+            return;
+        }
+    });
 });
+
 	
 
 	// 캘린더 오늘 텍스트 추가
@@ -227,6 +247,68 @@ $(document).ready(function() {
 		}
 	}
 });
+
+// ① 금액 조회용 Ajax 함수
+function fetchAmountFromServer(adtn_prd_sno) {
+    return $.ajax({
+        url: "/koBus/freepass/payment/fetchAmount.ajax", // ★ 금액조회용 별도 url
+        type: "GET",
+        data: { adtn_prd_sno: adtn_prd_sno }
+    });
+}
+
+// ② 옵션 변경시 금액 자동 조회
+$("#adtn_prd_sno").change(function() {
+    var selectedSno = $(this).val();
+    fetchAmountFromServer(selectedSno).done(function(result) {
+        // 서버에서 받아온 금액 result.amount로 window 변수 저장
+        window.realAmount = result.amount;
+        $("#amount").val(result.amount); // input box 있을 경우
+    });
+});
+
+function requestPay() {
+    var IMP = window.IMP;
+    IMP.init('imp31168041'); // 가맹점 식별코드
+
+    IMP.request_pay({
+        pg: 'html5_inicis.INIpayTest',
+        pay_method: ['card', 'trans'],
+        merchant_uid: 'ORD_TEST_' + new Date().getTime(),
+        name: '프리패스 상품명', // 실제 상품명
+        amount: window.realAmount,
+        // 기타 필요시 buyer 정보 등
+    }, function (rsp) {
+        if (rsp.success) {
+            // ★★★ 여기서 필요한 값들 추가 ★★★
+            $.ajax({
+                url: '/koBus/freepass/payment/savePayment.do',
+                type: 'POST',
+                data: {
+                    imp_uid: rsp.imp_uid,
+                    merchant_uid: rsp.merchant_uid,
+                    pay_method: rsp.pay_method,
+                    amount: window.realAmount,
+                    pay_status: 'SUCCESS',
+                    pg_tid: rsp.pg_tid,
+                    paid_at: rsp.paid_at,
+                    adtn_prd_sno: $("#adtn_prd_sno").val(),   // ★ 프리패스 옵션 PK
+                    user_id: $("#user_id").val()              // ★ 로그인 회원ID
+                },
+                success: function(data) {
+                    alert('결제 정보가 서버에 저장되었습니다!');
+                    // location.href = "/결제완료페이지.do";
+                },
+                error: function(xhr, status, error) {
+                    alert('결제 정보 저장에 실패했습니다!');
+                    console.error('결제 저장 오류:', error);
+                }
+            });
+        } else {
+            alert('결제에 실패했습니다: ' + rsp.error_msg);
+        }
+    });
+}
 
 //부가상품 상세 조회
 function fnFrpsDtl(){
@@ -903,136 +985,6 @@ function fnBrnChk(divVal){
 	}
 }
 
-function fnVldtCard(){
-	
-	if($('#cardKndCd').val() == "0" || $('#cardKndCd').val() == ""){
-		alert("결제에 이용하실 카드를 선택해 주세요.");
-		$('a[title="카드 선택"]').focus(); // 포커스 이동
-		return;
-	}
-	// 카드번호
-	if($("#cardNum1").val() == "" || $("#cardNum1").val().length != 4){
-		alert("첫 번째 카드번호 4자리를 입력해주세요.");
-		$('#cardNum1').focus(); // 포커스 이동
-		return;
-	}
-	if($("#cardNum2").val() == "" || $("#cardNum2").val().length != 4){
-		alert("두 번째 카드번호 4자리를 입력해주세요.");
-		$('#cardNum2').focus(); // 포커스 이동
-		return;
-	}
-	if($("#cardNum3").val() == "" || $("#cardNum3").val().length != 4){
-		alert("세 번째 카드번호 4자리를 입력해주세요.");
-		$('#cardNum3').focus(); // 포커스 이동
-		return;
-	}
-	if($("#cardNum4").val() == "" || $("#cardNum4").val().length == 0){
-		// 아맥스 등 카드마다 다르므로
-		$('#cardNum4').focus(); // 포커스 이동
-		alert("네 번째 카드번호 4자리를 입력해주세요.");
-		return;
-	}
-	// 카드유효기간 월
-	if($("#cardMonth").val() == "" || $("#cardMonth").val().length != 2){
-		alert("카드유효기간 월을 2자리 입력해주세요.");
-		$('#cardMonth').focus(); // 포커스 이동
-		return;
-	}
-	// 카드유효기간 년
-	if($("#cardYear").val() == "" || $("#cardYear").val().length != 2){
-		alert("카드유효기간 년을 2자리 입력해주세요.");
-		$('#cardYear').focus(); // 포커스 이동
-		return;
-	}
-	// 카드번호 비밀번호
-	if($("#cardPwd").val() == "" || $("#cardPwd").val().length != 2){
-		alert("카드 비밀번호를 입력해주세요.");
-		$('#cardPwd').focus(); // 포커스 이동
-		return;
-	}
-	// 생년월일
-	if($("input:radio[id='caPerson']").is(":checked")){
-		if($("#caBirth").val() == "" || $("#caBirth").val().length != 6){
-			alert("생년월일을 입력해 주세요.");
-			$('#caBirth').focus(); // 포커스 이동
-			return;
-		}
-		// 할부 선택 
-		if(allPrchAmt >= 50000 && $("#mipMm").val() == ""){
-			// 5만원이상의 결제에 할부 선택을 하지 않은 경우
-			alert("할부 기간을 선택해주세요.");
-			$('#mipMmfocus').focus(); // 포커스 이동
-			return;
-		}
-	}
-	// 사업자등록 번호
-	if($("input:radio[id='caCompany']").is(":checked")){
-		var brnChkYn = fnBrnChk("card");
-		if(brnChkYn == "N"){
-			return false;
-		}
-	}		
-	
-	/**
-	 * 20200617 yahan
-	 */
-	if (ajaxDecode('cardNum3') == false) { return false; }
-	if (ajaxDecode('cardNum4') == false) { return false; }
-	if (ajaxDecode('cardPwd') == false) { return false; }
-	
-	
-	var cardExdt = $("#cardYear").val() + $("#cardMonth").val();
-	$("#cardExdt").val(cardExdt)
-	var cardNo = $("#cardNum1").val() + $("#cardNum2").val() + $("#cardNum3").val() + $("#cardNum4").val();
-	$("#cardNo").val(cardNo);
-	
-	return true;
-}
-
-function fnVldtPay(){
-//	if($("#payBirth").val().length != 6){
-//		alert("간편결제 생년월일을 정확하게 입력하시기 바랍니다.");
-//		$("#payBirth").focus();
-//		return false;
-//	}
-	if ($("input:radio[name='pynDtlCd']:checked").length == 0){
-		alert("간편결제 종류를 선택해 주세요.");
-		$("#payNaver").focus();
-		return false;
-	}
-
-	return true;
-}
-
-function fnSetCardCd(listCnt,cardCdList){
-	// asis
-	if (is_select("cardKndCd")){ // select 태크처리
-		var selectOption = "";
-		selectOption = "<option value=\"0\">카드를 선택하세요</option>";
-		for(var inx = 0 ; inx < listCnt ; inx++){
-			if(cardCdList[inx].useListYn == "Y"){
-				selectOption += "<option value=\""+cardCdList[inx].buyCmpyCd+"\">"+cardCdList[inx].buyCmpyKorNm+"</option>";
-			}
-		}
-		selectOption += "<option value=\"01\">기타</option>";
-	
-		$("#cardKndCd").html(selectOption);
-		$("#cardKndCd").selectric();
-	}
-	// renewal
-	else {
-		var selectOption = "<li><a href=\"javascript:void(0)\" onclick=\"onSelectChange(this,'0', 'cardKndCd')\">카드를 선택하세요</a></li>";
-
-		for(var inx = 0 ; inx < listCnt ; inx++){
-			if(cardCdList[inx].useListYn == "Y"){
-				selectOption += "<li><a href=\"javascript:void(0)\" onclick=\"onSelectChange(this,'"+cardCdList[inx].buyCmpyCd+"', 'cardKndCd')\">"+cardCdList[inx].buyCmpyKorNm+"</a></li>";
-			}
-		}
-		selectOption += "<li><a href=\"javascript:void(0)\" onclick=\"onSelectChange(this,'01', 'cardKndCd')\">기타</a></li>";
-		
-		$("#cardKndCdLi").html(selectOption);
-	}
-}
 
 function onSelectChange(obj, input_val, input_name){
 	console.log("onSelectChange 실행: input_name =", input_name);
@@ -1046,28 +998,6 @@ function onSelectChange(obj, input_val, input_name){
 	}
 }
 
-/*
-function onSelectChange(obj, input_val, input_name){
-	$("#"+input_name).val(input_val);
-	dropdown_process(obj);
-	
-
-	if (input_name == 'selOption'){
-		console.log("✅ 선택된 텍스트:", txt);
-		$("#selOptionText").val($(obj).text());
-		fnSelOption(input_val);
-	}
-	if ($("#selOptionText").length === 0) {
- 	 console.error("❌ selOptionText 요소 없음!");
-	} else {
-	  let text = obj.textContent || obj.innerText || $(obj).text();
-	  console.log("✅ 추출된 텍스트:", text);
-	  $("#selOptionText").val(text.trim());
-	  console.log("✅ val() 설정됨?", $("#selOptionText").val());
-}
-
-}
-*/
 function setMipMm(value){
 	$('#mipMmNum').val(value);
 }
@@ -1100,14 +1030,14 @@ var openDialog = function(closeCallback){
 	}, 1000);
 	return win;
 };
-
+/*
 // 간편결제
 function  fnPayPymWin(){
 	openDialog(function(win){
 		
 	});
 }
-
+*/
 // 드롭다운 항목 클릭 시 안전하게 이벤트 바인딩
 $(document).on("click", "#selOptionLi a", function () {
 	console.log("🧪 드롭다운 클릭됨:", $(this).text());
