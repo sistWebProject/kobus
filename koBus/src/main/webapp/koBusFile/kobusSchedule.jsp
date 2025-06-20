@@ -169,7 +169,8 @@
 
 
 			<form name="rotInfFrm" id="rotInfFrm" method="post"
-				action="/koBus/searchSchedule/readAlcnSrch.ajax">
+				action="/koBus/kobusSchedule.do">
+				<input type="hidden" name="sourcePage" value="kobusSchedule.jsp">
 				<input type="hidden" name="deprCd" id="deprCd" value="">
 				<!-- 출발지코드 -->
 				<input type="hidden" name="deprNm" id="deprNm" value="">
@@ -472,32 +473,19 @@
 				<div class="start_wrap" id="imptDepr" style="display: block;">
 					<h3 class="stit">주요출발지</h3>
 					<div class="tags">
-						<button type="button" onclick="fnDeprChc('010','서울경부')"
-							name="imptDeprNm" value="010">서울경부</button>
-						<button type="button" onclick="fnDeprChc('021','센트럴시티(서울)')"
-							name="imptDeprNm" value="021" class="over">센트럴시티(서울)</button>
-						<button type="button" onclick="fnDeprChc('500','광주(유·스퀘어)')"
-							name="imptDeprNm" value="500">광주(유·스퀘어)</button>
-						<!--  class="active" -->
-						<button type="button" onclick="fnDeprChc('700','부산')"
-							name="imptDeprNm" value="700">부산</button>
-						<button type="button" onclick="fnDeprChc('703','부산사상')"
-							name="imptDeprNm" value="703">부산사상</button>
-						<button type="button" onclick="fnDeprChc('032','동서울')"
-							name="imptDeprNm" value="032">동서울</button>
-						<button type="button" onclick="fnDeprChc('300','대전복합')"
-							name="imptDeprNm" value="300">대전복합</button>
-						<button type="button" onclick="fnDeprChc('602','전주')"
-							name="imptDeprNm" value="602">전주</button>
-						<button type="button" onclick="fnDeprChc('360','유성')"
-							name="imptDeprNm" value="360">유성</button>
-						<button type="button" onclick="fnDeprChc('310','천안')"
-							name="imptDeprNm" value="310">천안</button>
-						<button type="button" onclick="fnDeprChc('801','동대구')"
-							name="imptDeprNm" value="801">동대구</button>
-						<button type="button" onclick="fnDeprChc('120','성남(분당)')"
-							name="imptDeprNm" value="120">성남(분당)</button>
-					</div>
+			            <button type="button" onclick="fnDeprChc('REG002','서울 경부')" name="imptDeprNm" value="REG002">서울 경부</button>
+			            <button type="button" onclick="fnDeprChc('REG003','센트럴시티(서울)')" name="imptDeprNm" value="REG003" class="over">센트럴시티(서울)</button>
+			            <button type="button" onclick="fnDeprChc('REG139','광주(유·스퀘어)')" name="imptDeprNm" value="REG139">광주(유·스퀘어)</button> <!--  class="active" --> 
+			            <button type="button" onclick="fnDeprChc('REG041','부산')" name="imptDeprNm" value="REG041">부산</button>
+			            <button type="button" onclick="fnDeprChc('REG042','서부산')" name="imptDeprNm" value="REG042">서부산</button>
+			            <button type="button" onclick="fnDeprChc('REG001','동서울')" name="imptDeprNm" value="REG001">동서울</button>
+			            <button type="button" onclick="fnDeprChc('REG031','대전')" name="imptDeprNm" value="REG031">대전</button>
+			            <button type="button" onclick="fnDeprChc('REG068','전주')" name="imptDeprNm" value="REG068">전주</button>
+			            <button type="button" onclick="fnDeprChc('REG007','인천공항')" name="imptDeprNm" value="REG007">인천공항</button>
+			            <button type="button" onclick="fnDeprChc('REG033','천안')" name="imptDeprNm" value="REG033">천안</button>
+			            <button type="button" onclick="fnDeprChc('REG145','대구')" name="imptDeprNm" value="REG145">대구</button>
+			            <button type="button" onclick="fnDeprChc('REG009','성남')" name="imptDeprNm" value="REG009">성남</button>
+			        </div>
 				</div>
 				<div class="terminal_wrap">
 					<h3 class="stit">지역별 터미널</h3>
