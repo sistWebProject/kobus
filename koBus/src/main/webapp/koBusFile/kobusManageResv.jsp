@@ -52,25 +52,47 @@
 
 <script type="text/javascript"
 	src="/koBus/js/MrsCfmInf.js"></script>
-<script type="text/javascript"
-	src="/koBus/js/jquery.qrcode.js"></script>
+
 <script type="text/javascript"
 	src="/koBus/js/qrcode.js"></script>
+	<script type="text/javascript"
+	src="/koBus/js/jquery.qrcode.js"></script>
 </head>
 <script>
   $(function() {
-	  const qrData = $("#qrText").val();
-
-      // 이미 생성된 QR이 있다면 비움 (중복 방지)
-      $("#generatedQr").empty();
-
-      // QR 코드 생성
-      $("#generatedQr").qrcode({
-        text: qrData,
-        width: 150,
-        height: 150,
-        render: "canvas"
+	  const qrText = $("#qrText");
+      const qrImg = $("#qrImg");
+      const qrImgBox = $("#qrImgBox");
+  
+      // Error 보여주기
+      const showError = () => {
+          qrText.addClass("error-input error");
+      };
+  
+      // Error 제거하기
+      const removeError = () => {
+          qrText.removeClass("error-input error");
+      };
+  
+      // QR 코드 생성 함수
+      const generateQRCode = () => {
+          if (qrText.val().length > 0) {
+          qrImg.attr("src", `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=\${qrText.val()}`);
+          qrImgBox.addClass("showImg");
+          removeError();
+          } else {
+          showError();
+          }
+      };
+  
+      // input 입력 시 에러 제거
+      qrText.on("input", () => {
+          if (qrText.val().length > 0) {
+          removeError();
+          }
       });
+
+      generateQRCode();
   });
 </script>
 <style>
@@ -164,6 +186,8 @@
 
 </style>
 
+
+<body class="main KO" style="">
 
 <%@ include file="common/header.jsp" %>
 
@@ -603,7 +627,7 @@
 													</tr> -->
 													<tr>
 														<th scope="row">매수</th>
-														<td>일반1명 <!-- 20210525 yahan -->
+														<td>${resv.totalCount } <!-- 20210525 yahan -->
 
 														</td>
 
@@ -692,11 +716,12 @@
 										<!-- 검표상태에 따른 div 설정 -->
 										<li class="" style="border-top: none;">
 											<!-- 부분검표완료 시 li tag에 check_com 추가 --> <strong
-											class="seat-title">좌석</strong> <span class="seatNum">${resv.seatNo }</span>
+											class="seat-title">좌석</strong> <span class="seatNum" style="width: 80px;">${resv.seatNo }</span>
 
-											<!-- 20210525 yahan --> <span class="txt_blue">${resv.busGrade}</span> <span
+											<%-- <!-- 20210525 yahan --> <span class="txt_blue">${resv.busGrade}</span>  --%>
+											<span
 											class="box_ticketNum"> <span class="ticketNum">${resv.resId }</span>
-												<span class="ticketNum2">01020005</span>
+												<!-- <span class="ticketNum2">01020005</span> -->
 										</span>
 											<div class="btnBox">
 
@@ -720,7 +745,6 @@
 						<p class="btns multi clfix col3">
 							<a href="javascript:void(0)" onclick="fnmrsChangeTime(0);"
 								class="btnL btn_cancel first">시간변경</a> 
-								<input type="hidden" id="qrText" value="20250531145773">
 							<a href="javascript:void(0)" id="btnGenerateQr"
 								class="btnL btn_cancel" title="새창">탑승권 확인</a> 
 							<!-- <a href="javascript:void(0)" onclick="fnmrsRecpPub(0);" 
@@ -729,6 +753,66 @@
 							<a href="javascript:void(0)" onclick="fnRecpCanInfo(0,&#39;&#39;);"
 								class="btnL btn_cancel btn_pop_focus last">예매취소</a>
 						</p>
+
+
+						<div class="com_pop_wrap" id="theaterPopup" style="display: none;">
+							<div class="com_pop_fog" style="opacity: 0;"></div>
+							<div class="com_pop pop_product_cgv"
+								style="display: none; margin-left: -275px; margin-top: -310px; z-index: 999;">
+								<div class="com_pop_header">
+									<span>탑승권 QRCode</span><a href="javascript:void(0);"
+										class="sprite com_pop_btn_close">닫기</a>
+								</div>
+								<div class="com_pop_container" id="divAvailableCgv">
+									<input type="hidden" id="qrText" value="${resv.qrCode }">
+									<div id="qrImgBox" class="imgContainer">
+										<img id="qrImg" src="" alt="qr img" aria-label="QR 이미지 입니다."
+											draggable="false">
+										<p class="qr_title">탑승을 위한 QRCode</p>
+										<p>
+											열차를 탑승할때, 이 QRCode를 역무원에게 <br>보여주시길 바랍니다.
+										</p>
+									</div>
+
+									<button id="btnPickUp" style="margin-right: 10px;">탑승
+										완료</button>
+									<button id="btnPickUpClose">닫기</button>
+								</div>
+							</div>
+						</div>
+
+
+						<script>
+
+				        $("#btnGenerateQr").on("click", function () {
+				        	
+				            const wrap = $(".com_pop_wrap");
+				            wrap.show();
+				
+				            const pop = wrap.find(".com_pop.pop_product_cgv");
+				            const fog = wrap.find(".com_pop_fog");
+				
+				            fog.css("opacity", 0);
+				            pop.css({
+				                "display": "block",
+				                "margin-left": "-275px",
+				                "margin-top": "-310px"
+				            });
+				
+				            pop.show();
+				        });
+				
+				
+				        $("btnPickUp, #btnPickUpClose, #theaterPopup > div.com_pop.pop_product_cgv > div.com_pop_header > a").on("click", function () {
+				            const wrap = $(".com_pop_wrap");
+				            wrap.hide();
+				
+				            const pop = wrap.find(".com_pop.pop_product_cgv");
+				            pop.hide();
+				        });
+				
+				    </script>
+
 					</c:forEach>
 
 
@@ -871,58 +955,7 @@
 
 		</article>
 		
-		
-		
-		 <div class="com_pop_wrap" id="theaterPopup" style="display: none;">
-        <div class="com_pop_fog" style="opacity: 0;"></div>
-        <div class="com_pop pop_product_cgv" style="display: none; margin-left: -275px; margin-top: -310px; z-index: 999;">    
-            <div class="com_pop_header"><span>패스트오더 수령 QRCode</span><a href="javascript:void(0);" class="sprite com_pop_btn_close">닫기</a></div>       
-            <div class="com_pop_container" id="divAvailableCgv">
-              <input type="hidden" id="qrText" value="20250531145773">
-              <div id="qrImgBox" class="imgContainer">
-                <img id="qrImg" src="" alt="qr img" aria-label="QR 이미지 입니다." draggable="false">
-                <p class="qr_title">패스트오더 수령을 위한 QRCode</p>
-                <p>패스트오더를 수령할 때, 이 QRCode를 직원에게 <br>보여주시길 바랍니다.</p>
-              </div>
-
-              <button id="btnPickUp" style="margin-right: 10px;">수령 완료</button>
-              <button id="btnPickUpClose">닫기</button>
-            </div>    
-        </div>
-    </div>
-    
-    
-        <script>
-
-        $("#btnGenerateQr").on("click", function () {
-        	alert("1");
-        	
-            const wrap = $(".com_pop_wrap");
-            wrap.show();
-
-            const pop = wrap.find(".com_pop.pop_product_cgv");
-            const fog = wrap.find(".com_pop_fog");
-
-            fog.css("opacity", 0);
-            pop.css({
-                "display": "block",
-                "margin-left": "-275px",
-                "margin-top": "-310px"
-            });
-
-            pop.show();
-        });
-
-
-        $("btnPickUp, #btnPickUpClose, #theaterPopup > div.com_pop.pop_product_cgv > div.com_pop_header > a").on("click", function () {
-            const wrap = $(".com_pop_wrap");
-            wrap.hide();
-
-            const pop = wrap.find(".com_pop.pop_product_cgv");
-            pop.hide();
-        });
-
-    </script>
+	
 
 		
 		<!-- footer -->
