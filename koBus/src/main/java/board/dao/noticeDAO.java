@@ -46,12 +46,11 @@ public class noticeDAO {
 
 	// 글 저장
 	public int insertNotice(NoticeDTO dto) {
-		String sql = "INSERT INTO notice (notID, topic, notDate, content) VALUES (?, ?, SYSDATE, ?)";
+		String sql = "INSERT INTO notice (notID, topic, notDate, content) VALUES (notice_seq.NEXTVAL, ?, SYSDATE, ?)";
 		try {
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, dto.getNotID());
-			ps.setString(2, dto.getTopic());
-			ps.setString(3, dto.getContent());
+			ps.setString(1, dto.getTopic());
+			ps.setString(2, dto.getContent());
 			return ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -128,10 +127,10 @@ public class noticeDAO {
 	}
 
 	// 글 삭제
-	public int delete(Connection conn, int notID) throws SQLException {
+	public int delete(Connection conn, String notID) throws SQLException {
 		String sql = "DELETE FROM notice WHERE notID = ?";
 		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			pstmt.setInt(1, notID);
+			pstmt.setString(1, notID);
 			return pstmt.executeUpdate();
 		}
 	}
