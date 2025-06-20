@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String reservationCount = request.getParameter("reservationCount");
+	String couponCount = request.getParameter("couponCount");
+	String tel = request.getParameter("tel");
+%>
 <!DOCTYPE html>
 
 <!-- saved from url=(0051)https://www.kobus.co.kr/mbrs/mbrspage/myPageMain.do -->
@@ -62,7 +67,7 @@
 							<li class="history">
 								<div class="row">
 									<a class="txt_myMenu" href="#"> <span>나의
-											예매내역</span> <strong id="mrsCfmPT">0건</strong></a>
+											예매내역</span> <strong id="mrsCfmPT">${reservationCount}건</strong></a> 
 								</div>
 								<div class="btnBox">
 									<a class="btn btn_sm_link_white" href="#">예매확인/변경/취소</a>
@@ -71,7 +76,7 @@
 							<li class="additional">
 								<div class="row">
 									<a class="txt_myMenu" href="#"> <span>프리패스/정기권</span><strong
-										id="adtnPrdPT">0개</strong></a>
+										id="adtnPrdPT">${couponCount}개</strong></a> 
 								</div>
 								<div class="btnBox">
 									<a class="btn btn_sm_link_white" href="#">구매내역
@@ -107,13 +112,13 @@
 							<li><strong>계정정보</strong> <span class="detail"
 								id="mbrsEmail">${auth} </span>
 								<div class="btnBox">
-									<a class="btn btn_sm_link_blue" href="#">비밀번호
+									<a class="btn btn_sm_link_blue" href="/koBus/page/changePwPage.do">비밀번호
 										변경</a> <a class="btn btn_sm_link_blue btn_pop_focus"
 										id="memberExit" href="#">회원탈퇴</a>
 								</div></li>
-							<li><strong>휴대폰번호</strong> <span class="detail" id="mbrsHp">01044232801</span>
+							<li><strong>휴대폰번호</strong> <span class="detail" id="mbrsHp">${tel}</span>
 								<div class="btnBox">
-									<a class="btn btn_sm_link_blue" href="#">휴대폰번호
+									<a class="btn btn_sm_link_blue" href="/koBus/page/changePhoneNumPage.do">휴대폰번호
 										변경</a>
 								</div></li>
 						</ul>

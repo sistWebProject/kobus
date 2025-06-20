@@ -5,13 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import koBus.mvc.command.CommandHandler;
 
-public class NoticeWriteHandler implements CommandHandler {
+public class BoardWriteHandler implements CommandHandler {
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		System.out.println("> writeeeeeeeeeeeeeeee...");
 
-		return "/notice/noticeWrite.jsp"; 
+		return "/board/boardWrite.jsp"; 
 	}
 }

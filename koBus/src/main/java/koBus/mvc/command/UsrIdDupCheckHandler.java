@@ -48,6 +48,8 @@ public class UsrIdDupCheckHandler implements CommandHandler {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			conn.close();
 		}
 		
 		return null;

@@ -5,9 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>공지사항 수정</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/media/style.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/media/ui.jqgrid.custom.css">
-	<link rel="shortcut icon" type="image/x-icon" href="/koBus/media/favicon.ico">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/media/style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/media/ui.jqgrid.custom.css">
+<link rel="shortcut icon" type="image/x-icon"
+	href="/koBus/media/favicon.ico">
 <style>
 .board_edit {
 	border: 1px solid #ccc;
@@ -64,17 +67,22 @@
 				style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px;">
 				공지사항을 수정하세요.</p>
 
-			<form action="noticeEdit.do" method="post" class="board_edit">
-				<input type="hidden" name="notID" value="${dto.notID}"> <label
-					for="topic">제목</label> <input type="text" name="topic" id="topic"
-					value="${dto.topic}" required> <label for="content">내용</label>
-				<textarea name="content" id="content" rows="10" style="resize: none; height: 400px;">${dto.content}</textarea>
-				
+			<form action="boardEdit.do" method="post" class="board_edit">
+				<input type="hidden" name="brdID" value="${dto.brdID}"> <input
+					type="hidden" name="kusID" value="${dto.kusID}"> <label
+					for="brdTitle">제목</label> <input type="text" name="brdTitle"
+					id="brdTitle" value="${dto.brdTitle}" required> <label
+					for="brdContent">내용</label>
+				<textarea name="brdContent" id="brdContent" rows="10"
+					style="resize: none; height: 400px;" required>${dto.brdContent}</textarea>
+
 				<div class="btn_wrap">
 					<input type="submit" class="btn" value="수정 완료"> <a
-						href="noticeList.do" class="btn">목록</a>
+						href="boardList.do" class="btn">목록</a>
 				</div>
 			</form>
+
+
 		</div>
 	</div>
 
