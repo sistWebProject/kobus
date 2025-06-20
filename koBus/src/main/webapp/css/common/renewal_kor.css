@@ -2478,4 +2478,19 @@ form[name=askAuthNoForm] .box_changeNum .transkey_btn, form[name=scsnForm] .tran
 .table_type2 tbody tr span{margin-left: 0;}
 .sub_list .table_type2 *{font-size:13px !important;color: #666  !important;}
 
+/* 프리패스 사용기간 강조표시용 김승효 */
+.term-highlight {
+    color: #1976d2;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+/* 결제하기 창 사용기간 무시용 오버라이드 김승효 */
+#fulTermTd .term-highlight {
+    color: inherit !important;      /* 상위 색상 상속(=기본색) */
+    font-weight: normal !important; /* 굵기 제거 */
+    font-size: inherit !important;  /* 상위 폰트 크기 사용 */
+    background: none !important;    /* 배경도 제거 */
+    /* 필요하면 text-decoration 등 추가 */
+}
 /*# sourceMappingURL=renewal_kor.css.map */
