@@ -75,6 +75,8 @@
 	src="/koBus/js/new-kor-ui.js"></script>
 </head>
 
+<body class="main KO" style="">
+
 <%@ include file="common/header.jsp" %>
 
 		<!-- breadcrumb -->

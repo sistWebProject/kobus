@@ -15,7 +15,7 @@
 <!-- [리뉴얼] 페이지 개별 스크립트 신규 정의함 -->
 
 
-<body class="main KO" style="">
+
    <!-- [리뉴얼] 스킵 네비게이션 신규 정의 -->
    <div class="pop_dimmed" style="display: none;"></div>
    <div class="noti_pop_wrap" style="display: block;">
