@@ -1,11 +1,11 @@
 console.log('FrpsPrch.js 파일이 정상적으로 실행됨');
-alert('FrpsPrch.js가 진짜 실행중!');
+
 var allDeprList       = []; // 출발지 리스트
 var allRotInfAllList  = []; // 노선 전체 리스트
 var allRotInfrLen     = 0;  // 노선 전체 데이터 건수
 var allplen = 0; // tab 구분자
 var allPrchAmt = 0; // 할부 개월수를 표시할지 말지
-
+var realAmount = 0;
 $(document).ready(function() {
 	$("#tmpPsbYN").css('display', 'none');		// 임시차 문구
 	$("#divTermDesc").css('display', 'none');	// 사용기간 문구
@@ -174,21 +174,38 @@ $(document).ready(function() {
         $('#optSelectric').focus();
         return;
     }
+    
+    var selOption = $("#selOption").val();
+    console.log("selOption 값:", selOption, "typeof:", typeof selOption);
+    
+    if (!selOption || typeof selOption !== "string" || selOption.indexOf("/") === -1) {
+    alert("구매옵션 선택값이 잘못되었습니다. 다시 선택해주세요.");
+    $('#optSelectric').focus();
+    return;
+	}
 
-    // 구매옵션 값
-    var adtn_prd_sno = $("#adtn_prd_sno").val();
+    // **여기서 adtn_prd_sno(PK) 추출**
+    var parts = selOption.split("/");
+    var adtn_prd_sno = parts[parts.length - 1];
+
     // 사용자가 볼 금액(화면의 금액, 또는 window.realAmount 등)
-    var clientAmount = window.realAmount;
+    var clientAmount = realAmount;
+
+    // 디버깅용 로그
+    console.log("결제 검증 adtn_prd_sno:", adtn_prd_sno, "clientAmount:", clientAmount);
 
     // 결제 전 서버 금액 검증
     $.ajax({
-        url: '/freepass/payment/fetchAmount.ajax', // 서버에서 금액 가져오는 핸들러
+        url: '/koBus/freepass/payment/fetchAmount.ajax', // 서버에서 금액 가져오는 핸들러
         type: 'GET',
+        dataType: 'json', // ★★★ 반드시 추가!
         data: { adtn_prd_sno: adtn_prd_sno },
         async: false, // 금액 검증 후에만 결제창 열기 (권장: 동기처리)
         success: function (result) {
+            var serverAmount = Number(result.amount); // 숫자 변환
+       	 	console.log("서버 응답 금액(serverAmount):", serverAmount, "typeof:", typeof serverAmount);
             // 서버에서 받아온 실제 금액과 클라이언트 금액 비교
-            if (result.amount != clientAmount) {
+            if (serverAmount != clientAmount) {
                 alert("금액 불일치! 결제를 중단합니다. 관리자에게 문의하세요.");
                 return;
             } else {
@@ -256,18 +273,24 @@ function fetchAmountFromServer(adtn_prd_sno) {
         data: { adtn_prd_sno: adtn_prd_sno }
     });
 }
-
+/*
 // ② 옵션 변경시 금액 자동 조회
-$("#adtn_prd_sno").change(function() {
-    var selectedSno = $(this).val();
-    fetchAmountFromServer(selectedSno).done(function(result) {
-        // 서버에서 받아온 금액 result.amount로 window 변수 저장
-        window.realAmount = result.amount;
-        $("#amount").val(result.amount); // input box 있을 경우
+$(document).on("click", "#selOptionLi li a", function() {
+    var selOption = $("#selOption").val();
+    var parts = selOption.split("/");
+    var adtn_prd_sno = parts[parts.length - 1]; // PK 추출!
+    console.log("옵션 선택값(adtn_prd_sno):", adtn_prd_sno);
+
+    fetchAmountFromServer(adtn_prd_sno).done(function(result) {
+        realAmount = Number(result.amount); // 항상 숫자로 변환!
+        console.log("fetchAmount ajax 콜백, 받은 amount:", result.amount, "realAmount:", realAmount);
+        $("#pubAmt").text(result.amount.toLocaleString() + " 원");
+        $("#amount").val(result.amount);
     });
 });
-
+*/
 function requestPay() {
+	var selectedOptionText = $("#selOptionText").val();
     var IMP = window.IMP;
     IMP.init('imp31168041'); // 가맹점 식별코드
 
@@ -275,8 +298,8 @@ function requestPay() {
         pg: 'html5_inicis.INIpayTest',
         pay_method: ['card', 'trans'],
         merchant_uid: 'ORD_TEST_' + new Date().getTime(),
-        name: '프리패스 상품명', // 실제 상품명
-        amount: window.realAmount,
+        name: selectedOptionText, // 실제 상품명
+        amount: realAmount,
         // 기타 필요시 buyer 정보 등
     }, function (rsp) {
         if (rsp.success) {
@@ -288,7 +311,7 @@ function requestPay() {
                     imp_uid: rsp.imp_uid,
                     merchant_uid: rsp.merchant_uid,
                     pay_method: rsp.pay_method,
-                    amount: window.realAmount,
+                    amount: realAmount,
                     pay_status: 'SUCCESS',
                     pg_tid: rsp.pg_tid,
                     paid_at: rsp.paid_at,
@@ -995,6 +1018,20 @@ function onSelectChange(obj, input_val, input_name){
 		$("#selOptionText").val($(obj).text());
 		fnSelOption(input_val);
 		console.log("selOptionText 값:", $("#selOptionText").val());
+
+		// ★★★ 여기에서 금액 ajax 호출!
+		var selOption = $("#selOption").val();
+		var parts = selOption.split("/");
+		var adtn_prd_sno = parts[parts.length - 1];
+
+		console.log("🪙 [onSelectChange] 금액 조회용 PK:", adtn_prd_sno);
+
+		fetchAmountFromServer(adtn_prd_sno).done(function(result) {
+			realAmount = Number(result.amount);
+			console.log("fetchAmount ajax 콜백, 받은 amount:", result.amount, "realAmount:", realAmount);
+			$("#pubAmt").text(realAmount.toLocaleString() + " 원");
+			$("#amount").val(realAmount);
+		});
 	}
 }
 
@@ -1038,6 +1075,7 @@ function  fnPayPymWin(){
 	});
 }
 */
+/*
 // 드롭다운 항목 클릭 시 안전하게 이벤트 바인딩
 $(document).on("click", "#selOptionLi a", function () {
 	console.log("🧪 드롭다운 클릭됨:", $(this).text());
@@ -1052,6 +1090,7 @@ $(document).on("click", "#selOptionLi a", function () {
         console.error("❌ onSelectChange 함수가 로드되지 않았습니다.");
     }
 });
+*/
 /*
 $(document).on("click", "#selOptionLi a", function () {
 	console.log("✅ 드롭다운 클릭됨:", $(this).text());
