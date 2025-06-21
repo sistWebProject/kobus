@@ -488,7 +488,8 @@ $(document).ready(function () {
 	<input type="hidden" name="busClsCd" id="busClsCd" value=""><!-- 버스등급 -->
 	<input type="hidden" name="abnrData" id="abnrData" value=""><!-- 결과값여부 -->
 	<input type="hidden" name="prmmDcYn" id="prmmDcYn" value="N"><!-- 시외우등할인대상노선 -->
-	<input type="hidden" name="takeTime" id="takeTime" value="0"><!-- 시외우등할인대상노선 -->
+	<input type="hidden" name="takeTime" id="takeTime" value="0"><!-- 시외우등할인대상노선 --
+	>
 	
 	<input type="hidden" name="extrComp" id="extrComp" value=""><!-- 거래처코드 -->
 	<input type="hidden" name="stdDtm" id="stdDtm" value="">
@@ -662,9 +663,9 @@ $(document).ready(function () {
                                                    <span class="name">오는날</span>
                                                    <!-- [2024 마크업 수정] -->
                                                    <input type="text" id="datepicker2" tabindex="-1"
-                                                      title="오는날" readonly="">
+                                                      title="오는날" readonly="true">
 
-                                                  <!--  <label for="datepicker2" class="text_date text_date2">2025. 6. 26. 목</label> -->
+                                                   <label for="datepicker2" class="text_date text_date2">2025. 6. 26. 목</label>
                                                    <span class="date_wrap"> <a
                                                       href="javascript:void(0)" id="arvlThddChc"
                                                       class="active"
@@ -1161,6 +1162,7 @@ $(document).ready(function () {
 					</div>
 				</div>
 				
+			
 				<script>
 				var cmdType = "";
 				
@@ -1246,10 +1248,10 @@ $(document).ready(function () {
 
 				</script>
 				
-				
+			
 				
 
-
+<!--  원래위치 -->
 				<div class="place"> <!-- focus -->
 					<ul>
 						<li id="popDeprChc" class="focuson"> <!--  class="focuson" -->
