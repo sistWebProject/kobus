@@ -13,17 +13,19 @@ import com.util.ConnectionProvider;
 import koBus.mvc.persistence.MyPageDAO;
 import koBus.mvc.persistence.MyPageDAOImpl;
 
-public class ChangePwHandler implements CommandHandler {
+public class DeleteUsrHandler implements CommandHandler{
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, Exception, Throwable {
+		// 회원 삭제
 		
-		System.out.println("> ChangePwHandler.process()...");
+		String result = "";
+		
+		System.out.println("> DeleteUsrHandler.process()...");
 		HttpSession session = request.getSession();
 		
 		String auth = (String) session.getAttribute("auth");
-		String usrPwd = request.getParameter("usrPwd");
 		
 		System.out.println("auth : " + auth);
 		
@@ -32,10 +34,15 @@ public class ChangePwHandler implements CommandHandler {
 		
 		try {
 			
-			int result = dao.updatePw(auth, usrPwd);
+			result = dao.deleteUsr(auth);
 			
-			if (result == 1) {
+			if (result.equals("success")) {
 				System.out.println("업데이트 성공");
+				if (session != null) {
+					session.invalidate();  // 세션 무효화
+				}
+				
+				response.sendRedirect("/koBus/main.do");
 			} else {
 				System.out.println("업데이트 실패");
 			}
@@ -45,7 +52,7 @@ public class ChangePwHandler implements CommandHandler {
 			e.printStackTrace();
 		}
 		
-		return "/page/logonMyPage.do";
+		return null;
 	}
 
 }

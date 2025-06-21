@@ -531,10 +531,12 @@ $(document).ready(function () {
 								<div id="tab-content2" style="display: none;">
 
 									<!-- 로그인 -->
-
+									<c:choose>
+									<c:when test="${empty auth}">
 									<div class="main_box">
 										<div class="ticket_login custom_input clfix">
-											<form id="lgnFrm" name="lgnFrm">
+											<form action="/koBus/logonOk.do" id="lgnFrm" name="lgnFrm">
+											<input type="hidden" name="sourcePage" value="reservationCheck.jsp">
 												<input type="hidden" id="returnUrl" name="returnUrl"
 													value="/mrs/mrscfm.do?vltlCnt=Y"> <input
 													type="hidden" id="popUpDvs" name="popUpDvs" value="N">
@@ -553,19 +555,17 @@ $(document).ready(function () {
 													<div class="box_inputForm">
 														<label for="usrPwd" class="label">비밀번호</label> <span
 															class="box_label">
-															<button type="button" class="transkey_btn"
-																data-id="usrPwd" onclick="transkeyShow(this)">가상키패드
-																입력</button> <input type="password" name="usrPwd"
+														 	<input type="password" name="usrPwd"
 															placeholder="비밀번호를 입력하세요" id="usrPwd" tabindex="-1"
-															class="input" onkeydown="fnUsrSubmit();"
-															data-tk-kbdtype="qwerty"
-															onfocus="setTranskey(this, 'lgnFrm');">
+															class="input">
 														</span>
 													</div>
 
 
+													<!-- <button type="button" class="btnL btn_confirm ready"
+														id="usrLgnBtn" onclick="fnlogin();">로그인</button> -->
 													<button type="button" class="btnL btn_confirm ready"
-														id="usrLgnBtn" onclick="fnlogin();">로그인</button>
+														id="usrLgnBtn">로그인</button>
 													<!-- [2024 마크업 수정] -->
 													<ul class="login_menu">
 														<li><a
@@ -579,6 +579,12 @@ $(document).ready(function () {
 													<!-- // [2024 마크업 수정] -->
 												</div>
 											</form>
+											<!-- 로그인 기능 -->
+											<script>
+												$("#usrLgnBtn").on("click", function(){
+													$("#lgnFrm").submit();
+												});
+											</script>
 											<form id="lgnNonUsrFrm" name="lgnNonUsrFrm">
 												<div class="no_member">
 													<div class="login_title clfix tooltip_wrap">
@@ -995,7 +1001,11 @@ $(document).ready(function () {
 										</div>
 
 									</div>
-
+									</c:when>
+									<c:otherwise>
+										<h3>예매 내역 가져오는 ajax코드추가</h3>
+									</c:otherwise>
+									</c:choose>
 									<!-- // 로그인 -->
 
 
