@@ -97,7 +97,7 @@
 							<li class="payment">
 								<div class="row">
 									<!-- <a href="javascript:PayMentPT();" class="txt_myMenu"> <span>최근 결제금액</span> <strong id="PayMentPT">원</strong></a> -->
-									<a class="txt_myMenu" href="javascript:PayMentPT();"> <span>결제내역</span><strong> </strong></a>
+									<a class="txt_myMenu" href="#"> <span>결제내역</span><strong> </strong></a>
 								</div>
 								<div class="btnBox">
 									<a class="btn btn_sm_link_white" href="#">결제내역
@@ -221,6 +221,7 @@
 	</div>
 	
 	<script>
+		// 회원탈퇴 느르면 모달창 띄워주기
 		$("#memberExit").on("click", function(){
 			$(".remodal-overlay, .remodal-wrapper")
 			  .removeClass("remodal-is-closed")
@@ -234,7 +235,7 @@
 		<div
 			class="remodal pop_withdrawal remodal-is-initialized remodal-is-closed"
 			data-remodal-id="popConfirm" role="dialog" tabindex="-1">
-			<form method="post" name="scsnForm" onsubmit="return false;">
+			<form action="/koBus/deleteUsr.do" method="post" name="scsnForm" id="scsnForm">
 				<div class="cont">
 					<p class="txt">
 						<span class="accent">알림</span><br />
@@ -245,24 +246,24 @@
 						<div class="inner">
 							<div class="box_inputForm">
 								<label class="label" for="usrPw">비밀번호</label> <span
-									class="box_label">
-									<input class="input" data-tk-kbdtype="qwerty" id="usrPw"
-									name="usrPw" placeholder="비밀번호를 입력하세요." tabindex="-1"
-									type="password" />
+									class="box_label" style="display: flex; align-items: center;">
+										<input class="input" data-tk-kbdtype="qwerty" id="usrPw"
+										name="usrPw" placeholder="현재 비밀번호를 입력하세요"
+										tabindex="-1" type="password" style="flex: 1;"/>
+										<button type="button" class="btn_check" id="pwEqualCheck" style="margin-left: 8px;">확인</button>
 								</span>
 							</div>
+							<span class="noti_box" id="noti_box_pwOk" style="display:none;">확인이 완료되었습니다.</span>
+							<span class="noti_box" id="noti_box_pwFail" style="display: none;">비밀번호가 일치하지 않습니다.</span>
 						</div>
 					</div>
 				</div>
-				<input id="hidfrmId" name="hidfrmId" type="hidden" value="" /><input
-					id="transkeyUuid_" name="transkeyUuid_" type="hidden"
-					value="7476a579975ccd12d7c6b343db12fa2b222c2fe3754056a4b426e490be33d6a8" />
 			</form>
 			<div class="btns">
 				<!-- 버튼이 1개일경우 class="col1" 추가 -->
 				<button class="remodal-cancel" data-remodal-action="cancel" id="memberExitCancel"
 					type="button">취소</button>
-				<button class="remodal-confirm" type="button">회원탈퇴</button>
+				<button class="remodal-confirm" type="button" id="usrDeleteBtn">회원탈퇴</button>
 			</div>
 			<button class="remodal-close btn-gray" data-remodal-action="close"
 				type="button">
@@ -270,7 +271,56 @@
 			</button>
 		</div>
 	</div>
+	<script>
 	
+	let isValidUserPasswd = false;
+	
+	// 현재비밀번호 잘 입력했는지 확인 ajax 
+	$("#pwEqualCheck").on("click", function (){
+		let inputPw = $("#usrPw").val();
+		let url = `/koBus/oldPwCheckOk.do?checkPw=\${inputPw}`;
+		console.log("ajax url : " + url);
+		$.ajax({
+			url:url,
+			type:"GET",
+			cache:false,
+			dataType:"text",
+			success : function (data){
+				if (data === "success") {
+					console.log("비밀번호 일치");
+					alert("확인이 완료되었습니다.")
+					$("#noti_box_pwOk").show();
+					setTimeout(function() {
+					    $("#noti_box_pwOk").hide();
+					}, 2000);
+					isValidUserPasswd = true;
+				} else {
+					console.log("비밀번호 불일치");
+					alert("비밀번호가 일치하지 않습니다.");
+					$("#noti_box_pwFail").show();
+					setTimeout(function() {
+					    $("#noti_box_pwFail").hide();
+					}, 2000);
+					isValidUserPasswd = false;
+				}	
+			},
+		error : function(){
+			alert("AJAX 오류발생");
+		}
+		});
+	});
+	
+	// 회원탈퇴 버튼누르기
+	$("#usrDeleteBtn").on("click", function(event){
+		event.preventDefault();
+		if (isValidUserPasswd === true) {
+			alert("회원탈퇴가 완료되었습니다.");
+			$("#scsnForm").submit();
+		} else {
+			alert("비밀번호 확인을 다시 해주세요.");
+		}
+	});
+	</script>
 	<script>
 		// 회원탈퇴의 취소버튼
 		$("#memberExitCancel").on("click", function(){

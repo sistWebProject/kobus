@@ -27,6 +27,7 @@ public class LogonOkHandler implements CommandHandler {
 		
 		String id = request.getParameter("usrId").trim();
 		String passwd = request.getParameter("usrPwd").trim();
+		String sourcePage = request.getParameter("sourcePage");
 		
 		System.out.println("id : " + id);
 		System.out.println("passwd : " + passwd);
@@ -47,8 +48,6 @@ public class LogonOkHandler implements CommandHandler {
 				System.out.println("location" + location); 
 				
 				// 로그인 성공 : 리다이렉트
-				response.sendRedirect(location);
-				return null;
 				
 			} else {
 				System.out.println("로그인 실패");
@@ -57,7 +56,7 @@ public class LogonOkHandler implements CommandHandler {
 				
 				System.out.println("location" + location);
 				
-				// 로그인 실패 : 포워딩
+				// 로그인 실패 : 포워딩	
 				return location;
 			}
 		} catch (SQLException e) {
@@ -71,7 +70,15 @@ public class LogonOkHandler implements CommandHandler {
 			}
 		}
 		System.out.println("location" + location);
-		return location;
+				
+		if (sourcePage.equals("reservationCheck.jsp")) {
+			System.out.println("예매확인 로그인 주소 : " + location);
+			response.sendRedirect(location);	
+			return null; // 예매 확인/취소/변경 페이지로 이동
+		} else {
+			response.sendRedirect(location);
+			return null;
+		}
 		
 	} // process
 

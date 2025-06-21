@@ -142,7 +142,7 @@ public class MyPageDAOImpl implements MyPageDAO {
 	
 	// id값이랑 바꿀값 넣어서 회원 db 테이블 update하는 함수
 	@Override
-	public int update(String auth, String changeThings) throws SQLException {
+	public int updatePw(String auth, String changePw) throws SQLException {
 		
 		int result = 0;
 		
@@ -153,7 +153,7 @@ public class MyPageDAOImpl implements MyPageDAO {
 		try {
 			
 			this.pstmt = conn.prepareStatement(sql);
-	        this.pstmt.setString(1, changeThings.trim());
+	        this.pstmt.setString(1, changePw.trim());
 	        this.pstmt.setString(2, auth.trim()); 
 	        
 	        this.rs = this.pstmt.executeQuery();
@@ -166,7 +166,67 @@ public class MyPageDAOImpl implements MyPageDAO {
 			}
 	        
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	// 휴대폰번호 변경 함수
+	@Override
+	public int updateTel(String auth, String changeTel) throws SQLException {
+		int result = 0;
+		
+		String sql= "UPDATE kobusUser "
+				+ "SET tel = ? "
+				+ "WHERE id = ? ";
+		
+		try {
+			
+			this.pstmt = conn.prepareStatement(sql);
+	        this.pstmt.setString(1, changeTel.trim());
+	        this.pstmt.setString(2, auth.trim()); 
+	        
+	        this.rs = this.pstmt.executeQuery();
+	        
+	        if (this.rs.next()) {
+				result=1;
+				System.out.println("업데이트 성공");
+			} else {
+				System.out.println("업데이트 실패");
+			}
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	// 회원탈퇴 버튼누르면 로그아웃 시키고 db에서 회원정보삭제 
+	@Override
+	public String deleteUsr(String auth) throws SQLException {
+		String result="fail";
+		
+		String sql = "DELETE FROM kobusUser "
+				+ "WHERE id = ?";
+		
+		try {
+			
+			this.pstmt = conn.prepareStatement(sql);
+	        this.pstmt.setString(1, auth.trim()); 
+	        
+	        this.rs = this.pstmt.executeQuery();
+	        
+	        if (this.rs.next()) {
+				result="success";
+				System.out.println("회원탈퇴 성공");
+			} else {
+				System.out.println("회원탈퇴 실패");
+			}
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return result;
