@@ -39,6 +39,14 @@ public class ManageResvHandler implements CommandHandler{
 		
 		List<ResvDTO> resvList = dao.searchResvList(loginId);
 		
+		for (ResvDTO resv : resvList) {
+		    System.out.println("예매번호: " + resv.getAduCount());
+		    System.out.println("좌석번호: " + resv.getStuCount());
+		    System.out.println("탑승일: " + resv.getChdCount());
+		    System.out.println("-----------");
+		}
+;
+		
 		request.setAttribute("resvList", resvList);
 		
 		return "/koBusFile/kobusManageResv.jsp";

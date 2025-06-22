@@ -22,13 +22,21 @@ public class ResvDTO {
 	private String resvStatus; 		/* 예약상태 */
 	private String resvType; 		/* 예약경로 (인터넷 or 모바일) */
 	private String qrCode; 			/* 탑승 qrcode */
+	private String deprRegCode; 	/* 출발지코드 */
 	private String deprRegName; 	/* 출발지명 */
+	private String arrRegCode; 		/* 도착지코드 */
 	private String arrRegName; 		/* 도착지명 */
 	private String comName;         /*고속사*/
 	private String busGrade; 		/* 등급 */
 	private int durMin;
 	private int amount; 			/* 총 결제금액 */
 	private String payType;
-	private int totalCount;
+	private int totalCount; 		/* 총인원수 */
+	private int aduCount; 		/* 일반좌석수 */
+	private int stuCount; 		/* 학생좌석수 */
+	private int chdCount; 		/* 아이좌석수 */
+	
+	private String rideDateStr;     /* 포맷된 탑승일 문자열 */
+	private String resvDateStr;     /* 포맷된 예약일 문자열 */
 
 }

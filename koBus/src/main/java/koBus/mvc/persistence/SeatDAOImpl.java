@@ -31,6 +31,47 @@ public class SeatDAOImpl implements SeatDAO{
 	public Connection getConn() {
 		return conn;
 	}
+	
+	@Override
+	public String getBusId(String deprId, String arrId, String formattedTime, String busClsCd) {
+		
+		String busId = null;
+		
+		String sql = "SELECT b.BUSID "
+				+ "	FROM BUSSCHEDULE b "
+				+ "	JOIN ROUTE r ON b.ROUID = r.ROUID "
+				+ "	JOIN DEPARTURE d ON r.DEPID = d.DEPID "
+				+ "	JOIN ARRIVAL a ON r.ARRID = a.ARRID "
+				+ "	JOIN BUS bu ON b.BUSID = bu.BUSID "
+				+ "	WHERE d.REGID = ? "
+				+ "  AND a.REGID = ? "
+				+ "  AND b.DEPARTUREDATE = TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS') "
+				+ "  AND bu.BUSGRADE = ? ";
+		
+		 try {
+		        this.pstmt = conn.prepareStatement(sql);
+		        this.pstmt.setString(1, deprId);
+		        this.pstmt.setString(2, arrId);
+		        this.pstmt.setString(3, formattedTime);
+		        this.pstmt.setString(4, busClsCd);
+		        this.rs = pstmt.executeQuery();
+		        
+		        if (rs.next()) {
+		        	busId = rs.getString("BUSID");
+		        }
+		        
+		        System.out.println("busId : " + busId);
+
+
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    } finally {
+		        JdbcUtil.close(this.rs);
+		        JdbcUtil.close(this.pstmt);
+		    }
+		
+		return busId;
+	}
 
 	@Override
 	public int getTotalSeats(String busId) throws SQLException {
@@ -80,7 +121,6 @@ public class SeatDAOImpl implements SeatDAO{
 		this.rs = this.pstmt.executeQuery();
 		
 		System.out.println("SeatDAOImpl busId : " + busId);
-		System.out.println(sql);
 		
 		if (this.rs.next()) {
 			list = new ArrayList<SeatDTO>();
@@ -105,12 +145,14 @@ public class SeatDAOImpl implements SeatDAO{
 			} while (this.rs.next());
 		}
 		
-		System.out.println("SeatDAOImpl list.size() : " + list.size());
+//		System.out.println("SeatDAOImpl list.size() : " + list.size());
 		
 		JdbcUtil.close(this.rs);
         JdbcUtil.close(this.pstmt);
 		
 		return list;
 	}
+
+
 
 }

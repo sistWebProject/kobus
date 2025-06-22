@@ -113,6 +113,8 @@ public class ScheduleHandler implements CommandHandler {
 			        case "2": busClsCd = "일반"; break;
 			        default: break;
 			    }
+			    
+			    System.out.println("deprDtm " + deprDtm);
 
 			    schList = dao.searchBusSchedule(deprCd, arvlCd, deprDtm, busClsCd);
 
@@ -213,8 +215,14 @@ public class ScheduleHandler implements CommandHandler {
 		
 		if ("KOBUSreservation3.jsp".equals(sourcePage)) {
 		    return "/koBusFile/KOBUSreservation2.jsp";
-		} else {
-		    return "/koBusFile/kobusSchedule.jsp";
+		} else if("kobusModifyResv.jsp".equals(sourcePage)) {
+			return "/koBusFile/kobusModifyResvSch.jsp";
+		} else if("kobusModifyResvSch.jsp".equals(sourcePage)) {
+			return "/koBusFile/kobusModifyResvSeat.jsp";
+		}
+		else  {
+			return "/koBusFile/kobusSchedule.jsp";
+		    
 		}
 
 	}

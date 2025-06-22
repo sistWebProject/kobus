@@ -1653,6 +1653,8 @@ function fnUpdRot(){//노선조회로 이동
 		$("#arvlCd").val("170");
 	}
 		
+		
+		
 	$("#satsChcFrm").attr("action","/koBus/kobusSeat.do");
 	$("#satsChcFrm").submit();
 }
@@ -2198,6 +2200,7 @@ function fnSetPcpy(){
 	        				$("#arvlCd").val("170");
 	        			}
 	        			
+	        			// 페이지 이동 -> pay 페이지로 이동시키기
 	        			$("#satsChcFrm").attr("action","/koBus/kobusSeat.do");
 	        			$("#satsChcFrm").submit();
         			}else if($("#pathStep").val() == "2"){

@@ -1076,7 +1076,7 @@ function fnmrsChangeTime(idx) {
 			return;
 		}
 	}else{
-		$("form[name=mrsTmznlistFrm"+idx+"]").attr({"action" : "/mrs/mrschantimestep1.do", "method" : "post", "target" : "_self"}).submit(); // 시간변경.do
+		$("form[name=mrsTmznlistFrm"+idx+"]").attr({"action" : "/koBus/modifyReservations.do", "method" : "post", "target" : "_self"}).submit(); // 시간변경.do
 	}
 }
 
