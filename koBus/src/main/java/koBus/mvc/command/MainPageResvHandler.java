@@ -9,19 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.Gson;
 import com.util.ConnectionProvider;
 
 import koBus.mvc.domain.ResvDTO;
 import koBus.mvc.persistence.ResvDAO;
 import koBus.mvc.persistence.ResvDAOImpl;
 
-public class ManageResvHandler implements CommandHandler{
+public class MainPageResvHandler implements CommandHandler {
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, Exception, Throwable {
-		
-		System.out.println("> ManageResvHandler.process() ...");
+		System.out.println("> MainPageResvHandler.process() ...");
 		
 		Connection conn = ConnectionProvider.getConnection();
 		ResvDAO dao = new ResvDAOImpl(conn);
@@ -39,17 +39,17 @@ public class ManageResvHandler implements CommandHandler{
 		
 		List<ResvDTO> resvList = dao.searchResvList(loginId);
 		
-		for (ResvDTO resv : resvList) {
-		    System.out.println("예매번호: " + resv.getAduCount());
-		    System.out.println("좌석번호: " + resv.getStuCount());
-		    System.out.println("탑승일: " + resv.getChdCount());
-		    System.out.println("-----------");
-		}
-;
-		
 		request.setAttribute("resvList", resvList);
 		
-		return "/koBusFile/kobusManageResv.jsp";
+		response.setContentType("application/json; charset=UTF-8");
+        
+        Gson gson = new Gson();
+        String json = gson.toJson(resvList); // Java 객체 → JSON 문자열로 변환 
+        System.out.println("받아온 객체 값들 json 문자열로 변환");
+        System.out.println(json);
+         
+        response.getWriter().write(json);
+        return null;
 	}
 
 }

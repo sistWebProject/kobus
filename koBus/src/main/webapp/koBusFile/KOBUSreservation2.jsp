@@ -7,9 +7,125 @@ System.out.println(">> busrank: " + request.getParameter("busClsCd"));
 %>
 <!DOCTYPE html>
 <style>
-   #datepicker1, #datepicker2 {
-      display:none;
-   }
+/* 날짜 선택 숨김 */
+#datepicker1, #datepicker2 {
+	display: none;
+}
+
+/* 전체 배차 행 레이아웃 */
+p[role="row"] {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	border-bottom: 1px solid #ddd;
+	padding: 10px;
+	font-family: 'Malgun Gothic', sans-serif;
+	gap: 10px;
+}
+
+/* 링크 스타일 초기화 */
+p[role="row"] a {
+	text-decoration: none;
+	display: flex;
+	flex-wrap: nowrap;
+	width: 100%;
+	color: #333;
+	align-items: center;
+}
+
+/* 출발시간 */
+.start_time {
+	width: 80px;
+	font-size: 1.1em;
+	font-weight: bold;
+	color: #222;
+}
+
+/* 고속사 + 등급 묶음 */
+.bus_info {
+	width: 120px;
+	display: flex;
+	flex-direction: column;
+}
+
+/* 고속사 이름 */
+.dongbu {
+	color: #0066cc;
+	font-weight: bold;
+}
+
+/* 등급 (mobile용) */
+.grade_mo {
+	background: #e0e0e0;
+	border-radius: 4px;
+	padding: 2px 6px;
+	font-size: 0.85em;
+	margin-top: 2px;
+}
+
+/* PC용 등급 */
+.grade {
+	width: 100px;
+	font-weight: bold;
+	color: #555;
+}
+
+/* 고속사 명 (PC용) */
+.bus_com {
+	width: 120px;
+	color: #333;
+}
+
+/* 요금 정보 */
+.temp {
+	width: 100px;
+	text-align: right;
+	font-size: 0.9em;
+	color: #d00;
+}
+
+/* 매진/선택 상태 색 */
+.sale_color {
+	font-weight: bold;
+	color: #cc0000;
+}
+
+/* 잔여석 */
+.remain {
+	width: 80px;
+	font-size: 0.9em;
+	color: #333;
+	text-align: right;
+}
+
+/* 선택 버튼 영역 */
+.status {
+	width: 80px;
+	text-align: right;
+}
+
+/* 선택 버튼 스타일 */
+.accent.btn_arrow {
+	background-color: #0066cc;
+	color: white;
+	padding: 6px 12px;
+	border-radius: 4px;
+	font-weight: bold;
+	font-size: 0.95em;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.accent.btn_arrow:hover {
+	background-color: #004c99;
+}
+
+/* 매진 또는 과거시간: 비활성화 표시 */
+.bus_time.disabled {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
 </style>
 <html class="pc" lang="ko">
 <head>
@@ -30,11 +146,18 @@ System.out.println(">> busrank: " + request.getParameter("busClsCd"));
 	type="text/css" />
 <script src="/koBus/js/jquery-1.12.4.min.js" type="text/javascript"></script>
 
+
+
+<%-- 
 <script>
 $(document).ready(function () {
+	
+	console.log("KOBUSreservation2.jsp - deprCd:", $("#deprCd").val());
+    console.log("KOBUSreservation2.jsp - arvlCd:", $("#arvlCd").val());
+    
     const deprCd = $("#deprCd").val();
     const arvlCd = $("#arvlCd").val();
-
+    
     if (deprCd && arvlCd) {
         $.ajax({
             url: "<%=request.getContextPath()%>/getDuration.ajax",
@@ -43,7 +166,8 @@ $(document).ready(function () {
                 ajax: "true",                 // ✔ 필수
                 ajaxType: "getDuration",     // ✔ 정확히 입력
                 deprCd: deprCd,
-                arvlCd: arvlCd
+                arvlCd: arvlCd,
+                sourcePage: "KOBUSreservation3.jsp"
             },
             dataType: "json",
             success: function (data) {
@@ -51,8 +175,8 @@ $(document).ready(function () {
                     const hours = Math.floor(data.duration / 60);
                     const minutes = data.duration % 60;
                     let timeText = "";
-                    if (hours > 0) timeText += `${hours}시간 `;
-                    if (minutes > 0) timeText += `${minutes}분 `;
+                    if (hours > 0) timeText += `\${hours}시간 `;
+                    if (minutes > 0) timeText += `\${minutes}분 `;
                     timeText += "소요";
                     $("#takeDrtm").text(timeText);
                 } else {
@@ -66,7 +190,201 @@ $(document).ready(function () {
     }
 });
 
+</script> --%>
+<%-- 
+<script>
+$(document).ready(function () {
+    const deprCd = $("#deprCd").val();
+    const arvlCd = $("#arvlCd").val();
+    const deprDtm = $("#deprDtm").val();
+    const busClsCd = $("#busClsCd").val();
+
+    // ✅ 1. 소요시간 먼저 가져오기 (getDuration)
+    if (deprCd && arvlCd) {
+        $.ajax({
+            url: "<%=request.getContextPath()%>/getDuration.ajax",
+            type: "GET",
+            data: {
+                ajax: "true",
+                ajaxType: "getDuration",
+                deprCd: deprCd,
+                arvlCd: arvlCd,
+                sourcePage: "KOBUSreservation3.jsp"
+            },
+            dataType: "json",
+            success: function (data) {
+                const duration = data.duration;
+                if (duration && duration > 0) {
+                    const hours = Math.floor(duration / 60);
+                    const minutes = duration % 60;
+                    let timeText = "";
+                    if (hours > 0) timeText += `\${hours}시간 `;
+                    if (minutes > 0) timeText += `\${minutes}분 `;
+                    timeText += "소요";
+                    $("#takeDrtm").text(timeText);
+                } else {
+                    $("#takeDrtm").text("소요시간 없음");
+                }
+            },
+            error: function () {
+                $("#takeDrtm").text("소요시간 조회 실패");
+            }
+        });
+    }
+
+    // ✅ 2. 배차 리스트 가져오기 (searchSch)
+    if (deprCd && arvlCd && deprDtm) {
+        $.ajax({
+            url: "<%=request.getContextPath()%>/getDuration.ajax",
+            type: "GET",
+            data: {
+                ajax: "true",
+                ajaxType: "searchSch",
+                deprCd: deprCd,
+                arvlCd: arvlCd,
+                deprDtm: deprDtm,
+                busClsCd: busClsCd,
+                sourcePage: "KOBUSreservation3.jsp"
+            },
+            dataType: "json",
+            success: function (data) {
+                $("#resultArea").empty();
+
+                data.alcnAllList.forEach(item => {
+                    const html = `
+                        <p class="result-row" data-time="\${item.DEPR_TIME_DVS.replace(':', '')}">
+                            <a href="javascript:void(0)" onclick="fnSatsChc('\${item.DEPR_TIME_DVS}', '\${item.CACM_MN}', '\${item.BUS_CLS_NM}', '\${item.ADLT_FEE}', '\${item.RMN_SATS_NUM}')">
+                                <span class="start_time">\${item.DEPR_TIME_DVS}</span>
+                                <span class="bus_info">
+                                    <span class="com_name">\${item.CACM_MN}</span>
+                                    <span class="grade">\${item.BUS_CLS_NM}</span>
+                                </span>
+                                <span class="price">\${item.ADLT_FEE.toLocaleString()}원</span>
+                                <span class="remain">\${item.RMN_SATS_NUM}석</span>
+                                <span class="select_btn">선택</span>
+                            </a>
+                        </p>`;
+                    $("#resultArea").append(html);
+                });
+            },
+            error: function () {
+                $("#resultArea").html("<p>배차 정보 조회 실패</p>");
+            }
+        });
+    }
+});
 </script>
+--%>
+
+<script>
+$(document).ready(function () {
+    const deprCd = $("#deprCd").val();
+    const arvlCd = $("#arvlCd").val();
+    const deprDtm = $("#deprDtm").val();   // yyyy.MM.dd 형식
+    const busClsCd = $("#busClsCd").val();
+
+    // ✅ 1. 소요시간 먼저 조회
+    if (deprCd && arvlCd) {
+        $.ajax({
+            url: "<%=request.getContextPath()%>/getDuration.ajax",
+            type: "GET",
+            data: {
+                ajax: "true",
+                ajaxType: "getDuration",
+                deprCd: deprCd,
+                arvlCd: arvlCd,
+                sourcePage: "KOBUSreservation3.jsp"
+            },
+            dataType: "json",
+            success: function (data) {
+                const duration = data.duration;
+                if (duration && duration > 0) {
+                    const hours = Math.floor(duration / 60);
+                    const minutes = duration % 60;
+                    let timeText = "";
+                    if (hours > 0) timeText += `\${hours}시간 `;
+                    if (minutes > 0) timeText += `\${minutes}분 `;
+                    timeText += "소요";
+                    $("#takeDrtm").text(timeText);
+                } else {
+                    $("#takeDrtm").text("소요시간 없음");
+                }
+            },
+            error: function () {
+                $("#takeDrtm").text("소요시간 조회 실패");
+            }
+        });
+    }
+
+    //2. 배차 리스트 조회
+    if (deprCd && arvlCd && deprDtm) {
+        $.ajax({
+            url: "<%=request.getContextPath()%>/getDuration.ajax",
+            type: "GET",
+            data: {
+                ajax: "true",
+                ajaxType: "searchSch",
+                deprCd: deprCd,
+                arvlCd: arvlCd,
+                deprDtm: deprDtm,
+                busClsCd: busClsCd,
+                sourcePage: "KOBUSreservation3.jsp"
+            },
+            dataType: "json",
+            success: function (data) {
+                $("#resultArea").empty();
+                const now = new Date();
+
+                if (!data.alcnAllList || data.alcnAllList.length === 0) {
+                    $("#resultArea").html("<p>조회된 배차 정보가 없습니다.</p>");
+                    return;
+                }
+
+                data.alcnAllList.forEach(item => {
+                    const deprTimeStr = item.DEPR_TIME_DVS; // "06:45"
+                    
+                    const dateStr = deprDtm.replace(/\./g, '-').trim(); // "2025.6.22" → "2025-6-22"
+                    const fullTime = new Date(`${dateStr}T${deprTimeStr}:00`);
+                    console.log("DEPR_TIME_DVS:", item.DEPR_TIME_DVS);
+
+                    const diffMin = (fullTime - now) / 1000 / 60;
+                    const isPast = diffMin <= 0;
+                    const isSoon = diffMin <= 60 && diffMin > 0;
+                    const isSoldOut = item.RMN_SATS_NUM == 0;
+
+                    const rowClass = isPast || isSoldOut ? "disabled" : "";
+                    const statusText = isSoldOut ? "매진" : (isSoon ? "모바일예매" : "선택");
+
+                    const html = `
+                        <p class="bus_time \${rowClass}" role="row" data-time="\${item.DEPR_TIME_DVS.replace(':', '')}">
+                            <a href="javascript:void(0)" \${isPast || isSoldOut ? 'class="disabled"' : ''}>
+                                <span class="start_time" role="cell">\${item.DEPR_TIME_DVS}</span>
+                                <span class="bus_info" role="cell">
+                                    <span class="dongbu">\${item.CACM_MN}</span>
+                                    <span class="grade_mo">\${item.BUS_CLS_NM}</span>
+                                </span>
+                                <span class="bus_com" role="cell">\${item.CACM_MN}</span>
+                                <span class="grade" role="cell">\${item.BUS_CLS_NM}</span>
+                                <span class="temp" role="cell">\${item.ADLT_FEE.toLocaleString()}원</span>
+                                <span class="remain" role="cell">\${item.RMN_SATS_NUM}석</span>
+                                <span class="status" role="cell">
+                                    <span class="accent btn_arrow">\${statusText}</span>
+                                </span>
+                            </a>
+                        </p>`;
+                    $("#resultArea").append(html);
+                });
+            },
+            error: function () {
+                $("#resultArea").html("<p>배차 정보 조회 실패</p>");
+            }
+        });
+    }
+});
+</script>
+
+
+
 
 <script type="text/javascript">
 	//쿠키 가져오기
@@ -204,11 +522,15 @@ $(document).ready(function () {
 		}
 	}
 </script>
-<script src="/koBus/js/ui.js?v=0102" type="text/javascript"></script>
+<script src="/koBus/js/ui.js" type="text/javascript"></script>
 <script src="/koBus/js/plugin.js" type="text/javascript"></script>
-<script src="/koBus/js/common.js?v=0102.1" type="text/javascript"></script>
+<script src="/koBus/js/common.js" type="text/javascript"></script>
 <script src="/koBus/js/jquery/jquery.number.js" type="text/javascript"></script>
 <script src="/koBus/js/security.js?v=0.3" type="text/javascript"></script>
+<script type="text/javascript" src="/koBus/js/common/ui.js"></script>
+<script type="text/javascript" src="/koBus/js/plugin.js"></script>
+<script type="text/javascript" src="/koBus/js/common.js"></script>
+
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 <link href="/koBus/css/kor/style.css" rel="stylesheet" type="text/css" />
 <script src="/koBus/js/kor/new-kor-ui.js?v=0102.0"
@@ -283,12 +605,12 @@ $(document).ready(function () {
 		type="text/javascript"></script>
 	<form action="/mrs/alcnSrch.do" id="alcnSrchFrm" method="post"
 		name="alcnSrchFrm">
-		<input id="deprCd" name="deprCd" type="hidden" value="032" />
+		<input id="deprCd" name="deprCd" type="hidden" value="<%= request.getParameter("deprCd") %>" />
 		<!-- 출발지코드 -->
 		<!-- <input id="deprNm" name="deprNm" type="hidden" value="동서울" /> -->
 		<input id="deprNm" name="deprNm" type="hidden" value="<%= request.getParameter("deprNm") %>" />
 		<!-- 출발지명 -->
-		<input id="arvlCd" name="arvlCd" type="hidden" value="220" />
+		<input id="arvlCd" name="arvlCd" type="hidden" value="<%= request.getParameter("arvlCd") %>" />
 		<!-- 도착지코드 -->
 		<!-- <input id="arvlNm" name="arvlNm" type="hidden" value="삼척" /> -->
 		<input id="arvlNm" name="arvlNm" type="hidden" value="<%= request.getParameter("arvlNm") %>" />
@@ -482,17 +804,45 @@ $(document).ready(function () {
 								<input type="text" id="busDate11" readonly>
 								<span class="calender" ></span>
 							</div> -->
-						<div class="head_date">
-							<input class="hasDatepicker" id="busDate11" readonly=""
-								tabindex="-1" type="text" />
-							<button class="datepicker-btn" type="button">
+							
+							<!--  기존 코드  -->
+						<!--  <div class="head_date">
+							<input class="hasDatepicker" id="busDate11" readonly="" tabindex="-1" type="text" />
+							    <button class="datepicker-btn" type="button">
 								<img alt="날짜 선택 달력" class="ui-datepicker-trigger"
 									src="/koBus/images/page/ico_calender.png" />
+							   </button> 
+							<label class="date_cont" for="busDate11" id="rideDate">2025.
+								6. 17. 화</label>
+						</div> -->
+						<div class="head_date">
+							<input id="busDate11" type="text" readonly style="display: none;">
+							<button class="datepicker-btn" type="button"
+								id="calendarTriggerBtn">
+								<img alt="날짜 선택 달력" src="/koBus/images/page/ico_calender.png" />
 							</button>
 							<label class="date_cont" for="busDate11" id="rideDate">2025.
 								6. 17. 화</label>
 						</div>
 					</div>
+
+					<script>
+						$(function() {
+							// DatePicker 적용
+							$("#busDate11").datepicker({
+								dateFormat : "yy. m. d. D",
+								onSelect : function(dateText) {
+									$("#rideDate").text(dateText);
+								}
+							});
+
+							// 버튼 클릭 시 달력 강제 open
+							$("#calendarTriggerBtn").on("click", function() {
+								$("#busDate11").datepicker("show");
+							});
+						});
+					</script>
+
 					<div class="detailBox_body clfix">
 						<ul class="time">
 							<li class="night"><a class="" data-time="01"
@@ -532,7 +882,7 @@ $(document).ready(function () {
 								<span class="grade" id="grade_header" role="columnheader"
 									style="">등급</span>
 								<!-- pc 사이즈에서만 보임 -->
-								<span class="temp" id="temp_header" role="columnheader">할인</span>
+								<span class="temp" id="temp_header" role="columnheader">가격</span>
 								<span class="remain" id="remain_header" role="columnheader">잔여석</span>
 								<span class="status" id="status_header" role="columnheader"><span
 									class="sr-only">상태</span></span>
@@ -553,311 +903,43 @@ $(document).ready(function () {
 									</p>
 									<!-- <a href="http://www.epassmobile.co.kr" class="btnS btn_normal" target="_blank">고속버스 모바일앱</a> -->
 								</div>
+								
 								<!-- 2021 05 / 10 class 추가  -->
 								<!-- <p class="noselect premium all_bus" data-time="09"> -->
 								<!-- 선택할수 목록(1. 시간이 지났을경우, 2. 잔여좌석이 0일경우) 에 class = 'noselect', 등급이 프리미엄일 경우 class = "premium" -->
-								<p class="" data-time="05" role="row">
+							<!--	<p class="" data-time="05" role="row">
 									<a class="" href="javascript:void(0)"
-										onclick="fnSatsChc('<%= request.getParameter("deprDtm") %>','064500','064500','032','220','1','02','0','Y','N','032','220','N','N','N','N');">
+										onclick="fnSatsChc('','064500','064500','032','220','1','02','0','Y','N','032','220','N','N','N','N');">
 										<span aria-labelledby="start_time_header" class="start_time"
 										role="cell">06 : 45</span> <span class="bus_info"> <span
 											class="dongbu">(주)동부고속</span> <span class="grade_mo">우등</span>
-									</span> <!-- tablet / mobile 사이즈에서 보임 --> <span
+									</span> <!-- tablet / mobile 사이즈에서 보임  <span
 										aria-labelledby="bus_com_header" class="bus_com" role="cell"><span
-											class="dongbu">(주)동부고속</span></span> <!-- pc 사이즈에서만 보임 --> <span
+											class="dongbu">(주)동부고속</span></span> <!-- pc 사이즈에서만 보임  <span
 										aria-labelledby="grade_header" class="grade" role="cell">우등
 											<span class="via"> </span>
 									</span>
-									<!-- pc 사이즈에서만 보임 --> <span aria-labelledby="temp_header"
+									 pc 사이즈에서만 보임  <span aria-labelledby="temp_header"
 										class="temp" role="cell"> <span class="sale_color">6%
 												할인</span> (27,800원)
 
 									</span> <span aria-labelledby="remain_header" class="remain"
 										role="cell">28 석</span> <span aria-labelledby="status_header"
 										class="status" role="cell"> <span
-											class="accent btn_arrow">선택</span> <!-- fnSatsChc(deprTime,alcnDeprTime,alcnDeprTrmlNo,alcnArvlTrmlNo,indVBusClsCd,cacmCd) -->
+											class="accent btn_arrow">선택</span> // fnSatsChc(deprTime,alcnDeprTime,alcnDeprTrmlNo,alcnArvlTrmlNo,indVBusClsCd,cacmCd) 
 									</span>
 									</a>
-								</p>
-								<!-- yahan 20201019 응답값 기준으로 변경 -->
-								<!-- 서울경부-구미 (노선 분리 되어있지 않아 출발시간으로 체크) -->
-								<!-- 평택용이동-서울경부,평택대-서울경부 (출발지표기) -->
-								<!-- 동대구(801)-용인(150) (19.09.09) -->
-								<!-- 2021 05 / 10 class 추가  -->
-								<!-- <p class="noselect premium all_bus" data-time="09"> -->
-								<!-- 선택할수 목록(1. 시간이 지났을경우, 2. 잔여좌석이 0일경우) 에 class = 'noselect', 등급이 프리미엄일 경우 class = "premium" -->
-								<p class="premium" data-time="07" role="row">
-									<span class="label"><span class="sr-only">프리미엄</span></span> <a
-										class="" href="javascript:void(0)"
-										onclick="fnSatsChc('<%= request.getParameter("deprDtm") %>','072000','072000','032','220','7','02','0','Y','N','032','220','N','N','N','N');">
-										<span aria-labelledby="start_time_header" class="start_time"
-										role="cell">07 : 20</span> <span class="bus_info"> <span
-											class="dongbu">(주)동부고속</span> <span class="grade_mo">프리미엄</span>
-									</span> <!-- tablet / mobile 사이즈에서 보임 --> <span
-										aria-labelledby="bus_com_header" class="bus_com" role="cell"><span
-											class="dongbu">(주)동부고속</span></span> <!-- pc 사이즈에서만 보임 --> <span
-										aria-labelledby="grade_header" class="grade" role="cell">프리미엄
-											<span class="via"> </span>
-									</span>
-									<!-- pc 사이즈에서만 보임 --> <span aria-labelledby="temp_header"
-										class="temp" role="cell"> <span class="sale_color">15%
-												할인</span> (32,500원)
-
-									</span> <span aria-labelledby="remain_header" class="remain"
-										role="cell">20 석</span> <span aria-labelledby="status_header"
-										class="status" role="cell"> <span
-											class="accent btn_arrow">선택</span> <!-- fnSatsChc(deprTime,alcnDeprTime,alcnDeprTrmlNo,alcnArvlTrmlNo,indVBusClsCd,cacmCd) -->
-									</span>
-									</a>
-								</p>
-								<!-- yahan 20201019 응답값 기준으로 변경 -->
-								<!-- 서울경부-구미 (노선 분리 되어있지 않아 출발시간으로 체크) -->
-								<!-- 평택용이동-서울경부,평택대-서울경부 (출발지표기) -->
-								<!-- 동대구(801)-용인(150) (19.09.09) -->
-								<!-- 2021 05 / 10 class 추가  -->
-								<!-- <p class="noselect premium all_bus" data-time="09"> -->
-								<!-- 선택할수 목록(1. 시간이 지났을경우, 2. 잔여좌석이 0일경우) 에 class = 'noselect', 등급이 프리미엄일 경우 class = "premium" -->
-								<p class="" data-time="" role="row">
-									<a class="" href="javascript:void(0)"
-										onclick="fnSatsChc('<%= request.getParameter("deprDtm") %>','085000','085000','032','220','2','02','0','Y','N','032','220','N','N','N','N');">
-										<span aria-labelledby="start_time_header" class="start_time"
-										role="cell">08 : 50</span> <span class="bus_info"> <span
-											class="dongbu">(주)동부고속</span> <span class="grade_mo">고속</span>
-									</span> <!-- tablet / mobile 사이즈에서 보임 --> <span
-										aria-labelledby="bus_com_header" class="bus_com" role="cell"><span
-											class="dongbu">(주)동부고속</span></span> <!-- pc 사이즈에서만 보임 --> <span
-										aria-labelledby="grade_header" class="grade" role="cell">고속
-											<span class="via"> </span>
-									</span>
-									<!-- pc 사이즈에서만 보임 --> <span aria-labelledby="temp_header"
-										class="temp" role="cell"> <span class="sale_color">17%
-												할인</span> (18,800원)
-
-									</span> <span aria-labelledby="remain_header" class="remain"
-										role="cell">28 석</span> <span aria-labelledby="status_header"
-										class="status" role="cell"> <span
-											class="accent btn_arrow">선택</span> <!-- fnSatsChc(deprTime,alcnDeprTime,alcnDeprTrmlNo,alcnArvlTrmlNo,indVBusClsCd,cacmCd) -->
-									</span>
-									</a>
-								</p>
-								<!-- yahan 20201019 응답값 기준으로 변경 -->
-								<!-- 서울경부-구미 (노선 분리 되어있지 않아 출발시간으로 체크) -->
-								<!-- 평택용이동-서울경부,평택대-서울경부 (출발지표기) -->
-								<!-- 동대구(801)-용인(150) (19.09.09) -->
-								<!-- 2021 05 / 10 class 추가  -->
-								<!-- <p class="noselect premium all_bus" data-time="09"> -->
-								<!-- 선택할수 목록(1. 시간이 지났을경우, 2. 잔여좌석이 0일경우) 에 class = 'noselect', 등급이 프리미엄일 경우 class = "premium" -->
-								<p class="" data-time="11" role="row">
-									<a class="" href="javascript:void(0)"
-										onclick="fnSatsChc('<%= request.getParameter("deprDtm") %>','113000','113000','032','220','2','02','0','Y','N','032','220','N','N','N','N');">
-										<span aria-labelledby="start_time_header" class="start_time"
-										role="cell">11 : 30</span> <span class="bus_info"> <span
-											class="dongbu">(주)동부고속</span> <span class="grade_mo">고속</span>
-									</span> <!-- tablet / mobile 사이즈에서 보임 --> <span
-										aria-labelledby="bus_com_header" class="bus_com" role="cell"><span
-											class="dongbu">(주)동부고속</span></span> <!-- pc 사이즈에서만 보임 --> <span
-										aria-labelledby="grade_header" class="grade" role="cell">고속
-											<span class="via"> </span>
-									</span>
-									<!-- pc 사이즈에서만 보임 --> <span aria-labelledby="temp_header"
-										class="temp" role="cell"> <span class="sale_color">17%
-												할인</span> (18,800원)
-
-									</span> <span aria-labelledby="remain_header" class="remain"
-										role="cell">28 석</span> <span aria-labelledby="status_header"
-										class="status" role="cell"> <span
-											class="accent btn_arrow">선택</span> <!-- fnSatsChc(deprTime,alcnDeprTime,alcnDeprTrmlNo,alcnArvlTrmlNo,indVBusClsCd,cacmCd) -->
-									</span>
-									</a>
-								</p>
-								<!-- yahan 20201019 응답값 기준으로 변경 -->
-								<!-- 서울경부-구미 (노선 분리 되어있지 않아 출발시간으로 체크) -->
-								<!-- 평택용이동-서울경부,평택대-서울경부 (출발지표기) -->
-								<!-- 동대구(801)-용인(150) (19.09.09) -->
-								<!-- 2021 05 / 10 class 추가  -->
-								<!-- <p class="noselect premium all_bus" data-time="09"> -->
-								<!-- 선택할수 목록(1. 시간이 지났을경우, 2. 잔여좌석이 0일경우) 에 class = 'noselect', 등급이 프리미엄일 경우 class = "premium" -->
-								<p class="" data-time="13" role="row">
-									<a class="" href="javascript:void(0)"
-										onclick="fnSatsChc('20250617','130000','130000','032','220','1','02','0','Y','N','032','220','N','N','N','N');">
-										<span aria-labelledby="start_time_header" class="start_time"
-										role="cell">13 : 00</span> <span class="bus_info"> <span
-											class="dongbu">(주)동부고속</span> <span class="grade_mo">우등</span>
-									</span> <!-- tablet / mobile 사이즈에서 보임 --> <span
-										aria-labelledby="bus_com_header" class="bus_com" role="cell"><span
-											class="dongbu">(주)동부고속</span></span> <!-- pc 사이즈에서만 보임 --> <span
-										aria-labelledby="grade_header" class="grade" role="cell">우등
-											<span class="via"> </span>
-									</span>
-									<!-- pc 사이즈에서만 보임 --> <span aria-labelledby="temp_header"
-										class="temp" role="cell"> <span class="sale_color">6%
-												할인</span> (27,800원)
-
-									</span> <span aria-labelledby="remain_header" class="remain"
-										role="cell">26 석</span> <span aria-labelledby="status_header"
-										class="status" role="cell"> <span
-											class="accent btn_arrow">선택</span> <!-- fnSatsChc(deprTime,alcnDeprTime,alcnDeprTrmlNo,alcnArvlTrmlNo,indVBusClsCd,cacmCd) -->
-									</span>
-									</a>
-								</p>
-								<!-- yahan 20201019 응답값 기준으로 변경 -->
-								<!-- 서울경부-구미 (노선 분리 되어있지 않아 출발시간으로 체크) -->
-								<!-- 평택용이동-서울경부,평택대-서울경부 (출발지표기) -->
-								<!-- 동대구(801)-용인(150) (19.09.09) -->
-								<!-- 2021 05 / 10 class 추가  -->
-								<!-- <p class="noselect premium all_bus" data-time="09"> -->
-								<!-- 선택할수 목록(1. 시간이 지났을경우, 2. 잔여좌석이 0일경우) 에 class = 'noselect', 등급이 프리미엄일 경우 class = "premium" -->
-								<p class="premium" data-time="" role="row">
-									<span class="label"><span class="sr-only">프리미엄</span></span> <a
-										class="" href="javascript:void(0)"
-										onclick="fnSatsChc('20250617','145000','145000','032','220','7','02','0','Y','N','032','220','N','N','N','N');">
-										<span aria-labelledby="start_time_header" class="start_time"
-										role="cell">14 : 50</span> <span class="bus_info"> <span
-											class="dongbu">(주)동부고속</span> <span class="grade_mo">프리미엄</span>
-									</span> <!-- tablet / mobile 사이즈에서 보임 --> <span
-										aria-labelledby="bus_com_header" class="bus_com" role="cell"><span
-											class="dongbu">(주)동부고속</span></span> <!-- pc 사이즈에서만 보임 --> <span
-										aria-labelledby="grade_header" class="grade" role="cell">프리미엄
-											<span class="via"> </span>
-									</span>
-									<!-- pc 사이즈에서만 보임 --> <span aria-labelledby="temp_header"
-										class="temp" role="cell"> <span class="sale_color">15%
-												할인</span> (32,500원)
-
-									</span> <span aria-labelledby="remain_header" class="remain"
-										role="cell">20 석</span> <span aria-labelledby="status_header"
-										class="status" role="cell"> <span
-											class="accent btn_arrow">선택</span> <!-- fnSatsChc(deprTime,alcnDeprTime,alcnDeprTrmlNo,alcnArvlTrmlNo,indVBusClsCd,cacmCd) -->
-									</span>
-									</a>
-								</p>
-								<!-- yahan 20201019 응답값 기준으로 변경 -->
-								<!-- 서울경부-구미 (노선 분리 되어있지 않아 출발시간으로 체크) -->
-								<!-- 평택용이동-서울경부,평택대-서울경부 (출발지표기) -->
-								<!-- 동대구(801)-용인(150) (19.09.09) -->
-								<!-- 2021 05 / 10 class 추가  -->
-								<!-- <p class="noselect premium all_bus" data-time="09"> -->
-								<!-- 선택할수 목록(1. 시간이 지났을경우, 2. 잔여좌석이 0일경우) 에 class = 'noselect', 등급이 프리미엄일 경우 class = "premium" -->
-								<p class="" data-time="15" role="row">
-									<a class="" href="javascript:void(0)"
-										onclick="fnSatsChc('20250617','163500','163500','032','220','2','02','0','Y','N','032','220','N','N','N','N');">
-										<span aria-labelledby="start_time_header" class="start_time"
-										role="cell">16 : 35</span> <span class="bus_info"> <span
-											class="dongbu">(주)동부고속</span> <span class="grade_mo">고속</span>
-									</span> <!-- tablet / mobile 사이즈에서 보임 --> <span
-										aria-labelledby="bus_com_header" class="bus_com" role="cell"><span
-											class="dongbu">(주)동부고속</span></span> <!-- pc 사이즈에서만 보임 --> <span
-										aria-labelledby="grade_header" class="grade" role="cell">고속
-											<span class="via"> </span>
-									</span>
-									<!-- pc 사이즈에서만 보임 --> <span aria-labelledby="temp_header"
-										class="temp" role="cell"> <span class="sale_color">17%
-												할인</span> (18,800원)
-
-									</span> <span aria-labelledby="remain_header" class="remain"
-										role="cell">26 석</span> <span aria-labelledby="status_header"
-										class="status" role="cell"> <span
-											class="accent btn_arrow">선택</span> <!-- fnSatsChc(deprTime,alcnDeprTime,alcnDeprTrmlNo,alcnArvlTrmlNo,indVBusClsCd,cacmCd) -->
-									</span>
-									</a>
-								</p>
-								<!-- yahan 20201019 응답값 기준으로 변경 -->
-								<!-- 서울경부-구미 (노선 분리 되어있지 않아 출발시간으로 체크) -->
-								<!-- 평택용이동-서울경부,평택대-서울경부 (출발지표기) -->
-								<!-- 동대구(801)-용인(150) (19.09.09) -->
-								<!-- 2021 05 / 10 class 추가  -->
-								<!-- <p class="noselect premium all_bus" data-time="09"> -->
-								<!-- 선택할수 목록(1. 시간이 지났을경우, 2. 잔여좌석이 0일경우) 에 class = 'noselect', 등급이 프리미엄일 경우 class = "premium" -->
-								<p class="" data-time="17" role="row">
-									<a class="" href="javascript:void(0)"
-										onclick="fnSatsChc('20250617','172000','172000','032','220','1','02','0','Y','N','032','220','N','N','N','N');">
-										<span aria-labelledby="start_time_header" class="start_time"
-										role="cell">17 : 20</span> <span class="bus_info"> <span
-											class="dongbu">(주)동부고속</span> <span class="grade_mo">우등</span>
-									</span> <!-- tablet / mobile 사이즈에서 보임 --> <span
-										aria-labelledby="bus_com_header" class="bus_com" role="cell"><span
-											class="dongbu">(주)동부고속</span></span> <!-- pc 사이즈에서만 보임 --> <span
-										aria-labelledby="grade_header" class="grade" role="cell">우등
-											<span class="via"> </span>
-									</span>
-									<!-- pc 사이즈에서만 보임 --> <span aria-labelledby="temp_header"
-										class="temp" role="cell"> <span class="sale_color">6%
-												할인</span> (27,800원)
-
-									</span> <span aria-labelledby="remain_header" class="remain"
-										role="cell">28 석</span> <span aria-labelledby="status_header"
-										class="status" role="cell"> <span
-											class="accent btn_arrow">선택</span> <!-- fnSatsChc(deprTime,alcnDeprTime,alcnDeprTrmlNo,alcnArvlTrmlNo,indVBusClsCd,cacmCd) -->
-									</span>
-									</a>
-								</p>
-								<!-- yahan 20201019 응답값 기준으로 변경 -->
-								<!-- 서울경부-구미 (노선 분리 되어있지 않아 출발시간으로 체크) -->
-								<!-- 평택용이동-서울경부,평택대-서울경부 (출발지표기) -->
-								<!-- 동대구(801)-용인(150) (19.09.09) -->
-								<!-- 2021 05 / 10 class 추가  -->
-								<!-- <p class="noselect premium all_bus" data-time="09"> -->
-								<!-- 선택할수 목록(1. 시간이 지났을경우, 2. 잔여좌석이 0일경우) 에 class = 'noselect', 등급이 프리미엄일 경우 class = "premium" -->
-								<p class="premium" data-time="" role="row">
-									<span class="label"><span class="sr-only">프리미엄</span></span> <a
-										class="" href="javascript:void(0)"
-										onclick="fnSatsChc('20250617','184000','184000','032','220','7','02','0','Y','N','032','220','N','N','N','N');">
-										<span aria-labelledby="start_time_header" class="start_time"
-										role="cell">18 : 40</span> <span class="bus_info"> <span
-											class="dongbu">(주)동부고속</span> <span class="grade_mo">프리미엄</span>
-									</span> <!-- tablet / mobile 사이즈에서 보임 --> <span
-										aria-labelledby="bus_com_header" class="bus_com" role="cell"><span
-											class="dongbu">(주)동부고속</span></span> <!-- pc 사이즈에서만 보임 --> <span
-										aria-labelledby="grade_header" class="grade" role="cell">프리미엄
-											<span class="via"> </span>
-									</span>
-									<!-- pc 사이즈에서만 보임 --> <span aria-labelledby="temp_header"
-										class="temp" role="cell"> <span class="sale_color">15%
-												할인</span> (32,500원)
-
-									</span> <span aria-labelledby="remain_header" class="remain"
-										role="cell">20 석</span> <span aria-labelledby="status_header"
-										class="status" role="cell"> <span
-											class="accent btn_arrow">선택</span> <!-- fnSatsChc(deprTime,alcnDeprTime,alcnDeprTrmlNo,alcnArvlTrmlNo,indVBusClsCd,cacmCd) -->
-									</span>
-									</a>
-								</p>
-								<!-- yahan 20201019 응답값 기준으로 변경 -->
-								<!-- 서울경부-구미 (노선 분리 되어있지 않아 출발시간으로 체크) -->
-								<!-- 평택용이동-서울경부,평택대-서울경부 (출발지표기) -->
-								<!-- 동대구(801)-용인(150) (19.09.09) -->
-								<!-- 2021 05 / 10 class 추가  -->
-								<!-- <p class="noselect premium all_bus" data-time="09"> -->
-								<!-- 선택할수 목록(1. 시간이 지났을경우, 2. 잔여좌석이 0일경우) 에 class = 'noselect', 등급이 프리미엄일 경우 class = "premium" -->
-								<p class="" data-time="19" role="row">
-									<a class="" href="javascript:void(0)"
-										onclick="fnSatsChc('20250617','195000','195000','032','220','2','02','0','Y','N','032','220','N','N','N','N');">
-										<span aria-labelledby="start_time_header" class="start_time"
-										role="cell">19 : 50</span> <span class="bus_info"> <span
-											class="dongbu">(주)동부고속</span> <span class="grade_mo">고속</span>
-									</span> <!-- tablet / mobile 사이즈에서 보임 --> <span
-										aria-labelledby="bus_com_header" class="bus_com" role="cell"><span
-											class="dongbu">(주)동부고속</span></span> <!-- pc 사이즈에서만 보임 --> <span
-										aria-labelledby="grade_header" class="grade" role="cell">고속
-											<span class="via"> </span>
-									</span>
-									<!-- pc 사이즈에서만 보임 --> <span aria-labelledby="temp_header"
-										class="temp" role="cell"> <span class="sale_color">17%
-												할인</span> (18,800원)
-
-									</span> <span aria-labelledby="remain_header" class="remain"
-										role="cell">27 석</span> <span aria-labelledby="status_header"
-										class="status" role="cell"> <span
-											class="accent btn_arrow">선택</span> <!-- fnSatsChc(deprTime,alcnDeprTime,alcnDeprTrmlNo,alcnArvlTrmlNo,indVBusClsCd,cacmCd) -->
-									</span>
-									</a>
-								</p>
+								</p>-->
+								<div id="resultArea"></div>
 							</div>
+							
 						</div>
-					</div>
-				</div>
+						
+					</div> 
+					
+				</div> 
 				<!-- //우측 detailBox -->
-			</div>
+			</div> 
 			<div class="section">
 				<ul class="desc_list">
 					<li>심야 고속ㆍ우등ㆍ프리미엄의 요금은 당일 22:00부터 익일 04:00사이 출발차량</li>
