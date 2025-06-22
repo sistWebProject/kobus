@@ -7,9 +7,125 @@ System.out.println(">> busrank: " + request.getParameter("busClsCd"));
 %>
 <!DOCTYPE html>
 <style>
-   #datepicker1, #datepicker2 {
-      display:none;
-   }
+/* 날짜 선택 숨김 */
+#datepicker1, #datepicker2 {
+	display: none;
+}
+
+/* 전체 배차 행 레이아웃 */
+p[role="row"] {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	border-bottom: 1px solid #ddd;
+	padding: 10px;
+	font-family: 'Malgun Gothic', sans-serif;
+	gap: 10px;
+}
+
+/* 링크 스타일 초기화 */
+p[role="row"] a {
+	text-decoration: none;
+	display: flex;
+	flex-wrap: nowrap;
+	width: 100%;
+	color: #333;
+	align-items: center;
+}
+
+/* 출발시간 */
+.start_time {
+	width: 80px;
+	font-size: 1.1em;
+	font-weight: bold;
+	color: #222;
+}
+
+/* 고속사 + 등급 묶음 */
+.bus_info {
+	width: 120px;
+	display: flex;
+	flex-direction: column;
+}
+
+/* 고속사 이름 */
+.dongbu {
+	color: #0066cc;
+	font-weight: bold;
+}
+
+/* 등급 (mobile용) */
+.grade_mo {
+	background: #e0e0e0;
+	border-radius: 4px;
+	padding: 2px 6px;
+	font-size: 0.85em;
+	margin-top: 2px;
+}
+
+/* PC용 등급 */
+.grade {
+	width: 100px;
+	font-weight: bold;
+	color: #555;
+}
+
+/* 고속사 명 (PC용) */
+.bus_com {
+	width: 120px;
+	color: #333;
+}
+
+/* 요금 정보 */
+.temp {
+	width: 100px;
+	text-align: right;
+	font-size: 0.9em;
+	color: #d00;
+}
+
+/* 매진/선택 상태 색 */
+.sale_color {
+	font-weight: bold;
+	color: #cc0000;
+}
+
+/* 잔여석 */
+.remain {
+	width: 80px;
+	font-size: 0.9em;
+	color: #333;
+	text-align: right;
+}
+
+/* 선택 버튼 영역 */
+.status {
+	width: 80px;
+	text-align: right;
+}
+
+/* 선택 버튼 스타일 */
+.accent.btn_arrow {
+	background-color: #0066cc;
+	color: white;
+	padding: 6px 12px;
+	border-radius: 4px;
+	font-weight: bold;
+	font-size: 0.95em;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.accent.btn_arrow:hover {
+	background-color: #004c99;
+}
+
+/* 매진 또는 과거시간: 비활성화 표시 */
+.bus_time.disabled {
+	opacity: 0.5;
+	pointer-events: none;
+}
+
 </style>
 <html class="pc" lang="ko">
 <head>
@@ -200,7 +316,7 @@ $(document).ready(function () {
         });
     }
 
-    // ✅ 2. 배차 리스트 조회
+    //2. 배차 리스트 조회
     if (deprCd && arvlCd && deprDtm) {
         $.ajax({
             url: "<%=request.getContextPath()%>/getDuration.ajax",
@@ -226,22 +342,25 @@ $(document).ready(function () {
 
                 data.alcnAllList.forEach(item => {
                     const deprTimeStr = item.DEPR_TIME_DVS; // "06:45"
+                    
                     const dateStr = deprDtm.replace(/\./g, '-').trim(); // "2025.6.22" → "2025-6-22"
-                    const fullTime = new Date(`\${dateStr}T\${deprTimeStr}:00`);
+                    const fullTime = new Date(`${dateStr}T${deprTimeStr}:00`);
+                    console.log("DEPR_TIME_DVS:", item.DEPR_TIME_DVS);
 
                     const diffMin = (fullTime - now) / 1000 / 60;
+                    const isPast = diffMin <= 0;
                     const isSoon = diffMin <= 60 && diffMin > 0;
                     const isSoldOut = item.RMN_SATS_NUM == 0;
 
-                    const rowClass = (isSoon || isSoldOut) ? "noselect" : "";
+                    const rowClass = isPast || isSoldOut ? "disabled" : "";
                     const statusText = isSoldOut ? "매진" : (isSoon ? "모바일예매" : "선택");
 
                     const html = `
-                        <p class="bus_time ${rowClass}" role="row" data-time="\${item.DEPR_TIME_DVS.replace(':', '')}">
-                            <a href="javascript:void(0)" \${isSoon || isSoldOut ? 'class="disabled"' : ''}>
-                                <span class="start_time" role="cell">${item.DEPR_TIME_DVS}</span>
+                        <p class="bus_time \${rowClass}" role="row" data-time="\${item.DEPR_TIME_DVS.replace(':', '')}">
+                            <a href="javascript:void(0)" \${isPast || isSoldOut ? 'class="disabled"' : ''}>
+                                <span class="start_time" role="cell">\${item.DEPR_TIME_DVS}</span>
                                 <span class="bus_info" role="cell">
-                                    <span class="com_name">\${item.CACM_MN}</span>
+                                    <span class="dongbu">\${item.CACM_MN}</span>
                                     <span class="grade_mo">\${item.BUS_CLS_NM}</span>
                                 </span>
                                 <span class="bus_com" role="cell">\${item.CACM_MN}</span>
@@ -263,6 +382,7 @@ $(document).ready(function () {
     }
 });
 </script>
+
 
 
 
