@@ -1,6 +1,7 @@
 <%@ page trimDirectiveWhitespaces="true" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+
 <!DOCTYPE html>
 <!-- saved from url=(0031)/main.do -->
 <html lang="ko" class="pc">
@@ -1003,7 +1004,45 @@ $(document).ready(function () {
 									</div>
 									</c:when>
 									<c:otherwise>
+										<!-- ajax로 예매테이블 정보가져오고 정보 잘 뿌려주기 -->
 										<h3>예매 내역 가져오는 ajax코드추가</h3>
+										
+										<ul id="resvListUl">
+    									<!-- AJAX로 채워짐 -->
+										</ul>	
+										
+										<script>
+										$("#lgnTab").on("click", function(){
+											$.ajax({
+												url:"/koBus/mainPageResv.do",
+												type:"GET",
+												cache:false,
+												dataType: "json",
+												success: function(data){
+													console.log(data);
+													let list = $("#resvListUl");
+									                list.empty();
+
+									                if (data.length === 0) {
+									                    list.append("<li>예매 내역이 없습니다.</li>");
+									                } else {
+									                    data.forEach(function(resv){
+									                        list.append(`
+									                            <li>예매 방식: \${resv.resvType}</li>
+									                            <li>결제 방식: \${resv.payType}</li>
+									                            <li>탑승일: \${resv.rideDate.date.year}</li>
+									                            <hr/>
+									                        `);
+									                    });
+									                }
+												},
+												error: function(){
+													alert("AJAX 에러발생");
+												} 
+											});
+										});
+										</script>
+										
 									</c:otherwise>
 									</c:choose>
 									<!-- // 로그인 -->
