@@ -13,17 +13,17 @@ import com.util.ConnectionProvider;
 import koBus.mvc.persistence.MyPageDAO;
 import koBus.mvc.persistence.MyPageDAOImpl;
 
-public class ChangePwHandler implements CommandHandler {
+public class ChangePhoneNumHandler implements CommandHandler{
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, Exception, Throwable {
-		
-		System.out.println("> ChangePwHandler.process()...");
+		// 휴대폰번호 입력핟고 비밀번호변경 누르면 db정보에 번호변경완료 + 마이페이지로 돌아가기
+		System.out.println("> ChangePhoneNumHandler.process()...");
 		HttpSession session = request.getSession();
 		
 		String auth = (String) session.getAttribute("auth");
-		String usrPwd = request.getParameter("usrPwd");
+		String usrHp = request.getParameter("usrHp");
 		
 		System.out.println("auth : " + auth);
 		
@@ -32,7 +32,7 @@ public class ChangePwHandler implements CommandHandler {
 		
 		try {
 			
-			int result = dao.updatePw(auth, usrPwd);
+			int result = dao.updateTel(auth, usrHp);
 			
 			if (result == 1) {
 				System.out.println("업데이트 성공");
@@ -41,9 +41,10 @@ public class ChangePwHandler implements CommandHandler {
 			}
 			
 		} catch (Exception e) {
-			System.out.println("> ChangePwHandler.process() Exception...");
+			System.out.println("> ChangePhoneNumHandler.process() Exception...");
 			e.printStackTrace();
 		}
+		
 		
 		return "/page/logonMyPage.do";
 	}
