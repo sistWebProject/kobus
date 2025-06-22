@@ -57,6 +57,11 @@
 	border-radius: 4px;
 	font-size: 14px;
 }
+.error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 15px;
+}
 </style>
 </head>
 <body class="KO">
@@ -67,10 +72,21 @@
 				style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px;">
 				공지사항을 수정하세요.</p>
 
+            <%-- 에러 메시지 표시 --%>
+            <c:if test="${not empty error}">
+                <p class="error-message">${error}</p>
+            </c:if>
+
 			<form action="boardEdit.do" method="post" class="board_edit">
-				<input type="hidden" name="brdID" value="${dto.brdID}"> <input
-					type="hidden" name="kusID" value="${dto.kusID}"> <label
-					for="brdTitle">제목</label> <input type="text" name="brdTitle"
+				<input type="hidden" name="brdID" value="${dto.brdID}">
+                <%-- kusID는 백엔드에서 세션으로 처리하므로 여기서는 굳이 필요 없지만, 기존 구조 유지를 위해 남겨둠 --%>
+				<input type="hidden" name="kusID" value="${dto.kusID}">
+                <%-- brdCategory 필드를 추가하려면 여기에 input 또는 select 태그를 추가합니다. --%>
+                <%-- 예:
+                <label for="brdCategory">구분</label>
+                <input type="text" name="brdCategory" id="brdCategory" value="${dto.brdCategory}" required>
+                --%>
+				<label for="brdTitle">제목</label> <input type="text" name="brdTitle"
 					id="brdTitle" value="${dto.brdTitle}" required> <label
 					for="brdContent">내용</label>
 				<textarea name="brdContent" id="brdContent" rows="10"
@@ -81,8 +97,6 @@
 						href="boardList.do" class="btn">목록</a>
 				</div>
 			</form>
-
-
 		</div>
 	</div>
 

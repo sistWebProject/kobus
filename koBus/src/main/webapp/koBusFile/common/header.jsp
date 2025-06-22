@@ -148,9 +148,9 @@ $(document).ready(function () {
                      <li><a href="javascript:void(0)">고객지원</a>
                         <ul>
                            <li><a
-                              href="/koBus/html/boardList.do">공지사항</a></li>
+                              href="/koBus/html/boardList.do">게시판</a></li>
                            <li><a
-                              href="/cscn/qna/readQnaList.do">자주찾는
+                              href="/koBus/html/goBusFaq.do">자주찾는
                                  질문</a></li>
                            <li><a
                               href="/cscn/lossClnc/readLossClncList.do">유실물센터
