@@ -8,23 +8,7 @@
 <%@ page language="java" trimDirectiveWhitespaces="true" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-	String deprName = "서울 경부";
-	String deprCode = "11";
-	String arrvName = "속초";
-	String arrvCode = "45";
-	LocalDate deprDate = LocalDate.of(2025, 6, 11);
-	LocalTime deprTime = LocalTime.of(7, 30);
-	
-	request.setAttribute("deprName", deprName);
-	request.setAttribute("deprCode", deprCode);
-	request.setAttribute("arrvName", arrvName);
-	request.setAttribute("arrvCode", arrvCode);
-	
-	request.setAttribute("deprDate", deprDate);
-	request.setAttribute("deprTime", deprTime);
 
-%>	
 
 	
 <!DOCTYPE html>
@@ -193,26 +177,23 @@
 
 			
 				
+			<c:set var="change" value="${changeSeatList[0]}" />
 			<c:set var="bus" value="${busList[0]}" />
 			<form name="satsChcFrm" id="satsChcFrm" method="post"
 				action="/koBus/kobusSeat.do">
-				<input type="hidden" name="deprCd" id="deprCd" value="${deprCode }">
+				<input type="hidden" name="deprCd" id="deprCd" value="${change.deprRegCode}">
 				<!-- 출발지코드 -->
-				<%-- <input type="hidden" name="deprCd" id="deprCd" value="${param.deprCode}"> --%>
-				<!-- 추후 el 표기법으로 변경하기 그럼 request.getParameter 랑 setAttribute 없어도 됨-->
-				
-				<input type="hidden" name="deprNm" id="deprNm" value="${deprName }">
+				<input type="hidden" name="deprNm" id="deprNm" value="${change.deprRegName}">
 				<!-- 출발지명 -->
-				<input type="hidden" name="arvlCd" id="arvlCd" value="${arrvCode }">
+				<input type="hidden" name="arvlCd" id="arvlCd" value="${change.arrRegCode}">
 				<!-- 도착지코드 -->
-				<input type="hidden" name="arvlNm" id="arvlNm" value="${arrvName }">
+				<input type="hidden" name="arvlNm" id="arvlNm" value="${change.arrRegName}">
 				<!-- 도착지명 -->
 				<input type="hidden" name="tfrCd" id="tfrCd" value="">
 				<!-- 환승지코드 -->
 				<input type="hidden" name="tfrNm" id="tfrNm" value="">
 				<!-- 환승지명 -->
-				<input type="hidden" name="tfrArvlFullNm" id="tfrArvlFullNm"
-					value="">
+				<input type="hidden" name="tfrArvlFullNm" id="tfrArvlFullNm" value="">
 				<!-- 환승지포함 도착지 명 -->
 				<input type="hidden" name="pathDvs" id="pathDvs" value="sngl">
 				<!-- 직통sngl,환승trtr,왕복rtrp -->
@@ -220,19 +201,17 @@
 				<!-- 왕편 복편 설정 -->
 				<input type="hidden" name="deprDtm" id="deprDtm" value="20250621">
 				<!-- 가는날(편도,왕복) -->
-				<input type="hidden" name="deprDtmAll" id="deprDtmAll"
-					value="${deprDate }">
+				<input type="hidden" name="deprDtmAll" id="deprDtmAll" value="${deprDate}">
 				<!-- 가는날(편도,왕복) -->
 				<input type="hidden" name="arvlDtm" id="arvlDtm" value="20250621">
 				<!-- 오는날(왕복) -->
-				<input type="hidden" name="arvlDtmAll" id="arvlDtmAll"
-					value="2025. 6. 21. 토">
+				<input type="hidden" name="arvlDtmAll" id="arvlDtmAll" value="2025. 6. 21. 토">
 				<!-- 오는날(왕복) -->
 				<input type="hidden" name="busClsCd" id="busClsCd" value="0">
 				<!-- 버스등급 -->
-				<input type="hidden" name="takeDrtmOrg" id="takeDrtmOrg" value="${bus.durMin }">
+				<input type="hidden" name="takeDrtmOrg" id="takeDrtmOrg" value="${bus.durMin}">
 				<!-- 소요시간 -->
-				<input type="hidden" name="distOrg" id="distOrg" value="${distance }">
+				<input type="hidden" name="distOrg" id="distOrg" value="">
 				<!-- 거리 -->
 				<!-- 출발일자:deprDtm or arvlDtm, 출발터미널번호:deprCd, 도착터미널번호:arvlCd  -->
 				<input type="hidden" name="deprDt" id="deprDt" value="20250621">
@@ -514,11 +493,11 @@
 
 										<dl class="roundBox departure kor">
 											<dt>출발</dt>
-											<dd id="satsDeprTmlNm"></dd>
+											<dd id="satsDeprTmlNm">${change.deprRegName }</dd>
 										</dl>
 										<dl class="roundBox arrive kor">
 											<dt>도착</dt>
-											<dd id="satsArvlTmlNm"></dd>
+											<dd id="satsArvlTmlNm">${change.arrRegName }</dd>
 										</dl>
 									</div>
 									<div class="detail_info">
@@ -552,7 +531,7 @@
 												</tr>
 												<tr>
 													<th scope="row">출발</th>
-													<td>${deprTime }</td>
+													<td>${change.rideDateStr }</td>
 												</tr>
 											</tbody>
 										</table>
@@ -575,61 +554,27 @@
 										<li>
 											<div class="countBox">
 												<p class="division">
-													<em>일반</em> <span class="text_num count" id="adltCntMob">0</span>
+													<em>일반</em> <span class="text_num count" id="adltCntMob">${change.aduCount }</span>
 
 
 												</p>
-												<div class="btn_wrap">
-													<ul>
-
-
-														<li><button type="button" class="btn btn_add">
-																<span class="ico_plus"><span class="sr-only">증가</span></span>
-															</button></li>
-														<li><button type="button" class="btn btn_minus">
-																<span class="ico_minus"><span class="sr-only">감소</span></span>
-															</button></li>
-													</ul>
-												</div>
 											</div>
 										</li>
 										<li>
 											<div class="countBox">
 												<p class="division">
-													<em>초등생</em> <span class="text_num count" id="chldCntMob">0</span>
+													<em>초등생</em> <span class="text_num count" id="chldCntMob">${change.chdCount }</span>
 												</p>
-												<div class="btn_wrap">
-													<ul>
-
-
-														<li><button type="button" class="btn btn_add">
-																<span class="ico_plus"><span class="sr-only">증가</span></span>
-															</button></li>
-														<li><button type="button" class="btn btn_minus">
-																<span class="ico_minus"><span class="sr-only">감소</span></span>
-															</button></li>
-													</ul>
-												</div>
 											</div>
 										</li>
 
 										<li>
 											<div class="countBox">
 												<p class="division">
-													<em>중고생</em> <span class="text_num count" id="teenCntMob">0</span>
+													<em>중고생</em> <span class="text_num count" id="teenCntMob">${change.stuCount }</span>
 
 
 												</p>
-												<div class="btn_wrap">
-													<ul>
-														<li><button type="button" class="btn btn_add">
-																<span class="ico_plus"><span class="sr-only">증가</span></span>
-															</button></li>
-														<li><button type="button" class="btn btn_minus">
-																<span class="ico_minus"><span class="sr-only">감소</span></span>
-															</button></li>
-													</ul>
-												</div>
 											</div>
 										</li>
 
@@ -663,63 +608,27 @@
 											<li>
 												<div class="countBox">
 													<p class="division">
-														<em>일반</em> <span class="text_num count" id="adltCnt">0</span>
+														<em>일반</em> <span class="text_num count" id="adltCnt">${change.aduCount }</span>
 
 													</p>
-													<div class="btn_wrap">
-														<ul>
-
-															<li><button type="button" class="btn btn_add">
-																	<span class="ico_plus"><span class="sr-only">증가</span></span>
-																</button></li>
-															<li><button type="button" class="btn btn_minus">
-																	<span class="ico_minus"><span class="sr-only">감소</span></span>
-																</button></li>
-														</ul>
-													</div>
 												</div>
 											</li>
 
 											<li>
 												<div class="countBox">
 													<p class="division">
-														<em>초등생</em> <span class="text_num count" id="chldCnt">0</span>
+														<em>초등생</em> <span class="text_num count" id="chldCnt">${change.chdCount }</span>
 
 
 													</p>
-													<div class="btn_wrap">
-														<ul>
-
-
-															<li><button type="button" class="btn btn_add">
-																	<span class="ico_plus"><span class="sr-only">증가</span></span>
-																</button></li>
-															<li><button type="button" class="btn btn_minus">
-																	<span class="ico_minus"><span class="sr-only">감소</span></span>
-																</button></li>
-
-														</ul>
-													</div>
 												</div>
 											</li>
 
 											<li>
 												<div class="countBox">
 													<p class="division">
-														<em>중고생</em> <span class="text_num count" id="teenCnt">0</span>
+														<em>중고생</em> <span class="text_num count" id="teenCnt">${change.stuCount }</span>
 													</p>
-													<div class="btn_wrap">
-														<ul>
-
-
-															<li><button type="button" class="btn btn_add">
-																	<span class="ico_plus"><span class="sr-only">증가</span></span>
-																</button></li>
-															<li><button type="button" class="btn btn_minus">
-																	<span class="ico_minus"><span class="sr-only">감소</span></span>
-																</button></li>
-														</ul>
-													</div>
 												</div>
 											</li>
 

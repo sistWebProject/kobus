@@ -56,6 +56,8 @@
 <script type="text/javascript" src="/koBus/js/common/RotInfPup.js"></script>
 <script type="text/javascript" src="/koBus/js/common/RotInf.js"></script>
 <script type="text/javascript" src="/koBus/js/MrsCfmLgn.js"></script>
+<script type="text/javascript" src="/koBus/js/OprnAlcnInqr.js"></script>
+<script type="text/javascript" src="/koBus/js/OprnAlcnInqrPup.js"></script>
 
 </head>
 <%@ include file="common/header.jsp" %>
@@ -160,16 +162,13 @@
 
 		<article id="new-kor-content" class="full">
 
-			<script type="text/javascript"
-				src="/koBus/js/OprnAlcnInqr.js"></script>
-			<script type="text/javascript"
-				src="/koBus/js/OprnAlcnInqrPup.js"></script>
+			
 
 			<!-- 출/도착지 선택 레이어팝업 -->
 
 
 			<form name="rotInfFrm" id="rotInfFrm" method="post"
-				action="/koBus/kobusSchedule.do">
+				action="/kobusSchedule.do">
 				<input type="hidden" name="sourcePage" value="kobusSchedule.jsp">
 				<input type="hidden" name="deprCd" id="deprCd" value="">
 				<!-- 출발지코드 -->

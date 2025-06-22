@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		String sql = "SELECT * FROM region WHERE sidoCode = ?";
 
 		try {
-			System.out.println("sidoCode " + sidoCode);
+//			System.out.println("sidoCode " + sidoCode);
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, sidoCode); 
@@ -47,7 +48,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 				list.add(dto);
 			}
 
-			System.out.println("list.size() " + list.size());
+//			System.out.println("list.size() " + list.size());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,7 +97,17 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 	@Override
 	public List<ScheduleDTO> searchBusSchedule(String deprId, String arrId, String deprDtm, String busClsCd) throws SQLException {
 		List<ScheduleDTO> schList = new ArrayList<>();
+		
+//		DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//		String deprDateOnly = deprDtm.format(outputFormatter);
 
+		System.out.println(deprDtm);
+		
+		if (deprDtm.length() > 9) {
+			deprDtm = deprDtm.substring(0, 10).trim();
+		}
+		 
+		
 		System.out.printf("deprId : %s, arrId : %s, deprDtm : %s, busClsCd :  %s\n", deprId, arrId, deprDtm, busClsCd);
 
 		String sql = "SELECT "
@@ -122,7 +133,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 				+ " JOIN REGION RGD ON D.REGID = RGD.REGID  "
 				+ " JOIN REGION RGA ON A.REGID = RGA.REGID "
 				+ " WHERE RGD.REGID = ? AND RGA.REGID = ? "
-				+ " AND TRUNC(BS.DEPARTUREDATE) = TO_DATE( ? , 'YYYYMMDD') ";
+				+ " AND TRUNC(BS.DEPARTUREDATE) = TO_DATE( ? , 'YYYY-MM-DD') ";
 
 		if (!busClsCd.equals("전체")) {
 			sql += " AND B.BUSGRADE = ? ";
@@ -139,7 +150,6 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 
 		rs = pstmt.executeQuery();
 
-		System.out.println(sql);
 
 		while (rs.next()) {
 			LocalDateTime departureDate = rs.getTimestamp("departureDate").toLocalDateTime();	

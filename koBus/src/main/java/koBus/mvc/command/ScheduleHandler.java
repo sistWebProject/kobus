@@ -113,6 +113,8 @@ public class ScheduleHandler implements CommandHandler {
 			        case "2": busClsCd = "일반"; break;
 			        default: break;
 			    }
+			    
+			    System.out.println("deprDtm " + deprDtm);
 
 			    schList = dao.searchBusSchedule(deprCd, arvlCd, deprDtm, busClsCd);
 
@@ -162,6 +164,39 @@ public class ScheduleHandler implements CommandHandler {
 
 			    return null;
 			}
+			
+			// ==============================
+			else if ("getDuration".equals(ajaxType)) {
+			    String deprCd = request.getParameter("deprCd");
+			    String arvlCd = request.getParameter("arvlCd");
+			    
+			    System.out.println("[getDuration] 출발지 REGID: " + deprCd);
+			    System.out.println("[getDuration] 도착지 REGID: " + arvlCd);
+
+			    int duration = 0;
+
+			    try {
+			      
+			    	duration = dao.getDurationFromRoute(deprCd, arvlCd);  
+			    	
+			    	System.out.println("[getDuration] 조회된 duration: " + duration);
+			    	
+			    } catch (Exception e) {
+			        e.printStackTrace();
+			    }
+
+			    Map<String, Integer> result = new HashMap<>();
+			    result.put("duration", duration);
+
+			    String json = new Gson().toJson(result);
+			    PrintWriter out = response.getWriter();
+			    out.print(json);
+			    out.flush();
+
+			    return null;
+			}
+
+			// ==============================
 
 
 		}catch (NamingException e) {
@@ -180,8 +215,14 @@ public class ScheduleHandler implements CommandHandler {
 		
 		if ("KOBUSreservation3.jsp".equals(sourcePage)) {
 		    return "/koBusFile/KOBUSreservation2.jsp";
-		} else {
-		    return "/koBusFile/kobusSchedule.jsp";
+		} else if("kobusModifyResv.jsp".equals(sourcePage)) {
+			return "/koBusFile/kobusModifyResvSch.jsp";
+		} else if("kobusModifyResvSch.jsp".equals(sourcePage)) {
+			return "/koBusFile/kobusModifyResvSeat.jsp";
+		}
+		else  {
+			return "/koBusFile/kobusSchedule.jsp";
+		    
 		}
 
 	}

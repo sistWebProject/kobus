@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <!-- saved from url=(0037)https://www.kobus.co.kr/mrs/mrscfm.do -->
 <html lang="ko" class="pc">
@@ -304,6 +306,7 @@
 							<!-- 거래처코드 -->
 
 
+							<c:forEach var="resv" items="${resvList}">
 							<!-- 홈티켓 form -->
 							<form id="mrsCfmInfolistFrm0" name="mrsCfmInfolistFrm0"
 								action="https://www.kobus.co.kr/mrs/mrshtckpub.ajax">
@@ -324,85 +327,52 @@
 								<!-- 예매단위 좌석 -->
 
 
-
-
-
-
-
-
-
 								<input type="hidden" name="mrsMrnpNoEnc1" id="mrsMrnpNoEnc1"
-									value="6F646B64757373646B6A6E66697364660000000E1B6D59857B5262A2C71EE44AD04A194E11B20035F38B88411DF21C7E6C6173646B6A66393038646661736173"
+									value=""
 									style="width: 100%"> <input type="hidden"
 									name="mrsMrnpNoEnc2" id="mrsMrnpNoEnc2" value=""
 									style="width: 100%">
 							</form>
 							<!-- 시간변경 form -->
 							<form id="mrsTmznlistFrm0" name="mrsTmznlistFrm0"
-								action="https://www.kobus.co.kr/mrs/mrschantimestep1.do">
+								action="/modifyReservations.do" method="post">
 								<input type="hidden" name="nonMbrsNo" value="">
 								<!-- 비회원 회원번호 -->
 
-								<input type="hidden" name="mrsMrnpNo" value="20250619418950">
-								<input type="hidden" name="mrsMrnpSno" value="01"> <input
-									type="hidden" name="deprnNm" value="서울경부">
+								<input type="hidden" name="mrsMrnpNo" value="${resv.resId }">
+								<input type="hidden" name="mrsMrnpSno" value="01"> 
+								<input
+									type="hidden" name="deprnNm" value="${resv.deprRegName }">
 								<!-- 출발지 -->
-								<input type="hidden" name="arvlNm" value="강릉">
+								<input type="hidden" name="arvlNm" value="${resv.arrRegName }">
 								<!-- 도착지 -->
-								<input type="hidden" name="takeDrtm" value="2시간 50분">
+								<input type="hidden" name="takeDrtm" value="${resv.durMin }">
 								<!-- 소요시간 -->
-								<input type="hidden" name="deprnCd" value="010">
+								<input type="hidden" name="deprnCd" value="${resv.deprRegCode }">
 								<!-- 출발지코드 -->
-								<input type="hidden" name="arvlCd" value="200">
+								<input type="hidden" name="arvlCd" value="${resv.arrRegCode }">
 								<!-- 도착지코드 -->
 								<input type="hidden" name="alcnDeprnCd" value="010">
 								<!-- 배차출발지코드 -->
 								<input type="hidden" name="alcnArvlCd" value="200">
 								<!-- 배차도착지코드 -->
-								<input type="hidden" name="deprCd" value="2">
+								<input type="hidden" name="deprCd" value="${resv.busGrade }">
 								<!-- 등급 -->
-								<input type="hidden" name="orignalDT" value="20250716">
-								<!-- 배차출발날짜 -->
-								<input type="hidden" name="InAlcnDeprTime" value="080000">
-								<!-- 배차출발시간 -->
-								<input type="hidden" name="DEPR_DT" value="20250716">
-								<!-- 출발날짜 -->
-								<input type="hidden" name="deprTime" value="080000">
-								<!-- 출발시간 -->
-								<input type="hidden" name="alcnDeprDT" value="2025. 07. 16 (수)">
-								<!-- 배차가공출발날짜 -->
-								<input type="hidden" name="alcnDeprTime" value="08:00">
-								<!-- 배차가공출발시간 -->
-								<input type="hidden" name="mrsChnlDvsCd" value="2">
-								<!-- 예매채널구분코드 -->
-								<input type="hidden" name="tissuChnlDvsCd" value="3">
-								<!-- 발권채널구분코드 -->
-								<input type="hidden" name="adltNum" value="1">
+								<input type="hidden" name="adltNum" value="${resv.aduCount }">
 								<!-- 일반매수 -->
-								<input type="hidden" name="chldNum" value="0">
+								<input type="hidden" name="chldNum" value="${resv.stuCount }">
 								<!-- 초등매수 -->
-								<input type="hidden" name="teenNum" value="0">
-								<!-- 중등매수 -->
-								<input type="hidden" name="uvsdNum" value="0">
-								<!-- 대학매수 -->
-								<input type="hidden" name="sncnNum" value="0">
-								<!-- 경로매수 -->
-								<input type="hidden" name="dsprNum" value="0">
-								<!-- 장애인매수 -->
+								<input type="hidden" name="teenNum" value="${resv.chdCount }">
+								<!-- 중고매수 -->
+								<input type="hidden" name="DEPR_DT" value="${fn:substringBefore(resv.rideDateStr, ' ')}">
+								<!-- 출발날짜 -->
+								<input type="hidden" name="deprTime" value="${fn:substringAfter(resv.rideDateStr, ' ')}">
+								<!-- 출발시간 -->
 
-								<input type="hidden" name="vtr3Num" value="0">
-								<!-- 보훈매수 -->
-								<input type="hidden" name="vtr5Num" value="0">
-								<!-- 보훈매수 -->
-								<input type="hidden" name="vtr7Num" value="0">
-								<!-- 보훈매수 -->
 
-								<input type="hidden" name="dfptNum" value="0">
-								<!-- 후불매수 -->
-
-								<input type="hidden" name="tissuFee" value="16700">
+								<input type="hidden" name="tissuFee" value="${resv.amount }">
 								<!-- 결제금액-->
-								<input type="hidden" name="pynDvsCd" value="2">
+								<input type="hidden" name="pynDvsCd" value="${resv.payType }">
 								<!-- 지불구분코드 : 마일리지 추가 -->
 								<input type="hidden" name="tissuStaCd" value="6"> <input
 									type="hidden" name="pynDtlCd" value="s"> <input
@@ -548,7 +518,7 @@
 							<!-- 도착예정시간이 경과되었습니다. class="timeOver" 추가-->
 							<!-- 모바일 발권 인 경우 -->
 
-					<c:forEach var="resv" items="${resvList}">
+					
 						<section class="detail_info_wrap newMobileTicket marT30 ">
 							<div class="ticketInfo">
 								<div class="type">
@@ -743,9 +713,9 @@
 						<!-- //왕복 끝 -->
 
 						<p class="btns multi clfix col3">
-							<a href="javascript:void(0)" onclick="fnmrsChangeTime(0);"
-								class="btnL btn_cancel first">시간변경</a> 
-							<a href="javascript:void(0)" id="btnGenerateQr"
+							<a href="javascript:void(0);" onclick="return fnmrsChangeTime(0);" class="btnL btn_cancel first">시간변경</a>
+
+							<a href="javascript:void(0);" id="btnGenerateQr"
 								class="btnL btn_cancel" title="새창">탑승권 확인</a> 
 							<!-- <a href="javascript:void(0)" onclick="fnmrsRecpPub(0);" 
 								class="btnL btn_cancel" title="새창">탑승권 확인</a>  -->
@@ -852,8 +822,6 @@
 										<li>정기권을 이용한 승차권 예매 및 발권은 차량 좌석이 있는 경우에만 사용이 가능합니다.</li>
 									</ul>
 								</li>
-								<!-- //191118 추가 -->
-								<!-- //191118 수정 -->
 							</ul>
 
 
@@ -867,10 +835,6 @@
 							<div class="box_detail_info noData">
 								<p>취소 자료가 존재하지 않습니다.</p>
 							</div>
-
-
-
-
 
 							<ul class="desc_list marT30">
 								<!-- 191120 수정 -->
@@ -902,13 +866,7 @@
 
 			</div>
 
-			<!-- 홈티켓 발권 -->
-
-
-			<!-- 예매취소 선택 레이어팝업 -->
-
-
-			<style>
+<!-- 			<style>
 .qr_area {
 	width: 200px;
 	height: 200px;
@@ -930,28 +888,8 @@
 	color: #000;
 }
 </style>
+ -->
 
-
-			<!-- 모바일 홈티켓 뷰어 -->
-
-
-			<form name="mrsTckCanPcFrm" id="mrsTckCanPcFrm" method="post">
-				<!-- 평창연계용 -->
-				<input type="hidden" name="token" id="token" value="">
-				<!-- 토큰   -->
-				<input type="hidden" name="transport" id="transport" value="">
-				<!--  교통수단별 코드   -->
-				<input type="hidden" name="code" id="code" value="">
-				<!-- 결제/취소 여부   -->
-				<input type="hidden" name="date" id="date" value="">
-				<!-- 출발 시각   -->
-				<input type="hidden" name="from" id="from" value="">
-				<!-- 출발지 명칭   -->
-				<input type="hidden" name="to" id="to" value="">
-				<!-- 도착지 명칭   -->
-				<input type="hidden" name="sn" id="sn" value="">
-				<!-- 데이터 키   -->
-			</form>
 
 		</article>
 		
