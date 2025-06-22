@@ -520,7 +520,7 @@ function fnSelPrdWeek(val){
 	//유효기간 가져오기
 	fnAdtnVldTerm();
 }
-
+/*
 //옵션 선택시  
 function fnSelOption(value){
 	var optVal = value; 
@@ -575,7 +575,7 @@ function fnSelOption(value){
 	$("#divTermDesc").css('display', 'block');
 		
 }
-
+*/
 function fnSelOption(value){
 	console.log("🔽 [fnSelOption] 선택된 value:", value);
 

@@ -160,12 +160,12 @@ if (lngCd == "KO") {
 					
 					
 						
+					
+						
+					
+						
 							<a href="javascript:void(0)" class="btn-dropdown" title="대메뉴 선택" aria-expanded="false">
-								<span class="text">고속버스예매</span><i class="ico ico-dropdown-arrow"></i></a>
-						
-					
-						
-					
+								<span class="text">프리패스/정기권</span><i class="ico ico-dropdown-arrow"></i></a>
 						
 					
 						
@@ -183,12 +183,8 @@ if (lngCd == "KO") {
 							
 							
 							
-								
-								
-								
 							
-							
-							<li class="selected"><a href="javascript:void(0)" title="선택됨">고속버스예매</a></li>
+							<li><a href="https://www.kobus.co.kr/mrs/rotinf.do">고속버스예매</a></li>
 						
 							
 							
@@ -201,8 +197,12 @@ if (lngCd == "KO") {
 							
 							
 							
+								
+								
+								
 							
-							<li><a href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrchGd.do">프리패스/정기권</a></li>
+							
+							<li class="selected"><a href="javascript:void(0)" title="선택됨">프리패스/정기권</a></li>
 						
 							
 							
@@ -241,20 +241,20 @@ if (lngCd == "KO") {
 					
 					
 						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
 							<a href="javascript:void(0)" class="btn-dropdown" title="하위메뉴 선택" aria-expanded="false">
-								<span class="text">고속버스예매</span><i class="ico ico-dropdown-arrow"></i></a>
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
+								<span class="text">정기권</span><i class="ico ico-dropdown-arrow"></i></a>
 						
 					
 						
@@ -305,6 +305,25 @@ if (lngCd == "KO") {
 					<ul class="dropdown-list" style="display: none;">
 						
 							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+								
+								
+								
+								
+								
+								<li><a href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrchGd.do">프리패스 여행권</a></li>
+							
+						
+							
 								
 								
 								
@@ -314,7 +333,7 @@ if (lngCd == "KO") {
 									
 								
 								
-								<li class="selected"><a href="javascript:void(0)" title="선택됨">고속버스예매</a></li>
+								<li class="selected"><a href="javascript:void(0)" title="선택됨">정기권</a></li>
 							
 						
 							
@@ -323,26 +342,7 @@ if (lngCd == "KO") {
 								
 								
 								
-								<li><a href="https://www.kobus.co.kr/mrs/mrscfm.do">예매확인/취소/변경</a></li>
-							
-						
-							
-								
-								
-								
-								
-								
-								<li><a href="https://www.kobus.co.kr/mrs/mrsrecplist.do">영수증발행</a></li>
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
+								<li><a href="https://www.kobus.co.kr/adtnprdnew/prchpt/prdPrchPt.do">상품 구매내역</a></li>
 							
 						
 							
@@ -394,6 +394,78 @@ if (lngCd == "KO") {
 		
 	</div>
 </nav>
+
+		
+		<article id="new-kor-content">
+			
+
+
+<script type="text/javascript" src="/koBus/js/PassPrch.js"></script>
+
+<!-- 20200617 yahan -->
+<script type="text/javascript" src="/koBus/js/transkey.js"></script><script type="text/javascript" src="/koBus/js/TranskeyLibPack_op.js"></script><script type="text/javascript" src="/koBus/js/rsa_oaep-min.js"></script><script type="text/javascript" src="/koBus/js/jsbn-min2.js"></script><script type="text/javascript" src="/koBus/js/typedarray.js"></script><script type="text/javascript" src="/koBus/images/transkeyServlet"></script><script type="text/javascript" src="/koBus/images/transkeyServlet(1)"></script>
+<link rel="stylesheet" type="text/css" href="/koBus/css/transkey.css"> 
+<script>
+	$(function(){ initTranskey(); })
+</script>
+
+
+
+<div class="title_wrap in_process seasonTicketT" style="display: none;">
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+<a href="https://www.kobus.co.kr/adtnprdnew/pass/passPrch.do?prdprchVal=1#" class="back">back</a>
+<a href="https://www.kobus.co.kr/adtnprdnew/pass/passPrch.do?prdprchVal=1#" class="mo_toggle">메뉴</a>
+
+
+	<h2>고속버스 정기권</h2>
+	<ol class="process">
+		<li> 구매정보안내</li>
+		<li class="active">구매정보입력</li>
+		<li class="last">구매완료</li>
+	</ol>
+</div>
+			
+
+	<!-- 타이틀 -->
+	<div class="content-header" data-page-title="정기권(구매정보입력) | 프리패스/정기권 | 고속버스통합예매">
+		<div class="container">
+			<div class="title-area">
+				<h2 class="page-title">정기권</h2>
+				<ol class="process">
+					<li><span class="num">1</span> 구매정보안내</li>
+					<li class="active" title="현재 단계"><span class="num">2</span> 구매정보입력</li>
+					<li><span class="num">3</span> 구매완료</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+
 
 		
 		<article id="new-kor-content" class="full">
