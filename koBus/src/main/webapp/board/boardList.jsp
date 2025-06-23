@@ -192,12 +192,14 @@
         text-align: left; /* 제목은 왼쪽 정렬 */
         padding-left: 20px;
         width: 60%; /* 제목 컬럼 너비 조정 */
+        text-align: center;
     }
 
     .board_list td.title a {
         text-decoration: none;
         color: #444;
         font-weight: 500;
+        text-align: center;
     }
 
     .board_list td.title a:hover {
@@ -280,7 +282,6 @@
 				<thead>
 					<tr>
 						<th>번호</th>
-						<th>구분</th> <%-- 💡 추가: 구분 컬럼 헤더 --%>
 						<th>제목</th>
 						<th>작성자</th>
 						<th style="text-align: right;">작성일</th>
@@ -291,7 +292,7 @@
 					<c:forEach var="dto" items="${list}">
 						<tr>
 							<td>${dto.brdID}</td>
-							<td>${dto.brdCategory}</td> <%-- 💡 추가: 구분 데이터 출력 --%>
+
 							<td class="title">
 								<a href="boardView.do?brdID=${dto.brdID}">${dto.brdTitle}</a>
 							</td>
@@ -309,7 +310,6 @@
 			</table>
 
 			<div class="btn-wrap">
-				<a id="list" href="/koBus/html/boardList.do" class="btn">List</a>
 				<a id="write" href="/koBus/html/boardWrite.do" class="btn">글쓰기</a>
 			</div>
 		</div>

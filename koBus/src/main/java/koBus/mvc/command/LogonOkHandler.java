@@ -71,7 +71,7 @@ public class LogonOkHandler implements CommandHandler {
 		}
 		System.out.println("location" + location);
 				
-		if (sourcePage.equals("reservationCheck.jsp")) {
+		if (sourcePage != null && sourcePage.equals("reservationCheck.jsp")) {
 			location="/koBus/manageReservations.do";
 			System.out.println("예매확인 로그인 주소 : " + location);
 			response.sendRedirect(location);	
