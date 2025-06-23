@@ -1,98 +1,112 @@
-<%@ page trimDirectiveWhitespaces="true" language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
-<%@ include file="../koBusFile/common/header.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 상세보기</title>
-<link rel="shortcut icon" type="image/x-icon"
-	href="/koBus/media/favicon.ico">
+<title>게시글 상세 | 고객지원 | 고속버스통합예매</title>
+<link rel="shortcut icon" type="image/x-icon" href="/koBus/media/favicon.ico">
+<link rel="stylesheet" href="/koBus/media/style.css">
+<link rel="stylesheet" href="/koBus/media/ui.jqgrid.custom.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/media/style.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/media/ui.jqgrid.custom.css">
+	href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
 <style>
-.board_view {
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-	padding: 20px 0;
-	margin: 30px 0;
-	text-align: center;
+/* 필요한 CSS 추가 */
+.board-view-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
-
-.view_title {
-	font-size: 20px;
-	font-weight: 600;
-	margin-bottom: 10px;
-	display: flex;
-	justify-content: space-between;
+.board-view-header {
+    border-bottom: 2px solid #114397;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
 }
-
-.view_content {
-	padding: 20px 0;
-	font-size: 15px;
-	line-height: 1.8;
+.board-view-header h2 {
+    font-size: 28px;
+    color: #2c3e50;
+    margin-bottom: 10px;
 }
-
-.view_content img {
-	max-width: 100%;
+.board-view-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #777;
 }
-
-.btn_wrap {
-	text-align: center;
-	margin-top: 30px;
+.board-view-content {
+    padding: 20px 0;
+    line-height: 1.8;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+    min-height: 150px; /* 내용 영역 최소 높이 */
 }
-
-.btn_wrap .btn {
-	display: inline-block;
-	padding: 10px 20px;
-	margin: 0 5px;
-	background: #444;
-	color: #fff;
-	text-decoration: none;
-	border-radius: 4px;
-	font-size: 14px;
+.board-view-actions {
+    text-align: right;
+    margin-top: 20px;
+}
+.board-view-actions .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #6c757d; /* 회색 계열 */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: 10px;
+}
+.board-view-actions .btn:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+}
+.board-view-actions .btn.edit {
+    background-color: #007bff; /* 파란색 */
+}
+.board-view-actions .btn.edit:hover {
+    background-color: #0056b3;
+}
+.board-view-actions .btn.delete {
+    background-color: #dc3545; /* 빨간색 */
+}
+.board-view-actions .btn.delete:hover {
+    background-color: #c82333;
 }
 </style>
 </head>
-<body class="KO">
+<body class="main KO">
+<%@ include file="../koBusFile/common/header.jsp" %>
+<div class="content-body customer">
+	<div class="container board-view-container">
 
-	<div class="content-body customer">
-		<div class="container">
-
-			<p class="noti"
-				style="text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px;">
-				고속버스 홈페이지의 새로운 소식을 확인하세요.</p>
-			<div class="board_view">
-				<!-- 작성자와 날짜 -->
-				<div
-					style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 10px;">
-					<span>작성자 : ${dto.kusID}</span> <span>작성일 : ${dto.brdDate}</span>
-				</div>
-
-				<!-- 제목 -->
-				<h2
-					style="text-align: center; font-size: 22px; font-weight: bold; margin: 20px 0; padding-bottom: 10px; border-bottom: 1px solid #ccc;">
-					${dto.brdTitle}</h2>
-
-				<!-- 내용 -->
-				<div class="view_content"
-					style="padding: 20px 0; text-align: center;">
-					${dto.brdContent}</div>
+		<div class="board-view-header">
+			<h2>${dto.brdTitle}</h2>
+			<div class="board-view-meta">
+				<span>작성자: ${dto.kusID}</span>
+                <span>구분: ${dto.brdCategory}</span> <%-- 💡 추가: 게시글 구분 --%>
+				<span>작성일: ${dto.brdDate}</span>
+                <span>조회수: ${dto.brdViews}</span> <%-- 💡 추가: 조회수 --%>
 			</div>
-			<div class="btn_wrap">
-				<a href="boardEdit.do?brdID=${dto.brdID}" class="btn">수정</a> <a
-					href="boardDelete.do?brdID=${dto.brdID}" class="btn"
-					onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a> <a
-					href="boardList.do" class="btn">목록</a>
-			</div>
-
-
 		</div>
-	</div>
 
+		<div class="board-view-content">
+			<p>${dto.brdContent}</p>
+		</div>
+
+		<div class="board-view-actions">
+			<a href="boardList.do" class="btn">목록</a>
+			<a href="boardEdit.do?brdID=${dto.brdID}" class="btn edit">수정</a>
+			<a href="boardDelete.do?brdID=${dto.brdID}" class="btn delete" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+		</div>
+
+	</div>
+</div>
 </body>
 </html>
