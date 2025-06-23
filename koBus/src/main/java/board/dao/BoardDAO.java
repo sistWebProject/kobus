@@ -1,12 +1,16 @@
 package board.dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.NamingException;
 
 import com.util.ConnectionProvider;
+
 import board.dto.BoardDTO;
 
 public class BoardDAO {
@@ -36,36 +40,37 @@ public class BoardDAO {
 
 	// 글 목록
 	public List<BoardDTO> getBoardList() throws Exception, SQLException, NamingException {
-		List<BoardDTO> list = new ArrayList<>();
-		String sql = "SELECT b.brdID, b.kusID, b.brdTitle, b.brdContent, b.brdDate, b.brdViews, "
-				+ "u.ID AS userId, u.tel, u.RANK " + "FROM board b " + "JOIN kobusUser u ON b.kusID = u.kusID "
-				+ "ORDER BY b.brdID DESC";
+	    List<BoardDTO> list = new ArrayList<>();
+	    String sql = "SELECT b.brdID, b.kusID, b.brdTitle, b.brdContent, b.brdDate, b.brdViews, " +
+	                 "u.ID AS userId, u.tel, u.RANK AS userRank " +
+	                 "FROM board b " +
+	                 "JOIN kobusUser u ON b.kusID = u.kusID " +
+	                 "ORDER BY b.brdID DESC";
 
-		try (Connection conn = ConnectionProvider.getConnection();
-				PreparedStatement ps = conn.prepareStatement(sql);
-				ResultSet rs = ps.executeQuery()) {
+	    try (Connection conn = ConnectionProvider.getConnection();
+	         PreparedStatement ps = conn.prepareStatement(sql);
+	         ResultSet rs = ps.executeQuery()) {
 
-			while (rs.next()) {
-				BoardDTO dto = new BoardDTO();
-				dto.setBrdID(rs.getInt("brdID"));
-				dto.setKusID(rs.getString("kusID"));
-				dto.setBrdTitle(rs.getString("brdTitle"));
-				dto.setBrdContent(rs.getString("brdContent"));
-				dto.setBrdDate(rs.getTimestamp("brdDate"));
-				dto.setBrdViews(rs.getInt("brdViews"));
+	        while (rs.next()) {
+	            BoardDTO dto = new BoardDTO();
+	            dto.setBrdID(rs.getInt("brdID"));
+	            dto.setKusID(rs.getString("kusID"));
+	            dto.setBrdTitle(rs.getString("brdTitle"));
+	            dto.setBrdContent(rs.getString("brdContent"));
+	            dto.setBrdDate(rs.getTimestamp("brdDate"));
+	            dto.setBrdViews(rs.getInt("brdViews"));
 
-				dto.setUserId(rs.getString("userId"));
-				dto.setUserTel(rs.getString("tel"));
-				dto.setUserRank(rs.getString("RANK"));
+	            dto.setUserId(rs.getString("userId"));
+	            dto.setUserTel(rs.getString("tel"));
+	            dto.setUserRank(rs.getString("userRank")); 
+	            list.add(dto);
+	        }
+	    } catch (SQLException | NamingException e) {
+	        System.err.println("BoardDAO - getBoardList 오류: " + e.getMessage());
+	        throw e;
+	    }
 
-				list.add(dto);
-			}
-		} catch (SQLException | NamingException e) {
-			System.err.println("BoardDAO - getBoardList 오류: " + e.getMessage());
-			throw e;
-		}
-
-		return list;
+	    return list;
 	}
 
 	// 글 상세 보기
@@ -148,6 +153,27 @@ public class BoardDAO {
 		}
 	}
 
-
+	// 게시물 검색
+	public List<BoardDTO> searchBoard(String keyword) throws SQLException, Exception {
+		List<BoardDTO> list = new ArrayList<>();
+		String sql = "SELECT * FROM board WHERE brdTitle LIKE ? OR brdContent LIKE ? ORDER BY brdDate DESC";
+		try (Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setString(1, "%" + keyword + "%");
+			pstmt.setString(2, "%" + keyword + "%");
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				BoardDTO dto = new BoardDTO();
+				dto.setBrdID(rs.getInt("brdID"));
+				dto.setBrdTitle(rs.getString("brdTitle"));
+				dto.setBrdContent(rs.getString("brdContent"));
+				dto.setBrdDate(rs.getTimestamp("brdDate"));
+				dto.setBrdViews(rs.getInt("brdViews"));
+				dto.setKusID(rs.getString("kusID"));
+				list.add(dto);
+			}
+		}
+		return list;
+	}
 
 }

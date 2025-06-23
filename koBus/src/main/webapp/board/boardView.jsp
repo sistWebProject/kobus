@@ -103,9 +103,9 @@
 			<div class="board-view-header">
 				<h2>${dto.brdTitle}</h2>
 				<div class="board-view-meta">
-					<span>작성자: ${dto.kusID}</span>
-					<span>작성일: <fmt:formatDate value="${dto.brdDate}" pattern="yyyy-MM-dd HH:mm:ss" /></span>
-					<span>조회수: ${dto.brdViews}</span>
+					<span>작성자: ${dto.userId}</span> <span>작성일: <fmt:formatDate
+							value="${dto.brdDate}" pattern="yyyy-MM-dd HH:mm:ss" /></span> <span>조회수:
+						${dto.brdViews}</span>
 				</div>
 			</div>
 
@@ -113,16 +113,37 @@
 				<p>${dto.brdContent}</p>
 			</div>
 
-			<!-- 수정/삭제 버튼 -->
 			<div class="board-view-actions">
 				<a href="boardList.do" class="btn">목록</a>
-				<c:if test="${sessionScope.auth eq dto.kusID}">
+				<c:if test="${loginKusID eq dto.kusID}">
 					<a href="boardEdit.do?brdID=${dto.brdID}" class="btn edit">수정</a>
 					<a href="boardDelete.do?brdID=${dto.brdID}" class="btn delete"
-					   onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
+						onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
 				</c:if>
 			</div>
+			<!-- 댓글 작성 폼 -->
+			<div class="comment-write" style="margin-top: 30px;">
+<form action="replyWrite.do" method="post">
+    <input type="hidden" name="brdID" value="${dto.brdID}">
+    <textarea name="content" required></textarea>
+    <button type="submit">댓글 등록</button>
+</form>
 
+
+			</div>
+
+			<!-- 댓글 목록 출력 -->
+			<div class="comment-list" style="margin-top: 20px;">
+				<h4>댓글</h4>
+				<c:forEach var="comment" items="${commentList}">
+					<div style="border-bottom: 1px solid #ccc; padding: 8px 0;">
+						<strong>${comment.kusID}</strong>
+ <span
+							style="font-size: 12px; color: gray;">${comment.cmtDate}</span>
+						<p>${comment.cmtContent}</p>
+					</div>
+				</c:forEach>
+			</div>
 		</div>
 	</div>
 </body>
