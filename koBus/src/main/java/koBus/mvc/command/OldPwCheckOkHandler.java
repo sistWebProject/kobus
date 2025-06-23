@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 
 import com.util.ConnectionProvider;
 
+import koBus.mvc.persistence.LogonDAO;
+import koBus.mvc.persistence.LogonDAOImpl;
 import koBus.mvc.persistence.MyPageDAO;
 import koBus.mvc.persistence.MyPageDAOImpl;
 
@@ -31,14 +33,18 @@ public class OldPwCheckOkHandler implements CommandHandler {
 		
 		Connection conn = ConnectionProvider.getConnection();
 		MyPageDAO dao = new MyPageDAOImpl(conn);
+		LogonDAO logDao = new LogonDAOImpl(conn);
 		
 		
 		try {
 			
+			String encryptPasswd = logDao.encrypt(inputPw);
 			String oldPw = dao.getOldPw(auth);
+			
+			System.out.println("encryptPasswd: " + encryptPasswd );
 			System.out.println("oldPw: " + oldPw );
 			
-			if (inputPw.equals(oldPw)) {
+			if (encryptPasswd.equals(oldPw)) {
 				result="success";
 				System.out.println(result);
 				response.setContentType("text/plain; charset=UTF-8");

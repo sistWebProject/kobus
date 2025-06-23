@@ -1,5 +1,7 @@
 package koBus.mvc.persistence;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -37,11 +39,13 @@ public class LogonDAOImpl implements LogonDAO {
 	    int result = 0;
 	    
 	    String sql = "SELECT id FROM kobususer WHERE id = ? AND passwd = ? ";
+	    String encryptPasswd =  encrypt(inputPasswd);
+	    System.out.println("암호화된 pw : " + encryptPasswd);
 	    
 	    try {
 	        this.pstmt = conn.prepareStatement(sql);
 	        this.pstmt.setString(1, inputId.trim());
-	        this.pstmt.setString(2, inputPasswd.trim());
+	        this.pstmt.setString(2, encryptPasswd.trim());
 	        
 	        this.rs = this.pstmt.executeQuery();
 	        	        
@@ -90,5 +94,29 @@ public class LogonDAOImpl implements LogonDAO {
 	    
 		return result;
 	}
+	
+	// 비밀번호 암호화하는 함수
+	@Override
+	public String encrypt(String inputPasswd) throws SQLException {
+		
+		  try {
+	            // SHA-256 해시 객체 생성
+	            MessageDigest md = MessageDigest.getInstance("SHA-256");
 
-}
+	            // 입력 문자열을 바이트 배열로 변환 후 해시 수행
+	            byte[] hashedBytes = md.digest(inputPasswd.getBytes());
+
+	            // 바이트 배열을 16진수 문자열로 변환
+	            StringBuilder sb = new StringBuilder();
+	            for (byte b : hashedBytes) {
+	                sb.append(String.format("%02x", b));  // 2자리 16진수로 포맷팅
+	            }
+
+	            return sb.toString();
+
+	        } catch (NoSuchAlgorithmException e) {
+	            throw new RuntimeException("암호화 알고리즘 에러: " + e.getMessage());
+	        }
+	    }
+	}
+
