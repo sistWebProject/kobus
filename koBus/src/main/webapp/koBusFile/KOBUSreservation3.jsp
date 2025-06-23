@@ -9,26 +9,33 @@
    #datepicker1, #datepicker2 {
       display:none;
    }
+   .remodal.pop_place.full {
+    max-height: 90vh;
+    height: auto !important;
+    overflow-y: auto;
+}
 </style>
-<html lang="ko" class="pc"><head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
-	
-		
-		
-			<title>예매정보입력(노선조회) | 고속버스예매 | 고속버스예매 | 고속버스통합예매</title>
-		
-		
-		
-		
-		
-	
-	
-	
-	<link rel="shortcut icon" href="/images/favicon.ico">
-	
-		
+<html lang="ko" class="pc">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+
+
+<title>예매정보입력(노선조회) | 고속버스예매 | 고속버스예매 | 고속버스통합예매</title>
+
+
+
+
+
+
+
+
+<link rel="shortcut icon" href="/images/favicon.ico">
+
+
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript" src="/koBus/js/jquery-1.12.4.min.js"></script>
@@ -39,7 +46,8 @@
 </script>
 
 
-<link rel="stylesheet" type="text/css" href="/koBus/css/ui.jqgrid.custom.css">
+<link rel="stylesheet" type="text/css"
+	href="/koBus/css/ui.jqgrid.custom.css">
 
 <script>
      $( function() {
@@ -53,140 +61,45 @@
  });
 </script>
 
-<script type="text/javascript">
-//쿠키 가져오기
-function getCookie( name ) {
-	var nameOfCookie = name + "=";
-	var x = 0;
-	while ( x <= document.cookie.length ) {
-		var y = (x+nameOfCookie.length);
-		if ( document.cookie.substring( x, y ) == nameOfCookie ) { 
-			if ( (endOfCookie=document.cookie.indexOf( ";", y )) == -1 ) {
-				endOfCookie = document.cookie.length;
-			}
-			return unescape( document.cookie.substring( y, endOfCookie ) );
-		}
-		x = document.cookie.indexOf( " ", x ) + 1;
-		if ( x == 0 ) {
-			break;
-		}
-	}
-	return ""; 
-}
-//쿠키 넣기
-function setCookie( name, value, expiredays ) {
-	var todayDate = new Date();
-	todayDate.setDate( todayDate.getDate() + expiredays );
-	document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
-}
-
-// 상단 네비게이션, 모바일 좌측, 모바일 하단 언어선택 설정
-var lngCdCookie = getCookie("LNG_CD");
-
-lngCdCookie = (lngCdCookie != null && lngCdCookie != undefined && lngCdCookie != "") ? lngCdCookie : "";
-var lngCd = (lngCdCookie == "EN" || lngCdCookie == "CN" || lngCdCookie == "JP" || lngCdCookie == "KO") ? lngCdCookie : "KO";
-$(document).ready(function() {
-	if (navigator.userAgent.toUpperCase().indexOf("MSIE 5") >= 0 || navigator.userAgent.toUpperCase().indexOf("MSIE 6") >= 0 || navigator.userAgent.toUpperCase().indexOf("MSIE 7") >= 0 || navigator.userAgent.toUpperCase().indexOf("MSIE 8") >= 0) {
-		// IE 8 이하
-		if (location.href.indexOf("/underIE8.do") < 0) {
-			// IE 8 이하 페이지 아님
-			location.href = "/underIE8.do";
-			return false;
-		}
-	}
-	if (window.innerWidth < 768) {
-		setCookie("IS_MOBILE_YN_WIDTH","Y",365);
-		if (lngCd == "KO" && location.href.indexOf("/cmn/") < 0 && 
-				location.href.indexOf("/underIE8.do") < 0 && 
-				location.href.indexOf("/mrs/mrsrecppub.do") < 0 && 
-				location.href.indexOf("/mrs/mrsrecppub4.do") < 0 && 
-				location.href.indexOf("/mrs/mrsmbltck.do") < 0 &&
-				location.href.indexOf("/mrs/acntpympup.do") < 0 && 		// 계좌이체
-				location.href.indexOf("/mrs/pay") < 0 && 				// 간편결제
-				location.href.indexOf("/adtnprdnew/prchpt/adtnrecppubmbl.do") < 0 && 
-				location.href.indexOf("/adtnprdnew/frps/frpsPrchGdMbl.do") < 0 &&
-				location.href.indexOf("/mbrs/mbrsscsn.do") < 0) {
-			/* location.href = "/mblIdx.do"; */
-			return false;
-		}
-	} else {
-		setCookie("IS_MOBILE_YN_WIDTH","N",365);
-	}
-	// 타이틀 수정
-	if ($("h2").length > 0) {
-		$("title").text($("title").text() + " - " + $("h2:eq(0)").text());
-	}
-	var $objBody = $("body");
-	if (!($objBody.hasClass("KO") || $objBody.hasClass("EN") ||  $objBody.hasClass("CN") ||  $objBody.hasClass("JP"))) {
-		$objBody.addClass(lngCd);
-	}
-	
-	
-	/* asis */
-	$("#lng_cd_navi option[value='" + lngCd + "'],#lng_cd_foot option[value='" + lngCd + "']").attr("selected","selected");
-	$("#lng_cd_navi,#lng_cd_foot").unbind("change").bind("change",function() {
-		var tempCd = this.value;
-		lngCd = (tempCd != null && tempCd != undefined && tempCd != "" && (tempCd == "EN" || tempCd == "CN" || tempCd == "JP" || tempCd == "KO")) ? tempCd : "KO";
-		setCookie("LNG_CD",lngCd,1);
-		lngCdCookie = lngCd;
-		//document.location.reload();
-		location.href = "/main.do";
-	});
-	
-	
-});
-
-
-if (lngCd == "KO") {
-	var dt = new Date();		//오늘날짜 전체
-	var yyyy  = dt.getFullYear();		//선택한 년도
-	var mm    = dt.getMonth()+1;		//선택한 월
-	var mm2Len = Number(mm) < 10 ? "0"+mm : mm;			// 선택ㅡㅜ?ㅌ월 ex:01 두글자로 변환
-	var ddTo    = Number(dt.getDate()) < 10 ? "0"+dt.getDate() : dt.getDate(); 			// 숫자형
-	var yymmddD0 = yyyy+""+mm2Len+""+ddTo;		//오늘날짜
-	
-	var url = window.location.pathname;
-
-	if (yymmddD0 < 20200128) {
-		if (url == "/main.do")
-			location.href="/mainExp.do";
-	}
-}
-
-</script>
 <script type="text/javascript" src="/koBus/js/common/ui.js"></script>
 <script type="text/javascript" src="/koBus/js/plugin.js"></script>
 <script type="text/javascript" src="/koBus/js/common.js"></script>
 
 <script type="text/javascript" src="/koBus/js/jquery/jquery.number.js"></script>
 <script type="text/javascript" src="/koBus/js/security.js"></script>
-	
-	
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" type="text/css" href="/koBus/css/kor/style.css"><script type="text/javascript" src="/koBus/js/kor/new-kor-ui.js?v=0102.0"></script></head>
 
-<%@ include file="common/header.jsp" %>
-	
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="/koBus/css/common/style.css">
+<script type="text/javascript"
+	src="/koBus/js/kor/new-kor-ui.js?v=0102.0"></script>
+</head>
+
+
 
 
 
 <script>
-$(document).ready(function () {
-	var langCd = 'KO';
-	var langLi = $(".dropdown-wrap.lang-select .dropdown-list li");
-	$.each(langLi, function (ix, el) {
-		var langItem = $(el).children('a');
-		var lang  = langItem.data('lang');
-		if (langCd == lang){
-			dropdown_process(langItem);
-		}
+	$(document).ready(function() {
+		var langCd = 'KO';
+		var langLi = $(".dropdown-wrap.lang-select .dropdown-list li");
+		$.each(langLi, function(ix, el) {
+			var langItem = $(el).children('a');
+			var lang = langItem.data('lang');
+			if (langCd == lang) {
+				dropdown_process(langItem);
+			}
+		});
+
+		$('.title_wrap').hide();
 	});
-	
-	$('.title_wrap').hide();
-});
 </script>
 
 
 
+<body class="main KO" style="">
+<%@ include file="common/header.jsp" %>
+	
 
 
 <!-- 브레드크럼 -->
@@ -501,29 +414,6 @@ $(document).ready(function () {
 	
 			<div class="title_wrap in_process route_chk ticketingT" style="display: none;">
 				
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-
-
 
 
 
@@ -1086,38 +976,69 @@ $(document).ready(function () {
 	</div>
 
 
-	
 
 
 
 
 
-<div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"><div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div></div><div class="remodal-overlay remodal-is-closed" style="display: none;"></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div class="remodal pop_place full remodal-is-initialized remodal-is-closed" data-remodal-id="popPlace" role="dialog" tabindex="-1">
+
+	<div
+		style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+		<div
+			style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+	</div>
+	<div class="remodal-overlay remodal-is-closed" style="display: none;"></div>
+	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
+		<div
+			class="remodal pop_place full remodal-is-initialized remodal-is-closed"
+			data-remodal-id="popPlace" role="dialog" tabindex="-1">
 			<div class="title">
 				<h2 id="popTitle">출/도착지 선택</h2>
 			</div>
 			<div class="cont">
 				<div class="search_wrap" style="display: none;">
-					<p> <!--  class="focus" -->
-						<div class="easy-autocomplete" style="width: 100px;"><input type="text" id="terminalSearch" title="터미널/지역 이름 검색" placeholder="터미널/지역 이름을 검색하세요" autocomplete="off"><div class="easy-autocomplete-container" id="eac-container-terminalSearch"><ul></ul></div></div><span class="btn">검색</span>
+					<p>
+						<!--  class="focus" -->
+					<div class="easy-autocomplete" style="width: 100px;">
+						<input type="text" id="terminalSearch" title="터미널/지역 이름 검색"
+							placeholder="터미널/지역 이름을 검색하세요" autocomplete="off">
+						<div class="easy-autocomplete-container"
+							id="eac-container-terminalSearch">
+							<ul></ul>
+						</div>
+					</div>
+					<span class="btn">검색</span>
 					</p>
 				</div>
 				<div class="start_wrap" id="imptDepr" style="display: block;">
 					<h3 class="stit">주요출발지</h3>
-			        <div class="tags">
-			            <button type="button" onclick="fnDeprChc('REG002','서울 경부')" name="imptDeprNm" value="REG002">서울 경부</button>
-			            <button type="button" onclick="fnDeprChc('REG003','센트럴시티(서울)')" name="imptDeprNm" value="REG003" class="over">센트럴시티(서울)</button>
-			            <button type="button" onclick="fnDeprChc('REG139','광주(유·스퀘어)')" name="imptDeprNm" value="REG139">광주(유·스퀘어)</button> <!--  class="active" --> 
-			            <button type="button" onclick="fnDeprChc('REG041','부산')" name="imptDeprNm" value="REG041">부산</button>
-			            <button type="button" onclick="fnDeprChc('REG042','서부산')" name="imptDeprNm" value="REG042">서부산</button>
-			            <button type="button" onclick="fnDeprChc('REG001','동서울')" name="imptDeprNm" value="REG001">동서울</button>
-			            <button type="button" onclick="fnDeprChc('REG031','대전')" name="imptDeprNm" value="REG031">대전</button>
-			            <button type="button" onclick="fnDeprChc('REG068','전주')" name="imptDeprNm" value="REG068">전주</button>
-			            <button type="button" onclick="fnDeprChc('REG007','인천공항')" name="imptDeprNm" value="REG007">인천공항</button>
-			            <button type="button" onclick="fnDeprChc('REG033','천안')" name="imptDeprNm" value="REG033">천안</button>
-			            <button type="button" onclick="fnDeprChc('REG145','대구')" name="imptDeprNm" value="REG145">대구</button>
-			            <button type="button" onclick="fnDeprChc('REG009','성남')" name="imptDeprNm" value="REG009">성남</button>
-			        </div>
+					<div class="tags">
+						<button type="button" onclick="fnDeprChc('REG002','서울 경부')"
+							name="imptDeprNm" value="REG002">서울 경부</button>
+						<button type="button" onclick="fnDeprChc('REG003','센트럴시티(서울)')"
+							name="imptDeprNm" value="REG003" class="over">센트럴시티(서울)</button>
+						<button type="button" onclick="fnDeprChc('REG139','광주(유·스퀘어)')"
+							name="imptDeprNm" value="REG139">광주(유·스퀘어)</button>
+						<!--  class="active" -->
+						<button type="button" onclick="fnDeprChc('REG041','부산')"
+							name="imptDeprNm" value="REG041">부산</button>
+						<button type="button" onclick="fnDeprChc('REG042','서부산')"
+							name="imptDeprNm" value="REG042">서부산</button>
+						<button type="button" onclick="fnDeprChc('REG001','동서울')"
+							name="imptDeprNm" value="REG001">동서울</button>
+						<button type="button" onclick="fnDeprChc('REG031','대전')"
+							name="imptDeprNm" value="REG031">대전</button>
+						<button type="button" onclick="fnDeprChc('REG068','전주')"
+							name="imptDeprNm" value="REG068">전주</button>
+						<button type="button" onclick="fnDeprChc('REG007','인천공항')"
+							name="imptDeprNm" value="REG007">인천공항</button>
+						<button type="button" onclick="fnDeprChc('REG033','천안')"
+							name="imptDeprNm" value="REG033">천안</button>
+						<button type="button" onclick="fnDeprChc('REG145','대구')"
+							name="imptDeprNm" value="REG145">대구</button>
+						<button type="button" onclick="fnDeprChc('REG009','성남')"
+							name="imptDeprNm" value="REG009">성남</button>
+					</div>
 				</div>
 				<!-- 지역별 터미널 모달창 연동 JSP 코드 -->
 				<div class="terminal_wrap">
@@ -1149,11 +1070,27 @@ $(document).ready(function () {
 										onclick="fnDeprArvlViewList('27');">대구/경북</button></li>
 							</ul>
 						</div>
+						<div class="scroll-element scroll-x">
+								<div class="scroll-element_outer">
+									<div class="scroll-element_size"></div>
+									<div class="scroll-element_track"></div>
+									<div class="scroll-bar"></div>
+								</div>
+							</div>
+							<div class="scroll-element scroll-y">
+								<div class="scroll-element_outer">
+									<div class="scroll-element_size"></div>
+									<div class="scroll-element_track"></div>
+									<div class="scroll-bar"></div>
+								</div>
+							</div>
 
 						<!-- 터미널 리스트 출력 -->
 						<div class="terminal_list" id="terminalList">
 							<h4 class="sr-only">지역별 터미널 목록</h4>
-							<div class="terminal_scroll scrollbar-inner">
+							<div class="terminal_scroll scrollbar-inner" style="position: relative;">
+								<div class="terminal_scroll scrollbar-inner scroll-content"
+									style="height: 420px; margin-bottom: 0px; margin-right: 0px; max-height: none;">
 								<ul class="clear" id="tableTrmList">
 									<!-- JS에서 동적으로 터미널 버튼 삽입 -->
 								</ul>
@@ -1161,8 +1098,39 @@ $(document).ready(function () {
 						</div>
 					</div>
 				</div>
-				
-			
+			</div>
+		
+
+
+
+				<!--  원래위치 -->
+				<div class="place">
+					<!-- focus -->
+					<ul>
+						<li id="popDeprChc" class="focuson">
+							<!--  class="focuson" -->
+							<div class="start-title">
+								<span class="stit">출발지</span>
+								<p class="text empty">
+									<span class="val_txt" id="popDeprNmSpn"></span>
+								</p>
+							</div>
+						</li>
+						<li id="popArvlChc">
+							<div class="end-title">
+								<span class="stit">도착지</span>
+								<p class="text empty">
+									<span class="val_txt" id="popArvlNmSpn"></span>
+								</p>
+							</div>
+						</li>
+					</ul>
+					<!-- <button type="button" class="btn_change" onclick="fnCrchDeprArvl();" id="chgDeprArvl">
+						<span class="sr-only">출발지, 도착지 교체</span>
+					</button> -->
+				</div>
+
+
 				<script>
 				var cmdType = "";
 				
@@ -1222,12 +1190,10 @@ $(document).ready(function () {
 						$("#deprCd").val(regID);
 						$("#deprNm").val(regName);
 						
-						$("#cfmBtn").removeAttr("disabled").addClass("active");
+						/* $("#cfmBtn").removeAttr("disabled").addClass("active");
 						$("#cfmBtn").css("background-color", "#003087"); // 파란색 버튼처럼
 						$("#cfmBtn").css("color", "#fff");
-						
-						
-
+ */
 					}
 					
 					
@@ -1247,36 +1213,20 @@ $(document).ready(function () {
 					}
 
 				</script>
-				
-			
-				
 
-<!--  원래위치 -->
-				<div class="place"> <!-- focus -->
-					<ul>
-						<li id="popDeprChc" class="focuson"> <!--  class="focuson" -->
-							<div class="start-title">
-								<span class="stit">출발지</span>
-								<p class="text empty"><span class="val_txt" id="popDeprNmSpn"></span></p>
-							</div>
-						</li>
-						<li id="popArvlChc">
-							<div class="end-title">
-								<span class="stit">도착지</span>
-								<p class="text empty"><span class="val_txt" id="popArvlNmSpn"></span></p>
-							</div>
-						</li>
-					</ul>
-					<!-- <button type="button" class="btn_change" onclick="fnCrchDeprArvl();" id="chgDeprArvl">
-						<span class="sr-only">출발지, 도착지 교체</span>
-					</button> -->
-				</div>
 			</div>
- 			<div class="btns">
-				<button type="button" data-remodal-action="confirm" class="remodal-confirm ready" id="cfmBtn" onclick="fncfmBtnChc()">선택완료</button>
+			<div class="btns">
+				<button type="button" data-remodal-action="confirm"
+					class="remodal-confirm ready" id="cfmBtn" onclick="fncfmBtnChc()">선택완료</button>
 			</div>
-				<button type="button" data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
-		</div></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div id="mobileInfoPup" class="remodal pop_tmoney remodal-is-initialized remodal-is-closed" data-remodal-id="popTmoney" role="dialog" tabindex="-1">
+			<button type="button" data-remodal-action="close"
+				class="remodal-close">
+				<span class="sr-only">닫기</span>
+			</button>
+		</div>
+	</div>
+	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
+	<div id="mobileInfoPup" class="remodal pop_tmoney remodal-is-initialized remodal-is-closed" data-remodal-id="popTmoney" role="dialog" tabindex="-1">
 			<div class="title">
 				<h2>모바일티머니 <span>고속버스</span> 예매안내</h2>
 			</div>
