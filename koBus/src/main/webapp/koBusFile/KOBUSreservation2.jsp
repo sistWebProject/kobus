@@ -12,120 +12,6 @@ System.out.println(">> busrank: " + request.getParameter("busClsCd"));
 	display: none;
 }
 
-/* 전체 배차 행 레이아웃 */
-p[role="row"] {
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	border-bottom: 1px solid #ddd;
-	padding: 10px;
-	font-family: 'Malgun Gothic', sans-serif;
-	gap: 10px;
-}
-
-/* 링크 스타일 초기화 */
-p[role="row"] a {
-	text-decoration: none;
-	display: flex;
-	flex-wrap: nowrap;
-	width: 100%;
-	color: #333;
-	align-items: center;
-}
-
-/* 출발시간 */
-.start_time {
-	width: 80px;
-	font-size: 1.1em;
-	font-weight: bold;
-	color: #222;
-}
-
-/* 고속사 + 등급 묶음 */
-.bus_info {
-	width: 120px;
-	display: flex;
-	flex-direction: column;
-}
-
-/* 고속사 이름 */
-.dongbu {
-	color: #0066cc;
-	font-weight: bold;
-}
-
-/* 등급 (mobile용) */
-.grade_mo {
-	background: #e0e0e0;
-	border-radius: 4px;
-	padding: 2px 6px;
-	font-size: 0.85em;
-	margin-top: 2px;
-}
-
-/* PC용 등급 */
-.grade {
-	width: 100px;
-	font-weight: bold;
-	color: #555;
-}
-
-/* 고속사 명 (PC용) */
-.bus_com {
-	width: 120px;
-	color: #333;
-}
-
-/* 요금 정보 */
-.temp {
-	width: 100px;
-	text-align: right;
-	font-size: 0.9em;
-	color: #d00;
-}
-
-/* 매진/선택 상태 색 */
-.sale_color {
-	font-weight: bold;
-	color: #cc0000;
-}
-
-/* 잔여석 */
-.remain {
-	width: 80px;
-	font-size: 0.9em;
-	color: #333;
-	text-align: right;
-}
-
-/* 선택 버튼 영역 */
-.status {
-	width: 80px;
-	text-align: right;
-}
-
-/* 선택 버튼 스타일 */
-.accent.btn_arrow {
-	background-color: #0066cc;
-	color: white;
-	padding: 6px 12px;
-	border-radius: 4px;
-	font-weight: bold;
-	font-size: 0.95em;
-	cursor: pointer;
-	transition: background-color 0.3s;
-}
-
-.accent.btn_arrow:hover {
-	background-color: #004c99;
-}
-
-/* 매진 또는 과거시간: 비활성화 표시 */
-.bus_time.disabled {
-	opacity: 0.5;
-	pointer-events: none;
-}
-
 </style>
 <html class="pc" lang="ko">
 <head>
@@ -146,136 +32,11 @@ p[role="row"] a {
 	type="text/css" />
 <script src="/koBus/js/jquery-1.12.4.min.js" type="text/javascript"></script>
 
-
+<script type="text/javascript" src="/koBus/js/OprnAlcnInqr.js"></script>
+<script type="text/javascript" src="/koBus/js/OprnAlcnInqrPup.js"></script>
+<script type="text/javascript" src="/koBus/js/SatsChc.js"></script>
 
 <%-- 
-<script>
-$(document).ready(function () {
-	
-	console.log("KOBUSreservation2.jsp - deprCd:", $("#deprCd").val());
-    console.log("KOBUSreservation2.jsp - arvlCd:", $("#arvlCd").val());
-    
-    const deprCd = $("#deprCd").val();
-    const arvlCd = $("#arvlCd").val();
-    
-    if (deprCd && arvlCd) {
-        $.ajax({
-            url: "<%=request.getContextPath()%>/getDuration.ajax",
-            type: "GET",
-            data: {
-                ajax: "true",                 // ✔ 필수
-                ajaxType: "getDuration",     // ✔ 정확히 입력
-                deprCd: deprCd,
-                arvlCd: arvlCd,
-                sourcePage: "KOBUSreservation3.jsp"
-            },
-            dataType: "json",
-            success: function (data) {
-                if (data.duration !== undefined && data.duration > 0) {
-                    const hours = Math.floor(data.duration / 60);
-                    const minutes = data.duration % 60;
-                    let timeText = "";
-                    if (hours > 0) timeText += `\${hours}시간 `;
-                    if (minutes > 0) timeText += `\${minutes}분 `;
-                    timeText += "소요";
-                    $("#takeDrtm").text(timeText);
-                } else {
-                    $("#takeDrtm").text("소요시간 없음");
-                }
-            },
-            error: function () {
-                $("#takeDrtm").text("조회 실패");
-            }
-        });
-    }
-});
-
-</script> --%>
-<%-- 
-<script>
-$(document).ready(function () {
-    const deprCd = $("#deprCd").val();
-    const arvlCd = $("#arvlCd").val();
-    const deprDtm = $("#deprDtm").val();
-    const busClsCd = $("#busClsCd").val();
-
-    // ✅ 1. 소요시간 먼저 가져오기 (getDuration)
-    if (deprCd && arvlCd) {
-        $.ajax({
-            url: "<%=request.getContextPath()%>/getDuration.ajax",
-            type: "GET",
-            data: {
-                ajax: "true",
-                ajaxType: "getDuration",
-                deprCd: deprCd,
-                arvlCd: arvlCd,
-                sourcePage: "KOBUSreservation3.jsp"
-            },
-            dataType: "json",
-            success: function (data) {
-                const duration = data.duration;
-                if (duration && duration > 0) {
-                    const hours = Math.floor(duration / 60);
-                    const minutes = duration % 60;
-                    let timeText = "";
-                    if (hours > 0) timeText += `\${hours}시간 `;
-                    if (minutes > 0) timeText += `\${minutes}분 `;
-                    timeText += "소요";
-                    $("#takeDrtm").text(timeText);
-                } else {
-                    $("#takeDrtm").text("소요시간 없음");
-                }
-            },
-            error: function () {
-                $("#takeDrtm").text("소요시간 조회 실패");
-            }
-        });
-    }
-
-    // ✅ 2. 배차 리스트 가져오기 (searchSch)
-    if (deprCd && arvlCd && deprDtm) {
-        $.ajax({
-            url: "<%=request.getContextPath()%>/getDuration.ajax",
-            type: "GET",
-            data: {
-                ajax: "true",
-                ajaxType: "searchSch",
-                deprCd: deprCd,
-                arvlCd: arvlCd,
-                deprDtm: deprDtm,
-                busClsCd: busClsCd,
-                sourcePage: "KOBUSreservation3.jsp"
-            },
-            dataType: "json",
-            success: function (data) {
-                $("#resultArea").empty();
-
-                data.alcnAllList.forEach(item => {
-                    const html = `
-                        <p class="result-row" data-time="\${item.DEPR_TIME_DVS.replace(':', '')}">
-                            <a href="javascript:void(0)" onclick="fnSatsChc('\${item.DEPR_TIME_DVS}', '\${item.CACM_MN}', '\${item.BUS_CLS_NM}', '\${item.ADLT_FEE}', '\${item.RMN_SATS_NUM}')">
-                                <span class="start_time">\${item.DEPR_TIME_DVS}</span>
-                                <span class="bus_info">
-                                    <span class="com_name">\${item.CACM_MN}</span>
-                                    <span class="grade">\${item.BUS_CLS_NM}</span>
-                                </span>
-                                <span class="price">\${item.ADLT_FEE.toLocaleString()}원</span>
-                                <span class="remain">\${item.RMN_SATS_NUM}석</span>
-                                <span class="select_btn">선택</span>
-                            </a>
-                        </p>`;
-                    $("#resultArea").append(html);
-                });
-            },
-            error: function () {
-                $("#resultArea").html("<p>배차 정보 조회 실패</p>");
-            }
-        });
-    }
-});
-</script>
---%>
-
 <script>
 $(document).ready(function () {
     const deprCd = $("#deprCd").val();
@@ -283,7 +44,7 @@ $(document).ready(function () {
     const deprDtm = $("#deprDtm").val();   // yyyy.MM.dd 형식
     const busClsCd = $("#busClsCd").val();
 
-    // ✅ 1. 소요시간 먼저 조회
+    //1. 소요시간 먼저 조회
     if (deprCd && arvlCd) {
         $.ajax({
             url: "<%=request.getContextPath()%>/getDuration.ajax",
@@ -315,8 +76,8 @@ $(document).ready(function () {
             }
         });
     }
-
-    //2. 배차 리스트 조회
+	우등, 프리미엄, 일반
+    // 2. 배차 리스트 조회
     if (deprCd && arvlCd && deprDtm) {
         $.ajax({
             url: "<%=request.getContextPath()%>/getDuration.ajax",
@@ -342,12 +103,10 @@ $(document).ready(function () {
 
                 data.alcnAllList.forEach(item => {
                     const deprTimeStr = item.DEPR_TIME_DVS; // "06:45"
-                    
                     const dateStr = deprDtm.replace(/\./g, '-').trim(); // "2025.6.22" → "2025-6-22"
                     const fullTime = new Date(`${dateStr}T${deprTimeStr}:00`);
-                    console.log("DEPR_TIME_DVS:", item.DEPR_TIME_DVS);
-
                     const diffMin = (fullTime - now) / 1000 / 60;
+
                     const isPast = diffMin <= 0;
                     const isSoon = diffMin <= 60 && diffMin > 0;
                     const isSoldOut = item.RMN_SATS_NUM == 0;
@@ -356,12 +115,14 @@ $(document).ready(function () {
                     const statusText = isSoldOut ? "매진" : (isSoon ? "모바일예매" : "선택");
 
                     const html = `
-                        <p class="bus_time \${rowClass}" role="row" data-time="\${item.DEPR_TIME_DVS.replace(':', '')}">
-                            <a href="javascript:void(0)" \${isPast || isSoldOut ? 'class="disabled"' : ''}>
-                                <span class="start_time" role="cell">\${item.DEPR_TIME_DVS}</span>
+                        <p class="bus_time ${rowClass}" role="row" data-time="${deprTimeStr}" 
+                            data-deprTrmlNo="${item.DEPR_TRML_NO}" 
+                            data-arvlTrmlNo="${item.ARVL_TRML_NO}">
+                            <a href="javascript:void(0)" ${isPast || isSoldOut ? 'class="disabled"' : ''}>
+                                <span class="start_time" role="cell">\${deprTimeStr}</span>
                                 <span class="bus_info" role="cell">
                                     <span class="dongbu">\${item.CACM_MN}</span>
-                                    <span class="grade_mo">\${item.BUS_CLS_NM}</span>
+                                    <span class="grade_mo"\>${item.BUS_CLS_NM}</span>
                                 </span>
                                 <span class="bus_com" role="cell">\${item.CACM_MN}</span>
                                 <span class="grade" role="cell">\${item.BUS_CLS_NM}</span>
@@ -374,6 +135,165 @@ $(document).ready(function () {
                         </p>`;
                     $("#resultArea").append(html);
                 });
+
+                //3. 클릭 시 출발시간을 deprTime에 설정
+                $(document).on("click", ".bus_time:not(.disabled) a", function () {
+                    const $parent = $(this).closest(".bus_time");
+                    const deprTime = $parent.data("time"); // ex: "06:45"
+                    const deprTrmlNo = $parent.data("deprtrmlno");
+                    const arvlTrmlNo = $parent.data("arvltrmlno");
+
+                    $("#deprTime").val(deprTime);
+                    $("#alcnDeprTime").val(deprTime);
+                    $("#alcnDeprTrmlNo").val(deprTrmlNo);
+                    $("#alcnArvlTrmlNo").val(arvlTrmlNo);
+
+                    console.log("선택된 출발시각:", deprTime);
+                });
+            },
+            error: function () {
+                $("#resultArea").html("<p>배차 정보 조회 실패</p>");
+            }
+        });
+    }
+});
+</script>
+--%>
+
+<script>
+
+$(document).ready(function () {
+    const deprCd = $("#deprCd").val();
+    const arvlCd = $("#arvlCd").val();
+    const deprDtm = $("#deprDtm").val();   // yyyy.MM.dd 형식
+    const busClsCd = $("#busClsCd").val();
+
+    // 1. 소요시간 먼저 조회
+    if (deprCd && arvlCd) {
+        $.ajax({
+            url: "<%=request.getContextPath()%>/getDuration.ajax",
+            type: "GET",
+            data: {
+                ajax: "true",
+                ajaxType: "getDuration",
+                deprCd: deprCd,
+                arvlCd: arvlCd,
+                sourcePage: "KOBUSreservation3.jsp"
+            },
+            dataType: "json",
+            success: function (data) {
+                const duration = data.duration;
+                if (duration && duration > 0) {
+                    const hours = Math.floor(duration / 60);
+                    const minutes = duration % 60;
+                    let timeText = "";
+                    if (hours > 0) timeText += `\${hours}시간 `;
+                    if (minutes > 0) timeText += `\${minutes}분 `;
+                    timeText += "소요";
+                    $("#takeDrtm").text(timeText);
+                } else {
+                    $("#takeDrtm").text("소요시간 없음");
+                }
+            },
+            error: function () {
+                $("#takeDrtm").text("소요시간 조회 실패");
+            }
+        });
+    }
+
+    // 2. 배차 리스트 조회
+    if (deprCd && arvlCd && deprDtm) {
+        $.ajax({
+            url: "<%=request.getContextPath()%>/getDuration.ajax",
+            type: "GET",
+            data: {
+                ajax: "true",
+                ajaxType: "searchSch",
+                deprCd: deprCd,
+                arvlCd: arvlCd,
+                deprDtm: deprDtm,
+                busClsCd: busClsCd,
+                sourcePage: "KOBUSreservation3.jsp"
+            },
+            dataType: "json",
+            success: function (data) {
+                $("#resultArea").empty();
+                const now = new Date();
+
+                if (!data.alcnAllList || data.alcnAllList.length === 0) {
+                    $("#resultArea").html("<p>조회된 배차 정보가 없습니다.</p>");
+                    return;
+                }
+
+                data.alcnAllList.forEach(item => {
+                    const deprTimeStr = item.DEPR_TIME_DVS; // "06:45"
+                    const dateStr = deprDtm.replace(/\./g, '-').trim(); // "2025.6.22" → "2025-6-22"
+                    const fullTime = new Date(`\${dateStr}T\${deprTimeStr}:00`);
+                    const diffMin = (fullTime - now) / 1000 / 60;
+
+                    const isPast = diffMin <= 0;
+                    const isSoon = diffMin <= 60 && diffMin > 0;
+                    const isSoldOut = item.RMN_SATS_NUM == 0;
+
+                    const rowClass = isPast || isSoldOut ? "disabled" : "";
+                    const statusText = isSoldOut ? "매진" : (isSoon ? "모바일예매" : "선택");
+
+                    const html = `
+                        <p class="schedule-row \${rowClass}" 
+                           data-deprDtm="\${item.DEPR_DATE} \${deprTimeStr}"
+                           data-comname="\${item.CACM_MN}"
+                           data-busClsCd="\${item.BUS_CLS_NM}"
+                           data-adultFare="\${item.ADLT_FEE}"
+                           data-seats="\${item.RMN_SATS_NUM}"
+                           data-deprtrmlno="\${item.DEPR_TRML_NO}"
+                           data-arvltrmlno="\${item.ARVL_TRML_NO}"
+                           role="row">
+                            <span class="start_time" role="cell" aria-labelledby="start_time_header">
+                                \${deprTimeStr}
+                            </span>
+                            <span class="bus_info" role="cell" aria-labelledby="bus_info_header">
+                                <span>\${item.CACM_MN}</span>
+                                <span class="grade_mo">\${item.BUS_CLS_NM}</span>
+                            </span>
+                            <span class="bus_com" role="cell" aria-labelledby="bus_com_header">
+                                <span>\${item.CACM_MN}</span>
+                            </span>
+                            <span class="grade" role="cell" aria-labelledby="grade_header">
+                                \${item.BUS_CLS_NM}
+                            </span>
+                            <span class="temp" role="cell" aria-labelledby="temp_header">
+                                \${item.ADLT_FEE.toLocaleString()}원
+                            </span>
+                            <span class="remain" role="cell" aria-labelledby="remain_header">
+                                \${item.RMN_SATS_NUM}석
+                            </span>
+                            <span class="status" role="cell" aria-labelledby="status_header">
+                                <input type="submit"
+                                       value="예매"
+                                       class="accent btn_arrow"
+                                       form="alcnSrchFrm"
+                                       formaction="/koBus/kobusSeat.do"
+                                       tabindex="-1">
+                            </span>
+                        </p>`;
+
+                    $("#resultArea").append(html);
+                });
+
+                // 클릭 시 값 세팅
+                $(document).on("click", ".schedule-row:not(.disabled)", function () {
+                    const deprDtm = $(this).data("deprdtm");
+                    const timePart = deprDtm.split(" ")[1];
+                    const deprTrmlNo = $(this).data("deprtrmlno");
+                    const arvlTrmlNo = $(this).data("arvltrmlno");
+
+                    $("#deprTime").val(timePart);
+                    $("#alcnDeprTime").val(timePart);
+                    $("#alcnDeprTrmlNo").val(deprTrmlNo);
+                    $("#alcnArvlTrmlNo").val(arvlTrmlNo);
+
+                    console.log("선택된 출발시각:", timePart);
+                });
             },
             error: function () {
                 $("#resultArea").html("<p>배차 정보 조회 실패</p>");
@@ -383,7 +303,26 @@ $(document).ready(function () {
 });
 </script>
 
+<script>
+$(document).ready(function () {
+    const deprDtm = $("#deprDtm").val(); // "2025.06.23" 형식
 
+    if (deprDtm) {
+        const parts = deprDtm.split(".");
+        const year = parseInt(parts[0]);
+        const month = parseInt(parts[1]) - 1; // JS는 0부터 시작
+        const day = parseInt(parts[2]);
+
+        const date = new Date(year, month, day);
+
+        const weekdayNames = ["일", "월", "화", "수", "목", "금", "토"];
+        const dayOfWeek = weekdayNames[date.getDay()];
+
+        const formattedDate = `\${year}. \${month + 1}. \${day}. \${dayOfWeek}`;
+        $("#rideDate").text(formattedDate); // ✅ 동적으로 라벨 변경
+    }
+});
+</script>
 
 
 <script type="text/javascript">
@@ -524,7 +463,7 @@ $(document).ready(function () {
 </script>
 <script src="/koBus/js/ui.js" type="text/javascript"></script>
 <script src="/koBus/js/plugin.js" type="text/javascript"></script>
-<script src="/koBus/js/common.js" type="text/javascript"></script>
+<!-- <script src="/koBus/js/common.js" type="text/javascript"></script> -->
 <script src="/koBus/js/jquery/jquery.number.js" type="text/javascript"></script>
 <script src="/koBus/js/security.js?v=0.3" type="text/javascript"></script>
 <script type="text/javascript" src="/koBus/js/common/ui.js"></script>
@@ -532,7 +471,7 @@ $(document).ready(function () {
 <script type="text/javascript" src="/koBus/js/common.js"></script>
 
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<link href="/koBus/css/kor/style.css" rel="stylesheet" type="text/css" />
+<link href="/koBus/css/common/style.css" rel="stylesheet" type="text/css" />
 <script src="/koBus/js/kor/new-kor-ui.js?v=0102.0"
 	type="text/javascript"></script>
 </head>
@@ -562,8 +501,61 @@ $(document).ready(function () {
 		$('.title_wrap').hide();
 	});
 </script>
+
+<!-- 25.06.23 추가 -------------------------------  -->
+<script>
+$("#reloadBtn").on("click", function () {
+    $("#alcnSrchFrm").submit();
+});
+</script>
+
+<script>
+$(document).on("click", ".time li a", function () {
+    const selectedHour = parseInt($(this).data("time"), 10); // 예: 9
+    let closestTime = null;
+    let closestEl = null;
+
+    $(".time li a").removeClass("on");
+    $(this).addClass("on");
+
+    $(".bus_time").each(function () {
+        const deprTimeStr = $(this).data("time"); // 예: "10:30"
+        if (!deprTimeStr) return;
+
+        // 시간 문자열을 분 단위로 변환: "10:30" → 630
+        const [hourStr, minStr] = deprTimeStr.split(":");
+        const totalMin = parseInt(hourStr, 10) * 60 + parseInt(minStr, 10);
+        const selectedMin = selectedHour * 60;
+
+        if (totalMin >= selectedMin) {
+            if (!closestTime || totalMin < closestTime) {
+                closestTime = totalMin;
+                closestEl = $(this);
+            }
+        }
+    });
+
+    if (closestEl) {
+        closestEl.find("a:not(.disabled)").trigger("click");
+
+        // 화면 이동 (선택사항)
+        $('html, body').animate({
+            scrollTop: closestEl.offset().top - 100
+        }, 300);
+    } else {
+        alert(`\${selectedHour}시 이후 배차가 없습니다.`);
+    }
+});
+</script>
+
+<!-- 25.06.23 추가 -------------------------------  -->
+
+
 <!-- 헤더 -->
-<%@ include file="common/header.jsp"%>
+<body class="main KO" style="">
+<%@ include file="common/header.jsp" %>
+	
+
 <!-- 브레드크럼 -->
 <nav id="new-kor-breadcrumb">
 	<div class="container">
@@ -792,21 +784,14 @@ $(document).ready(function () {
 				</div>
 				<!-- //좌측 infoBox -->
 				<!-- 우측 detailBox -->
-				<div class="detailBox">
-					<div class="detailBox_head col3">
-						<div class="box_refresh">
-							<button class="btn btn_refresh" id="reloadBtn" type="button">
-								<span class="ico_refresh"><span class="sr-only">새로고침</span></span>
-							</button>
-						</div>
-						<!-- <div class="head_date">
+				<!-- <div class="head_date">
 								<span class="date_cont" id="rideDate"></span>
 								<input type="text" id="busDate11" readonly>
 								<span class="calender" ></span>
 							</div> -->
 							
 							<!--  기존 코드  -->
-						<!--  <div class="head_date">
+						 <!-- <div class="head_date">
 							<input class="hasDatepicker" id="busDate11" readonly="" tabindex="-1" type="text" />
 							    <button class="datepicker-btn" type="button">
 								<img alt="날짜 선택 달력" class="ui-datepicker-trigger"
@@ -814,19 +799,27 @@ $(document).ready(function () {
 							   </button> 
 							<label class="date_cont" for="busDate11" id="rideDate">2025.
 								6. 17. 화</label>
-						</div> -->
+						</div>  -->
+				<div class="detailBox">
+					<div class="detailBox_head col3" style="min-height: 70px;">
+						<div class="box_refresh">
+							<button class="btn btn_refresh" id="reloadBtn" type="button">
+								<span class="ico_refresh"><span class="sr-only">새로고침</span></span>
+							</button>
+						</div>
+						
 						<div class="head_date">
 							<input id="busDate11" type="text" readonly style="display: none;">
 							<button class="datepicker-btn" type="button"
 								id="calendarTriggerBtn">
 								<img alt="날짜 선택 달력" src="/koBus/images/page/ico_calender.png" />
 							</button>
-							<label class="date_cont" for="busDate11" id="rideDate">2025.
-								6. 17. 화</label>
-						</div>
+							 <label class="date_cont" for="busDate11" id="rideDate">2025.
+								6. 17. 화</label> 
+							<%-- <label class="date_cont" for="busDate11" id="rideDate"><%= request.getParameter("deprDtm") %></label> --%>
+						</div> 
 					</div>
-
-					<script>
+					<!-- <script>
 						$(function() {
 							// DatePicker 적용
 							$("#busDate11").datepicker({
@@ -841,8 +834,7 @@ $(document).ready(function () {
 								$("#busDate11").datepicker("show");
 							});
 						});
-					</script>
-
+					</script> -->
 					<div class="detailBox_body clfix">
 						<ul class="time">
 							<li class="night"><a class="" data-time="01"
@@ -887,12 +879,10 @@ $(document).ready(function () {
 								<span class="status" id="status_header" role="columnheader"><span
 									class="sr-only">상태</span></span>
 							</p>
+							
 							<div aria-rowindex="1" class="bus_time" role="row">
 								<!-- 동양고속 class="dyexpress" 삼화고속 class="samhwa" 중앙고속 class="jabus" 금호고속 class="kumho" 천일고속 class="chunil" 한일고속 class="hanil" 동부고속 class="dongbu" 금호속리산고속 class="songnisan" 코버스 class="kobus" -->
-								<!-- yahan 20201019 응답값 기준으로 변경 -->
-								<!-- 서울경부-구미 (노선 분리 되어있지 않아 출발시간으로 체크) -->
-								<!-- 평택용이동-서울경부,평택대-서울경부 (출발지표기) -->
-								<!-- 동대구(801)-용인(150) (19.09.09) -->
+
 								<div class="noti" id="notiNoToday">
 									<!-- 현시점 기준 출발 5분~60분 남은 차량의 경우 배차정보는 노출하되 예매진행 불가처리하여 고속버스 모바일앱 안내 노출 -->
 									<p>
@@ -903,7 +893,7 @@ $(document).ready(function () {
 									</p>
 									<!-- <a href="http://www.epassmobile.co.kr" class="btnS btn_normal" target="_blank">고속버스 모바일앱</a> -->
 								</div>
-								
+								<div id="resultArea"></div>
 								<!-- 2021 05 / 10 class 추가  -->
 								<!-- <p class="noselect premium all_bus" data-time="09"> -->
 								<!-- 선택할수 목록(1. 시간이 지났을경우, 2. 잔여좌석이 0일경우) 에 class = 'noselect', 등급이 프리미엄일 경우 class = "premium" -->
@@ -930,8 +920,8 @@ $(document).ready(function () {
 									</span>
 									</a>
 								</p>-->
-								<div id="resultArea"></div>
-							</div>
+									
+								</div>
 							
 						</div>
 						

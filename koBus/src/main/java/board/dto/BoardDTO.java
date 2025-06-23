@@ -4,21 +4,20 @@ import java.sql.Timestamp;
 
 public class BoardDTO {
 
-    private int brdID; // 게시글 번호 (시퀀스)
-    private String kusID; // 작성자 ID (VARCHAR2 타입에 맞춰 String으로 유지)
-    private String brdTitle; // 게시글 제목
-    private String brdContent; // 게시글 내용
-    private Timestamp brdDate; // 작성일
-    private int brdViews;    // 게시글 조회수 (NUMBER 타입에 맞춰 int로 추가)
-    private String brdCategory; // 게시글 구분 (VARCHAR2 타입에 맞춰 String으로 추가)
+    private int brdID;           // 게시글 번호
+    private String kusID;        // 작성자 ID (String형으로 받아오는 구조로 유지)
+    private String brdTitle;     // 제목
+    private String brdContent;   // 내용
+    private Timestamp brdDate;   // 작성일
+    private int brdViews;        // 조회수
 
-    // BoardDTO가 게시글과 작성자 정보를 함께 담는 경우를 위해 유지 (JOIN 시 사용)
-    private String userId; // kobusUser 테이블의 ID (로그인 ID)
-    private String userTel; // kobusUser 테이블의 전화번호
-    private String userRank; // kobusUser 테이블의 등급
+    // 추가: 작성자 상세 정보용 필드 (조인용)
+    private String userId;       // 작성자 ID (화면에 보여줄 용도, kobusUser.ID)
+    private String userTel;      // 작성자 전화번호
+    private String userRank;     // 작성자 등급
 
+    // --- Getter / Setter ---
 
-    // brdID
     public int getBrdID() {
         return brdID;
     }
@@ -27,16 +26,14 @@ public class BoardDTO {
         this.brdID = brdID;
     }
 
-    // kusID (String 타입으로 유지)
-    public String getKusID() { // 변경
+    public String getKusID() {
         return kusID;
     }
 
-    public void setKusID(String kusID) { // 변경
+    public void setKusID(String kusID) {
         this.kusID = kusID;
     }
 
-    // brdTitle
     public String getBrdTitle() {
         return brdTitle;
     }
@@ -45,7 +42,6 @@ public class BoardDTO {
         this.brdTitle = brdTitle;
     }
 
-    // brdContent
     public String getBrdContent() {
         return brdContent;
     }
@@ -54,7 +50,6 @@ public class BoardDTO {
         this.brdContent = brdContent;
     }
 
-    // brdDate
     public Timestamp getBrdDate() {
         return brdDate;
     }
@@ -63,7 +58,6 @@ public class BoardDTO {
         this.brdDate = brdDate;
     }
 
-    // brdViews (추가)
     public int getBrdViews() {
         return brdViews;
     }
@@ -72,16 +66,6 @@ public class BoardDTO {
         this.brdViews = brdViews;
     }
 
-    // brdCategory (추가)
-    public String getBrdCategory() {
-        return brdCategory;
-    }
-
-    public void setBrdCategory(String brdCategory) {
-        this.brdCategory = brdCategory;
-    }
-
-    // 사용자 정보 필드 (JOIN 시 사용)
     public String getUserId() {
         return userId;
     }

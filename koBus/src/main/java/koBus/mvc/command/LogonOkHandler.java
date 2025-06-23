@@ -31,6 +31,7 @@ public class LogonOkHandler implements CommandHandler {
 		
 		System.out.println("id : " + id);
 		System.out.println("passwd : " + passwd);
+		System.out.println("sourcePage : " + sourcePage);
 		
 		Connection conn = ConnectionProvider.getConnection();
 		LogonDAOImpl dao = new LogonDAOImpl(conn); 

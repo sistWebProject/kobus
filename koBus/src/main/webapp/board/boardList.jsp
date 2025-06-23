@@ -291,7 +291,7 @@
 					<c:forEach var="dto" items="${list}">
 						<tr>
 							<td>${dto.brdID}</td>
-							<td>${dto.brdCategory}</td> <%-- 💡 추가: 구분 데이터 출력 --%>
+							<%-- <td>${dto.brdCategory}</td> --%> <%-- 💡 추가: 구분 데이터 출력 --%>
 							<td class="title">
 								<a href="boardView.do?brdID=${dto.brdID}">${dto.brdTitle}</a>
 							</td>

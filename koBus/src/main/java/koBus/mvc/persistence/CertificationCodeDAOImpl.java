@@ -69,7 +69,7 @@ public class CertificationCodeDAOImpl implements CertificationCodeDAO{
 	    String sql = "INSERT INTO kobusUser "
 	               + "(kusID, tel, subEmail, id, passwd, birth, gender, rank, mil, status, joinDate) "
 	               + "VALUES "
-	               + "(kobusUser_seq.NEXTVAL, ?, ?, ?, ?, TO_DATE(?, 'YYYY'), ?, '회원', 0, 'Y', TO_DATE(?, 'YYYY-MM-DD'))";
+	               + "('KUS' || LPAD(kobusUser_seq.NEXTVAL, 3, '0'), ?, ?, ?, ?, TO_DATE(?, 'YYYY'), ?, '회원', 0, 'Y', TO_DATE(?, 'YYYY-MM-DD'))";
 
 	    int rowCount = 0;
 
