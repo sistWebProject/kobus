@@ -54,6 +54,7 @@
 
 <script type="text/javascript"
 	src="/koBus/js/MrsCfmInf.js"></script>
+	
 
 <script type="text/javascript"
 	src="/koBus/js/qrcode.js"></script>
@@ -360,9 +361,9 @@
 								<!-- 등급 -->
 								<input type="hidden" name="adltNum" value="${resv.aduCount }">
 								<!-- 일반매수 -->
-								<input type="hidden" name="chldNum" value="${resv.stuCount }">
+								<input type="hidden" name="chldNum" value="${resv.chdCount }">
 								<!-- 초등매수 -->
-								<input type="hidden" name="teenNum" value="${resv.chdCount }">
+								<input type="hidden" name="teenNum" value="${resv.stuCount }">
 								<!-- 중고매수 -->
 								<input type="hidden" name="DEPR_DT" value="${fn:substringBefore(resv.rideDateStr, ' ')}">
 								<!-- 출발날짜 -->
@@ -372,7 +373,7 @@
 
 								<input type="hidden" name="tissuFee" value="${resv.amount }">
 								<!-- 결제금액-->
-								<input type="hidden" name="pynDvsCd" value="${resv.payType }">
+								<input type="hidden" name="pynDvsCd" value="${resv.payMethod }">
 								<!-- 지불구분코드 : 마일리지 추가 -->
 								<input type="hidden" name="tissuStaCd" value="6"> <input
 									type="hidden" name="pynDtlCd" value="s"> <input
@@ -384,129 +385,59 @@
 								<input type="hidden" name="mrspMbphNo" id="mrspMbphNo" value="">
 							</form>
 							<!-- 예매취소 form -->
-							<form id="recpCanFrm0" name="recpCanFrm0"
-								action="https://www.kobus.co.kr/mrs/mrsrecpcaninfo.ajax">
+							<form id="mrsRecpCanFrm" name="mrsRecpCanFrm"
+								action="/koBus/kobusResvCancel.ajax">
 
-								<input type="hidden" name="nonMbrsNo" value="">
-								<!-- 비회원 회원번호 -->
-
-								<input type="hidden" name="mrsMrnpNo" value="20250619418950">
-								<!-- 예매번호 -->
-								<input type="hidden" name="mrsMrnpSno" value="01">
-								<!-- 예매일련번호 -->
-								<input type="hidden" name="alcnDeprDt" value="2025. 07. 16 (수)">
-								<!-- 출발일 -->
-								<input type="hidden" name="alcnDeprTime" value="08:00">
-								<!-- 출발시간 -->
-								<input type="hidden" name="deprnNm" value="서울경부">
-								<!-- 출발지 -->
-								<input type="hidden" name="arvlNm" value="강릉">
-								<!-- 도착지 -->
-
-								<input type="hidden" name="deprnCd" value="010">
-								<!-- 출발지코드 -->
-								<input type="hidden" name="arvlCd" value="200">
-								<!-- 도착지코드 -->
-								<input type="hidden" name="takeDrtm" value="2시간 50분">
-								<!-- 소요시간 -->
-								<input type="hidden" name="cacmCd" value="06">
-								<!-- 고속사코드 -->
-								<input type="hidden" name="cacmNm" value="(주)중앙고속">
-								<!-- 고속사명 -->
-								<input type="hidden" name="cacmCss" value="jabus">
-								<!-- 고속사CSS -->
-								<input type="hidden" name="deprNm" value="고속">
-								<!-- 등급 -->
-								<input type="hidden" name="adltNum" value="1">
-								<!-- 일반매수 -->
-								<input type="hidden" name="chldNum" value="0">
-								<!-- 초등매수 -->
-								<input type="hidden" name="teenNum" value="0">
-								<!-- 중고매수 -->
-								<input type="hidden" name="uvsdNum" value="0">
-								<!-- 대학매수 -->
-								<input type="hidden" name="sncnNum" value="0">
-								<!-- 경로매수 -->
-								<input type="hidden" name="dsprNum" value="0">
-								<!-- 장애인매수 -->
-
-								<input type="hidden" name="vtr3Num" value="0">
-								<!-- 보훈매수 -->
-								<input type="hidden" name="vtr5Num" value="0">
-								<!-- 보훈매수 -->
-								<input type="hidden" name="vtr7Num" value="0">
-								<!-- 보훈매수 -->
-
-								<input type="hidden" name="dfptNum" value="0">
-								<!-- 후불매수 -->
-
-								<input type="hidden" name="satsNo" id="satsNo" value="05">
-								<!-- 예매단위 좌석 -->
-								<input type="hidden" name="rtrpMrsYn" value="N">
-								<!-- 왕복 예매 여부 -->
-								<input type="hidden" name="prmmDcDvsCd" value="0">
-								<!-- 우등형할인코드 -->
-								<input type="hidden" name="payNm" value="네이버페이">
-								<!-- 결제 수단 -->
-								<input type="hidden" name="pynDvsCd" value="2">
-								<!-- 결제 구분 코드 -->
-								<input type="hidden" name="pynDtlCd" value="s"> <input
-									type="hidden" name="tckSeqList" value="20250619994950192">
-
-								<input type="hidden" name="mrsMrnpNo2" value="">
-								<!-- 예매번호 -->
-								<input type="hidden" name="mrsMrnpSno2" value="">
-								<!-- 예매일련번호 -->
-								<input type="hidden" name="alcnDeprDt2" value="">
-								<!-- 출발일 -->
-								<input type="hidden" name="alcnDeprTime2" value="">
-								<!-- 출발시간 -->
-								<input type="hidden" name="deprnNm2" value="">
-								<!-- 출발지 -->
-								<input type="hidden" name="arvlNm2" value="">
-								<!-- 도착지 -->
-								<input type="hidden" name="takeDrtm2" value="">
-								<!-- 소요시간 -->
-								<input type="hidden" name="cacmCd2" value="">
-								<!-- 고속사코드 -->
-								<input type="hidden" name="cacmNm2" value="">
-								<!-- 고속사명 -->
-								<input type="hidden" name="cacmCss2" value="">
-								<!-- 고속사CSS -->
-								<input type="hidden" name="deprNm2" value="">
-								<!-- 등급 -->
-								<input type="hidden" name="adltNum2" value="">
-								<!-- 일반매수 -->
-								<input type="hidden" name="chldNum2" value="">
-								<!-- 초등매수 -->
-								<input type="hidden" name="teenNum2" value="">
-								<!-- 중고매수 -->
-								<input type="hidden" name="uvsdNum2" value="">
-								<!-- 대학매수 -->
-								<input type="hidden" name="sncnNum2" value="">
-								<!-- 경로매수 -->
-								<input type="hidden" name="dsprNum2" value="">
-								<!-- 장애인매수 -->
-
-								<input type="hidden" name="vtr3Num2" value="">
-								<!-- 보훈매수 -->
-								<input type="hidden" name="vtr5Num2" value="">
-								<!-- 보훈매수 -->
-								<input type="hidden" name="vtr7Num2" value="">
-								<!-- 보훈매수 -->
-
-								<input type="hidden" name="dfptNum2" value="">
-								<!-- 후불매수 -->
-
-								<input type="hidden" name="satsNo2" value="">
-								<!-- 예매단위 좌석 -->
-								<input type="hidden" name="rtrpMrsYn2" value="">
-								<!-- 왕복 예매 여부 -->
-								<input type="hidden" name="payNm2" value="">
-								<!-- 결제 수단 -->
-								<input type="hidden" name="pynDvsCd2" value=""> <input
-									type="hidden" name="pynDtlCd2" value=""> <input
-									type="hidden" name="tckSeqList2" value="">
+								<%-- <input type="hidden" name="nonMbrsNo" id="nonMbrsNo" value="${resv.nonMbrsNo}"> --%>
+								<input type="hidden" name="mrsMrnpno" id="mrsMrnpno" value="${resv.resId}">
+								<input type="hidden" name="mrsMrnpsno" id="mrsMrnpsno" value="${resv.arrRegCode}">
+								<input type="hidden" name="alcnDeprDt" id="alcnDeprDt" value="${fn:substringBefore(resv.rideDateStr, ' ')}">
+								<input type="hidden" name="alcnDeprTime" id="alcnDeprTime" value="${fn:substringAfter(resv.rideDateStr, ' ')}">
+								<input type="hidden" name="deprnNm" id="deprnNm" value="${resv.deprRegName}">
+								<input type="hidden" name="arvlNm" id="arvlNm" value="${resv.arrRegName}">
+								<input type="hidden" name="deprnCd" id="deprnCd" value="${resv.deprRegCode}">
+								<input type="hidden" name="arvlCd" id="arvlCd" value="${resv.arrRegCode}">
+								<input type="hidden" name="takeDrtm" id="takeDrtm" value="${resv.durMin}">
+								<input type="hidden" name="cacmCd" id="cacmCd" value="06">
+								<input type="hidden" name="cacmNm" id="cacmNm" value="${resv.comName}">
+								<input type="hidden" name="deprNm" id="deprNm" value="${resv.busGrade}">
+								<input type="hidden" name="adltNum" id="adltNum" value="${resv.aduCount}">
+								<input type="hidden" name="chldNum" id="chldNum" value="${resv.chdCount}">
+								<input type="hidden" name="teenNum" id="teenNum" value="${resv.stuCount}">
+								<input type="hidden" name="payNm" id="payNm" value="${resv.payMethod}">
+								<input type="hidden" name="pynDvsCd" id="pynDvsCd" value="2">
+								<input type="hidden" name="pynDtlCd" id="pynDtlCd" value="s">
+								<input type="hidden" name="tckSeqList" id="tckSeqList" value="20250619994950192">
+							
+								<!-- 왕복 관련 필드들 (2로 끝나는 필드는 name도 2로 유지) -->
+								<input type="hidden" name="mrsMrnpno2" id="mrsMrnpNo2" value="">
+								<input type="hidden" name="mrsMrnpsno2" id="mrsMrnpSno2" value="">
+								<input type="hidden" name="alcnDeprDt2" id="alcnDeprDt2" value="${fn:substringBefore(resv.rideDateStr, ' ')}">
+								<input type="hidden" name="alcnDeprTime2" id="alcnDeprTime2" value="${fn:substringAfter(resv.rideDateStr, ' ')}">
+								<input type="hidden" name="deprnNm2" id="deprnNm2" value="">
+								<input type="hidden" name="arvlNm2" id="arvlNm2" value="">
+								<input type="hidden" name="takeDrtm2" id="takeDrtm2" value="">
+								<input type="hidden" name="cacmCd2" id="cacmCd2" value="">
+								<input type="hidden" name="cacmNm2" id="cacmNm2" value="">
+								<input type="hidden" name="cacmCss2" id="cacmCss2" value="">
+								<input type="hidden" name="deprNm2" id="deprNm2" value="">
+								<input type="hidden" name="adltNum2" id="adltNum2" value="">
+								<input type="hidden" name="chldNum2" id="chldNum2" value="">
+								<input type="hidden" name="teenNum2" id="teenNum2" value="">
+								<input type="hidden" name="uvsdNum2" id="uvsdNum2" value="">
+								<input type="hidden" name="sncnNum2" id="sncnNum2" value="">
+								<input type="hidden" name="dsprNum2" id="dsprNum2" value="">
+								<input type="hidden" name="vtr3Num2" id="vtr3Num2" value="">
+								<input type="hidden" name="vtr5Num2" id="vtr5Num2" value="">
+								<input type="hidden" name="vtr7Num2" id="vtr7Num2" value="">
+								<input type="hidden" name="dfptNum2" id="dfptNum2" value="">
+								<input type="hidden" name="satsNo2" id="satsNo2" value="">
+								<input type="hidden" name="rtrpMrsYn2" id="rtrpMrsYn2" value="">
+								<input type="hidden" name="payNm2" id="payNm2" value="">
+								<input type="hidden" name="pynDvsCd2" id="pynDvsCd2" value="">
+								<input type="hidden" name="pynDtlCd2" id="pynDtlCd2" value="">
+								<input type="hidden" name="tckSeqList2" id="tckSeqList2" value="">
+								
 							</form>
 							<!-- 편도 시작 -->
 
@@ -526,7 +457,7 @@
 								</div>
 								<div class="typeDetail">
 									<sapn></sapn>
-									<span class="desc">결제수단</span> <span>${resv.payType}</span>
+									<span class="desc">결제수단</span> <span>${resv.payMethod}</span>
 
 
 
@@ -720,7 +651,7 @@
 							<!-- <a href="javascript:void(0)" onclick="fnmrsRecpPub(0);" 
 								class="btnL btn_cancel" title="새창">탑승권 확인</a>  -->
 								
-							<a href="javascript:void(0)" onclick="fnRecpCanInfo(0,&#39;&#39;);"
+							<a href="javascript:void(0)" onclick="fnRecpCanInfo(0,'all');"
 								class="btnL btn_cancel btn_pop_focus last">예매취소</a>
 						</p>
 
@@ -1002,7 +933,7 @@
 
 	</div>
 
-	<div
+<!-- 	<div
 		style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
 		<div
 			style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
@@ -1012,7 +943,7 @@
 		<div
 			class="remodal pop_ticket full remodal-is-initialized remodal-is-closed"
 			id="homepopTicket" role="dialog" tabindex="-1">
-			<!--  -->
+			
 			<div class="title type_blue">
 				<h2>고속버스 홈티켓 발행</h2>
 			</div>
@@ -1075,13 +1006,13 @@
 				<span class="sr-only">닫기</span>
 			</button>
 		</div>
-	</div>
+	</div> -->
 	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
 		<div
 			class="remodal w680 popTicket_cancel remodal-is-initialized remodal-is-closed"
 			id="popTicketCancel" role="dialog" tabindex="-1"></div>
 	</div>
-	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
+<!-- 	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
 		<div
 			class="remodal pop_price remodal-is-initialized remodal-is-closed"
 			data-remodal-id="homeTckMbl" role="dialog" tabindex="-1">
@@ -1089,11 +1020,11 @@
 				<div class="ticketArea" style="float: none; width: auto; margin: 0;">
 					<strong class="receipt_tit"> 고속버스 홈티켓 </strong><br>
 					<div class="box_section sec02">
-						<!-- <span class="qrCode" id="qrcodeTableMbl"></span> -->
+						<span class="qrCode" id="qrcodeTableMbl"></span>
 						<div class="qr_area">
 							<img src="https://www.kobus.co.kr/mrs/mrscfm.do" width="100%"
 								alt="">
-							<!-- <span class="" id="qrcodeTableMbl_base"></span> -->
+							<span class="" id="qrcodeTableMbl_base"></span>
 							<span class="qrCode" id="qrcodeTableMbl"></span>
 						</div>
 						<span class="qrCodeNum" id="qrTckNo"></span>
@@ -1113,6 +1044,6 @@
 					class="btnL btn_close">닫기</button>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </body>
 </html>

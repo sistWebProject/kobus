@@ -101,7 +101,7 @@ function fnRecpCanInfo(idx , type) {
 		var recpCanInfoFrm = $("form[name=recpCanFrm"+idx+"]").serialize();
 		$.ajax({
 			 type:"post"
-			,url: "/mrs/mrsrecpcaninfo.ajax?type="+type+""
+			,url: "/koBus/kobusResvCancel.ajax?type="+type+""
 			,data:recpCanInfoFrm // input 값 세팅 
 			,dataType:"json"
 			,success:function(data){
@@ -118,7 +118,7 @@ function fnRecpCanInfo(idx , type) {
 
 				// 편도일 때
 			    var html ='';
-			    html +='<form id="mrsRecpCanFrm" name="mrsRecpCanFrm" tabindex="-1" action="/mrs/mrstckcaninfo.ajax">';
+			    html +='<form id="mrsRecpCanFrm" name="mrsRecpCanFrm" tabindex="-1" action="/koBus/kobusResvCancel.ajax>';
 	    		html +='<input type="hidden" name="nonMbrsNo" id="nonMbrsNo" tabindex="-1" value="'+data.nonMbrsNo+'">';
 	    		
 		    	if(data.prmmDcDvsCd != '4' || data.rtrpMrsYn != 'Y') {
@@ -694,7 +694,7 @@ function fnRecpCanInfo(idx , type) {
 		});
 	}
 };
-
+/*
 //예매취소(승차권) 금액정보 조회 [레이어 팝업]
 function fnTckCanInfo(idx) {
 	var tckCanInfoFrm = $("form[name=mrsCfmDtllistFrm"+idx+"]").serialize();	// 홈티켓 재발행도 승차권 단위여서 폼 그대로 씀
@@ -979,7 +979,7 @@ function fnRecpCan() {
 			return false;
 		}
 	}
-}
+}*/
 
 // 승차권단위 취소
 function fnTckCan() {

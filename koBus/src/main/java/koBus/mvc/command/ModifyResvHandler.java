@@ -72,7 +72,7 @@ public class ModifyResvHandler implements CommandHandler{
 		        .busGrade(busGrade)
 		        .durMin(durMinInt)
 		        .amount(amountInt)
-		        .payType(payType)
+		        .payMethod(payType)
 		        .aduCount(aduCountInt)
 		        .stuCount(stuCountInt)
 		        .chdCount(chdCountInt)

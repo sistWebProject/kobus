@@ -134,7 +134,7 @@ $(document).ready(function() {
 
 			<c:set var="resv" value="${resvInfoList[0]}" />
 			<form name="rotInfFrm" id="rotInfFrm" method="post"
-			      action="/koBus/modifyResvHandlerSeat.do">
+			      action="/koBus/modifyResvSeat.do">
 			  
 			  <input type="hidden" name="sourcePage" value="kobusModifyResvSch.jsp">
 			  <input type="hidden" name="mrsMrnpNo" value="${resv.resId }">
@@ -179,9 +179,9 @@ $(document).ready(function() {
 			
 			<div class="title_wrap in_process checkTicketingT"
 				style="display: none;">
-				<a href="/koBus/modifyResvHandlerSch.do"
+				<a href="/koBus/modifyResvSch.do"
 					class="back">back</a> <a
-					href="/koBus/modifyResvHandlerSch.do"
+					href="/koBus/modifyResvSch.do"
 					class="mo_toggle">메뉴</a>
 
 
@@ -391,7 +391,7 @@ $(document).ready(function() {
 												         value="선택"
 												         class="accent btn_arrow"
 												         form="rotInfFrm"
-												         formaction="/koBus/modifyResvHandlerSeat.do"
+												         formaction="/koBus/modifyResvSeat.do"
 												         tabindex="-1">
 												</c:otherwise>
 									        </c:choose>

@@ -1029,7 +1029,7 @@ $(document).ready(function () {
 									                    data.forEach(function(resv){
 									                        list.append(`
 									                            <li>예매 방식: \${resv.resvType}</li>
-									                            <li>결제 방식: \${resv.payType}</li>
+									                            <li>결제 방식: \${resv.payMethod}</li>
 									                            <li>탑승일: \${resv.rideDate.date.year}</li>
 									                            <hr/>
 									                        `);

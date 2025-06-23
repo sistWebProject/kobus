@@ -86,30 +86,25 @@ function fnmrsReHtckMblYn(tckNo,terNo){
 
 
 //예매취소 금액정보 조회 [레이어 팝업]
+
+//예매취소 금액정보 조회 [레이어 팝업]
 function fnRecpCanInfo(idx , type) {
 	//var satsNo = document.forms["recpCanFrm"+idx].elements['satsNo'].value;
 	var satsNo = $("#recpCanFrm"+idx+" #satsNo").val()
-	 
-	if(satsNo.indexOf("W1") > -1 || satsNo.indexOf("W2") > -1){
-		if(confirm("휠체어 예매 취소는 휠체어 예매 사이트에서 가능합니다.\n휠체어 예매 사이트로 이동 하시겠습니까?")){
-			location.href ="/wchr/mrs/mrscfm.do";
-		}else{
-			return;
-		}
-	}else{
 	
-		var recpCanInfoFrm = $("form[name=recpCanFrm"+idx+"]").serialize();
+		var recpCanInfoFrm = $("form[name=recpCanFrm]").serialize();
+		alert(recpCanInfoFrm);
 		$.ajax({
 			 type:"post"
-			,url: "/mrs/mrsrecpcaninfo.ajax?type="+type+""
+			,url: "/koBus/kobusResvCancel.ajax?ajax=true&type="+type+""
 			,data:recpCanInfoFrm // input 값 세팅 
 			,dataType:"json"
 			,success:function(data){
-				if (data.MSG_CD != 'S0000'){
+				/*if (data.MSG_CD != 'S0000'){
 					alert(data.MSG_DTL_CTT+'\n※취소불가 합니다.');
 					return;
 				}
-
+*/
 		    	//20240608 건보공단
 				var nhisText = '대학생';
 		    	if (data.deprnCd == '246' || data.arvlCd == '246' || data.deprnCd == '244' || data.arvlCd == '244'){
@@ -118,7 +113,7 @@ function fnRecpCanInfo(idx , type) {
 
 				// 편도일 때
 			    var html ='';
-			    html +='<form id="mrsRecpCanFrm" name="mrsRecpCanFrm" tabindex="-1" action="/mrs/mrstckcaninfo.ajax">';
+			    html +='<form id="mrsRecpCanFrm" name="mrsRecpCanFrm" tabindex="-1" action="/koBus/kobusResvCancel.ajax">';
 	    		html +='<input type="hidden" name="nonMbrsNo" id="nonMbrsNo" tabindex="-1" value="'+data.nonMbrsNo+'">';
 	    		
 		    	if(data.prmmDcDvsCd != '4' || data.rtrpMrsYn != 'Y') {
@@ -193,6 +188,7 @@ function fnRecpCanInfo(idx , type) {
 			    html +='<div class="title type_blue"><h2>'+'예매취소'+'</h2></div>';
 			    html +='<div class="cont">';
 			    if(data.prmmDcDvsCd != '4' || data.rtrpMrsYn != 'Y') {
+				alert
 			    	html +='<div class="box_detail_info">';
 				    html +='<div class="routeHead">' + '<p class="date">'+data.alcnDeprDt+' '+data.alcnDeprTime+'</p>' +'</div>';	// 출발시간
 				    html +='<div class="routeBody">';
@@ -692,12 +688,15 @@ function fnRecpCanInfo(idx , type) {
 			alert(e.responseText);
 		    }
 		});
-	}
+	 
 };
 
 //예매취소(승차권) 금액정보 조회 [레이어 팝업]
 function fnTckCanInfo(idx) {
+	
+	
 	var tckCanInfoFrm = $("form[name=mrsCfmDtllistFrm"+idx+"]").serialize();	// 홈티켓 재발행도 승차권 단위여서 폼 그대로 씀
+	
 	var satsNo = document.forms["mrsCfmDtllistFrm"+idx].elements['satsNo'].value;
 	 
 	if(satsNo == "W1" ||  satsNo == "W2"){
@@ -709,7 +708,7 @@ function fnTckCanInfo(idx) {
 	}else{
 		$.ajax({
 			 type:"post"		
-			,url: "/mrs/mrstckcaninfo.ajax"  
+			,url: "/koBus/kobusResvCancel.ajax"  
 			,data:tckCanInfoFrm // input 값 세팅 
 			,dataType:"json"
 			,success:function(data){
@@ -963,12 +962,12 @@ function fnRecpCan() {
 			}else{
 				$.ajax({
 			  		type:"post"		
-					,url:"/mrs/mrscan.ajax"
+					,url:"/koBus/kobusResvCancel.ajax"
 					,data:mrsRecpCanFrm // input 값 세팅 
 					,dataType:"json"
 					,success:function(data){
 						alert(data.MSG_DTL_CTT);
-						location.href ="/mrs/mrscfm.do?vltlCnt=Y";
+						location.href ="/koBus/manageReservations.do?vltlCnt=Y";
 					}
 				    ,error:function(e) {
 				    	alert(e.responseText);
