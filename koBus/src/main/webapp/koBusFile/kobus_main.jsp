@@ -1005,11 +1005,9 @@ $(document).ready(function () {
 									</c:when>
 									<c:otherwise>
 										<!-- ajax로 예매테이블 정보가져오고 정보 잘 뿌려주기 -->
-										<h3>예매 내역 가져오는 ajax코드추가</h3>
-										
-										<ul id="resvListUl">
+										<div class="box_detail_info">
     									<!-- AJAX로 채워짐 -->
-										</ul>	
+										</div>	
 										
 										<script>
 										$("#lgnTab").on("click", function(){
@@ -1020,18 +1018,86 @@ $(document).ready(function () {
 												dataType: "json",
 												success: function(data){
 													console.log(data);
-													let list = $("#resvListUl");
+													let list = $(".box_detail_info");
 									                list.empty();
 
 									                if (data.length === 0) {
 									                    list.append("<li>예매 내역이 없습니다.</li>");
+									                    // <li>탑승일: \${resv.rideDate.date.year}</li>
 									                } else {
 									                    data.forEach(function(resv){
+									                    	
+									                    	let durMin = resv.durMin;
+									                        let hour = Math.floor(durMin / 60);
+									                        let minute = durMin % 60;
+									                        let durationText = `\${hour}시간 \${minute}분 소요`;
+									                    	
 									                        list.append(`
-									                            <li>예매 방식: \${resv.resvType}</li>
-									                            <li>결제 방식: \${resv.payMethod}</li>
-									                            <li>탑승일: \${resv.rideDate.date.year}</li>
-									                            <hr/>
+
+									                        		<div class="routeHead">
+																	<p class="date">\${resv.rideDateStr} 출발</p>
+																	<p class="ticketPrice"></p>
+																</div>
+																<div class="routeBody">
+																	<div class="routeArea route_wrap">
+																		<div class="inner">
+
+																			<dl class="roundBox departure kor">
+																				<dt>출발</dt>
+																				<dd>\${resv.deprRegName }</dd>
+																			</dl>
+																			<dl class="roundBox arrive kor">
+																				<dt>도착</dt>
+																				<dd>\${resv.arrRegName }</dd>
+																			</dl>
+																		</div>
+																		<div class="detail_info">
+																		
+																		<span>\${durationText}</span>
+
+																		<!-- 예상소요시간 -->
+																	</div>
+																	</div>
+																	<div class="routeArea route_wrap mob_route">
+																		<div class="tbl_type2">
+																			<table class="tbl_info">
+																				<caption>버스 예매 정보에 대한 표이며 예매번호, 고속사, 등급, 승차홈, 매수
+																					정보 제공</caption>
+																				<colgroup>
+																					<col style="width: 68px;">
+																					<col style="width: *;">
+																				</colgroup>
+																				<tbody>
+																					<tr>
+																						<th scope="row">예매번호</th>
+																						<td>\${resv.resId }</td>
+																					</tr>
+																					<tr>
+																						<th scope="row">고속사</th>
+																						<td>\${resv.comName }<span class="jabus ico_bus"></span> <!-- 동양고속 class="dyexpress" 삼화고속 class="samhwa" 중앙고속 class="jabus" 금호고속 class="kumho" 천일고속 class="chunil" 한일고속 class="hanil" 동부고속 class="dongbu" 금호속리산고속 class="songnisan" 코버스 class="kobus" -->
+																						</td>
+																					</tr>
+																					<tr>
+																						<th scope="row">등급</th>
+																						<td>\${resv.busGrade }</td>
+																					</tr>
+																					<!-- <tr>
+																						<th scope="row">승차홈</th>
+																						<td>23</td>
+																					</tr> -->
+																					<tr>
+																						<th scope="row">매수</th>
+																						<td>\${resv.totalCount } <!-- 20210525 yahan -->
+
+																						</td>
+
+																					</tr>
+																				</tbody>
+																			</table>
+																		</div>
+																	</div>
+																</div>
+>>>>>>> main
 									                        `);
 									                    });
 									                }
