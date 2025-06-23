@@ -254,7 +254,7 @@ function requestPay() {
                     imp_uid: rsp.imp_uid,
                     merchant_uid: rsp.merchant_uid,
                     pay_method: rsp.pay_method,
-                    amount: rsp.amount,
+                    amount: amount,
                     pay_status: 'SUCCESS',
                     pg_tid: rsp.pg_tid,
                     paid_at: rsp.paid_at
