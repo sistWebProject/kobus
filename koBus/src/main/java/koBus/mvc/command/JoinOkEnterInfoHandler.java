@@ -12,6 +12,8 @@ import com.util.ConnectionProvider;
 import koBus.mvc.domain.JoinDTO;
 import koBus.mvc.persistence.CertificationCodeDAO;
 import koBus.mvc.persistence.CertificationCodeDAOImpl;
+import koBus.mvc.persistence.LogonDAO;
+import koBus.mvc.persistence.LogonDAOImpl;
 
 
 public class JoinOkEnterInfoHandler implements CommandHandler {
@@ -37,11 +39,15 @@ public class JoinOkEnterInfoHandler implements CommandHandler {
 			genderNum=2;
 		}
 		
-		JoinDTO dto = new JoinDTO(tel, subEmail, id, passwd, birth, genderNum);
-		
 		Connection conn = ConnectionProvider.getConnection();
 		CertificationCodeDAO dao = new CertificationCodeDAOImpl(conn);
+		LogonDAO logDao = new LogonDAOImpl(conn);
 		
+		String encryptPasswd = logDao.encrypt(passwd);
+		
+		JoinDTO dto = new JoinDTO(tel, subEmail, id, encryptPasswd, birth, genderNum);
+		
+
 		int rowCount = 0;
 		
 		try {

@@ -13,7 +13,7 @@ import koBus.mvc.domain.RouteLineDTO;
 public class RouteLineDAO {
     public List<RouteLineDTO> getAllRoutes() throws Exception {
         List<RouteLineDTO> list = new ArrayList<>();
-        String sql = "SELECT * FROM ROUTE ORDER BY ADTN_DEPR_NM";
+        String sql = "SELECT * FROM PASS_ROUTE ORDER BY ADTN_DEPR_NM";
 
         try (Connection conn = DBConn.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
