@@ -79,7 +79,7 @@
 										id="adtnPrdPT">${couponCount}개</strong></a> 
 								</div>
 								<div class="btnBox">
-									<a class="btn btn_sm_link_white" href="#">구매내역
+									<a class="btn btn_sm_link_white" href="/koBus/page/itemPurListPage.do">구매내역
 										확인</a>
 								</div>
 							</li>

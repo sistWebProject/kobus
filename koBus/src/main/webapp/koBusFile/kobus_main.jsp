@@ -1022,7 +1022,11 @@ $(document).ready(function () {
 									                list.empty();
 
 									                if (data.length === 0) {
-									                    list.append("<li>예매 내역이 없습니다.</li>");
+									                    list.append(`
+									                    		<div class="no-ticker-area">
+																<p class="no_ticket_txt">예매내역이 없습니다.</p> <!-- 170215 추가 -->
+																</div>
+																`);
 									                    // <li>탑승일: \${resv.rideDate.date.year}</li>
 									                } else {
 									                    data.forEach(function(resv){

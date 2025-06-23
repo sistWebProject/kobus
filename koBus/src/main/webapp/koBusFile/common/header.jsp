@@ -121,7 +121,7 @@ $(document).ready(function () {
                            <li><a
                               href="javascript:void(0);">정기권</a></li>
                            <li><a
-                              href="javascript:void(0);">상품
+                              href="/koBus/page/itemPurListPage.do">상품
                                  구매내역</a></li>
                         </ul></li>
 
