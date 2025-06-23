@@ -19,5 +19,8 @@ public class ReservationDTO {
     private int qrCode;
     private int mileage;
     private String seatAble;
+    private String reservationNo; // 예매번호
+    private SeatDTO seatInfo; // 좌석 상세정보
+    private ScheduleDTO busSchedule; // 운행정보
     // getter, setter 등 생략
 }
