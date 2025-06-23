@@ -470,7 +470,7 @@
 							<span class="ticket-type"><span class="sr-only"></span></span>
 							<div class="box_detail_info">
 								<div class="routeHead">
-									<p class="date">${resv.rideDate} 출발</p>
+									<p class="date">출발 ${resv.rideDateStr}</p>
 									<p class="ticketPrice"></p>
 								</div>
 								<div class="routeBody">

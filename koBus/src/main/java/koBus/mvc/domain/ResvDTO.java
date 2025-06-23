@@ -38,5 +38,8 @@ public class ResvDTO {
 	
 	private String rideDateStr;     /* 포맷된 탑승일 문자열 */
 	private String resvDateStr;     /* 포맷된 예약일 문자열 */
+	
+	private String rideDateFormatter;
+	
 
 }

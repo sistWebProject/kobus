@@ -87,7 +87,7 @@ public class ResvDAOImpl implements ResvDAO {
 		
 		this.pstmt.setString(1, loginId);
 		this.rs = pstmt.executeQuery();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd HHmmss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
 		
 		 while (rs.next()) {
@@ -100,7 +100,6 @@ public class ResvDAOImpl implements ResvDAO {
 		        LocalDateTime rideDate = rs.getTimestamp("rideDate").toLocalDateTime();
 		        String rideDateStr = rideDate.format(formatter);
 		        LocalDateTime resvDate = rs.getTimestamp("resvDate").toLocalDateTime();
-		        String resvDateStr = resvDate.format(formatter);
 		        String resvStatus = rs.getString("resvStatus");
 		        String resvType = rs.getString("resvType");
 		        String qrCode = rs.getString("qrCode");
@@ -123,7 +122,6 @@ public class ResvDAOImpl implements ResvDAO {
 		                .stuCount(stuCount)
 		                .chdCount(chdCount)
 		                .rideDateStr(rideDateStr)
-		                .resvDateStr(resvDateStr)
 		                .resvStatus(resvStatus)
 		                .resvType(resvType)
 		                .qrCode(qrCode)

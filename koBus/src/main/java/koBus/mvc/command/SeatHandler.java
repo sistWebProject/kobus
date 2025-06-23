@@ -30,24 +30,23 @@ public class SeatHandler implements CommandHandler {
 	public String process(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("> SeatHandler.process() ...");
 		/* String busId = request.getParameter("BUSID"); */
-		String deprId = "REG010";  /*출발지(동서울)*/
-		String arrId = "REG001"; /*도착지(광명)*/
-	    String deprDtm = "2025-06-25";
-	    String busClsCd = "일반";
-	    String busId = "BUS001";
+		String deprId = request.getParameter("deprCd");  /*출발지(수원)*/
+		String arrId = request.getParameter("arvlCd"); /*도착지(동서울)*/
+	    String deprDtm = request.getParameter("deprDtm") + " " + request.getParameter("deprTime");
+	    String busClsCd = request.getParameter("busClsCd");
+	    String deprDate = request.getParameter("deprDtm");
+	    String deprTime = request.getParameter("deprTime");
+	    String deprNm = request.getParameter("deprNm");
+	    String arvlNm = request.getParameter("arvlNm");
 	    
-	    if (request.getParameter("deprCd") != null) {
-	    	deprId = request.getParameter("deprCd");
-	    }
-	    if (request.getParameter("arvlCd") != null) {
-	    	arrId = request.getParameter("arvlCd");
-	    }
-	    if (request.getParameter("deprDtm") != null) {
-	    	deprDtm = request.getParameter("deprDtm");
-	    }
+	    System.out.println("deprNm " + deprNm);
 	    
-	    if(request.getParameter("busClsCd") != null) {
-	    	busClsCd = request.getParameter("busClsCd");
+	    switch (busClsCd) {
+		    case "0": busClsCd = "전체"; break;
+		    case "7": busClsCd = "프리미엄"; break;
+		    case "1": busClsCd = "우등"; break;
+		    case "2": busClsCd = "일반"; break;
+		    default: break;
 	    }
 	    
 	    
@@ -57,9 +56,12 @@ public class SeatHandler implements CommandHandler {
 	    
 	    if ("kobusModifyResvSch.jsp".equals(sourcePage)) {
 	    	
-	    	LocalDateTime loc = LocalDateTime.parse(deprDtm);
+	    	
+	    	LocalDateTime loc = LocalDateTime.parse(deprDate);
 		    DateTimeFormatter oracleFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-	        String formattedTime = loc.format(oracleFormatter);
+		    deprDtm = loc.format(oracleFormatter);
+		    
+		    System.out.println("deprDtm " + deprDtm);
 	    	
 	    	String deprName = request.getParameter("deprNm");
 	    	String arrvName = request.getParameter("arvlNm");
@@ -84,7 +86,7 @@ public class SeatHandler implements CommandHandler {
 	    	        .arrRegName(arrvName)
 	    	        .comName(comName)
 	    	        .busGrade("")          // 필요시 추가
-	    	        .rideDateStr(formattedTime)
+	    	        .rideDateStr(deprDate)
 	    	        .durMin(durMinInt)
 	    	        .aduCount(aduCountInt)
 	    	        .stuCount(stuCountInt)
@@ -96,7 +98,7 @@ public class SeatHandler implements CommandHandler {
 	    	changeSeatList.add(changeSeat);
 
 	    	request.setAttribute("changeSeatList", changeSeatList);
-	    }
+	    } 
 	    
 	    
 	    
@@ -110,19 +112,27 @@ public class SeatHandler implements CommandHandler {
 			SeatDAO dao = new SeatDAOImpl(conn);
 			ScheduleDAO schDAO = new ScheduleDAOImpl(conn);
 			
-//			출발지 / 도착지 / 출발시간 / 버스등급을 기준으로 사용하는 busId 가져오기
-//			String busId = dao.getBusId(deprId, arrId, deprDtm, busClsCd);
 			
-			// 탑승하는 버스 전체 좌석 가져오기
-			totalSeat = dao.getTotalSeats(busId);
+			if("KOBUSreservation2.jsp".equals(sourcePage) || "kobusModifyResvSch.jsp".equals(sourcePage)) {
+//			출발지 / 도착지 / 출발시간 / 버스등급을 기준으로 사용하는 busId 가져오기
+				String busId = dao.getBusId(deprId, arrId, deprDtm);
+				
+				System.out.println("busId : " + busId);
+				
+				// 탑승하는 버스 전체 좌석 가져오기
+				totalSeat = dao.getTotalSeats(busId);
+				
+				// 탑승하는 버스 좌석 정보 가져오기
+				seatList = dao.searchSeat(busId);
+				
+		    	
+		    }
+			
 			
 			// 탑승하는 버스 스케줄 정보 가져오기
 			busList = schDAO.searchBusSchedule(deprId, arrId, deprDtm, busClsCd);
 			
-			// 탑승하는 버스 좌석 정보 가져오기
-			seatList = dao.searchSeat(busId);
 			
-			System.out.println(seatList.size());
 			
 			String ajax = request.getParameter("ajax");
 			
@@ -179,6 +189,16 @@ public class SeatHandler implements CommandHandler {
 			e.printStackTrace();
 		}
 	    
+	    request.setAttribute("deprId", deprId);
+	    request.setAttribute("arrId", arrId);
+	    request.setAttribute("deprDtm", deprDtm);
+	    request.setAttribute("busClsCd", busClsCd);
+	    request.setAttribute("deprDate", deprDate);
+	    request.setAttribute("deprTime", deprTime);
+	    request.setAttribute("deprNm", deprNm);
+	    request.setAttribute("arvlNm", arvlNm);
+
+	    
 	    request.setAttribute("totalSeat", totalSeat);
 	    request.setAttribute("seatList", seatList);
 	    request.setAttribute("busList", busList);
@@ -188,9 +208,11 @@ public class SeatHandler implements CommandHandler {
 	    
 	    if ("kobusModifyResvSch.jsp".equals(sourcePage)) {
 	    	return "/koBusFile/kobusModifyResvSeat.jsp";
-		}else {
+		}else if("KOBUSreservation2.jsp".equals(sourcePage)){
 			return "/koBusFile/kobus_seat.jsp";
 			
+		}else {
+			return "kobus_pay.jsp";
 		}
 		
 	}

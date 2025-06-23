@@ -217,7 +217,7 @@ $(document).ready(function() {
 					<div class="buscheck_wrap clfix">
 						<!-- 좌측 infoBox -->
 						<div class="infoBox">
-							<p class="date" id="alcnDeprDtm">${resv.rideDate}</p>
+							<p class="date" id="alcnDeprDtm">${resv.rideDateStr}</p>
 							<div class="route_wrap">
 								<div class="inner">
 									<dl class="roundBox departure kor">
@@ -275,14 +275,14 @@ $(document).ready(function() {
 						<!-- 우측 detailBox -->
 						
 						<div class="detailBox">
-							<div class="detailBox_head col3">
+							<div class="detailBox_head col" style="min-height: 70px;">
 								<div class="box_refresh">
 									<button type="button" class="btn btn_refresh" id="reloadBtn">
 										<span class="ico_refresh"><span class="sr-only">새로고침</span></span>
 									</button>
 								</div>
 								<div class="head_date">
-									<span class="date_cont" id="rideDate">${resv.rideDate }</span>
+									<span class="date_cont" id="rideDate">${resv.rideDateStr }</span>
 								</div>
 							</div>
 							<div class="detailBox_body clfix">
@@ -383,7 +383,7 @@ $(document).ready(function() {
 									
 									      <span class="status" role="cell" aria-labelledby="status_header">
 									        <c:choose>
-									          <c:when test="${change.departureDate eq fn:substringBefore(resv.rideDateStr, ' ')}">
+									          <c:when test="${fn:trim(alcnDeprDtm) eq fn:trim(rideDate)}">
 									            예매
 									          </c:when>
 									          <c:otherwise>
