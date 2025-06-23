@@ -30,10 +30,11 @@ public class SeatHandler implements CommandHandler {
 	public String process(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("> SeatHandler.process() ...");
 		/* String busId = request.getParameter("BUSID"); */
-		String deprId = "REG001";  /*출발지(동서울)*/
-		String arrId = "REG016"; /*도착지(광명)*/
-	    String deprDtm = "20250625";
+		String deprId = "REG010";  /*출발지(동서울)*/
+		String arrId = "REG001"; /*도착지(광명)*/
+	    String deprDtm = "2025-06-25";
 	    String busClsCd = "일반";
+	    String busId = "BUS001";
 	    
 	    if (request.getParameter("deprCd") != null) {
 	    	deprId = request.getParameter("deprCd");
@@ -49,18 +50,17 @@ public class SeatHandler implements CommandHandler {
 	    	busClsCd = request.getParameter("busClsCd");
 	    }
 	    
-	    LocalDateTime loc = LocalDateTime.parse(deprDtm);
-	    DateTimeFormatter oracleFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedTime = loc.format(oracleFormatter);
-	    
-	    
-	  
 	    
 	    String sourcePage = request.getParameter("sourcePage");
 	    System.out.println("sourcePage " + sourcePage);
 	    
 	    
-	    if ("kobusModifyResvSch.jsp".equals(sourcePage)) { 
+	    if ("kobusModifyResvSch.jsp".equals(sourcePage)) {
+	    	
+	    	LocalDateTime loc = LocalDateTime.parse(deprDtm);
+		    DateTimeFormatter oracleFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	        String formattedTime = loc.format(oracleFormatter);
+	    	
 	    	String deprName = request.getParameter("deprNm");
 	    	String arrvName = request.getParameter("arvlNm");
 	    	String durMin = request.getParameter("takeDrtm");
@@ -96,9 +96,6 @@ public class SeatHandler implements CommandHandler {
 	    	changeSeatList.add(changeSeat);
 
 	    	request.setAttribute("changeSeatList", changeSeatList);
-
-
-
 	    }
 	    
 	    
@@ -114,13 +111,13 @@ public class SeatHandler implements CommandHandler {
 			ScheduleDAO schDAO = new ScheduleDAOImpl(conn);
 			
 //			출발지 / 도착지 / 출발시간 / 버스등급을 기준으로 사용하는 busId 가져오기
-			String busId = dao.getBusId(deprId, arrId, formattedTime, busClsCd);
+//			String busId = dao.getBusId(deprId, arrId, deprDtm, busClsCd);
 			
 			// 탑승하는 버스 전체 좌석 가져오기
 			totalSeat = dao.getTotalSeats(busId);
 			
 			// 탑승하는 버스 스케줄 정보 가져오기
-			busList = schDAO.searchBusSchedule(deprId, arrId, formattedTime, busClsCd);
+			busList = schDAO.searchBusSchedule(deprId, arrId, deprDtm, busClsCd);
 			
 			// 탑승하는 버스 좌석 정보 가져오기
 			seatList = dao.searchSeat(busId);
@@ -187,6 +184,7 @@ public class SeatHandler implements CommandHandler {
 	    request.setAttribute("busList", busList);
 	    
 	    System.out.println(busList);
+	    
 	    
 	    if ("kobusModifyResvSch.jsp".equals(sourcePage)) {
 	    	return "/koBusFile/kobusModifyResvSeat.jsp";

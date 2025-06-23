@@ -1033,6 +1033,7 @@ $(document).ready(function () {
 									                        let durationText = `\${hour}시간 \${minute}분 소요`;
 									                    	
 									                        list.append(`
+
 									                        		<div class="routeHead">
 																	<p class="date">\${resv.rideDateStr} 출발</p>
 																	<p class="ticketPrice"></p>

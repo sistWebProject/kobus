@@ -49,7 +49,6 @@ public class ModifyResvHandlerSch implements CommandHandler {
 		String stuCnt = request.getParameter("chldNum");
 		String childCnt = request.getParameter("teenNum");
 		
-		
 
 		// 날짜 + 시간 조합 문자열 → 포맷된 탑승일 문자열로 사용
 		String rideDateStr = deprDay + " " + deprTime;
@@ -78,7 +77,7 @@ public class ModifyResvHandlerSch implements CommandHandler {
 		        .busGrade(busGrade)
 		        .durMin(durMinInt)
 		        .amount(amountInt)
-		        .payType(payType)
+		        .payMethod(payType)
 		        .aduCount(aduCountInt)
 		        .stuCount(stuCountInt)
 		        .chdCount(chdCountInt)

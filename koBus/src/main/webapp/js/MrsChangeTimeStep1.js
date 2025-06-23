@@ -66,7 +66,7 @@ function fnSearch() {
 	}
 
 	// 20210430 yahan 이중호출 방지
-	$("form[name=mrschangefrm]").attr({"action" : "/koBus/modifyResvHandlerSch.do", "method" : "post", "target" : "_self"}).submit(); // step2.do[배차조회]
+	$("form[name=mrschangefrm]").attr({"action" : "/koBus/modifyResvSch.do", "method" : "post", "target" : "_self"}).submit(); // step2.do[배차조회]
 
 //	var mrschangefrm = $("form[name=mrschangefrm]").serialize() ;
 //	$.ajax({	

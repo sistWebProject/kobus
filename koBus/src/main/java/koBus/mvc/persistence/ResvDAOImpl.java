@@ -60,7 +60,7 @@ public class ResvDAOImpl implements ResvDAO {
 			    "    B.busGrade,  " +
 			    "    BS.durMin,  " +
 			    "    PM.amount,  " +
-			    "    P.payType  " +
+			    "    PM.PAY_METHOD  " +
 			    " FROM reservation R " +
 			    " JOIN ReservedSeats RS ON R.resID = RS.resID " +
 			    " JOIN seat S ON RS.seatID = S.seatID " +
@@ -73,13 +73,12 @@ public class ResvDAOImpl implements ResvDAO {
 			    " JOIN arrival A ON RT.arrID = A.arrID " +
 			    " JOIN region RGD ON D.regID = RGD.regID " +
 			    " JOIN region RGA ON A.regID = RGA.regID " +
-			    " JOIN paymentmethod PM ON R.resID = PM.resID " +
-			    " JOIN payment P ON PM.PMTID = P.PMTID " +
+			    " JOIN RESERVATION_PAYMENT PM ON R.resID = PM.RES_ID " +
 			    " WHERE KU.id = ? " + 
 			    " GROUP BY " +
 			    "    R.resID, R.rideDate, R.resvDate, R.resvStatus, R.resvType, R.qrCode, " +
 			    "    RGD.regId, RGD.regName, RGA.regId, RGA.regName, " +
-			    "    C.comName, B.busGrade, BS.durMin, PM.amount, P.payType " +
+			    "    C.comName, B.busGrade, BS.durMin, PM.amount, PM.PAY_METHOD " +
 			    " ORDER BY R.resvDate DESC";
 
 
@@ -114,7 +113,7 @@ public class ResvDAOImpl implements ResvDAO {
 		        int durMin = rs.getInt("durMin");
 		        int amount = rs.getInt("amount");
 		        int totalcount = rs.getInt("totalCount");
-		        String payType = rs.getString("payType");
+		        String payMethod = rs.getString("PAY_METHOD");
 
 		        this.dto = new ResvDTO().builder()
 		                .resId(resID)
@@ -137,7 +136,7 @@ public class ResvDAOImpl implements ResvDAO {
 		                .durMin(durMin)
 		                .amount(amount)
 		                .totalCount(totalcount)
-		                .payType(payType)
+		                .payMethod(payMethod)
 		                .build();
 
 		        resvList.add(dto);
