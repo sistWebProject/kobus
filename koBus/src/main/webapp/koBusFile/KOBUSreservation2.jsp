@@ -21,7 +21,7 @@ System.out.println(">> busrank: " + request.getParameter("busClsCd"));
 	name="viewport" />
 <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
 <title>예매정보입력(배차조회) | 고속버스예매 | 고속버스예매 | 고속버스통합예매</title>
-<link href="/images/favicon.ico" rel="shortcut icon" />
+<link href="/koBus/images/favicon.ico" rel="shortcut icon" />
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 <script type="text/javascript">
 	/*********************************************
@@ -35,6 +35,15 @@ System.out.println(">> busrank: " + request.getParameter("busClsCd"));
 <script type="text/javascript" src="/koBus/js/OprnAlcnInqr.js"></script>
 <script type="text/javascript" src="/koBus/js/OprnAlcnInqrPup.js"></script>
 <script type="text/javascript" src="/koBus/js/SatsChc.js"></script>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- jQuery UI -->
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+
+
 
 <%-- 
 <script>
@@ -294,6 +303,8 @@ $(document).ready(function () {
 
                     console.log("선택된 출발시각:", timePart);
                 });
+                
+                
             },
             error: function () {
                 $("#resultArea").html("<p>배차 정보 조회 실패</p>");
@@ -305,24 +316,97 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function () {
-    const deprDtm = $("#deprDtm").val(); // "2025.06.23" 형식
+  // 초기 날짜 렌더링 (생략)
 
-    if (deprDtm) {
-        const parts = deprDtm.split(".");
-        const year = parseInt(parts[0]);
-        const month = parseInt(parts[1]) - 1; // JS는 0부터 시작
-        const day = parseInt(parts[2]);
+  $("#busDate11").datepicker({
+    dateFormat: "yy.mm.dd",
+    showOn: "focus",
+    onSelect: function (dateText) {
+      // 1) 포맷팅 & hidden input 갱신
+      const parts = dateText.split(".");
+      const year = parseInt(parts[0], 10);
+      const month = parseInt(parts[1], 10) - 1;
+      const day = parseInt(parts[2], 10);
+      const weekdayNames = ["일","월","화","수","목","금","토"];
+      const dow = weekdayNames[new Date(year, month, day).getDay()];
+      const formattedLabel = year + ". " + (month+1) + ". " + day + ". " + dow;
+      const padM = (month+1<10?"0":"") + (month+1);
+      const padD = (day<10?"0":"") + day;
+      const yyyymmdd = "" + year + padM + padD;
 
-        const date = new Date(year, month, day);
+      $("#rideDate").text(formattedLabel);
+      $("#alcnDeprDtm").text(formattedLabel);    // 좌측 파란영역
+      $("#deprDtm").val(yyyymmdd);               // AJAX 파라미터
+      $("#deprDtmAll").val(formattedLabel);
+      $("#deprDtmOrg").val(yyyymmdd);
+      $("#deprDtmAllOrg").val(formattedLabel);
 
-        const weekdayNames = ["일", "월", "화", "수", "목", "금", "토"];
-        const dayOfWeek = weekdayNames[date.getDay()];
+      // 2) AJAX로 배차정보 조회
+      $.ajax({
+        url: "<%=request.getContextPath()%>/getDuration.ajax",  // 기존 searchSch 엔드포인트
+        type: "GET",
+        data: {
+          ajax: "true",
+          ajaxType: "searchSch",
+          deprCd: $("#deprCd").val(),
+          arvlCd: $("#arvlCd").val(),
+          deprDtm: yyyymmdd,
+          busClsCd: $("#busClsCd").val(),
+          sourcePage: "KOBUSreservation2.jsp"
+        },
+        dataType: "json",
+        success: function (data) {
+          // 3) 기존 내용 클리어
+          $("#resultArea").empty();
 
-        const formattedDate = `\${year}. \${month + 1}. \${day}. \${dayOfWeek}`;
-        $("#rideDate").text(formattedDate); // ✅ 동적으로 라벨 변경
+          if (!data.alcnAllList || data.alcnAllList.length === 0) {
+            $("#resultArea").html("<p>조회된 배차 정보가 없습니다.</p>");
+            return;
+          }
+
+          // 4) 새 HTML 렌더링
+          data.alcnAllList.forEach(item => {
+            const time = item.DEPR_TIME_DVS;
+            const isSoldOut = item.RMN_SATS_NUM == 0;
+            const row = `
+              <p class="schedule-row \${isSoldOut?'disabled':''}" 
+                 data-deprdtm="\${item.DEPR_DATE} ${time}"
+                 data-deprtrmlno="\${item.DEPR_TRML_NO}"
+                 data-arvltrmlno="\${item.ARVL_TRML_NO}">
+                 
+                <span class="start_time">\${time}</span>
+                
+                <span class="bus_com">\${item.CACM_MN}</span> <!-- 고속사 -->
+                <span class="grade">\${item.BUS_CLS_NM}</span> <!-- 등급 -->
+                
+                <span class="temp">\${item.ADLT_FEE.toLocaleString()}원</span>
+                <span class="remain">\${item.RMN_SATS_NUM}석</span>
+                <span class="status">
+                  <input type="submit" value="\${isSoldOut?'매진':'예매'}"
+                         \${isSoldOut?'disabled':''}
+                         form="alcnSrchFrm"
+                         formaction="/koBus/kobusSeat.do">
+                </span>
+              </p>`;
+            $("#resultArea").append(row);
+          });
+        },
+        error: function () {
+          $("#resultArea").html("<p>배차 정보 조회 실패</p>");
+        }
+      });
     }
+  });
+
+  // 달력 버튼
+  $(document).on("click", "#calendarTriggerBtn", function () {
+    $("#busDate11").datepicker("show");
+  });
 });
 </script>
+
+
+
 
 
 <script type="text/javascript">
@@ -801,25 +885,27 @@ $(document).on("click", ".time li a", function () {
 								6. 17. 화</label>
 						</div>  -->
 				<div class="detailBox">
-					<div class="detailBox_head col3" style="min-height: 70px;">
-						<div class="box_refresh">
-							<button class="btn btn_refresh" id="reloadBtn" type="button">
-								<span class="ico_refresh"><span class="sr-only">새로고침</span></span>
-							</button>
+						<div class="detailBox_head col3" style="min-height: 70px;">
+							<div class="box_refresh">
+								<button class="btn btn_refresh" id="reloadBtn" type="button">
+									<span class="ico_refresh"><span class="sr-only">새로고침</span></span>
+								</button>
+							</div>
+
+							<div class="head_date">
+								<input id="busDate11" type="text" readonly style="display: none;">
+								<!-- <input id="busDate11" type="text" readonly style="position: absolute; left: -9999px;"> -->
+								<button class="datepicker-btn" type="button"
+									id="calendarTriggerBtn">
+									<img alt="날짜 선택 달력" src="/koBus/images/page/ico_calender.png" />
+								</button>
+								<label class="date_cont" for="busDate11" id="rideDate">2025.
+									6. 17. 화</label>
+								<%-- <label class="date_cont" for="busDate11" id="rideDate"><%= request.getParameter("deprDtm") %></label> --%>
+							</div>
+							
 						</div>
-						
-						<div class="head_date">
-							<input id="busDate11" type="text" readonly style="display: none;">
-							<button class="datepicker-btn" type="button"
-								id="calendarTriggerBtn">
-								<img alt="날짜 선택 달력" src="/koBus/images/page/ico_calender.png" />
-							</button>
-							 <label class="date_cont" for="busDate11" id="rideDate">2025.
-								6. 17. 화</label> 
-							<%-- <label class="date_cont" for="busDate11" id="rideDate"><%= request.getParameter("deprDtm") %></label> --%>
-						</div> 
-					</div>
-					<!-- <script>
+						<!-- <script>
 						$(function() {
 							// DatePicker 적용
 							$("#busDate11").datepicker({
@@ -1110,293 +1196,12 @@ $(document).on("click", ".time li a", function () {
 		</div>
 	</div>
 </div>
-<div
-	class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all hasDatepicker"
-	id="ui-datepicker-div" tabindex="0">
-	<div
-		class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all">
-		<a class="ui-datepicker-prev ui-corner-all ui-state-disabled"
-			title="이전달"><span class="ui-icon ui-icon-circle-triangle-w">이전달</span></a><a
-			class="ui-datepicker-next ui-corner-all" data-event="click"
-			data-handler="next" title="다음달"><span
-			class="ui-icon ui-icon-circle-triangle-e">다음달</span></a>
-		<div class="ui-datepicker-title">
-			<span class="ui-datepicker-year">2025</span>. <span
-				class="ui-datepicker-month">6</span>
-		</div>
-	</div>
-	<table class="ui-datepicker-calendar">
-		<caption>날짜 선택 달력</caption>
-		<thead>
-			<tr>
-				<th class="ui-datepicker-week-end" scope="col"><span
-					title="일요일">일</span></th>
-				<th scope="col"><span title="월요일">월</span></th>
-				<th scope="col"><span title="화요일">화</span></th>
-				<th scope="col"><span title="수요일">수</span></th>
-				<th scope="col"><span title="목요일">목</span></th>
-				<th scope="col"><span title="금요일">금</span></th>
-				<th class="ui-datepicker-week-end" scope="col"><span
-					title="토요일">토</span></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				<td
-					class="ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled"><span
-					class="ui-state-default">1</span></td>
-				<td class="ui-datepicker-unselectable ui-state-disabled"><span
-					class="ui-state-default">2</span></td>
-				<td class="ui-datepicker-unselectable ui-state-disabled"><span
-					class="ui-state-default">3</span></td>
-				<td class="ui-datepicker-unselectable ui-state-disabled"><span
-					class="ui-state-default">4</span></td>
-				<td class="ui-datepicker-unselectable ui-state-disabled"><span
-					class="ui-state-default">5</span></td>
-				<td class="ui-datepicker-unselectable ui-state-disabled"><span
-					class="ui-state-default">6</span></td>
-				<td class="ui-datepicker-week-end ui-datepicker-today"
-					data-event="click" data-handler="selectDay" data-month="5"
-					data-year="2025"><a
-					class="ui-state-default ui-state-highlight" href="#">7</a></td>
-			</tr>
-			<tr>
-				<td class="ui-datepicker-week-end" data-event="click"
-					data-handler="selectDay" data-month="5" data-year="2025"><a
-					class="ui-state-default" href="#">8</a></td>
-				<td class="" data-event="click" data-handler="selectDay"
-					data-month="5" data-year="2025"><a class="ui-state-default"
-					href="#">9</a></td>
-				<td class="" data-event="click" data-handler="selectDay"
-					data-month="5" data-year="2025"><a class="ui-state-default"
-					href="#">10</a></td>
-				<td class="" data-event="click" data-handler="selectDay"
-					data-month="5" data-year="2025"><a class="ui-state-default"
-					href="#">11</a></td>
-				<td class="" data-event="click" data-handler="selectDay"
-					data-month="5" data-year="2025"><a class="ui-state-default"
-					href="#">12</a></td>
-				<td class="" data-event="click" data-handler="selectDay"
-					data-month="5" data-year="2025"><a class="ui-state-default"
-					href="#">13</a></td>
-				<td class="ui-datepicker-week-end" data-event="click"
-					data-handler="selectDay" data-month="5" data-year="2025"><a
-					class="ui-state-default" href="#">14</a></td>
-			</tr>
-			<tr>
-				<td class="ui-datepicker-week-end" data-event="click"
-					data-handler="selectDay" data-month="5" data-year="2025"><a
-					class="ui-state-default" href="#">15</a></td>
-				<td class="" data-event="click" data-handler="selectDay"
-					data-month="5" data-year="2025"><a class="ui-state-default"
-					href="#">16</a></td>
-				<td class="ui-datepicker-current-day" data-event="click"
-					data-handler="selectDay" data-month="5" data-year="2025"><a
-					class="ui-state-default ui-state-active" href="#">17</a></td>
-				<td class="" data-event="click" data-handler="selectDay"
-					data-month="5" data-year="2025"><a class="ui-state-default"
-					href="#">18</a></td>
-				<td class="" data-event="click" data-handler="selectDay"
-					data-month="5" data-year="2025"><a class="ui-state-default"
-					href="#">19</a></td>
-				<td class="" data-event="click" data-handler="selectDay"
-					data-month="5" data-year="2025"><a class="ui-state-default"
-					href="#">20</a></td>
-				<td class="ui-datepicker-week-end" data-event="click"
-					data-handler="selectDay" data-month="5" data-year="2025"><a
-					class="ui-state-default" href="#">21</a></td>
-			</tr>
-			<tr>
-				<td class="ui-datepicker-week-end" data-event="click"
-					data-handler="selectDay" data-month="5" data-year="2025"><a
-					class="ui-state-default" href="#">22</a></td>
-				<td class="" data-event="click" data-handler="selectDay"
-					data-month="5" data-year="2025"><a class="ui-state-default"
-					href="#">23</a></td>
-				<td class="" data-event="click" data-handler="selectDay"
-					data-month="5" data-year="2025"><a class="ui-state-default"
-					href="#">24</a></td>
-				<td class="" data-event="click" data-handler="selectDay"
-					data-month="5" data-year="2025"><a class="ui-state-default"
-					href="#">25</a></td>
-				<td class="" data-event="click" data-handler="selectDay"
-					data-month="5" data-year="2025"><a class="ui-state-default"
-					href="#">26</a></td>
-				<td class="" data-event="click" data-handler="selectDay"
-					data-month="5" data-year="2025"><a class="ui-state-default"
-					href="#">27</a></td>
-				<td class="ui-datepicker-week-end" data-event="click"
-					data-handler="selectDay" data-month="5" data-year="2025"><a
-					class="ui-state-default" href="#">28</a></td>
-			</tr>
-			<tr>
-				<td class="ui-datepicker-week-end" data-event="click"
-					data-handler="selectDay" data-month="5" data-year="2025"><a
-					class="ui-state-default" href="#">29</a></td>
-				<td class="" data-event="click" data-handler="selectDay"
-					data-month="5" data-year="2025"><a class="ui-state-default"
-					href="#">30</a></td>
-				<td
-					class="ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled"> </td>
-				<td
-					class="ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled"> </td>
-				<td
-					class="ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled"> </td>
-				<td
-					class="ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled"> </td>
-				<td
-					class="ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled"> </td>
-			</tr>
-		</tbody>
-	</table>
-	<div
-		class="ui-datepicker-inline ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"
-		style="display: block;">
-		<div
-			class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all">
-			<a class="ui-datepicker-prev ui-corner-all" data-event="click"
-				data-handler="prev" title="이전달"><span
-				class="ui-icon ui-icon-circle-triangle-w">이전달</span></a><a
-				class="ui-datepicker-next ui-corner-all" data-event="click"
-				data-handler="next" title="다음달"><span
-				class="ui-icon ui-icon-circle-triangle-e">다음달</span></a>
-			<div class="ui-datepicker-title">
-				<span class="ui-datepicker-year">2025</span>. <span
-					class="ui-datepicker-month">6</span>
-			</div>
-		</div>
-		<table class="ui-datepicker-calendar">
-			<caption>날짜 선택 달력</caption>
-			<thead>
-				<tr>
-					<th class="ui-datepicker-week-end" scope="col"><span
-						title="일요일">일</span></th>
-					<th scope="col"><span title="월요일">월</span></th>
-					<th scope="col"><span title="화요일">화</span></th>
-					<th scope="col"><span title="수요일">수</span></th>
-					<th scope="col"><span title="목요일">목</span></th>
-					<th scope="col"><span title="금요일">금</span></th>
-					<th class="ui-datepicker-week-end" scope="col"><span
-						title="토요일">토</span></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td class="ui-datepicker-week-end" data-event="click"
-						data-handler="selectDay" data-month="5" data-year="2025"><a
-						class="ui-state-default" href="#">1</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">2</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">3</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">4</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">5</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">6</a></td>
-					<td
-						class="ui-datepicker-week-end ui-datepicker-days-cell-over ui-datepicker-today ui-datepicker-current-day ui-datepicker-today"
-						data-event="click" data-handler="selectDay" data-month="5"
-						data-year="2025" title="오늘"><a
-						class="ui-state-default ui-state-highlight ui-state-active ui-state-hover"
-						href="#">7</a></td>
-				</tr>
-				<tr>
-					<td class="ui-datepicker-week-end" data-event="click"
-						data-handler="selectDay" data-month="5" data-year="2025"><a
-						class="ui-state-default" href="#">8</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">9</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">10</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">11</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">12</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">13</a></td>
-					<td class="ui-datepicker-week-end" data-event="click"
-						data-handler="selectDay" data-month="5" data-year="2025"><a
-						class="ui-state-default" href="#">14</a></td>
-				</tr>
-				<tr>
-					<td class="ui-datepicker-week-end" data-event="click"
-						data-handler="selectDay" data-month="5" data-year="2025"><a
-						class="ui-state-default" href="#">15</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">16</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">17</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">18</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">19</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">20</a></td>
-					<td class="ui-datepicker-week-end" data-event="click"
-						data-handler="selectDay" data-month="5" data-year="2025"><a
-						class="ui-state-default" href="#">21</a></td>
-				</tr>
-				<tr>
-					<td class="ui-datepicker-week-end" data-event="click"
-						data-handler="selectDay" data-month="5" data-year="2025"><a
-						class="ui-state-default" href="#">22</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">23</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">24</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">25</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">26</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">27</a></td>
-					<td class="ui-datepicker-week-end" data-event="click"
-						data-handler="selectDay" data-month="5" data-year="2025"><a
-						class="ui-state-default" href="#">28</a></td>
-				</tr>
-				<tr>
-					<td class="ui-datepicker-week-end" data-event="click"
-						data-handler="selectDay" data-month="5" data-year="2025"><a
-						class="ui-state-default" href="#">29</a></td>
-					<td class="" data-event="click" data-handler="selectDay"
-						data-month="5" data-year="2025"><a class="ui-state-default"
-						href="#">30</a></td>
-					<td
-						class="ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled"> </td>
-					<td
-						class="ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled"> </td>
-					<td
-						class="ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled"> </td>
-					<td
-						class="ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled"> </td>
-					<td
-						class="ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled"> </td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+<div class="head_date">
+  <input id="busDate11" type="text" readonly style="display: none;">
+  <button class="datepicker-btn" type="button" id="calendarTriggerBtn">
+    <img alt="날짜 선택 달력" src="/koBus/images/page/ico_calender.png" />
+  </button>
+  <label class="date_cont" for="busDate11" id="rideDate">2025. 6. 17. 화</label>
 </div>
 </body>
 </html>
