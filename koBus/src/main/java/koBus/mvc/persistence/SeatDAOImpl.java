@@ -33,9 +33,11 @@ public class SeatDAOImpl implements SeatDAO{
 	}
 	
 	@Override
-	public String getBusId(String deprId, String arrId, String formattedTime, String busClsCd) {
+	public String getBusId(String deprId, String arrId, String deprDtm) {
 		
 		String busId = null;
+		
+		System.out.printf("deprId = %s, arrId = %s, deprDtm = %s\n", deprId, arrId, deprDtm);
 		
 		String sql = "SELECT b.BUSID "
 				+ "	FROM BUSSCHEDULE b "
@@ -45,22 +47,28 @@ public class SeatDAOImpl implements SeatDAO{
 				+ "	JOIN BUS bu ON b.BUSID = bu.BUSID "
 				+ "	WHERE d.REGID = ? "
 				+ "  AND a.REGID = ? "
-				+ "  AND b.DEPARTUREDATE = TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS') "
-				+ "  AND bu.BUSGRADE = ? ";
+				+ "  AND b.DEPARTUREDATE = TO_TIMESTAMP(?, 'YYYYMMDD HH24:MI') ";
 		
 		 try {
-		        this.pstmt = conn.prepareStatement(sql);
+			 if (deprDtm.matches("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}")) {
+			        String datePart = deprDtm.substring(0, 10).replace("-", "");
+			        String timePart = deprDtm.substring(11, 16);  // HH:mm
+			        deprDtm = datePart + " " + timePart;
+
+
+			    // Case 2: "yyyy-MM-dd"
+			    }   
+			 
+			 this.pstmt = conn.prepareStatement(sql);
 		        this.pstmt.setString(1, deprId);
 		        this.pstmt.setString(2, arrId);
-		        this.pstmt.setString(3, formattedTime);
-		        this.pstmt.setString(4, busClsCd);
+		        this.pstmt.setString(3, deprDtm);
 		        this.rs = pstmt.executeQuery();
 		        
 		        if (rs.next()) {
 		        	busId = rs.getString("BUSID");
 		        }
 		        
-		        System.out.println("busId : " + busId);
 
 
 		    } catch (Exception e) {

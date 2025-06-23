@@ -7,12 +7,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.util.ConnectionProvider;
 
 import koBus.mvc.domain.RegionDTO;
 import koBus.mvc.persistence.RegionDAO;
 import koBus.mvc.persistence.RegionDAOImpl;
-
 
 public class RegionHandler implements CommandHandler {
 
@@ -49,24 +49,14 @@ public class RegionHandler implements CommandHandler {
                     }
                 }
 
+                // Gson 사용하여 JSON 변환
+                Gson gson = new Gson();
+                String json = gson.toJson(list);
+                System.out.println(">> JSON 결과(Gson): " + json);
+
                 response.setContentType("application/json; charset=UTF-8");
                 PrintWriter out = response.getWriter();
-
-                StringBuilder sb = new StringBuilder();
-                sb.append("[");
-                for (int i = 0; i < list.size(); i++) {
-                    RegionDTO dto = list.get(i);
-                    sb.append("{")
-                      .append("\"regID\":\"").append(dto.getRegID()).append("\",")
-                      .append("\"regName\":\"").append(dto.getRegName()).append("\",")
-                      .append("\"sidoCode\":\"").append(dto.getSidoCode()).append("\"")
-                      .append("}");
-                    if (i < list.size() - 1) sb.append(",");
-                }
-                sb.append("]");
-
-                System.out.println(">> JSON 결과: " + sb.toString());
-                out.print(sb.toString());
+                out.print(json);
                 out.flush();
                 out.close();
 

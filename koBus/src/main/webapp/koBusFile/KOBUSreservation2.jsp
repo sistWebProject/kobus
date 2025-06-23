@@ -176,6 +176,8 @@ $(document).ready(function () {
     const arvlCd = $("#arvlCd").val();
     const deprDtm = $("#deprDtm").val();   // yyyy.MM.dd 형식
     const busClsCd = $("#busClsCd").val();
+    const deprNm = $("#deprNm").val();
+    const arvlNm = $("#arvlNm").val();
 
     // 1. 소요시간 먼저 조회
     if (deprCd && arvlCd) {
@@ -681,6 +683,7 @@ $(document).on("click", ".time li a", function () {
 		type="text/javascript"></script>
 	<form action="/mrs/alcnSrch.do" id="alcnSrchFrm" method="post"
 		name="alcnSrchFrm">
+		<input type="hidden" name="sourcePage" value="KOBUSreservation2.jsp">
 		<input id="deprCd" name="deprCd" type="hidden" value="<%= request.getParameter("deprCd") %>" />
 		<!-- 출발지코드 -->
 		<!-- <input id="deprNm" name="deprNm" type="hidden" value="동서울" /> -->

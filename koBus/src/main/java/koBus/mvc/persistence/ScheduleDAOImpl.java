@@ -97,18 +97,11 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 	@Override
 	public List<ScheduleDTO> searchBusSchedule(String deprId, String arrId, String deprDtm, String busClsCd) throws SQLException {
 		List<ScheduleDTO> schList = new ArrayList<>();
-		
-//		DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//		String deprDateOnly = deprDtm.format(outputFormatter);
 
-		System.out.println(deprDtm);
-		
-		if (deprDtm.length() > 9) {
-			deprDtm = deprDtm.substring(0, 10).trim();
-		}
-		 
 		
 		System.out.printf("deprId : %s, arrId : %s, deprDtm : %s, busClsCd :  %s\n", deprId, arrId, deprDtm, busClsCd);
+		
+		
 
 		String sql = "SELECT "
 				+ " BS.BSHID, "
@@ -132,21 +125,54 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 				+ " JOIN departure D ON D.DEPID = R.DEPID "
 				+ " JOIN REGION RGD ON D.REGID = RGD.REGID  "
 				+ " JOIN REGION RGA ON A.REGID = RGA.REGID "
-				+ " WHERE RGD.REGID = ? AND RGA.REGID = ? "
-				+ " AND TRUNC(BS.DEPARTUREDATE) = TO_DATE( ? , 'YYYY-MM-DD') ";
+				+ " WHERE RGD.REGID = ? AND RGA.REGID = ? ";
+		
+		
+		if (deprDtm != null) {
+		    // Case 1: "yyyy-MM-dd HH:mm:ss"
+		    if (deprDtm.matches("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}")) {
+		        String datePart = deprDtm.substring(0, 10).replace("-", "");
+		        String timePart = deprDtm.substring(11, 16);  // HH:mm
+		        deprDtm = datePart + " " + timePart;
+
+		        sql += " AND BS.DEPARTUREDATE = TO_TIMESTAMP(?, 'YYYYMMDD HH24:MI') ";
+
+		    // Case 2: "yyyy-MM-dd"
+		    } else if (deprDtm.matches("\\d{4}-\\d{2}-\\d{2}")) {
+		        deprDtm = deprDtm.replace("-", "");
+
+		        sql += " AND TRUNC(BS.DEPARTUREDATE) = TO_DATE(?, 'YYYYMMDD') ";
+
+		    // Case 3: "yyyyMMdd HH:mm"
+		    } else if (deprDtm.matches("\\d{8} \\d{2}:\\d{2}")) {
+		        sql += " AND BS.DEPARTUREDATE = TO_TIMESTAMP(?, 'YYYYMMDD HH24:MI') ";
+
+		    // Case 4: "yyyyMMdd"
+		    } else if (deprDtm.matches("\\d{8}")) {
+		        sql += " AND TRUNC(BS.DEPARTUREDATE) = TO_DATE(?, 'YYYYMMDD') ";
+
+		    } else {
+		        System.out.println("입력 형식이 올바르지 않습니다.");
+		    }
+		}
+
+
 
 		if (!busClsCd.equals("전체")) {
-			sql += " AND B.BUSGRADE = ? ";
+		    sql += " AND B.BUSGRADE = ? ";
 		}
 
 		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, deprId);
-		pstmt.setString(2, arrId);
-		pstmt.setString(3, deprDtm);
+		int paramIndex = 1;
+
+		pstmt.setString(paramIndex++, deprId);
+		pstmt.setString(paramIndex++, arrId);
+		pstmt.setString(paramIndex++, deprDtm);  // TO_DATE 또는 TO_TIMESTAMP 둘 중 하나
 
 		if (!busClsCd.equals("전체")) {
-			pstmt.setString(4, busClsCd);
+		    pstmt.setString(paramIndex++, busClsCd);
 		}
+
 
 		rs = pstmt.executeQuery();
 

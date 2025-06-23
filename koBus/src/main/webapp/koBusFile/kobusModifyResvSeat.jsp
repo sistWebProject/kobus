@@ -202,10 +202,10 @@
 				<!-- 직통sngl,환승trtr,왕복rtrp -->
 				<input type="hidden" name="pathStep" id="pathStep" value="1">
 				<!-- 왕편 복편 설정 -->
-				<input type="hidden" name="deprDtm" id="deprDtm" value="${change.rideDate }">
+				<input type="hidden" name="deprDtm" id="deprDtm" value="${change.rideDateStr }">
 				<!-- 가는날(편도,왕복) -->
 				<input type="hidden" name="deprDtmAll" id="deprDtmAll"
-					value="${change.rideDate }">
+					value="${change.rideDateStr }">
 				<!-- 가는날(편도,왕복) -->
 				<input type="hidden" name="arvlDtm" id="arvlDtm" value="20250621">
 				<!-- 오는날(왕복) -->

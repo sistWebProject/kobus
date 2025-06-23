@@ -13,6 +13,6 @@ public interface SeatDAO {
 	
 	List<SeatDTO> searchSeat(String busId) throws SQLException;
 
-	String getBusId(String deprId, String arrId, String formattedTime, String busClsCd) throws SQLException;
+	String getBusId(String deprId, String arrId, String formattedTime) throws SQLException;
 	
 }

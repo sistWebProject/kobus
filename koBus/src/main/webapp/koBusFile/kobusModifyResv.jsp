@@ -188,7 +188,7 @@
 							<div class="routeBody clfix">
 								<div class="routeArea route_wrap">
 									<p class="date">
-										<span>가는편</span>${resv.rideDate }
+										<span>가는편</span>${resv.rideDateStr }
 									</p>
 									<div class="inner">
 

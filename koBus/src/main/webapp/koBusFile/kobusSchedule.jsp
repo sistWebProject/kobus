@@ -168,7 +168,7 @@
 
 
 			<form name="rotInfFrm" id="rotInfFrm" method="post"
-				action="/kobusSchedule.do">
+				action="/koBus/kobusSchedule.do">
 				<input type="hidden" name="sourcePage" value="kobusSchedule.jsp">
 				<input type="hidden" name="deprCd" id="deprCd" value="">
 				<!-- 출발지코드 -->

@@ -93,7 +93,7 @@ $(document).ready(function () {
             <div class="container">
                <div class="gnb-area">
                   <ul id="new-kor-gnb">
-                     <li><a href="/koBus/kobusSeat.do">고속버스예매</a>
+                     <li><a href="/koBus/region.do">고속버스예매</a>
                         <ul>
                            <li><a href="javascript:void(0);">고속버스
                                  예매</a></li>
