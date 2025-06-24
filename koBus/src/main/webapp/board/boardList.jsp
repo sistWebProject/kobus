@@ -5,6 +5,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 
 <!DOCTYPE html>
 <html>
@@ -48,9 +50,13 @@ body {
 
 /* list.jsp의 주요 콘텐츠를 감싸는 컨테이너 */
 .content-body .container {
-	max-width: 960px; /* 컨텐츠 최대 너비 */
-	margin: 40px auto; /* 중앙 정렬 및 상하 여백 */
-	padding: 0 20px; /* 좌우 패딩 */
+	max-width: 800px;
+	margin: 40px auto;
+	padding: 20px;
+	background-color: #fff;
+	border: 1px solid #ccc; /* 더 진한 회색 테두리 */
+	border-radius: 8px;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* 그림자 더 진하게, 퍼짐 더 큼 */
 }
 
 /* 상단 알림 문구 */
@@ -288,22 +294,21 @@ body {
 							<th>번호</th>
 							<th>제목</th>
 							<th>작성자</th>
-							<th style="text-align: right;">작성일</th>
+							<th style="text-align: center;">작성일</th>
 							<th>조회수</th>
-							<%-- 💡 추가: 조회수 컬럼 헤더 --%>
+
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="dto" items="${list}">
 							<tr>
 								<td>${dto.brdID}</td>
-
 								<td class="title"><a href="boardView.do?brdID=${dto.brdID}">${dto.brdTitle}</a>
 								</td>
 								<td>${dto.userId}</td>
-								<td class="date">${dto.brdDate}</td>
+								<td class="date"><fmt:formatDate value="${dto.brdDate}"
+										pattern="yyyy-MM-dd HH:mm:ss" /></td>
 								<td>${dto.brdViews}</td>
-								<%-- 💡 추가: 조회수 데이터 출력 --%>
 							</tr>
 						</c:forEach>
 						<c:if test="${empty list}">
@@ -315,7 +320,8 @@ body {
 					</tbody>
 				</table>
 
-				<div class="btn-wrap" id="write" href="/koBus/html/boardWrite.do" class="btn">
+				<div class="btn-wrap" id="write" href="/koBus/html/boardWrite.do"
+					class="btn">
 					<a id="write" href="/koBus/html/boardWrite.do" class="btn">글쓰기</a>
 				</div>
 			</div>

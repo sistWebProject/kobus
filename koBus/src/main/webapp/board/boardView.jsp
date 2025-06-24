@@ -14,6 +14,7 @@
 <link rel="stylesheet" href="/koBus/media/ui.jqgrid.custom.css">
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 /* 필요한 CSS 추가 */
 .board-view-container {
@@ -21,8 +22,9 @@
 	margin: 40px auto;
 	padding: 20px;
 	background-color: #fff;
+	border: 1px solid #ccc; /* 더 진한 회색 테두리 */
 	border-radius: 8px;
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .board-view-header {
@@ -93,6 +95,7 @@
 	background-color: #c82333;
 }
 </style>
+
 </head>
 <body class="main KO">
 	<%@ include file="../koBusFile/common/header.jsp"%>
@@ -121,30 +124,74 @@
 						onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
 				</c:if>
 			</div>
-			<!-- 댓글 작성 폼 -->
-			<div class="comment-write" style="margin-top: 30px;">
-<form action="replyWrite.do" method="post">
-    <input type="hidden" name="brdID" value="${dto.brdID}">
-    <textarea name="content" required></textarea>
-    <button type="submit">댓글 등록</button>
-</form>
-
-
-			</div>
 
 			<!-- 댓글 목록 출력 -->
 			<div class="comment-list" style="margin-top: 20px;">
-				<h4>댓글</h4>
-				<c:forEach var="comment" items="${commentList}">
-					<div style="border-bottom: 1px solid #ccc; padding: 8px 0;">
-						<strong>${comment.kusID}</strong>
- <span
-							style="font-size: 12px; color: gray;">${comment.cmtDate}</span>
-						<p>${comment.cmtContent}</p>
-					</div>
-				</c:forEach>
+				<!-- 댓글 목록은 replyList.do의 결과로 갱신됨 -->
+			</div>
+			<!-- 댓글 작성 폼 -->
+			<div class="comment-write" style="margin-top: 30px;">
+				<form id="commentForm">
+					<input type="hidden" name="brdID" value="${dto.brdID}">
+					<textarea name="content" required></textarea>
+					<button type="submit">댓글 등록</button>
+				</form>
 			</div>
 		</div>
 	</div>
+
+<script>
+$(document).ready(function () {
+    $('#commentForm').submit(function (e) {
+        e.preventDefault();
+
+        const content = $('textarea[name="content"]').val();
+        const brdID = $('input[name="brdID"]').val();
+
+        if (!content.trim()) {
+            alert("댓글을 입력하세요.");
+            return;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '${pageContext.request.contextPath}/replyWrite.do',
+            data: {
+                brdID: brdID,
+                content: content
+            },
+            success: function (result) {
+                const trimmed = result.trim();
+                if (trimmed === 'success') {
+                    $('textarea[name="content"]').val('');
+                    loadComments();
+                } else if (trimmed === 'nologin') {
+                    alert("로그인이 필요합니다.");
+                    location.href = '${pageContext.request.contextPath}/page/logonMain.do';
+                } else {
+                    alert("댓글 등록 실패");
+                }
+            }
+        });
+    });
+
+    function loadComments() {
+        const brdID = $('input[name="brdID"]').val();
+
+        $.ajax({
+            url: '${pageContext.request.contextPath}/replyList.do',
+            type: 'GET',
+            data: { brdID: brdID },
+            success: function (data) {
+                $('.comment-list').html(data);
+            }
+        });
+    }
+
+    loadComments();
+});
+
+</script>
+
 </body>
 </html>
