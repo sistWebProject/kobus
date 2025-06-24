@@ -100,6 +100,7 @@ public class ResvDAOImpl implements ResvDAO {
 		        LocalDateTime rideDate = rs.getTimestamp("rideDate").toLocalDateTime();
 		        String rideDateStr = rideDate.format(formatter);
 		        LocalDateTime resvDate = rs.getTimestamp("resvDate").toLocalDateTime();
+		        String resvDateStr = resvDate.format(formatter);
 		        String resvStatus = rs.getString("resvStatus");
 		        String resvType = rs.getString("resvType");
 		        String qrCode = rs.getString("qrCode");
@@ -123,6 +124,7 @@ public class ResvDAOImpl implements ResvDAO {
 		                .chdCount(chdCount)
 		                .rideDateStr(rideDateStr)
 		                .resvStatus(resvStatus)
+		                .resvDateStr(resvDateStr)
 		                .resvType(resvType)
 		                .qrCode(qrCode)
 		                .deprRegCode(deprRegCode)

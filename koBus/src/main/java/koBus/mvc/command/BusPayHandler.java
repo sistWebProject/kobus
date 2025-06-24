@@ -24,13 +24,22 @@ public class BusPayHandler implements CommandHandler {
         String arvlNm = request.getParameter("arvlNm");        // 도착지 이름
 
         String cacmCd = request.getParameter("cacmCd");        // 고속사 코드
+        String cacmNm = request.getParameter("cacmNm");        // 고속사 코드
         String indVBusClsCd = request.getParameter("indVBusClsCd"); // 버스 등급 코드
 
         String selAdltCnt = request.getParameter("selAdltCnt"); // 성인 매수
         String selChldCnt = request.getParameter("selChldCnt"); // 아동 매수
         String selTeenCnt = request.getParameter("selTeenCnt"); // 청소년 매수
+        
+        String selectedSeatIds = request.getParameter("selectedSeatIds");
 
-        String selSeatNum = request.getParameter("selSeatNum"); // 좌석 번호 (예: "15,9")
+        System.out.println("selectedSeatIds " + selectedSeatIds);
+        System.out.println("cacmNm" + cacmNm);
+        
+        
+        
+        
+        
         
         request.setAttribute("deprCd", deprCd);
         request.setAttribute("deprDt", deprDt);
@@ -42,11 +51,10 @@ public class BusPayHandler implements CommandHandler {
         request.setAttribute("selAdltCnt", selAdltCnt);
         request.setAttribute("selChldCnt", selChldCnt);
         request.setAttribute("selTeenCnt", selTeenCnt);
-        request.setAttribute("selSeatNum", selSeatNum);
 
 
 
         // 4. 이동할 JSP 경로 리턴 (예시: busPay.jsp)
-        return "/koBus/koBusFile/busPay.jsp";
+        return "/koBusFile/busPay.jsp";
     }
 }
