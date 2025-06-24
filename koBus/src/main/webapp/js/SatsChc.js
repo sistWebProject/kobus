@@ -1816,14 +1816,14 @@ function fnLoginChk(){
 	//var rotInfFrm = $("form[name=rotInfFrm]").serialize() ;
 	let login = $(".util-list > li:nth-child(1)").text();
 	
-/*	if(login.equal("로그인")) {
+	if(login.equal("로그인")) {
 		var popLogin = $('[data-remodal-id=popLogin]').remodal().open();
 	}else {
 		$("#nonMbrsYn").val("N");
-	}*/
+	}
 	
 	
-/*	if(LoginChkMap.loginYn == "N" || LoginChkMap.mbrsDvsCd == "1"){
+	if(LoginChkMap.loginYn == "N" || LoginChkMap.mbrsDvsCd == "1"){
         		var popLogin = $('[data-remodal-id=popLogin]').remodal().open();
         	}else{
         		if(LoginChkMap.mbrsDvsCd == "1"){ //비회원
@@ -1832,7 +1832,7 @@ function fnLoginChk(){
         			$("#nonMbrsYn").val("N");
         		}
         		fnFrmSubmit();
-        	}*/
+        	}
 }
 
 
@@ -1980,8 +1980,6 @@ function fnSetPcpy(){
         dataType : "json",
         async    : true,
         success  : function(data){
-				
-        		//alert($("#pcpyNoAll").val());
         		if($("#pathDvs").val() == "rtrp"){
         			if($("#pathStep").val() == "1"){
         				var rtrpDt1 = $("#selSeatCnt").val() //입력매수,일반인할인매수,일반인,중고생,초등생,대학생 순으로','로 구분
@@ -2033,6 +2031,7 @@ function fnSetPcpy(){
 	        			
 	        			// 페이지 이동 -> pay 페이지로 이동시키기
 	        			$("#satsChcFrm").attr("action","/koBus/payment/buypay.do");
+	        			console.log('폼 action:', $("#satsChcFrm").attr("action"));
 	        			$("#satsChcFrm").submit();
         			}else if($("#pathStep").val() == "2"){
         				var rtrpDt2 = $("#selSeatCnt").val() //입력매수,일반인할인매수,일반인,중고생,초등생,대학생 순으로','로 구분
@@ -2064,13 +2063,12 @@ function fnSetPcpy(){
         				fnLoginChk();
         			}
         		}else{
-					/*$('#extrComp').val("ARMY");*/
-        			if ($('#extrComp').val() == 'ARMY'){
+
 						// 비회원예매
-						fnNonUsrMrs();
-					} else{
-	        			fnLoginChk();
-					}
+						$("#satsChcFrm").attr("action","/koBus/payment/buypay.do");
+					    console.log('폼 action:', $("#satsChcFrm").attr("action"));
+					    $("#satsChcFrm").submit();
+
         		}
         },
         error:function (e){
