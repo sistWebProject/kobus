@@ -407,6 +407,7 @@
 								<input type="hidden" name="payNm" id="payNm" value="${resv.payMethod}">
 								<input type="hidden" name="TRD_DTM" id="TRD_DTM" value="${resv.resvDateStr}">
 								<input type="hidden" name="seatNo" id="seatNo" value="${resv.seatNo}">
+								<input type="hidden" name="BRKP_AMT_CMM" id="BRKP_AMT_CMM" value="1500">
 								
 								<input type="hidden" name="pynDvsCd" id="pynDvsCd" value="3">
 								<input type="hidden" name="pynDtlCd" id="pynDtlCd" value="7">

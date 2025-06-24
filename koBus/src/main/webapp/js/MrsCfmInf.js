@@ -913,7 +913,7 @@ function fnRecpCan() {
 		if(confirm("예매취소 하시겠습니까?") == true){
 				$.ajax({
 			  		type:"post"		
-					,url:"/koBus/kobusResvCancel.ajax"
+					,url:"/koBus/kobusResvCancelOk.ajax"
 					,data:mrsRecpCanFrm // input 값 세팅 
 					,dataType:"json"
 					,success:function(data){

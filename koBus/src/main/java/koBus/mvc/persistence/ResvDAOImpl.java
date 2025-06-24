@@ -145,6 +145,48 @@ public class ResvDAOImpl implements ResvDAO {
 		
 		return resvList;
 	}
+
+	@Override
+	public int cancelResvList(String mrsMrnpNo) throws SQLException {
+	    int result = 0;
+	    int seatResult = 0;
+
+	    try {
+	        conn.setAutoCommit(false);  // 트랜잭션 시작
+
+	        // 1. 예약 취소
+	        String sql = "UPDATE RESERVATION "
+	                   + "SET RESVSTATUS = '예약취소', SEATABLE = 'N' "
+	                   + "WHERE RESID = ? AND RESVSTATUS = '예약완료' AND SEATABLE = 'Y'";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, mrsMrnpNo);
+	        result = pstmt.executeUpdate();
+
+	        // 2. 좌석 상태 변경
+	        String seatSql = "UPDATE SEAT SET SEATABLE = 'N' "
+	                       + "WHERE SEATID IN (SELECT SEATID FROM RESERVEDSEATS WHERE RESID = ?) "
+	                       + "AND SEATABLE = 'Y'";
+	        pstmt = conn.prepareStatement(seatSql);
+	        pstmt.setString(1, mrsMrnpNo);
+	        seatResult = pstmt.executeUpdate();
+
+	        conn.commit();  // 커밋
+
+	    } catch (SQLException e) {
+	        conn.rollback();  // 실패 시 롤백
+	        throw e;
+	    } finally {
+	        conn.setAutoCommit(true); // 자동 커밋 복원
+	    }
+
+	    // 변경된 행 수가 1 이상인지 확인 후 리턴
+	    if (result > 0 && seatResult > 0) {
+	        return result;
+	    } else {
+	        return 0;
+	    }
+	}
+
 	
 	
 
