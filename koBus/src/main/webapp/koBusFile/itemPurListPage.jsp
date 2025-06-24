@@ -17,7 +17,7 @@
 
 <link href="/koBus/css/common/ui.jqgrid.custom.css"
 	rel="stylesheet" type="text/css" />
-
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
 
 
@@ -108,7 +108,26 @@
 							<h3 class="sr-only">사용가능</h3>
 							<!-- 구매내역이 없을 때 -->
 							<div class="noti_wrap">
-								<p class="noti noData">사용가능 내역이 존재하지 않습니다.</p>
+								<c:choose>
+									<c:when test="${empty popItemList and empty freeItemList}">
+									<p class="noti noData">사용가능 내역이 존재하지 않습니다.</p>
+									</c:when>
+									<c:otherwise>
+										<c:forEach var="popItem" items="${popItemList}" >
+											<li>${popItem.couponName}</li>
+											<li>${popItem.payStatus}</li>
+											<li>${popItem.startDate}</li>
+											<li>${popItem.amount}</li>
+											<hr />
+										</c:forEach>
+										<c:forEach var="freeItem" items="${freeItemList}" >
+											<li>${freeItem.couponName}</li>
+											<li>${freeItem.payStatus}</li>
+											<li>${freeItem.startDate}</li>
+											<li>${freeItem.amount}</li>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
 							</div>
 							<!-- 구매내역이 있을 때 -->
 							<ul class="desc_list marT30">
@@ -244,8 +263,9 @@
 		<div
 			style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
 	</div>
-	<div class="remodal-overlay remodal-is-closed" style="display: none;"></div>
-	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
+	<div class="remodal-overlay remodal-is-closed" style="display:none;"></div>
+	<!-- 정기권 취소 모달창 :확정 -->
+	<div class="remodal-wrapper remodal-is-closed" style="display:none;">
 		<div
 			class="remodal pop_pass_history remodal-is-initialized remodal-is-closed"
 			data-remodal-id="popRefundSeasonTicket_step1" id="popPassRefund"
@@ -536,19 +556,80 @@
 					<!-- 20210318 프리패스 old -->
 					<div class="btns col1">
 						<button class="btnL btn_orange" data-remodal-action="confirm"
-							onclick="$('#popPassRefund').remodal().close();" type="button">닫기</button>
+							type="button" id="closeRemodal">닫기</button>
 						<button class="btnL btn_orange" data-remodal-action="confirm"
-							onclick="fnAdtnCanTran();" type="button">취소환불하기</button>
+							onclick="fnAdtnCanTran();" type="button" id="cancleRefund">취소환불하기</button>
 					</div>
 				</div>
 			</div>
 			<button class="remodal-close" data-remodal-action="close"
-				type="button">
+				type="button" id="closeRemodal">
 				<span class="sr-only">닫기</span>
 			</button>
 		</div>
 	</div>
-	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
+	<!-- 정기권 프리패스 취소완료 모달창 -->
+	<div class="remodal-wrapper remodal-is-closed" style="display:none;" id="remodal-freePassWrapper">
+		<div
+			class="remodal pop_pass_history remodal-is-initialized remodal-is-closed"
+			data-remodal-id="popRefundSeasonTicket_step2" id="popPassRefundRst"
+			role="dialog" tabindex="-1">
+			<div class="title type_blue">
+				<h2>취소하기</h2>
+			</div>
+			<div class="cont">
+				<div class="cont_inner">
+					<ol class="process">
+						<li>취소내역확인</li>
+						<li aria-current="true" class="active">취소완료</li>
+					</ol>
+					<!-- 결제정보 -->
+					<div class="bgGray pdBox blue mob_route">
+						<div class="tbl_type3">
+							<table class="taR">
+								<caption>결제 취소 정보에 대한 표이며 결제금액, 사용금액, 취소위약금, 총 환불금액 정보
+									제공</caption>
+								<colgroup>
+									<col style="width: 115px;" />
+									<col style="width: *;" />
+								</colgroup>
+								<tbody>
+									<tr>
+										<th scope="row">결제금액</th>
+										<td id="pubAmtPr"></td>
+									</tr>
+									<tr>
+										<th scope="row">사용금액</th>
+										<td id="acmtDdctAmtPr"></td>
+									</tr>
+									<tr>
+										<th scope="row">취소위약금</th>
+										<td id="brkpAmtCmmPr">0</td>
+									</tr>
+									<tr>
+										<th scope="row">총 환불금액</th>
+										<td><strong id="ryAmtPr"></strong>원</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- //결제정보 -->
+					<div class="btns col1">
+						<button class="btnL btn_orange"
+							type="button" id="closeRemodal">닫기</button>
+					</div>
+				</div>
+			</div>
+			<button class="remodal-close" data-remodal-action="close"
+				type="button" id="closeRemodal">
+				<span class="sr-only">닫기</span>
+			</button>
+		</div>
+	</div>
+	
+	<!-- 프리패스 취소 모달창 -->
+		<div class="remodal-wrapper remodal-is-closed" style="display:inline-block;">
 		<div
 			class="remodal pop_pass_history remodal-is-initialized remodal-is-closed"
 			data-remodal-id="popRefundFreepass_step1" id="popFrpsRefund"
@@ -682,433 +763,22 @@
 					<!-- //취소수수료 -->
 					<div class="btns col1">
 						<button class="btnL btn_orange" data-remodal-action="confirm"
-							onclick="$('#popFrpsRefund').remodal().close();" type="button">닫기</button>
+							type="button" id="closeRemodal">닫기</button>
 						<button class="btnL btn_orange" data-remodal-action="confirm"
 							onclick="fnAdtnCanTran();" type="button">취소환불하기</button>
 					</div>
 				</div>
 			</div>
 			<button class="remodal-close" data-remodal-action="close"
-				type="button">
+				type="button" id="closeRemodal">
 				<span class="sr-only">닫기</span>
 			</button>
 		</div>
 	</div>
-	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
-		<div
-			class="remodal pop_pass_history remodal-is-initialized remodal-is-closed"
-			data-remodal-id="popRefundSeasonTicket_step2" id="popPassRefundRst"
-			role="dialog" tabindex="-1">
-			<div class="title type_blue">
-				<h2>취소하기</h2>
-			</div>
-			<div class="cont">
-				<div class="cont_inner">
-					<ol class="process">
-						<li>취소내역확인</li>
-						<li aria-current="true" class="active">취소완료</li>
-					</ol>
-					<!-- 결제정보 -->
-					<div class="bgGray pdBox blue mob_route">
-						<div class="tbl_type3">
-							<table class="taR">
-								<caption>결제 취소 정보에 대한 표이며 결제금액, 사용금액, 취소위약금, 총 환불금액 정보
-									제공</caption>
-								<colgroup>
-									<col style="width: 115px;" />
-									<col style="width: *;" />
-								</colgroup>
-								<tbody>
-									<tr>
-										<th scope="row">결제금액</th>
-										<td id="pubAmtPr"></td>
-									</tr>
-									<tr>
-										<th scope="row">사용금액</th>
-										<td id="acmtDdctAmtPr"></td>
-									</tr>
-									<tr>
-										<th scope="row">취소위약금</th>
-										<td id="brkpAmtCmmPr"></td>
-									</tr>
-									<tr>
-										<th scope="row">총 환불금액</th>
-										<td><strong id="ryAmtPr"></strong>원</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<!-- //결제정보 -->
-					<div class="btns col1">
-						<button class="btnL btn_orange" onclick="fnCanRstCls();"
-							type="button">닫기</button>
-					</div>
-				</div>
-			</div>
-			<button class="remodal-close" data-remodal-action="close"
-				type="button">
-				<span class="sr-only">닫기</span>
-			</button>
-		</div>
-	</div>
-	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
-		<div
-			class="remodal pop_pass_history remodal-is-initialized remodal-is-closed"
-			data-remodal-id="popRefundSeasonTicket_step2" id="popFrpsRefundRst"
-			role="dialog" tabindex="-1">
-			<div class="title type_blue">
-				<h2>취소하기</h2>
-			</div>
-			<div class="cont">
-				<div class="cont_inner">
-					<ol class="process">
-						<li>취소내역확인</li>
-						<li aria-current="true" class="active">취소완료</li>
-					</ol>
-					<!-- 결제정보 -->
-					<div class="bgGray pdBox blue mob_route">
-						<div class="tbl_type3">
-							<table class="taR">
-								<caption>결제 취소 정보에 대한 표이며 결제금액, 사용금액, 취소위약금, 총 환불금액 정보
-									제공</caption>
-								<colgroup>
-									<col style="width: 115px;" />
-									<col style="width: *;" />
-								</colgroup>
-								<tbody>
-									<tr>
-										<th scope="row">결제금액</th>
-										<td id="pubAmtFr"></td>
-									</tr>
-									<tr>
-										<th scope="row">사용금액</th>
-										<td id="acmtDdctAmtFr"></td>
-									</tr>
-									<tr>
-										<th scope="row">취소위약금</th>
-										<td id="brkpAmtCmmFr"></td>
-									</tr>
-									<tr>
-										<th scope="row">총 환불금액</th>
-										<td><strong id="ryAmtFr"></strong>원</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<!-- //결제정보 -->
-					<!-- 20210318 프리패스 new -->
-					<div class="btns col1">
-						<button class="btnL btn_orange" onclick="fnCanRstCls();"
-							type="button">닫기</button>
-					</div>
-				</div>
-			</div>
-			<button class="remodal-close" data-remodal-action="close"
-				type="button">
-				<span class="sr-only">닫기</span>
-			</button>
-		</div>
-	</div>
-	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
-		<div
-			class="remodal pop_pass_history remodal-is-initialized remodal-is-closed"
-			data-remodal-id="popTicketHistorySeasonTicket" id="popPassUseList"
-			role="dialog" tabindex="-1">
-			<div class="title type_blue">
-				<h2>고속버스 정기권 사용내역</h2>
-			</div>
-			<div class="scroll-wrapper cont scrollbar-inner"
-				style="position: relative;">
-				<div class="cont scrollbar-inner scroll-content"
-					style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 0px;">
-					<div class="cont_inner">
-						<!-- 환불내역 -->
-						<div class="box_detail_info">
-							<div class="routeHead">
-								<p class="date txt_black">사용내역</p>
-								<!-- 181218 수정 -->
-								<p class="ticket_number">
-									정기권 일련번호<strong class="num" id="adtnCpnNoPu"></strong>
-								</p>
-							</div>
-							<div class="routeBody page_payment add_com">
-								<div class="routeArea route_wrap">
-									<div class="inner">
-										<!-- <span class="roundBox departure" id="adtnDeprNmPu"></span>
-							<span class="roundBox arrive" id="adtnArvlNmPu"></span> -->
-										<dl class="roundBox departure kor">
-											<dt>출발</dt>
-											<dd id="adtnDeprNmPu">
-												<!-- 출발지 -->
-											</dd>
-										</dl>
-										<dl class="roundBox arrive kor">
-											<dt>도착</dt>
-											<dd id="adtnArvlNmPu">
-												<!-- 도착지 -->
-											</dd>
-										</dl>
-									</div>
-								</div>
-								<div class="routeArea route_wrap mob_route">
-									<div class="tbl_type2">
-										<table class="tbl_info">
-											<caption>정기권 정보 표이며 이용권종, 버스이용등급, 사용기간, 이용가능일수/사용일,
-												구매일자 정보 제공</caption>
-											<colgroup>
-												<col style="width: 140px;" />
-												<!-- 191118 수정 -->
-												<col style="width: *;" />
-											</colgroup>
-											<tbody>
-												<tr>
-													<th scope="row">이용권종</th>
-													<td id="adtnPrdUseNtknNmPu"></td>
-												</tr>
-												<tr>
-													<th scope="row">버스이용등급 <!-- 190319 추가 - 툴팁 -->
-														<div class="tooltip_wrap_inbl">
-															<a class="tip_click" href="javascript:void(0)"><span
-																class="sr-only">버스이용등급 안내</span></a>
-															<div class="tooltip" style="width: 310px; display: none;">
-																<p class="tit">버스이용등급 안내</p>
-																<ul class="desc_list">
-																	<li>우등 : 우등고속, 심야우등(심우) 탑승 가능</li>
-																	<li>고속 : 일반고속, 심야고속(심고) 탑승 가능</li>
-																	<li>전체 : 우등, 고속 모두 탑승 가능</li>
-																</ul>
-																<a class="close" href="javascript:void(0)"><span
-																	class="sr-only">닫기</span></a>
-															</div>
-														</div> <!-- //190319 추가 - 툴팁 -->
-													</th>
-													<td id="adtnPrdUseClsNmPu"></td>
-												</tr>
-												<tr>
-													<th scope="row">사용기간</th>
-													<td><span id="exdtSttDtPu"></span> ~ <span
-														id="exdtEndDtPu"></span></td>
-												</tr>
-												<tr>
-													<th scope="row">이용가능일수/사용일</th>
-													<td id="adtnPrdUsePsbDnoPu"></td>
-												</tr>
-												<tr>
-													<th scope="row">구매일자</th>
-													<td id="pubDtPu"></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- //환불내역 -->
-						<!-- 사용내역 -->
-						<div class="marT30">
-							<h3 class="pop_h3 mob_h3">사용내역</h3>
-							<!-- 190116 추가 : 사용내역 없을 때 -->
-							<p class="noData2 bor" id="noDataP">사용 내역이 없습니다.</p>
-							<!-- 사용내역 있을 때 -->
-							<div class="tbl_type1 al_c va_m" id="useListDivP">
-								<table>
-									<!-- 190116 수정 -->
-									<colgroup>
-										<col style="width: 13%;" />
-										<col style="width: 13%;" />
-										<col style="width: 13%;" />
-										<col style="width: 14%;" />
-										<col style="width: 14%;" />
-										<col style="width: 15%;" />
-										<col style="width: auto" />
-										<col style="width: 12%;" />
-									</colgroup>
-									<!-- //190116 수정 -->
-									<caption>사용내역에 대한 표이며 발권 일시, 출발 일시, 예매 구분, 출발지, 도착지,
-										고속사, 좌석, 상태 정보 제공</caption>
-									<thead>
-										<tr>
-											<th scope="col">발권 일시</th>
-											<!-- 190116 추가 -->
-											<th scope="col">출발 일시</th>
-											<th scope="col">예매 구분</th>
-											<th scope="col">출발지</th>
-											<th scope="col">도착지</th>
-											<th scope="col">고속사</th>
-											<th scope="col">좌석</th>    
-											<th scope="col">상태</th>
-											<!-- 190116 추가 -->
-										</tr>
-									</thead>
-									<tbody id="useListP">
-									</tbody>
-								</table>
-							</div>
-							<!-- //사용내역 -->
-						</div>
-					</div>
-				</div>
-				<div class="scroll-element scroll-x">
-					<div class="scroll-element_outer">
-						<div class="scroll-element_size"></div>
-						<div class="scroll-element_track"></div>
-						<div class="scroll-bar"></div>
-					</div>
-				</div>
-				<div class="scroll-element scroll-y">
-					<div class="scroll-element_outer">
-						<div class="scroll-element_size"></div>
-						<div class="scroll-element_track"></div>
-						<div class="scroll-bar"></div>
-					</div>
-				</div>
-			</div>
-			<button class="remodal-close" data-remodal-action="close"
-				type="button">
-				<span class="sr-only">닫기</span>
-			</button>
-		</div>
-	</div>
-	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
-		<div
-			class="remodal pop_pass_history remodal-is-initialized remodal-is-closed"
-			data-remodal-id="popTicketHistoryFreepass" id="popFrpsUseList"
-			role="dialog" tabindex="-1">
-			<div class="title type_blue">
-				<h2>고속버스 프리패스 사용내역</h2>
-			</div>
-			<div class="scroll-wrapper cont scrollbar-inner"
-				style="position: relative;">
-				<div class="cont scrollbar-inner scroll-content"
-					style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 0px;">
-					<div class="cont_inner">
-						<!-- 환불내역 -->
-						<div class="box_detail_info">
-							<div class="routeHead">
-								<p class="date txt_black">사용내역</p>
-								<!-- 181218 수정 -->
-								<p class="ticket_number">
-									프리패스 일련번호<strong class="num" id="adtnCpnNoFu"></strong>
-								</p>
-							</div>
-							<div class="routeBody page_payment add_com">
-								<!-- 181218 수정 -->
-								<div class="routeArea">
-									<p class="freepass_name" id="adtnPrdUsePsbDnoFu"></p>
-								</div>
-								<!-- //181218 수정 -->
-								<div class="routeArea route_wrap mob_route">
-									<div class="tbl_type2">
-										<table class="tbl_info">
-											<caption>프리패스 여행권 구매 정보 표이며 이용권종, 버스이용등급, 사용일자,
-												구매일자 정보 제공</caption>
-											<colgroup>
-												<col style="width: 125px;" />
-												<col style="width: *;" />
-											</colgroup>
-											<tbody>
-												<tr>
-													<th scope="row">이용권종</th>
-													<td id="adtnPrdUseNtknNmFu"></td>
-												</tr>
-												<tr>
-													<th scope="row">버스이용등급 <!-- 190319 추가 - 툴팁 -->
-														<div class="tooltip_wrap_inbl">
-															<a class="tip_click" href="javascript:void(0)"><span
-																class="sr-only">버스이용등급 안내</span></a>
-															<div class="tooltip" style="width: 310px; display: none;">
-																<p class="tit">버스이용등급 안내</p>
-																<ul class="desc_list">
-																	<li>우등 : 우등고속, 심야우등(심우) 탑승 가능</li>
-																	<li>고속 : 일반고속, 심야고속(심고) 탑승 가능</li>
-																	<li>전체 : 우등, 고속 모두 탑승 가능</li>
-																</ul>
-																<a class="close" href="javascript:void(0)"><span
-																	class="sr-only">닫기</span></a>
-															</div>
-														</div> <!-- //190319 추가 - 툴팁 -->
-													</th>
-													<td id="adtnPrdUseClsNmFu"></td>
-												</tr>
-												<tr>
-													<th scope="row">사용일자</th>
-													<td><span class="useDate" id="fulTermFu"></span></td>
-												</tr>
-												<tr>
-													<th scope="row">구매일자</th>
-													<td id="pubDtFu"></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- //환불내역 -->
-						<!-- 사용내역 -->
-						<div class="marT30">
-							<h3 class="pop_h3 mob_h3">사용내역</h3>
-							<!-- 190116 추가 : 사용내역 없을 때 -->
-							<p class="noData2 bor" id="noDataF">사용 내역이 없습니다.</p>
-							<!-- 사용내역 있을 때 -->
-							<div class="tbl_type1 al_c va_m" id="useListDivF">
-								<table>
-									<colgroup>
-										<col style="width: 13%;" />
-										<col style="width: 13%;" />
-										<col style="width: 13%;" />
-										<col style="width: 14%;" />
-										<col style="width: 14%;" />
-										<col style="width: 15%;" />
-										<col style="width: auto" />
-										<col style="width: 12%;" />
-									</colgroup>
-									<caption>사용내역에 대한 표이며 발권 일시, 출발 일시, 예매 구분, 출발지, 도착지,
-										고속사, 좌석, 상태 정보 제공</caption>
-									<thead>
-										<tr>
-											<th scope="col">발권 일시</th>
-											<!-- 190116 추가 -->
-											<th scope="col">출발 일시</th>
-											<th scope="col">예매 구분</th>
-											<th scope="col">출발지</th>
-											<th scope="col">도착지</th>
-											<th scope="col">고속사</th>
-											<th scope="col">좌석</th>
-											<th scope="col">상태</th>
-											<!-- 190116 추가 -->
-										</tr>
-									</thead>
-									<tbody id="useListF">
-									</tbody>
-								</table>
-							</div>
-							<!-- //사용내역 -->
-						</div>
-					</div>
-				</div>
-				<div class="scroll-element scroll-x">
-					<div class="scroll-element_outer">
-						<div class="scroll-element_size"></div>   
-						<div class="scroll-element_track"></div>
-						<div class="scroll-bar"></div>
-					</div>
-				</div>
-				<div class="scroll-element scroll-y">
-					<div class="scroll-element_outer">
-						<div class="scroll-element_size"></div>
-						<div class="scroll-element_track"></div>
-						<div class="scroll-bar"></div>
-					</div>
-				</div>
-			</div>
-			<button class="remodal-close" data-remodal-action="close"
-				type="button">
-				<span class="sr-only">닫기</span>
-			</button>
-		</div>
-	</div>
+	<script>
+		$("[id^='close']").on("click", function(){
+			$(".remodal-wrapper").hide();
+		});
+	</script>
 </body>
 </html>
