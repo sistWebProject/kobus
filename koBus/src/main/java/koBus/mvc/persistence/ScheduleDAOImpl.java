@@ -128,9 +128,11 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 				+ " WHERE RGD.REGID = ? AND RGA.REGID = ? ";
 		
 		
+		
+		
 		if (deprDtm != null) {
 		    // Case 1: "yyyy-MM-dd HH:mm:ss"
-		    if (deprDtm.matches("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}")) {
+		    if (deprDtm.trim().matches("\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}")) {
 		        String datePart = deprDtm.substring(0, 10).replace("-", "");
 		        String timePart = deprDtm.substring(11, 16);  // HH:mm
 		        deprDtm = datePart + " " + timePart;
@@ -138,17 +140,17 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		        sql += " AND BS.DEPARTUREDATE = TO_TIMESTAMP(?, 'YYYYMMDD HH24:MI') ";
 
 		    // Case 2: "yyyy-MM-dd"
-		    } else if (deprDtm.matches("\\d{4}-\\d{2}-\\d{2}")) {
+		    } else if (deprDtm.trim().matches("\\d{4}-\\d{2}-\\d{2}")) {
 		        deprDtm = deprDtm.replace("-", "");
 
 		        sql += " AND TRUNC(BS.DEPARTUREDATE) = TO_DATE(?, 'YYYYMMDD') ";
 
 		    // Case 3: "yyyyMMdd HH:mm"
-		    } else if (deprDtm.matches("\\d{8} \\d{2}:\\d{2}")) {
+		    } else if (deprDtm.trim().matches("\\d{8} \\d{2}:\\d{2}")) {
 		        sql += " AND BS.DEPARTUREDATE = TO_TIMESTAMP(?, 'YYYYMMDD HH24:MI') ";
 
 		    // Case 4: "yyyyMMdd"
-		    } else if (deprDtm.matches("\\d{8}")) {
+		    } else if (deprDtm.trim().matches("\\d{8}")) {
 		        sql += " AND TRUNC(BS.DEPARTUREDATE) = TO_DATE(?, 'YYYYMMDD') ";
 
 		    } else {

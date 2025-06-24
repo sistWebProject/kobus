@@ -58,6 +58,14 @@
 <script type="text/javascript" src="/koBus/js/SatsChc.js"></script>
 </head>
 
+<script>
+$(document).ready(function () {
+    $("#reloadBtn").on("click", function () {
+        location.reload(); // 현재 페이지 새로고침
+    });
+});
+</script>
+
 <body class="main KO" style="">
 
 <%@ include file="common/header.jsp" %>
@@ -319,7 +327,7 @@
 				<!-- 선택좌석번호 -->
 				<input type="hidden" name="selSeatCnt" id="selSeatCnt" value="0">
 				<!-- 선택좌석수 -->
-				<input type="hidden" id="selectedSeatIdsInput" name="selectedSeatIdsInput" value="">
+				<input type="hidden" id="selectedSeatIds" name="selectedSeatIds" value="">
 				<!-- 좌석배열 -->
 				
 				
@@ -627,8 +635,7 @@
 								<!-- //mobile 매수 선택 -->
 								<div class="detailBox_head" style="height: 63px;">
 									<div class="box_refresh">
-										<button type="button" class="btn btn_refresh"
-											onclick="fnReload();">
+										<button type="button" class="btn btn_refresh" id="reloadBtn">
 											<span class="ico_refresh"><span class="sr-only">새로고침</span></span>
 										</button>
 									</div>

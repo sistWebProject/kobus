@@ -14,5 +14,7 @@ public interface SeatDAO {
 	List<SeatDTO> searchSeat(String busId) throws SQLException;
 
 	String getBusId(String deprId, String arrId, String formattedTime) throws SQLException;
+
+	String searchSeatId(List<String> seatIdList) throws SQLException;
 	
 }

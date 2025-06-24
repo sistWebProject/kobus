@@ -95,14 +95,14 @@ $(document).ready(function () {
                   <ul id="new-kor-gnb">
                      <li><a href="/koBus/region.do">고속버스예매</a>
                         <ul>
-                           <li><a href="javascript:void(0);">고속버스
+                           <li><a href="/koBus/region.do">고속버스
                                  예매</a></li>
                            <li><a href="/koBus/manageReservations.do">예매확인/취소/변경</a>
                            </li>
                            <li><a href="javascript:void(0);">영수증발행</a>
                            </li>
                         </ul></li>
-                     <li><a href="javascript:void(0)">운행정보</a>
+                     <li><a href="/koBus/kobusSchedule.do">운행정보</a>
                         <ul>
                            <li><a
                               href="/koBus/kobusSchedule.do">시간표

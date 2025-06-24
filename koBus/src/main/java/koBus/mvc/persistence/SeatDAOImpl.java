@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.util.ConnectionProvider;
 import com.util.JdbcUtil;
@@ -162,5 +163,37 @@ public class SeatDAOImpl implements SeatDAO{
 	}
 
 
+	@Override
+	public String searchSeatId(List<String> seatIdList) throws SQLException  {
+		if (seatIdList == null || seatIdList.isEmpty()) {
+	        return "";  // 빈 문자열 반환 (null 아님)
+	    }
+
+	    String placeholders = seatIdList.stream()
+	                                   .map(s -> "?")
+	                                   .collect(Collectors.joining(", "));
+
+	    String sql = "SELECT LISTAGG(TO_CHAR(seatNo), ',') WITHIN GROUP (ORDER BY seatNo) AS seatNos "
+	               + "FROM seat "
+	               + "WHERE seatId IN (" + placeholders + ")";
+
+	    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        for (int i = 0; i < seatIdList.size(); i++) {
+	            pstmt.setString(i + 1, seatIdList.get(i));
+	        }
+
+	        try (ResultSet rs = pstmt.executeQuery()) {
+	            String seatNosStr = "";  // 변수 선언 및 초기화
+	            if (rs.next()) {
+	                seatNosStr = rs.getString("seatNos");
+	                if (seatNosStr == null) {
+	                    seatNosStr = "";
+	                }
+	            }
+	            return seatNosStr;  // 변수에 담아 반환
+	        }
+	    }
+
+	}
 
 }
