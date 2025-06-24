@@ -127,7 +127,6 @@ public class LogonDAOImpl implements LogonDAO {
 	            throw new RuntimeException("암호화 알고리즘 에러: " + e.getMessage());
 	        }
 	    }
-	}
 
 	// 게시판에서 회원 kusID 값 가져와서 게시물 수정 / 삭제 처리 추가 / 최승호
 	public String getKusIDById(String id) throws SQLException {
