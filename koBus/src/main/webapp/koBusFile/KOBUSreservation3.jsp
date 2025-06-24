@@ -27,18 +27,12 @@
 <title>예매정보입력(노선조회) | 고속버스예매 | 고속버스예매 | 고속버스통합예매</title>
 
 
-
-
-
-
-
-
 <link rel="shortcut icon" href="/koBus/images/favicon.ico">
 
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript" src="/koBus/js/jquery-1.12.4.min.js"></script>
+<!-- <script type="text/javascript" src="/koBus/js/jquery-1.12.4.min.js"></script> -->
 <script type="text/javascript">
 /*********************************************
  * 상수K
@@ -388,9 +382,9 @@
 	<input type="hidden" name="tfrCd" id="tfrCd" value=""><!-- 환승지코드 -->
 	<input type="hidden" name="tfrNm" id="tfrNm" value=""><!-- 환승지명 -->
 	<input type="hidden" name="tfrArvlFullNm" id="tfrArvlFullNm" value=""><!-- 환승지포함 도착지 명 -->
-	<input type="hidden" name="pathDvs" id="pathDvs" value="sngl"><!-- 직통sngl,환승trtr,왕복rtrp -->
-	<input type="hidden" name="pathStep" id="pathStep" value="1"><!-- 왕복,환승 가는편순번 -->
-	<input type="hidden" name="pathStepRtn" id="pathStepRtn" value="1"><!-- 왕복,환승 가는편순번 -->
+	<input type="hidden" name="pathDvs" id="pathDvs" value=""><!-- 직통sngl,환승trtr,왕복rtrp -->
+	<input type="hidden" name="pathStep" id="pathStep" value=""><!-- 왕복,환승 가는편순번 -->
+	<input type="hidden" name="pathStepRtn" id="pathStepRtn" value=""><!-- 왕복,환승 가는편순번 -->
 	<input type="hidden" name="crchDeprArvlYn" id="crchDeprArvlYn" value="N"><!-- 출도착지 스왑여부 -->
 	<input type="hidden" name="deprDtm" id="deprDtm" value=""><!-- 가는날(편도,왕복) -->
 	<!-- <input type="hidden" name="deprDtmAll" id="deprDtmAll" value="2025. 6. 7. 토"> -->
@@ -1131,7 +1125,7 @@
 				</div>
 
 
-				<script>
+				<%-- <script>
 				var cmdType = "";
 				
 				$("#readDeprInfoList").on("click", function () {
@@ -1184,7 +1178,7 @@
 						// 이 함수는 출발지 선택 시 동작하는 사용자 정의 함수
 						// 이후 로직은 기존 예약 폼에 맞게 조정
 						
-						console.log("선택된 터미널:", regID, regName);
+						//console.log("선택된 터미널:", regID, regName);
 						
 						$("#popDeprNmSpn").text(regName);
 						$("#deprCd").val(regID);
@@ -1200,7 +1194,7 @@
 
 					function fnArvlChc(regID, regName) {
 						// 도착지 선택 시 동작하는 함수
-						console.log("선택된 도착지:", regID, regName);
+						//console.log("선택된 도착지:", regID, regName);
 
 						$("#popArvlNmSpn").text(regName);  // 도착지 이름 표시
 						$("#arvlCd").val(regID);           // form에 숨겨진 도착지 값 설정
@@ -1212,7 +1206,76 @@
 						$("#cfmBtn").css("color", "#fff");
 					}
 
-				</script>
+				</script> --%>
+
+				<script>
+					cmdType = "";
+					let lastSidoCode = null;
+				
+					  $(document).ready(function () {
+						    console.log("페이지 로딩 완료");
+
+						    // 출발지 클릭 시
+						    $("#readDeprInfoList").on("click", function () {
+						      cmdType = "depr";
+						    });
+
+						    // 도착지 클릭 시
+						    $("#readArvlInfoList").on("click", function () {
+						      cmdType = "arvl";
+						    });
+						  });
+				
+					// 지역 선택 → 터미널 목록 조회
+					function fnDeprArvlViewList(sidoCode) {
+					    console.log("▶ 터미널 요청:", sidoCode, cmdType);
+
+					    $.ajax({
+					      url: "<%=request.getContextPath()%>/getTerminals.do",
+					      method: "GET",
+					      data: { sidoCode: sidoCode },
+					      dataType: "json",
+					      success: function(terminals) {
+					        
+
+					        const $list = $("#tableTrmList").empty();
+					        terminals.forEach(function(t) {
+					        	  const funcName = (cmdType === "arvl") ? "fnArvlChc" : "fnDeprChc";
+					        	  const button = `<li><button type="button" onclick="\${funcName}('\${t.regID}', '\${t.regName}')">\${t.regName}</button></li>`;
+					        	  $list.append(button);
+					        	});
+					      },
+					      error: function(xhr, status, error) {
+					        alert("❌ 터미널 목록 실패");
+					        console.error(status, error);
+					      }
+					    });
+					  }
+				
+					// 출발지 선택
+					function fnDeprChc(regID, regName) {
+						console.log("선택된 출발지:", regID, regName);
+						$("#popDeprNmSpn").text(regName);
+						$("#deprCd").val(regID);
+						$("#deprNm").val(regName);
+					}
+				
+					// 도착지 선택
+					function fnArvlChc(regID, regName) {
+						console.log("선택된 도착지:", regID, regName);
+						$("#popArvlNmSpn").text(regName);
+						$("#arvlCd").val(regID);
+						$("#arvlNm").val(regName);
+				
+						// 도착지 선택 시 확인 버튼 활성화
+						$("#cfmBtn").removeAttr("disabled").addClass("active");
+						$("#cfmBtn").css({
+							"background-color": "#003087",
+							"color": "#fff"
+						});
+					}
+		</script>
+
 
 			</div>
 			<div class="btns">

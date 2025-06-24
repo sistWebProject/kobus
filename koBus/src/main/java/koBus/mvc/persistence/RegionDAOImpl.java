@@ -19,7 +19,7 @@ public class RegionDAOImpl implements RegionDAO {
     @Override
     public List<RegionDTO> selectBySidoCode(int sidoCode) {
         List<RegionDTO> list = new ArrayList<>();
-        String sql = "SELECT * FROM region WHERE sidoCode = ?";
+        String sql = "SELECT regID, regName, sidoCode FROM region WHERE sidoCode = ?";
 
         try (
             Connection conn = ConnectionProvider.getConnection();
