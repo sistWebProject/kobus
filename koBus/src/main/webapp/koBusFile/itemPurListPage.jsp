@@ -18,9 +18,48 @@
 <link href="/koBus/css/common/ui.jqgrid.custom.css"
 	rel="stylesheet" type="text/css" />
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<style>
+/* 테이블 스타일 */
+.noti_table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
+.noti_table th {
+    background-color: #007BFF;
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
 
+.noti_table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
 
+.noti_table tr:hover {
+    background-color: #f1f9ff;
+}
+
+/* 취소 버튼 스타일 */
+.cancel-btn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cancel-btn:hover {
+    background-color: #0056b3;
+}
+</style>
 
 
 
@@ -110,25 +149,44 @@
 							<div class="noti_wrap">
 								<c:choose>
 									<c:when test="${empty popItemList and empty freeItemList}">
-									<p class="noti noData">사용가능 내역이 존재하지 않습니다.</p>
+										<p class="noti noData">사용가능 내역이 존재하지 않습니다.</p>
 									</c:when>
 									<c:otherwise>
-										<c:forEach var="popItem" items="${popItemList}" >
-											<li>${popItem.couponName}</li>
-											<li>${popItem.payStatus}</li>
-											<li>${popItem.startDate}</li>
-											<li>${popItem.amount}</li>
-											<hr />
-										</c:forEach>
-										<c:forEach var="freeItem" items="${freeItemList}" >
-											<li>${freeItem.couponName}</li>
-											<li>${freeItem.payStatus}</li>
-											<li>${freeItem.startDate}</li>
-											<li>${freeItem.amount}</li>
-										</c:forEach>
+										<table class="noti_table">
+											<thead>
+												<tr>
+													<th>쿠폰명</th>
+													<th>결제상태</th>
+													<th>시작일</th>
+													<th>금액</th>
+													<th>취소</th>
+												</tr>
+											</thead>
+											<tbody>
+												<c:forEach var="popItem" items="${popItemList}">
+													<tr>
+														<td>${popItem.couponName}</td>
+														<td>${popItem.payStatus}</td>
+														<td>${popItem.startDate}</td>
+														<td>${popItem.amount}</td>
+														<td><button class="cancel-btn">취소</button></td>
+													</tr>
+												</c:forEach>
+												<c:forEach var="freeItem" items="${freeItemList}">
+													<tr>
+														<td>${freeItem.couponName}</td>
+														<td>${freeItem.payStatus}</td>
+														<td>${freeItem.startDate}</td>
+														<td>${freeItem.amount}</td>
+														<td><button class="cancel-btn">취소</button></td>
+													</tr>
+												</c:forEach>
+											</tbody>
+										</table>
 									</c:otherwise>
 								</c:choose>
 							</div>
+
 							<!-- 구매내역이 있을 때 -->
 							<ul class="desc_list marT30">
 								<li>현재일 기준 3개월 전까지의 구매내역이 조회됩니다.</li>
@@ -629,7 +687,7 @@
 	</div>
 	
 	<!-- 프리패스 취소 모달창 -->
-		<div class="remodal-wrapper remodal-is-closed" style="display:inline-block;">
+		<div class="remodal-wrapper remodal-is-closed" style="display:none;">
 		<div
 			class="remodal pop_pass_history remodal-is-initialized remodal-is-closed"
 			data-remodal-id="popRefundFreepass_step1" id="popFrpsRefund"
