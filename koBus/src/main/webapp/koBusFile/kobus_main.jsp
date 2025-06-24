@@ -57,6 +57,67 @@ $( function() {
 
 
 } );
+
+function setRotInfFrmValues() {
+    // 편도/왕복/환승 구분
+    let pathDvs = "sngl";
+    if ($("#rtrpRotAll").hasClass("active")) {
+        pathDvs = "rtrp";
+    } else if ($("#rtrpYnAll input[name='route']:checked").attr("id") === "r2") {
+        pathDvs = "trtr";
+    }
+    $("#pathDvs").val(pathDvs);
+
+    // 출발지/도착지 이름
+    $("#deprNm").val($("#deprNmSpn").text().trim());
+    $("#arvlNm").val($("#arvlNmSpn").text().trim());
+
+    // 날짜: 가는날
+	const deprLabel = $(".text_date1").text().trim();
+	const deprValue = parseKoreanDateToYYYYMMDD(deprLabel);
+	
+	// 날짜: 오는날 (왕복일 경우)
+    const arvlLabel = $(".text_date2").text().trim();
+    const arvlValue = parseKoreanDateToYYYYMMDD(arvlLabel);
+    
+    
+    $("#deprDtm").val(deprValue);
+    $("#deprDtmAll").val(deprLabel);
+    
+    $("#arvlDtm").val(arvlValue);
+    $("#arvlDtmAll").val(arvlLabel);
+	
+    
+    // 버스 등급
+    const busClsCd = $("input[name='busClsCdR']:checked").val();
+    $("#busClsCd").val(busClsCd || "0");
+}
+
+
+function parseKoreanDateToYYYYMMDD(dateStr) {
+
+	  // 숫자와 점(.)만 남기기
+	  const onlyNumDot = dateStr.replace(/[^0-9.]/g, '');  // "2025.6.25"
+
+	  
+	  // 점(.)으로 분리
+	  const parts = onlyNumDot.split('.');
+
+	  if (parts.length < 3) throw new Error("날짜 형식 오류");
+
+	  const year = parts[0];
+	  let month = parts[1];
+	  let day = parts[2];
+
+	  // 월, 일이 한자리면 0 붙이기
+	  if (month.length === 1) month = '0' + month;
+	  if (day.length === 1) day = '0' + day;
+	  
+	  const format = year+month+day;
+
+	  return format;
+	}
+
 </script>
 	
 	<style>
@@ -75,15 +136,9 @@ $( function() {
 		<script type="text/javascript" src="/koBus/js/common/RotInf.js"></script>
 		<script type="text/javascript" src="/koBus/js/MrsCfmLgn.js"></script>
 
-		<!-- 20200617 yahan -->
-		<!-- <script type="text/javascript" src="/koBus/js/transkey.js"></script>
-<script type="text/javascript" src="/koBus/js/TranskeyLibPack_op.js"></script> -->
 		<script type="text/javascript" src="/koBus/js/rsa_oaep-min.js"></script>
 		<script type="text/javascript" src="/koBus/js/jsbn-min2.js"></script>
 		<script type="text/javascript" src="/koBus/js/typedarray.js"></script>
-		<!-- <script type="text/javascript" src="/koBus/js/transkeyServlet"></script>
-<script type="text/javascript" src="/koBus/js/transkeyServlet(1)"></script>
-<link rel="stylesheet" type="text/css" href="/koBus/js/transkey.css">  -->
 		<script>
 		
 //	$(function(){ initTranskey('lgnFrm'); })
@@ -338,7 +393,8 @@ $(document).ready(function () {
 		<!-- 출/도착지 선택 레이어팝업 -->
 
 		<form name="rotInfFrm" id="rotInfFrm" method="post"
-			action="/mrs/alcnSrch.do">
+			action="/koBus/mrs/alcnSrch.do">
+			<input type="hidden" name="sourcePage" value="kobus_main.jsp">
 			<input type="hidden" name="deprCd" id="deprCd" value="">
 			<!-- 출발지코드 -->
 			<input type="hidden" name="deprNm" id="deprNm" value="">
@@ -520,7 +576,7 @@ $(document).ready(function () {
 														<p class="check" id="alcnSrchBtn">
 															<button type="button"
 																class="btn_confirm ready btn_pop_focus"
-																onclick="fnAlcnSrchBef();">조회하기</button>
+																onclick="setRotInfFrmValues(); fnAlcnSrch();">조회하기</button>
 														</p>
 													</div>
 												</div>

@@ -385,7 +385,7 @@
 								<input type="hidden" name="mrspMbphNo" id="mrspMbphNo" value="">
 							</form>
 							<!-- 예매취소 form -->
-							<form id="mrsRecpCanFrm" name="mrsRecpCanFrm"
+							<form id="recpCanFrm" name="recpCanFrm"
 								action="/koBus/kobusResvCancel.ajax">
 
 								<%-- <input type="hidden" name="nonMbrsNo" id="nonMbrsNo" value="${resv.nonMbrsNo}"> --%>
@@ -405,8 +405,10 @@
 								<input type="hidden" name="chldNum" id="chldNum" value="${resv.chdCount}">
 								<input type="hidden" name="teenNum" id="teenNum" value="${resv.stuCount}">
 								<input type="hidden" name="payNm" id="payNm" value="${resv.payMethod}">
-								<input type="hidden" name="pynDvsCd" id="pynDvsCd" value="2">
-								<input type="hidden" name="pynDtlCd" id="pynDtlCd" value="s">
+								<input type="hidden" name="pynDvsCd" id="pynDvsCd" value="3">
+								<input type="hidden" name="pynDtlCd" id="pynDtlCd" value="7">
+								<input type="hidden" name="prmmDcDvsCd" ID="prmmDcDvsCd" value="4">
+								<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" value="Y">
 								<input type="hidden" name="tckSeqList" id="tckSeqList" value="20250619994950192">
 							
 								<!-- 왕복 관련 필드들 (2로 끝나는 필드는 name도 2로 유지) -->
@@ -605,7 +607,7 @@
 
 										<input type="hidden" name="rtrpMrsYn" value="">
 										<!-- 왕복 예매 여부 -->
-										<input type="hidden" name="prmmDcDvsCd" value="">
+										<input type="hidden" name="prmmDcDvsCd" value="4">
 										<!-- 우등형할인코드 -->
 										<input type="hidden" name="pynDvsCd" value="2">
 										<!-- 지불구분코드 -->

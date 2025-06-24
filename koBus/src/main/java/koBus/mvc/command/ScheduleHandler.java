@@ -214,7 +214,7 @@ public class ScheduleHandler implements CommandHandler {
 
 		request.setAttribute("regionList", regionList);
 		
-		if ("KOBUSreservation3.jsp".equals(sourcePage)) {
+		if ("KOBUSreservation3.jsp".equals(sourcePage) || "kobus_main.jsp".equals(sourcePage)) {
 		    return "/koBusFile/KOBUSreservation2.jsp";
 		} else if("kobusModifyResv.jsp".equals(sourcePage)) {
 			return "/koBusFile/kobusModifyResvSch.jsp";
