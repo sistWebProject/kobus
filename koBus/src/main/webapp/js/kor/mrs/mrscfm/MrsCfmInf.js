@@ -225,7 +225,7 @@ function fnRecpCanInfo(idx , type) {
 				    if(data.teenNum != 0){
 				    	html +='중고생'+data.teenNum+'명 ';
 				    }
-				    if(data.uvsdNum != 0){
+/*				    if(data.uvsdNum != 0){
 				    	//20240608 건보공단
 			    		html += nhisText+data.uvsdNum+'명 ';
 				    }
@@ -246,7 +246,7 @@ function fnRecpCanInfo(idx , type) {
 				    }
 				    if(data.dfptNum != 0){
 				    	html +='후불'+data.dfptNum+'명';
-				    }
+				    }*/
 				    
 				    html +='</td>';
 				    html +='</tr>';
@@ -295,7 +295,7 @@ function fnRecpCanInfo(idx , type) {
 					    if(data.teenNum != 0){
 					    	html +='중고생'+data.teenNum+'명 ';
 					    }
-					    if(data.uvsdNum != 0){
+/*					    if(data.uvsdNum != 0){
 					    	//20240608 건보공단
 				    		html += nhisText+data.uvsdNum+'명 ';
 					    }
@@ -316,7 +316,7 @@ function fnRecpCanInfo(idx , type) {
 					    }
 					    if(data.dfptNum != 0){
 					    	html +='후불'+data.dfptNum+'명';
-					    }
+					    }*/
 					    
 					    html +='</td>';
 					    html +='</tr>';
@@ -363,7 +363,7 @@ function fnRecpCanInfo(idx , type) {
 					    if(data.teenNum2 != 0){
 					    	html +='중고생'+data.teenNum2+'명 ';
 					    }
-					    if(data.uvsdNum2 != 0){
+/*					    if(data.uvsdNum2 != 0){
 					    	//20240608 건보공단
 				    		html += nhisText+data.uvsdNum2+'명 ';
 					    }
@@ -384,7 +384,7 @@ function fnRecpCanInfo(idx , type) {
 					    }
 					    if(data.dfptNum2 != 0){
 					    	html +='후불'+data.dfptNum2+'명';
-					    }
+					    }*/
 					    
 					    html +='</td>';
 					    html +='</tr>';
@@ -432,7 +432,7 @@ function fnRecpCanInfo(idx , type) {
 					    if(data.teenNum != 0){
 					    	html +='중고생'+data.teenNum+'명 ';
 					    }
-					    if(data.uvsdNum != 0){
+/*					    if(data.uvsdNum != 0){
 					    	//20240608 건보공단
 				    		html += nhisText+data.uvsdNum+'명 ';
 					    }
@@ -453,7 +453,7 @@ function fnRecpCanInfo(idx , type) {
 					    }
 					    if(data.dfptNum != 0){
 					    	html +='후불'+data.dfptNum+'명';
-					    }
+					    }*/
 					    
 					    html +='</td>';
 					    html +='</tr>';
@@ -501,7 +501,7 @@ function fnRecpCanInfo(idx , type) {
 					    if(data.teenNum2 != 0){
 					    	html +='중고생'+data.teenNum2+'명 ';
 					    }
-					    if(data.uvsdNum2 != 0){
+/*					    if(data.uvsdNum2 != 0){
 					    	//20240608 건보공단
 				    		html += nhisText+data.uvsdNum2+'명 ';
 					    }
@@ -522,7 +522,7 @@ function fnRecpCanInfo(idx , type) {
 					    }
 					    if(data.dfptNum2 != 0){
 					    	html +='후불'+data.dfptNum2+'명';
-					    }
+					    }*/
 					    
 					    html +='</td>';
 					    html +='</tr>';

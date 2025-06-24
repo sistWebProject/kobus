@@ -44,81 +44,71 @@ public class ManageResvHandler implements CommandHandler{
 		
 		List<ResvDTO> resvList = dao.searchResvList(loginId);
 		
-		
-		// alcnAllList 생성
-		List<Map<String, Object>> alcnAllList = new ArrayList<>();
+		String ajax = request.getParameter("ajax");
 
-		// 가는 편
-		Map<String, Object> goTrip = new HashMap<>();
-		goTrip.put("mrsMrnpno", request.getParameter("mrsMrnpno"));
-		goTrip.put("mrsMrnpsno", request.getParameter("mrsMrnpsno"));
-		goTrip.put("alcnDeprDt", request.getParameter("alcnDeprDt"));
-		goTrip.put("alcnDeprTime", request.getParameter("alcnDeprTime"));
-		goTrip.put("deprnCd", request.getParameter("deprnCd"));
-		goTrip.put("arvlCd", request.getParameter("arvlCd"));
-		goTrip.put("deprnNm", request.getParameter("deprnNm"));
-		goTrip.put("arvlNm", request.getParameter("arvlNm"));
-		goTrip.put("takeDrtm", request.getParameter("takeDrtm"));
-		goTrip.put("cacmCd", request.getParameter("cacmCd"));
-		goTrip.put("cacmNm", request.getParameter("cacmNm"));
-		goTrip.put("deprNm", request.getParameter("deprNm"));
-		goTrip.put("adltNum", request.getParameter("adltNum"));
-		goTrip.put("chldNum", request.getParameter("chldNum"));
-		goTrip.put("teenNum", request.getParameter("teenNum"));
-		goTrip.put("payNm", request.getParameter("payNm"));
-		goTrip.put("pynDvsCd", request.getParameter("pynDvsCd"));
-		goTrip.put("pynDtlCd", request.getParameter("pynDtlCd"));
-		goTrip.put("prmmDcDvsCd", request.getParameter("prmmDcDvsCd"));
-		goTrip.put("rtrpMrsYn", request.getParameter("rtrpMrsYn"));
-		goTrip.put("tckSeqList", request.getParameter("tckSeqList"));
-		alcnAllList.add(goTrip);
+		if ("true".equalsIgnoreCase(ajax)) {
+		    // 예매 취소 금액 정보 조회 처리
+		    Map<String, Object> recpListMap = new HashMap<>();
+		    try {
+		        String mrsMrnpNo = request.getParameter("mrsMrnpNo");
+		        String mrsMrnpSno = request.getParameter("mrsMrnpSno");
+		        String prmmDcDvsCd = request.getParameter("prmmDcDvsCd");
+		        String rtrpMrsYn = request.getParameter("rtrpMrsYn");
+		        String brkpAmtCmm = request.getParameter("brkpAmtCmm");
+		        String pynDvsCd = request.getParameter("pynDvsCd");
+		        String pynDtlCd = request.getParameter("pynDtlCd");
+		        String tckSeqList = request.getParameter("tckSeqList");
+		        String cancCnt = request.getParameter("cancCnt");
+		        String type = request.getParameter("type");
+		        String TRD_DTM = request.getParameter("TRD_DTM");
+		     // 2. 프론트 표기용 정보도 추출
+		        String alcnDeprDt = request.getParameter("alcnDeprDt");
+		        String alcnDeprTime = request.getParameter("alcnDeprTime");
+		        String deprnNm = request.getParameter("deprnNm");
+		        String arvlNm = request.getParameter("arvlNm");
+		        String takeDrtm = request.getParameter("takeDrtm");
+		        String cacmNm = request.getParameter("cacmNm");
+		        String deprNm = request.getParameter("deprNm");
+		        String adltNum = request.getParameter("adltNum");
+		        String chldNum = request.getParameter("chldNum");
+		        String teenNum = request.getParameter("teenNum");
+		        String setsList = request.getParameter("seatNo");
 
-		// 오는 편
-		String rtrpYn = request.getParameter("rtrpMrsYn");
-		if ("Y".equalsIgnoreCase(rtrpYn)) {
-			String alcnDeprDt2 = request.getParameter("alcnDeprDt2");
-			String alcnDeprTime2 = request.getParameter("alcnDeprTime2");
-			if (alcnDeprDt2 != null && !alcnDeprDt2.isEmpty() && alcnDeprTime2 != null && !alcnDeprTime2.isEmpty()) {
-				Map<String, Object> rtnTrip = new HashMap<>();
-				rtnTrip.put("mrsMrnpno", request.getParameter("mrsMrnpno2"));
-				rtnTrip.put("mrsMrnpsno", request.getParameter("mrsMrnpsno2"));
-				rtnTrip.put("alcnDeprDt", alcnDeprDt2);
-				rtnTrip.put("alcnDeprTime", alcnDeprTime2);
-				rtnTrip.put("deprnCd", request.getParameter("deprnCd2"));
-				rtnTrip.put("arvlCd", request.getParameter("arvlCd2"));
-				rtnTrip.put("deprnNm", request.getParameter("deprnNm2"));
-				rtnTrip.put("arvlNm", request.getParameter("arvlNm2"));
-				rtnTrip.put("takeDrtm", request.getParameter("takeDrtm2"));
-				rtnTrip.put("cacmCd", request.getParameter("cacmCd2"));
-				rtnTrip.put("cacmNm", request.getParameter("cacmNm2"));
-				rtnTrip.put("deprNm", request.getParameter("deprNm2"));
-				rtnTrip.put("adltNum", request.getParameter("adltNum2"));
-				rtnTrip.put("chldNum", request.getParameter("chldNum2"));
-				rtnTrip.put("teenNum", request.getParameter("teenNum2"));
-				rtnTrip.put("payNm", request.getParameter("payNm2"));
-				rtnTrip.put("pynDvsCd", request.getParameter("pynDvsCd2"));
-				rtnTrip.put("pynDtlCd", request.getParameter("pynDtlCd2"));
-				rtnTrip.put("prmmDcDvsCd", request.getParameter("prmmDcDvsCd2"));
-				rtnTrip.put("rtrpMrsYn", request.getParameter("rtrpMrsYn2"));
-				rtnTrip.put("tckSeqList", request.getParameter("tckSeqList2"));
-				alcnAllList.add(rtnTrip);
-			}
-		}
+		        recpListMap.put("type", type);
+		        recpListMap.put("mrsMrnpNo", mrsMrnpNo);
+		        recpListMap.put("mrsMrnpSno", mrsMrnpSno);
+		        recpListMap.put("prmmDcDvsCd", prmmDcDvsCd);
+		        recpListMap.put("rtrpMrsYn", rtrpMrsYn);
+		        recpListMap.put("brkpAmtCmm", brkpAmtCmm);
+		        recpListMap.put("pynDvsCd", pynDvsCd);
+		        recpListMap.put("pynDtlCd", pynDtlCd);
+		        recpListMap.put("tckSeqList", tckSeqList);
+		        recpListMap.put("cancCnt", cancCnt);
+		        recpListMap.put("alcnDeprDt", alcnDeprDt);
+		        recpListMap.put("alcnDeprTime", alcnDeprTime);
+		        recpListMap.put("deprnNm", deprnNm);
+		        recpListMap.put("arvlNm", arvlNm);
+		        recpListMap.put("takeDrtm", takeDrtm);
+		        recpListMap.put("cacmNm", cacmNm);
+		        recpListMap.put("deprNm", deprNm);
+		        recpListMap.put("adltNum", adltNum);
+		        recpListMap.put("chldNum", chldNum);
+		        recpListMap.put("teenNum", teenNum);
+		        recpListMap.put("setsList", setsList);
+		        recpListMap.put("TRD_DTM", TRD_DTM);
 
-		Map<String, Object> responseMap = new HashMap<>();
-		responseMap.put("alcnAllList", alcnAllList);
+		    } catch (Exception e) {
+		    	recpListMap.put("error", "오류 발생: " + e.getMessage());
+		    }
 
-		if ("ajax".equalsIgnoreCase(mainParam)) {
-			Gson gson = new Gson();
-			String json = gson.toJson(responseMap);
-
-			response.setContentType("application/json;charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.write(json);
-			out.flush();
-			out.close();
-
-			return null;
+		    Gson gson = new Gson();
+		    String json = gson.toJson(recpListMap);
+		    response.setContentType("application/json;charset=UTF-8");
+		    PrintWriter out = response.getWriter();
+		    out.write(json);
+		    out.flush();
+		    out.close();
+		    return null;
 		}
 
 ;

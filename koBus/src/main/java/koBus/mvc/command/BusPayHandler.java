@@ -44,11 +44,17 @@ public class BusPayHandler implements CommandHandler {
         System.out.println("[BusPayHandler] takeDrtm 파라미터: " + takeDrtmOrg);
 
         String cacmCd = request.getParameter("cacmCd");        // 고속사 코드
+        String cacmNm = request.getParameter("cacmNm");        // 고속사 코드
         String indVBusClsCd = request.getParameter("indVBusClsCd"); // 버스 등급 코드
 
         String selAdltCnt = request.getParameter("selAdltCnt"); // 성인 매수
         String selChldCnt = request.getParameter("selChldCnt"); // 아동 매수
         String selTeenCnt = request.getParameter("selTeenCnt"); // 청소년 매수
+        
+        String selectedSeatIds = request.getParameter("selectedSeatIds");
+
+        System.out.println("selectedSeatIds " + selectedSeatIds);
+        System.out.println("cacmNm" + cacmNm);
 
         String selSeatNum = request.getParameter("selSeatNum"); // 좌석 번호 (예: "15,9")
         String selSeatCnt = request.getParameter("selSeatCnt"); // 총 선택좌석 수
@@ -64,6 +70,7 @@ public class BusPayHandler implements CommandHandler {
         request.setAttribute("selAdltCnt", selAdltCnt);
         request.setAttribute("selChldCnt", selChldCnt);
         request.setAttribute("selTeenCnt", selTeenCnt);
+
         request.setAttribute("selSeatNum", selSeatNum);
         request.setAttribute("estmAmt", allTotAmtPrice);
         request.setAttribute("tissuAmt", allTotAmtPrice);
