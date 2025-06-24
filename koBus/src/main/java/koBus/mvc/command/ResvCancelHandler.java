@@ -21,7 +21,6 @@ public class ResvCancelHandler implements CommandHandler {
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, Exception, Throwable {
-				return null;
 		
 		
 
