@@ -34,7 +34,14 @@ public class BoardListHandler implements CommandHandler {
 		BoardDAO dao = new BoardDAO();
 
 		try {
-		    list = dao.getBoardList(); // 전체 목록
+			String keyword = request.getParameter("keyword");
+
+			if (keyword != null && !keyword.trim().isEmpty()) {
+			    list = dao.searchBoard(keyword);
+			} else {
+			    list = dao.getBoardList();
+			}
+
 		} catch (SQLException | NamingException e) { // DAO에서 던진 예외를 여기서 잡음
 		    System.err.println("BoardListHandler - 게시글 목록 조회 중 DB/JNDI 오류: " + e.getMessage());
 		    e.printStackTrace();

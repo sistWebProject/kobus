@@ -169,7 +169,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		pstmt.setString(paramIndex++, arrId);
 		pstmt.setString(paramIndex++, deprDtm);  // TO_DATE 또는 TO_TIMESTAMP 둘 중 하나
 
-		if (!busClsCd.equals("전체")) {
+		if (!("전체".equals(busClsCd) || "0".equals(busClsCd))) {
 		    pstmt.setString(paramIndex++, busClsCd);
 		}
 

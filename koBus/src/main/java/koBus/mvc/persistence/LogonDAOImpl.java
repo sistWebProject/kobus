@@ -12,11 +12,11 @@ import com.util.DBConn;
 import koBus.mvc.domain.LogonDTO;
 
 public class LogonDAOImpl implements LogonDAO {
-	
+
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
-	
+
 	// 생성자 DI
 	public LogonDAOImpl(Connection conn) {
 		super();
@@ -32,7 +32,6 @@ public class LogonDAOImpl implements LogonDAO {
 		this.conn = conn;
 	}
 
-	
 	// 회원 아이디, 비밀번호 정보 가져와서 아이디 있으면 1, 없으면 0 넘겨줌
 	@Override
 	public int logonCheck(String inputId, String inputPasswd) throws SQLException {
@@ -63,35 +62,45 @@ public class LogonDAOImpl implements LogonDAO {
 	    
 	    return result;
 	}
-	
+
 	// 회원가입할때 아이디 중복확인하는 함수 입력값을 매개변수로 받아서 검색이되면 success, 검색이 안되면 fail을 넘겨줌
 	@Override
 	public String idDupCheck(String inputId) throws SQLException {
 		// 아이디 중복체크~~
-		String result="";
-		
+		String result = "";
+
 		String sql = "SELECT id FROM kobususer WHERE id = ? ";
-		
+
 		try {
-	        this.pstmt = conn.prepareStatement(sql);
-	        this.pstmt.setString(1, inputId.trim());
-	        
-	        this.rs = this.pstmt.executeQuery();
-	        	        
-	        if (this.rs.next()) {
-	            result = "success"; 
-	        }else {
-	        	result = "fail";
-	        }
-	        System.out.println("result값 : " + result);
-	       
-	    } catch(SQLException e){
-	    	e.printStackTrace();
-	    }finally {
-	        try { if (this.rs != null) this.rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-	        try { if (this.pstmt != null) this.pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-	    }
-	    
+			this.pstmt = conn.prepareStatement(sql);
+			this.pstmt.setString(1, inputId.trim());
+
+			this.rs = this.pstmt.executeQuery();
+
+			if (this.rs.next()) {
+				result = "success";
+			} else {
+				result = "fail";
+			}
+			System.out.println("result값 : " + result);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (this.rs != null)
+					this.rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				if (this.pstmt != null)
+					this.pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
 		return result;
 	}
 	
@@ -118,5 +127,18 @@ public class LogonDAOImpl implements LogonDAO {
 	            throw new RuntimeException("암호화 알고리즘 에러: " + e.getMessage());
 	        }
 	    }
+
+	// 게시판에서 회원 kusID 값 가져와서 게시물 수정 / 삭제 처리 추가 / 최승호
+	public String getKusIDById(String id) throws SQLException {
+		String sql = "SELECT kusID FROM kobusUser WHERE id = ?";
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setString(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getString("kusID");
+			}
+		}
+		return null;
 	}
 
+}
