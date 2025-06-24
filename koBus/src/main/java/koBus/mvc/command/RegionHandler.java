@@ -20,17 +20,13 @@ public class RegionHandler implements CommandHandler {
     public String process(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("> RegionHandler.process() ...");
 
-        Connection conn = null;
-
         String command = request.getRequestURI();
-        command = command.substring(request.getContextPath().length()); // /getTerminals.do
-        System.out.println("command: " + command);
+        command = command.substring(request.getContextPath().length()); 
 
         String sidoCodeStr = request.getParameter("sidoCode");
         System.out.println(">>> [DAO] sidoCode 파라미터: " + sidoCodeStr);
 
-        try {
-            conn = ConnectionProvider.getConnection(); 
+        try (Connection conn = ConnectionProvider.getConnection()) {
             RegionDAO dao = new RegionDAOImpl();
 
             if (command.equals("/getTerminals.do") && sidoCodeStr != null) {
@@ -55,10 +51,10 @@ public class RegionHandler implements CommandHandler {
                 System.out.println(">> JSON 결과(Gson): " + json);
 
                 response.setContentType("application/json; charset=UTF-8");
-                PrintWriter out = response.getWriter();
-                out.print(json);
-                out.flush();
-                out.close();
+                try (PrintWriter out = response.getWriter()) {
+                    out.print(json);
+                    out.flush();
+                }
 
                 return null;
             }
