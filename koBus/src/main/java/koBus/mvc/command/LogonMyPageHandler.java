@@ -32,7 +32,8 @@ public class LogonMyPageHandler implements CommandHandler {
 		
 		try {
 			int reservationCount = dao.reservationCount(auth);
-			int couponCount = dao.couponCount(auth);
+			int couponCount = dao.popCouponCount(auth);
+			couponCount += dao.freeCouponCount(auth);
 			String tel = dao.getTelNum(auth);
 			
 			request.setAttribute("reservationCount", reservationCount);

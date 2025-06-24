@@ -7,8 +7,11 @@ public interface MyPageDAO {
 	// 예매내역 개수 가져오는 함수
 	int reservationCount(String auth) throws SQLException;
 	
-	// 프리패스/정기권 개수 가져오는 함수
-	int couponCount(String auth) throws SQLException;
+	// 정기권 개수 가져오는 함수
+	int popCouponCount(String auth) throws SQLException;
+	
+	// 프리패스 쿠폰갯수 가져오는 함수
+	int freeCouponCount(String auth) throws SQLException;
 	
 	// 전화번호 가져오는 함수
 	String getTelNum(String auth) throws SQLException;
