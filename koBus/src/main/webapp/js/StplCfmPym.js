@@ -389,6 +389,14 @@ function requestPay() {
 		alert("비회원 인증이 필요합니다.");
 		return;
 	}
+	var deprNm = $("#deprNm").val();     // 출발지명
+	var arvlNm = $("#arvlNm").val();     // 도착지명
+	var deprDt = $("#deprDt").val();     // 출발일 (예: 20250613)
+	var deprTime = $("#deprTime").val(); // 출발시각 (예: 143000)
+	var deprDtFmt = deprDt.slice(0,4) + "-" + deprDt.slice(4,6) + "-" + deprDt.slice(6,8);
+	var deprTimeFmt = deprTime.slice(0,2) + ":" + deprTime.slice(2,4);
+	var productName = deprNm + " -> " + arvlNm + " (" + deprDtFmt + "/" + deprTimeFmt + ")";
+	var amount = $("#tissuAmt").val();
 	
 	var IMP = window.IMP;
     IMP.init('imp31168041'); // 테스트용 가맹점 식별코드
@@ -397,8 +405,8 @@ function requestPay() {
         pg: 'html5_inicis.INIpayTest',
         pay_method: ['card', 'trans'],
         merchant_uid: 'ORD_TEST_' + new Date().getTime(),
-        name: '테스트 상품명',
-        amount: 100, // 이 부분에 서버에서 조회한 금액 변수를 대입!
+        name: productName,
+        amount: amount, // 이 부분에 서버에서 조회한 금액 변수를 대입!
         // buyer_xxx 등은 필요 없으면 생략
     }, function (rsp) {
         if (rsp.success) {
