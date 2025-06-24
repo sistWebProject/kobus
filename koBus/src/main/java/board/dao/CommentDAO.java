@@ -10,11 +10,10 @@ public interface CommentDAO {
     // 댓글 등록
     int insertComment(CommentDTO dto) throws Exception;
 
-    // 댓글 삭제
-    int deleteComment(int cmtID) throws Exception;
+    // 댓글 삭제 (PK 기준)
+    int deleteComment(int bcmID, String kusID) throws Exception;
 
-    // (선택) 댓글 수정
+
+    // 댓글 수정 (선택)
     int updateComment(CommentDTO dto) throws Exception;
-    
-    
 }
