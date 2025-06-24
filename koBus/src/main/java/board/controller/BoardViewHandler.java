@@ -2,62 +2,58 @@ package board.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.SQLException; // SQLException 임포트
-import javax.naming.NamingException; // NamingException 임포트
+import javax.servlet.http.HttpSession;
 
 import board.dao.BoardDAO;
 import board.dto.BoardDTO;
 import koBus.mvc.command.CommandHandler;
+import koBus.mvc.persistence.LogonDAOImpl;
+import com.util.ConnectionProvider;
+
+import java.sql.Connection;
 
 public class BoardViewHandler implements CommandHandler {
     @Override
     public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	request.setCharacterEncoding("UTF-8");
-		response.setCharacterEncoding("UTF-8");
 
-    	System.out.println("VIEW_doit()..");
-    	String brdID_str = request.getParameter("brdID");
-    	int brdID = 0; // 초기화
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
 
-    	// brdID 파싱 오류 처리
-    	try {
-    	    brdID = Integer.parseInt(brdID_str); // String -> int 변환
-    	} catch (NumberFormatException e) {
-    	    System.err.println("BoardViewHandler - Invalid brdID format: " + brdID_str);
-    	    request.setAttribute("error", "잘못된 게시글 번호입니다.");
-    	    response.sendRedirect(request.getContextPath() + "/board/boardList.do?error=invalid_brdid"); // 목록 페이지로 리다이렉트
-    	    return null;
-    	}
+        // 1. 세션 및 로그인 ID 확인
+        HttpSession session = request.getSession();
+        String loginId = (String) session.getAttribute("auth"); // 로그인한 사용자의 id
 
-    	BoardDAO dao = new BoardDAO();
-    	BoardDTO dto = null;
-
-    	try {
-            // 💡 추가: 조회수 증가 메서드 호출
-            dao.incrementViewCount(brdID);
-
-            // 게시글 정보 가져오기 (조회수 증가 후 최신 데이터 가져옴)
-            dto = dao.getBoard(brdID);
-
-            if (dto == null) {
-                System.err.println("BoardViewHandler: 해당 brdID(" + brdID + ")의 게시글을 찾을 수 없습니다.");
-                request.setAttribute("error", "존재하지 않는 게시글입니다.");
-                response.sendRedirect(request.getContextPath() + "/board/boardList.do?error=not_found"); // 목록 페이지로 리다이렉트
-                return null;
-            }
-        } catch (SQLException | NamingException e) { // DAO에서 던진 예외를 여기서 잡음
-            System.err.println("BoardViewHandler - 게시글 조회 중 DB/JNDI 오류: " + e.getMessage());
-            e.printStackTrace();
-            request.setAttribute("error", "게시글 조회 중 시스템 오류가 발생했습니다. 잠시 후 다시 시도해주세요. (에러: " + e.getMessage() + ")");
-            return "/board/boardList.jsp"; // 에러 메시지와 함께 목록 페이지로 포워드
-        } catch (Exception e) { // 그 외 예상치 못한 모든 예외 처리
-            System.err.println("BoardViewHandler - 예상치 못한 오류 발생: " + e.getMessage());
-            e.printStackTrace();
-            request.setAttribute("error", "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-            return "/board/boardList.jsp";
+        // 2. 파라미터로 게시글 ID 받아오기
+        String brdIDstr = request.getParameter("brdID");
+        int brdID = 0;
+        if (brdIDstr != null && !brdIDstr.isEmpty()) {
+            brdID = Integer.parseInt(brdIDstr);
         }
 
+        // 3. 게시글 조회
+        BoardDAO dao = new BoardDAO();
+        BoardDTO dto = dao.getBoard(brdID);
+        
+
+        // 4. 조회수 중복 방지 (세션당 1회만 증가)
+        if (dto != null) {
+            String viewedKey = "viewed_" + brdID;
+            if (session.getAttribute(viewedKey) == null) {
+                dao.incrementViewCount(brdID);
+                session.setAttribute(viewedKey, true);
+            }
+        }
+
+        // 5. 로그인된 사용자의 kusID 조회
+        Connection conn = ConnectionProvider.getConnection();
+        LogonDAOImpl logonDAO = new LogonDAOImpl(conn);
+        String loginKusID = logonDAO.getKusIDById(loginId);
+        conn.close();
+
+        // 6. request 영역에 전달
         request.setAttribute("dto", dto);
+        request.setAttribute("loginKusID", loginKusID); // view.jsp에서 비교용
+
         return "/board/boardView.jsp";
     }
 }
