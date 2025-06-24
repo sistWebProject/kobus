@@ -57,6 +57,67 @@ $( function() {
 
 
 } );
+
+function setRotInfFrmValues() {
+    // 편도/왕복/환승 구분
+    let pathDvs = "sngl";
+    if ($("#rtrpRotAll").hasClass("active")) {
+        pathDvs = "rtrp";
+    } else if ($("#rtrpYnAll input[name='route']:checked").attr("id") === "r2") {
+        pathDvs = "trtr";
+    }
+    $("#pathDvs").val(pathDvs);
+
+    // 출발지/도착지 이름
+    $("#deprNm").val($("#deprNmSpn").text().trim());
+    $("#arvlNm").val($("#arvlNmSpn").text().trim());
+
+    // 날짜: 가는날
+	const deprLabel = $(".text_date1").text().trim();
+	const deprValue = parseKoreanDateToYYYYMMDD(deprLabel);
+	
+	// 날짜: 오는날 (왕복일 경우)
+    const arvlLabel = $(".text_date2").text().trim();
+    const arvlValue = parseKoreanDateToYYYYMMDD(arvlLabel);
+    
+    
+    $("#deprDtm").val(deprValue);
+    $("#deprDtmAll").val(deprLabel);
+    
+    $("#arvlDtm").val(arvlValue);
+    $("#arvlDtmAll").val(arvlLabel);
+	
+    
+    // 버스 등급
+    const busClsCd = $("input[name='busClsCdR']:checked").val();
+    $("#busClsCd").val(busClsCd || "0");
+}
+
+
+function parseKoreanDateToYYYYMMDD(dateStr) {
+
+	  // 숫자와 점(.)만 남기기
+	  const onlyNumDot = dateStr.replace(/[^0-9.]/g, '');  // "2025.6.25"
+
+	  
+	  // 점(.)으로 분리
+	  const parts = onlyNumDot.split('.');
+
+	  if (parts.length < 3) throw new Error("날짜 형식 오류");
+
+	  const year = parts[0];
+	  let month = parts[1];
+	  let day = parts[2];
+
+	  // 월, 일이 한자리면 0 붙이기
+	  if (month.length === 1) month = '0' + month;
+	  if (day.length === 1) day = '0' + day;
+	  
+	  const format = year+month+day;
+
+	  return format;
+	}
+
 </script>
 	
 	<style>
@@ -75,15 +136,9 @@ $( function() {
 		<script type="text/javascript" src="/koBus/js/common/RotInf.js"></script>
 		<script type="text/javascript" src="/koBus/js/MrsCfmLgn.js"></script>
 
-		<!-- 20200617 yahan -->
-		<!-- <script type="text/javascript" src="/koBus/js/transkey.js"></script>
-<script type="text/javascript" src="/koBus/js/TranskeyLibPack_op.js"></script> -->
 		<script type="text/javascript" src="/koBus/js/rsa_oaep-min.js"></script>
 		<script type="text/javascript" src="/koBus/js/jsbn-min2.js"></script>
 		<script type="text/javascript" src="/koBus/js/typedarray.js"></script>
-		<!-- <script type="text/javascript" src="/koBus/js/transkeyServlet"></script>
-<script type="text/javascript" src="/koBus/js/transkeyServlet(1)"></script>
-<link rel="stylesheet" type="text/css" href="/koBus/js/transkey.css">  -->
 		<script>
 		
 //	$(function(){ initTranskey('lgnFrm'); })
@@ -338,7 +393,8 @@ $(document).ready(function () {
 		<!-- 출/도착지 선택 레이어팝업 -->
 
 		<form name="rotInfFrm" id="rotInfFrm" method="post"
-			action="/mrs/alcnSrch.do">
+			action="/koBus/mrs/alcnSrch.do">
+			<input type="hidden" name="sourcePage" value="kobus_main.jsp">
 			<input type="hidden" name="deprCd" id="deprCd" value="">
 			<!-- 출발지코드 -->
 			<input type="hidden" name="deprNm" id="deprNm" value="">
@@ -520,7 +576,7 @@ $(document).ready(function () {
 														<p class="check" id="alcnSrchBtn">
 															<button type="button"
 																class="btn_confirm ready btn_pop_focus"
-																onclick="fnAlcnSrchBef();">조회하기</button>
+																onclick="setRotInfFrmValues(); fnAlcnSrch();">조회하기</button>
 														</p>
 													</div>
 												</div>
@@ -1005,11 +1061,9 @@ $(document).ready(function () {
 									</c:when>
 									<c:otherwise>
 										<!-- ajax로 예매테이블 정보가져오고 정보 잘 뿌려주기 -->
-										<h3>예매 내역 가져오는 ajax코드추가</h3>
-										
-										<ul id="resvListUl">
+										<div class="box_detail_info">
     									<!-- AJAX로 채워짐 -->
-										</ul>	
+										</div>	
 										
 										<script>
 										$("#lgnTab").on("click", function(){
@@ -1020,18 +1074,89 @@ $(document).ready(function () {
 												dataType: "json",
 												success: function(data){
 													console.log(data);
-													let list = $("#resvListUl");
+													let list = $(".box_detail_info");
 									                list.empty();
 
 									                if (data.length === 0) {
-									                    list.append("<li>예매 내역이 없습니다.</li>");
+									                    list.append(`
+									                    		<div class="no-ticker-area">
+																<p class="no_ticket_txt">예매내역이 없습니다.</p> <!-- 170215 추가 -->
+																</div>
+																`);
+									                    // <li>탑승일: \${resv.rideDate.date.year}</li>
 									                } else {
 									                    data.forEach(function(resv){
+									                    	
+									                    	let durMin = resv.durMin;
+									                        let hour = Math.floor(durMin / 60);
+									                        let minute = durMin % 60;
+									                        let durationText = `\${hour}시간 \${minute}분 소요`;
+									                    	
 									                        list.append(`
-									                            <li>예매 방식: \${resv.resvType}</li>
-									                            <li>결제 방식: \${resv.payType}</li>
-									                            <li>탑승일: \${resv.rideDate.date.year}</li>
-									                            <hr/>
+
+									                        		<div class="routeHead">
+																	<p class="date">\${resv.rideDateStr} 출발</p>
+																	<p class="ticketPrice"></p>
+																</div>
+																<div class="routeBody">
+																	<div class="routeArea route_wrap">
+																		<div class="inner">
+
+																			<dl class="roundBox departure kor">
+																				<dt>출발</dt>
+																				<dd>\${resv.deprRegName }</dd>
+																			</dl>
+																			<dl class="roundBox arrive kor">
+																				<dt>도착</dt>
+																				<dd>\${resv.arrRegName }</dd>
+																			</dl>
+																		</div>
+																		<div class="detail_info">
+																		
+																		<span>\${durationText}</span>
+
+																		<!-- 예상소요시간 -->
+																	</div>
+																	</div>
+																	<div class="routeArea route_wrap mob_route">
+																		<div class="tbl_type2">
+																			<table class="tbl_info">
+																				<caption>버스 예매 정보에 대한 표이며 예매번호, 고속사, 등급, 승차홈, 매수
+																					정보 제공</caption>
+																				<colgroup>
+																					<col style="width: 68px;">
+																					<col style="width: *;">
+																				</colgroup>
+																				<tbody>
+																					<tr>
+																						<th scope="row">예매번호</th>
+																						<td>\${resv.resId }</td>
+																					</tr>
+																					<tr>
+																						<th scope="row">고속사</th>
+																						<td>\${resv.comName }<span class="jabus ico_bus"></span> <!-- 동양고속 class="dyexpress" 삼화고속 class="samhwa" 중앙고속 class="jabus" 금호고속 class="kumho" 천일고속 class="chunil" 한일고속 class="hanil" 동부고속 class="dongbu" 금호속리산고속 class="songnisan" 코버스 class="kobus" -->
+																						</td>
+																					</tr>
+																					<tr>
+																						<th scope="row">등급</th>
+																						<td>\${resv.busGrade }</td>
+																					</tr>
+																					<!-- <tr>
+																						<th scope="row">승차홈</th>
+																						<td>23</td>
+																					</tr> -->
+																					<tr>
+																						<th scope="row">매수</th>
+																						<td>\${resv.totalCount } <!-- 20210525 yahan -->
+
+																						</td>
+
+																					</tr>
+																				</tbody>
+																			</table>
+																		</div>
+																	</div>
+																</div>
 									                        `);
 									                    });
 									                }

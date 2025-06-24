@@ -49,8 +49,10 @@ public class ModifyResvHandler implements CommandHandler{
 		String rideDateStr = deprDay + " " + deprTime;
 
 		// rideDateStr → LocalDateTime 변환 (필요 시 예외 처리 포함)
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd HHmmss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime rideDate = LocalDateTime.parse(rideDateStr, formatter);
+		String formatted = rideDate.format(outputFormatter);
 
 		// 문자열 숫자값들 → int 로 변환 (null 또는 빈 문자열 체크 포함)
 		int durMinInt = durMin != null && !durMin.isEmpty() ? Integer.parseInt(durMin) : 0;
@@ -64,7 +66,7 @@ public class ModifyResvHandler implements CommandHandler{
 		ResvDTO dto = ResvDTO.builder()
 		        .resId(resId)
 		        .rideDate(rideDate)
-		        .rideDateStr(rideDateStr)
+		        .rideDateStr(formatted)
 		        .deprRegCode(deprRegCode)
 		        .deprRegName(deprRegName)
 		        .arrRegCode(arrRegCode)
@@ -72,7 +74,7 @@ public class ModifyResvHandler implements CommandHandler{
 		        .busGrade(busGrade)
 		        .durMin(durMinInt)
 		        .amount(amountInt)
-		        .payType(payType)
+		        .payMethod(payType)
 		        .aduCount(aduCountInt)
 		        .stuCount(stuCountInt)
 		        .chdCount(chdCountInt)

@@ -30,7 +30,7 @@ public class ResvDTO {
 	private String busGrade; 		/* 등급 */
 	private int durMin;
 	private int amount; 			/* 총 결제금액 */
-	private String payType;
+	private String payMethod;
 	private int totalCount; 		/* 총인원수 */
 	private int aduCount; 		/* 일반좌석수 */
 	private int stuCount; 		/* 학생좌석수 */
@@ -38,5 +38,8 @@ public class ResvDTO {
 	
 	private String rideDateStr;     /* 포맷된 탑승일 문자열 */
 	private String resvDateStr;     /* 포맷된 예약일 문자열 */
+	
+	private String rideDateFormatter;
+	
 
 }

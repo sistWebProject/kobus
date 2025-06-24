@@ -8,25 +8,7 @@
 <%@ page language="java" trimDirectiveWhitespaces="true" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-	String deprName = "서울 경부";
-	String deprCode = "11";
-	String arrvName = "속초";
-	String arrvCode = "45";
-	LocalDate deprDate = LocalDate.of(2025, 6, 11);
-	LocalTime deprTime = LocalTime.of(7, 30);
-	
-	request.setAttribute("deprName", deprName);
-	request.setAttribute("deprCode", deprCode);
-	request.setAttribute("arrvName", arrvName);
-	request.setAttribute("arrvCode", arrvCode);
-	
-	request.setAttribute("deprDate", deprDate);
-	request.setAttribute("deprTime", deprTime);
 
-%>	
-
-	
 <!DOCTYPE html>
 <html lang="ko" class="pc">
 <head>
@@ -196,16 +178,17 @@
 			<c:set var="bus" value="${busList[0]}" />
 			<form name="satsChcFrm" id="satsChcFrm" method="post"
 				action="/koBus/kobusSeat.do">
-				<input type="hidden" name="deprCd" id="deprCd" value="${deprCode }">
+				<input type="hidden" name="sourcePage" value="kobus_seat.jsp">
+				<input type="hidden" name="deprCd" id="deprCd" value="${deprId }">
 				<!-- 출발지코드 -->
 				<%-- <input type="hidden" name="deprCd" id="deprCd" value="${param.deprCode}"> --%>
 				<!-- 추후 el 표기법으로 변경하기 그럼 request.getParameter 랑 setAttribute 없어도 됨-->
 				
-				<input type="hidden" name="deprNm" id="deprNm" value="${deprName }">
+				<input type="hidden" name="deprNm" id="deprNm" value="${deprNm }">
 				<!-- 출발지명 -->
-				<input type="hidden" name="arvlCd" id="arvlCd" value="${arrvCode }">
+				<input type="hidden" name="arvlCd" id="arvlCd" value="${arrId }">
 				<!-- 도착지코드 -->
-				<input type="hidden" name="arvlNm" id="arvlNm" value="${arrvName }">
+				<input type="hidden" name="arvlNm" id="arvlNm" value="${arvlNm }">
 				<!-- 도착지명 -->
 				<input type="hidden" name="tfrCd" id="tfrCd" value="">
 				<!-- 환승지코드 -->
@@ -232,7 +215,7 @@
 				<!-- 버스등급 -->
 				<input type="hidden" name="takeDrtmOrg" id="takeDrtmOrg" value="${bus.durMin }">
 				<!-- 소요시간 -->
-				<input type="hidden" name="distOrg" id="distOrg" value="${distance }">
+				<input type="hidden" name="distOrg" id="distOrg" value="">
 				<!-- 거리 -->
 				<!-- 출발일자:deprDtm or arvlDtm, 출발터미널번호:deprCd, 도착터미널번호:arvlCd  -->
 				<input type="hidden" name="deprDt" id="deprDt" value="20250621">
@@ -514,11 +497,11 @@
 
 										<dl class="roundBox departure kor">
 											<dt>출발</dt>
-											<dd id="satsDeprTmlNm"></dd>
+											<dd id="satsDeprTmlNm">${deprNm }</dd>
 										</dl>
 										<dl class="roundBox arrive kor">
 											<dt>도착</dt>
-											<dd id="satsArvlTmlNm"></dd>
+											<dd id="satsArvlTmlNm">${arvlNm }</dd>
 										</dl>
 									</div>
 									<div class="detail_info">

@@ -1,15 +1,16 @@
 package koBus.mvc.command;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Random;
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import koBus.mvc.persistence.PaymentDAO;
-import koBus.mvc.persistence.ReservationDAO;
 import koBus.mvc.domain.PaymentDTO;
 import koBus.mvc.domain.ReservationDTO;
-
-import java.sql.Date;
-import java.util.UUID;
+import koBus.mvc.persistence.PaymentDAO;
 
 public class PaymentSaveHandler implements CommandHandler {
     @Override
@@ -97,6 +98,13 @@ public class PaymentSaveHandler implements CommandHandler {
         String resvStatus = "결제완료";
         String seatAble = "Y";
         int qrCode = (int)(Math.random() * 900000) + 100000;
+     // 1. 오늘 날짜 (yyyyMMdd)
+        String today = new SimpleDateFormat("yyyyMMdd").format(new java.util.Date());
+        // 2. 랜덤 6자리 숫자
+        int randomNum = 100000 + new Random().nextInt(900000);
+        // 3. 예매번호 조합
+        String reservationNo = today + randomNum;
+        
 
         ReservationDTO resvDto = new ReservationDTO();
         resvDto.setResID(resID);
@@ -114,6 +122,11 @@ public class PaymentSaveHandler implements CommandHandler {
         resvDto.setMileage(mileage);
         resvDto.setSeatAble(seatAble);
         System.out.println("[PaymentSaveHandler] ReservationDTO: " + resvDto);
+     // 4. DTO에 set
+        resvDto.setReservationNo(reservationNo);
+
+        // 로그로도 남기면 좋아요!
+        System.out.println("생성된 예매번호: " + reservationNo);
 
         // ========== [결제/예매 DB 저장] ==========
         PaymentDAO dao = new PaymentDAO();

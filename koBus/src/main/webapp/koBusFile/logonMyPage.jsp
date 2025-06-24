@@ -66,11 +66,11 @@
 						<ul class="myPage_list">
 							<li class="history">
 								<div class="row">
-									<a class="txt_myMenu" href="#"> <span>나의
+									<a class="txt_myMenu" href="/koBus/manageReservations.do"> <span>나의
 											예매내역</span> <strong id="mrsCfmPT">${reservationCount}건</strong></a> 
 								</div>
 								<div class="btnBox">
-									<a class="btn btn_sm_link_white" href="#">예매확인/변경/취소</a>
+									<a class="btn btn_sm_link_white" href="/koBus/manageReservations.do">예매확인/변경/취소</a>
 								</div>
 							</li>
 							<li class="additional">
@@ -79,7 +79,7 @@
 										id="adtnPrdPT">${couponCount}개</strong></a> 
 								</div>
 								<div class="btnBox">
-									<a class="btn btn_sm_link_white" href="#">구매내역
+									<a class="btn btn_sm_link_white" href="/koBus/page/itemPurListPage.do">구매내역
 										확인</a>
 								</div>
 							</li>

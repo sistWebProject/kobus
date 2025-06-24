@@ -32,11 +32,11 @@ function fnmrsHtcklayer(idx) {
 				,data:mrsCfmInfolistFrm // input 값 세팅 
 				,dataType:"json"
 				,success:function(data){
-					alert(data.MSG_DTL_CTT);
+					alert("fnmrsHtcklayer " + data.MSG_DTL_CTT);
 					location.href ="/mrs/mrscfm.do?vltlCnt=Y";
 				}
 			    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-			    	alert(e.responseText);
+			    	alert("fnmrsRecpPub ajax 오류");
 			    }
 			});
 			
@@ -86,30 +86,25 @@ function fnmrsReHtckMblYn(tckNo,terNo){
 
 
 //예매취소 금액정보 조회 [레이어 팝업]
+
+//예매취소 금액정보 조회 [레이어 팝업]
 function fnRecpCanInfo(idx , type) {
 	//var satsNo = document.forms["recpCanFrm"+idx].elements['satsNo'].value;
 	var satsNo = $("#recpCanFrm"+idx+" #satsNo").val()
-	 
-	if(satsNo.indexOf("W1") > -1 || satsNo.indexOf("W2") > -1){
-		if(confirm("휠체어 예매 취소는 휠체어 예매 사이트에서 가능합니다.\n휠체어 예매 사이트로 이동 하시겠습니까?")){
-			location.href ="/wchr/mrs/mrscfm.do";
-		}else{
-			return;
-		}
-	}else{
 	
-		var recpCanInfoFrm = $("form[name=recpCanFrm"+idx+"]").serialize();
+		var recpCanInfoFrm = $("form[name=recpCanFrm]").serialize();
+		alert("fnRecpCanInfo recpCanInfoFrm " + recpCanInfoFrm);
 		$.ajax({
 			 type:"post"
-			,url: "/mrs/mrsrecpcaninfo.ajax?type="+type+""
+			,url: "/koBus/kobusResvCancel.ajax?ajax=true&type="+type+""
 			,data:recpCanInfoFrm // input 값 세팅 
 			,dataType:"json"
 			,success:function(data){
-				if (data.MSG_CD != 'S0000'){
+				/*if (data.MSG_CD != 'S0000'){
 					alert(data.MSG_DTL_CTT+'\n※취소불가 합니다.');
 					return;
 				}
-
+*/
 		    	//20240608 건보공단
 				var nhisText = '대학생';
 		    	if (data.deprnCd == '246' || data.arvlCd == '246' || data.deprnCd == '244' || data.arvlCd == '244'){
@@ -118,8 +113,10 @@ function fnRecpCanInfo(idx , type) {
 
 				// 편도일 때
 			    var html ='';
-			    html +='<form id="mrsRecpCanFrm" name="mrsRecpCanFrm" tabindex="-1" action="/mrs/mrstckcaninfo.ajax">';
+			    html +='<form id="recpCanFrm" name="recpCanFrm" tabindex="-1" action="/koBus/kobusResvCancel.ajax">';
 	    		html +='<input type="hidden" name="nonMbrsNo" id="nonMbrsNo" tabindex="-1" value="'+data.nonMbrsNo+'">';
+	    		
+	    		alert("data.prmmDcDvsCd : " + data.prmmDcDvsCd + "data.rtrpMrsYn : " + data.rtrpMrsYn );
 	    		
 		    	if(data.prmmDcDvsCd != '4' || data.rtrpMrsYn != 'Y') {
 		    		html +='<input type="hidden" name="mrsMrnpNo" id="mrsMrnpNo" tabindex="-1" value="'+data.mrsMrnpno+'">';
@@ -193,6 +190,7 @@ function fnRecpCanInfo(idx , type) {
 			    html +='<div class="title type_blue"><h2>'+'예매취소'+'</h2></div>';
 			    html +='<div class="cont">';
 			    if(data.prmmDcDvsCd != '4' || data.rtrpMrsYn != 'Y') {
+				alert
 			    	html +='<div class="box_detail_info">';
 				    html +='<div class="routeHead">' + '<p class="date">'+data.alcnDeprDt+' '+data.alcnDeprTime+'</p>' +'</div>';	// 출발시간
 				    html +='<div class="routeBody">';
@@ -689,15 +687,18 @@ function fnRecpCanInfo(idx , type) {
 					 // args.data[idx] : args 는 function(args)의 인자. data는 controller.java에서 json객체에 넣어준 key(여기서는 list가 값이 된다). [idx]는 list의 몇번쨰 데이터를 가져올지 배열을 나타냄
 			}
 		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-			alert(e.responseText);
+			alert("fnRecpCanInfo ajax 오류");
 		    }
 		});
-	}
+	 
 };
 
 //예매취소(승차권) 금액정보 조회 [레이어 팝업]
 function fnTckCanInfo(idx) {
+	
+	
 	var tckCanInfoFrm = $("form[name=mrsCfmDtllistFrm"+idx+"]").serialize();	// 홈티켓 재발행도 승차권 단위여서 폼 그대로 씀
+	
 	var satsNo = document.forms["mrsCfmDtllistFrm"+idx].elements['satsNo'].value;
 	 
 	if(satsNo == "W1" ||  satsNo == "W2"){
@@ -709,7 +710,7 @@ function fnTckCanInfo(idx) {
 	}else{
 		$.ajax({
 			 type:"post"		
-			,url: "/mrs/mrstckcaninfo.ajax"  
+			,url: "/koBus/kobusResvCancel.ajax"  
 			,data:tckCanInfoFrm // input 값 세팅 
 			,dataType:"json"
 			,success:function(data){
@@ -895,7 +896,7 @@ function fnTckCanInfo(idx) {
 	
 			}
 		    ,error:function(e) {
-			alert(e.responseText);
+			alert("fnTckCanInfo ajax 오류");
 		    }
 		});
 	}
@@ -908,15 +909,14 @@ function fnRecpCan() {
 		if(confirm("예매취소 하시겠습니까?") == true){
 				$.ajax({
 			  		type:"post"		
-					,url:"/mrs/mrscan.ajax"
+					,url:"/koBus/kobusResvCancel.ajax"
 					,data:mrsRecpCanFrm // input 값 세팅 
 					,dataType:"json"
 					,success:function(data){
-						alert(data.MSG_DTL_CTT);
-						location.href ="/mrs/mrscfm.do?vltlCnt=Y";
+						location.href ="/koBus/manageReservations.do?vltlCnt=Y";
 					}
 				    ,error:function(e) {
-				    	alert(e.responseText);
+				    	alert("fnRecpCan ajax 오류");
 				    }
 				});
 		} else {
@@ -942,7 +942,7 @@ function fnRecpCan() {
 					,data:mrsRecpCanFrm // input 값 세팅 
 					,dataType:"json"
 					,success:function(data){
-						alert(data.MSG_DTL_CTT);
+						alert("fnRecpCan "+ data.MSG_DTL_CTT);
 						if(data.tkn != null && data.tkn != ""){
 			        		$("#token").val(data.token);
 			        		$("#transport").val("04");
@@ -957,21 +957,21 @@ function fnRecpCan() {
 			        	}							
 					}
 				    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-				    	alert(e.responseText);
+				    	alert("fnRecpCan ajax 오류");
 				    }
 				});
 			}else{
 				$.ajax({
 			  		type:"post"		
-					,url:"/mrs/mrscan.ajax"
+					,url:"/koBus/kobusResvCancel.ajax"
 					,data:mrsRecpCanFrm // input 값 세팅 
 					,dataType:"json"
 					,success:function(data){
-						alert(data.MSG_DTL_CTT);
-						location.href ="/mrs/mrscfm.do?vltlCnt=Y";
+						alert("fnRecpCan " + data.MSG_DTL_CTT);
+						location.href ="/koBus/manageReservations.do?vltlCnt=Y";
 					}
 				    ,error:function(e) {
-				    	alert(e.responseText);
+				    	alert("fnRecpCan ajax 오류");
 				    }
 				});
 			}
@@ -993,7 +993,7 @@ function fnTckCan() {
 				,data:mrsTckCanFrm // input 값 세팅 
 				,dataType:"json"
 				,success:function(data){
-					alert(data.MSG_DTL_CTT);
+					alert("fnTckCan" + data.MSG_DTL_CTT);
 					if(data.tkn != null && data.tkn != ""){
 		        		$("#token").val(data.token);
 		        		$("#transport").val("04");
@@ -1008,7 +1008,7 @@ function fnTckCan() {
 		        	}		
 				}
 			    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-			    	alert(e.responseText);
+			    	alert("fnTckCan ajax 오류");
 			    }
 			});
 		} else {
@@ -1022,7 +1022,7 @@ function fnTckCan() {
 				,data:mrsTckCanFrm // input 값 세팅 
 				,dataType:"json"
 				,success:function(data){
-					alert(data.MSG_DTL_CTT);
+					alert("fnTckCan " + data.MSG_DTL_CTT);
 					if(data.tkn != null && data.tkn != ""){
 		        		$("#token").val(data.token);
 		        		$("#transport").val("04");
@@ -1037,7 +1037,7 @@ function fnTckCan() {
 		        	}
 				}
 			    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
-			    	alert(e.responseText);
+			    	alert("fnTckCan ajax 오류");
 			    }
 			});
 		} else {

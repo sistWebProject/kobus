@@ -51,11 +51,14 @@ public class ModifyResvHandlerSch implements CommandHandler {
 		
 		
 
+		
+		
+
 		// 날짜 + 시간 조합 문자열 → 포맷된 탑승일 문자열로 사용
 		String rideDateStr = deprDay + " " + deprTime;
 
 		// rideDateStr → LocalDateTime 변환 (필요 시 예외 처리 포함)
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd HHmmss");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime rideDate = LocalDateTime.parse(rideDateStr, formatter);
 
 		// 문자열 숫자값들 → int 로 변환 (null 또는 빈 문자열 체크 포함)
@@ -78,7 +81,7 @@ public class ModifyResvHandlerSch implements CommandHandler {
 		        .busGrade(busGrade)
 		        .durMin(durMinInt)
 		        .amount(amountInt)
-		        .payType(payType)
+		        .payMethod(payType)
 		        .aduCount(aduCountInt)
 		        .stuCount(stuCountInt)
 		        .chdCount(chdCountInt)
@@ -87,6 +90,14 @@ public class ModifyResvHandlerSch implements CommandHandler {
 
 		
 		resvInfoList.add(dto);
+		
+		
+		if (deprDay != null && deprDay.matches("\\d{4}-\\d{2}-\\d{2}")) {
+			deprDay = deprDay.replace("-", "");
+		} else {
+		    System.out.println("입력 형식이 올바르지 않습니다.");
+		}
+		
 	    changeList = dao.searchBusSchedule(deprRegCode, arrRegCode, deprDay, busGrade);		
 		
 

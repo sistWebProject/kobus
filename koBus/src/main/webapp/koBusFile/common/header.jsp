@@ -93,7 +93,7 @@ $(document).ready(function () {
             <div class="container">
                <div class="gnb-area">
                   <ul id="new-kor-gnb">
-                     <li><a href="/koBus/kobusSeat.do">고속버스예매</a>
+                     <li><a href="/koBus/region.do">고속버스예매</a>
                         <ul>
                            <li><a href="javascript:void(0);">고속버스
                                  예매</a></li>
@@ -121,7 +121,7 @@ $(document).ready(function () {
                            <li><a
                               href="javascript:void(0);">정기권</a></li>
                            <li><a
-                              href="javascript:void(0);">상품
+                              href="/koBus/page/itemPurListPage.do">상품
                                  구매내역</a></li>
                         </ul></li>
 
