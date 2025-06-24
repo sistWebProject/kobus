@@ -563,7 +563,7 @@ dl.desc_list dd {margin-bottom:10px; padding-left:15px; font-size:14px; color:#6
 .bustime_head { display: table; width: 100%; min-height: 33px; padding: 0 15px 0 24px; border-bottom: 1px solid #e6e6e6; -moz-box-sizing: border-box; box-sizing: border-box;}
 .bustime_head span { font-size: 13px !important; letter-spacing: -0.08em;}
 .bustime_head span, .bus_time span { display: table-cell; vertical-align: middle; }
-.bustime_wrap .bus_com, .bustime_wrap .grade, .bustime_wrap .grade_child, .bustime_wrap .grade_ex, .bustime_wrap .status, .bustime_wrap .grade_wheel { display: none;} /* 190925 수정 */
+.bustime_wrap .bus_com, .bustime_wrap .grade, .bustime_wrap .grade_child, .bustime_wrap .grade_ex, .bustime_wrap .status, .bustime_wrap .grade_wheel { display: none; } /* 190925 수정 */
 .bustime_wrap .start_time { width: 40%;} /* 20170928 수정 */
 .bustime_wrap .bus_info { position: relative; width: 37%; vertical-align: top;}
 /* .bustime_wrap .bus_info { position: relative; width: 35%; vertical-align: top;}   20170928 수정 */
@@ -3932,7 +3932,7 @@ figcaption {position:absolute; left:-9999px; top:-9999px; width:0; height:0; fon
 	.bustime_head span, .bus_time p span { text-align: left;}
 		.bustime_wrap .bus_com, .bustime_wrap .grade, .bustime_wrap .grade_child, .bustime_wrap .grade_ex, .bustime_wrap .status, .bustime_wrap .grade_wheel { display: table-cell;} /* 190925 수정 */
 	.bustime_wrap .start_time { width: 110px; font-size: 18px;}
-	.bustime_wrap .bus_com { width: 140px;}	
+	.bustime_wrap .bus_com { width: 140px; }	
 	.bustime_wrap .bus_info { display: none;}
 		.bustime_wrap .grade, .bustime_wrap .grade_ex, .bustime_wrap .grade_child, .bustime_wrap .grade_wheel { width: 105px; font-size: 14px;} /* 190925 수정 */
 	.bustime_wrap .temp { display:table-cell;width: 70px;}

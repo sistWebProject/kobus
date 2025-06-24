@@ -902,9 +902,11 @@ function fnSelSeatCnt(){
 					Number(allUvsdChcCnt) + Number(allSncnChcCnt) + Number(allDsprChcCnt) + Number(allBohnChcCnt) + Number(allDfptChcCnt);
 }
 
-
+var selectedSeatIds = [];
 
 function fnSeatChc(obj, id){
+	
+	 
 	
 	if($(obj).parents('.seatBox').hasClass("wheel")){
 		alert("휠체어 우선 예매 가능 좌석입니다.\n다른 좌석을 선택해주세요.");
@@ -912,6 +914,7 @@ function fnSeatChc(obj, id){
 		obj.checked = false;
 		return;
 	}
+	
 	
 	fnSelSeatCnt();	
 
@@ -1006,6 +1009,19 @@ function fnSeatChc(obj, id){
 				}
 			}
 		}
+		
+		if (obj.checked) {
+        // 선택 시 배열에 추가 (중복 방지)
+        if (!selectedSeatIds.includes(id)) {
+            selectedSeatIds.push(id);
+        }
+    } else {
+        // 선택 취소 시 배열에서 제거
+        selectedSeatIds = selectedSeatIds.filter(seatId => seatId !== id);
+        
+        
+    }
+		
 	}else{
 		if($("input:checkbox[name=seatBoxDtl]:checked").length < allSelSeatCnt){
 			$("#satsChcCfmBtn").addClass("ready");
@@ -1063,6 +1079,17 @@ function fnSeatChc(obj, id){
 		$("input:radio[id='salesInfo_3']").attr("checked",false);
 	}	
 	fnAmtClln();
+	
+	
+	// ★ 여기부터 배열 동기화 추가 코드 ★
+	if(obj.checked){
+	    if(!selectedSeatIds.includes(id)){
+	        selectedSeatIds.push(id);
+	    }
+	}else{
+	    selectedSeatIds = selectedSeatIds.filter(seatId => seatId !== id);
+	}
+	
 }
 
 
@@ -1789,14 +1816,14 @@ function fnLoginChk(){
 	//var rotInfFrm = $("form[name=rotInfFrm]").serialize() ;
 	let login = $(".util-list > li:nth-child(1)").text();
 	
-/*	if(login.equal("로그인")) {
+	if(login.equal("로그인")) {
 		var popLogin = $('[data-remodal-id=popLogin]').remodal().open();
 	}else {
 		$("#nonMbrsYn").val("N");
-	}*/
+	}
 	
 	
-/*	if(LoginChkMap.loginYn == "N" || LoginChkMap.mbrsDvsCd == "1"){
+	if(LoginChkMap.loginYn == "N" || LoginChkMap.mbrsDvsCd == "1"){
         		var popLogin = $('[data-remodal-id=popLogin]').remodal().open();
         	}else{
         		if(LoginChkMap.mbrsDvsCd == "1"){ //비회원
@@ -1805,7 +1832,7 @@ function fnLoginChk(){
         			$("#nonMbrsYn").val("N");
         		}
         		fnFrmSubmit();
-        	}*/
+        	}
 }
 
 
@@ -1938,8 +1965,14 @@ function fnNonUsrMrs(){
 	});
 }*/
 function fnSetPcpy(){
-	var satsChcFrm = $("form[name=satsChcFrm]").serialize() + "&ajax=true&ajaxType=setPcpy";
+	var selectedSeatStr = selectedSeatIds.join(",");
+	
+	var satsChcFrm = $("form[name=satsChcFrm]").serialize() 
+               + "&ajax=true&ajaxType=setPcpy"
+               + "&selectedSeatIds=" + encodeURIComponent(selectedSeatStr);
 	console.log("전송할 데이터:" + satsChcFrm);
+	
+	
 	$.ajax({	
         url      : "/koBus/setPcpy.ajax",
         type     : "post",
@@ -1947,8 +1980,6 @@ function fnSetPcpy(){
         dataType : "json",
         async    : true,
         success  : function(data){
-				console.log(data);
-        		//alert($("#pcpyNoAll").val());
         		if($("#pathDvs").val() == "rtrp"){
         			if($("#pathStep").val() == "1"){
         				var rtrpDt1 = $("#selSeatCnt").val() //입력매수,일반인할인매수,일반인,중고생,초등생,대학생 순으로','로 구분
@@ -1961,6 +1992,7 @@ function fnSetPcpy(){
 	        			+":"+$("#selDsprCnt").val() //장애인(권종추가-201906)
 	        			+":"+$("#selVtr3Cnt").val() //보훈(권종추가-20210501)
 	        			+":"+$("#ctyPrmmDcYn").val() //시외후등형할인구분
+	        			+":"+$("#selectedSeatIdsInput").val(selectedSeatStr) //좌석 번호
 	        			+":"+$("#estmAmt").val($("#allTotAmtLocU").val()) //예매금액
 	        			+":"+$("#dcAmt").val($("#holiMrsDc").val()) //할인금액
 	        			+":"+$("#tissuAmt").val($("#allTotAmtLocD").val()) //결제금액
@@ -1968,6 +2000,8 @@ function fnSetPcpy(){
 	        			+":"+$("#deprTime").val() //출발시간
 	        			+":"+$("#indVBusClsCd").val() //버스등급
 	        			+":"+$("#cacmCd").val() //운수사코드
+	        			+":"+$("#cacmNm").val() //운수사명
+	        			
 	        			+":"+$("#prmmDcDvsCd").val() //시외우등형할인코드
         				+":"+$("#agrmYn").val() //국민차장제 동의 여부 (180705)
         				+":"+$("#selVtr5Cnt").val() //보훈(권종추가-20210501)
@@ -1997,6 +2031,7 @@ function fnSetPcpy(){
 	        			
 	        			// 페이지 이동 -> pay 페이지로 이동시키기
 	        			$("#satsChcFrm").attr("action","/koBus/payment/buypay.do");
+	        			console.log('폼 action:', $("#satsChcFrm").attr("action"));
 	        			$("#satsChcFrm").submit();
         			}else if($("#pathStep").val() == "2"){
         				var rtrpDt2 = $("#selSeatCnt").val() //입력매수,일반인할인매수,일반인,중고생,초등생,대학생 순으로','로 구분
@@ -2028,13 +2063,12 @@ function fnSetPcpy(){
         				fnLoginChk();
         			}
         		}else{
-					/*$('#extrComp').val("ARMY");*/
-        			if ($('#extrComp').val() == 'ARMY'){
+
 						// 비회원예매
-						fnNonUsrMrs();
-					} else{
-	        			fnLoginChk();
-					}
+						$("#satsChcFrm").attr("action","/koBus/payment/buypay.do");
+					    console.log('폼 action:', $("#satsChcFrm").attr("action"));
+					    $("#satsChcFrm").submit();
+
         		}
         },
         error:function (e){

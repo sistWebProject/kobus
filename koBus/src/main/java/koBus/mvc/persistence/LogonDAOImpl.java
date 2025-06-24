@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LogonDAOImpl implements LogonDAO {
-
+  
    private Connection conn = null;
    private PreparedStatement pstmt = null;
    private ResultSet rs = null;
@@ -136,5 +136,6 @@ public class LogonDAOImpl implements LogonDAO {
       }
       return null;
    }
+
 
 }

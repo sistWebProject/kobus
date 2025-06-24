@@ -405,10 +405,13 @@
 								<input type="hidden" name="chldNum" id="chldNum" value="${resv.chdCount}">
 								<input type="hidden" name="teenNum" id="teenNum" value="${resv.stuCount}">
 								<input type="hidden" name="payNm" id="payNm" value="${resv.payMethod}">
+								<input type="hidden" name="TRD_DTM" id="TRD_DTM" value="${resv.resvDateStr}">
+								<input type="hidden" name="seatNo" id="seatNo" value="${resv.seatNo}">
+								
 								<input type="hidden" name="pynDvsCd" id="pynDvsCd" value="3">
 								<input type="hidden" name="pynDtlCd" id="pynDtlCd" value="7">
 								<input type="hidden" name="prmmDcDvsCd" ID="prmmDcDvsCd" value="4">
-								<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" value="Y">
+								<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" value="N">
 								<input type="hidden" name="tckSeqList" id="tckSeqList" value="20250619994950192">
 							
 								<!-- 왕복 관련 필드들 (2로 끝나는 필드는 name도 2로 유지) -->
@@ -1012,7 +1015,9 @@
 	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
 		<div
 			class="remodal w680 popTicket_cancel remodal-is-initialized remodal-is-closed"
-			id="popTicketCancel" role="dialog" tabindex="-1"></div>
+			id="popTicketCancel" role="dialog" tabindex="-1">
+
+		</div>
 	</div>
 <!-- 	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
 		<div

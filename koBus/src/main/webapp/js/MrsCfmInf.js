@@ -92,14 +92,15 @@ function fnRecpCanInfo(idx , type) {
 	//var satsNo = document.forms["recpCanFrm"+idx].elements['satsNo'].value;
 	var satsNo = $("#recpCanFrm"+idx+" #satsNo").val()
 	
+	
 		var recpCanInfoFrm = $("form[name=recpCanFrm]").serialize();
-		alert("fnRecpCanInfo recpCanInfoFrm " + recpCanInfoFrm);
+	console.log(recpCanInfoFrm);
 		$.ajax({
 			 type:"post"
 			,url: "/koBus/kobusResvCancel.ajax?ajax=true&type="+type+""
 			,data:recpCanInfoFrm // input 값 세팅 
 			,dataType:"json"
-			,success:function(data){
+			,success:function(recpListMap){
 				/*if (data.MSG_CD != 'S0000'){
 					alert(data.MSG_DTL_CTT+'\n※취소불가 합니다.');
 					return;
@@ -107,96 +108,95 @@ function fnRecpCanInfo(idx , type) {
 */
 		    	//20240608 건보공단
 				var nhisText = '대학생';
-		    	if (data.deprnCd == '246' || data.arvlCd == '246' || data.deprnCd == '244' || data.arvlCd == '244'){
+		    	if (recpListMap.deprnCd == '246' || recpListMap.arvlCd == '246' || recpListMap.deprnCd == '244' || recpListMap.arvlCd == '244'){
 		    		nhisText = '건보공단';
 		    	}
 
 				// 편도일 때
 			    var html ='';
 			    html +='<form id="recpCanFrm" name="recpCanFrm" tabindex="-1" action="/koBus/kobusResvCancel.ajax">';
-	    		html +='<input type="hidden" name="nonMbrsNo" id="nonMbrsNo" tabindex="-1" value="'+data.nonMbrsNo+'">';
+	    		html +='<input type="hidden" name="nonMbrsNo" id="nonMbrsNo" tabindex="-1" value="'+recpListMap.nonMbrsNo+'">';
 	    		
-	    		alert("data.prmmDcDvsCd : " + data.prmmDcDvsCd + "data.rtrpMrsYn : " + data.rtrpMrsYn );
 	    		
-		    	if(data.prmmDcDvsCd != '4' || data.rtrpMrsYn != 'Y') {
-		    		html +='<input type="hidden" name="mrsMrnpNo" id="mrsMrnpNo" tabindex="-1" value="'+data.mrsMrnpno+'">';
-			    	html +='<input type="hidden" name="mrsMrnpSno" id="mrsMrnpSno" tabindex="-1" value="'+data.mrsMrnpSno+'">';
-			    	html +='<input type="hidden" name="prmmDcDvsCd" id="prmmDcDvsCd" tabindex="-1" value="'+data.prmmDcDvsCd+'">';
-			    	html +='<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" tabindex="-1" value="'+data.rtrpMrsYn+'">';
-			    	html +='<input type="hidden" name="brkpAmtCmm" id="brkpAmtCmm" tabindex="-1" value="'+data.BRKP_AMT_CMM+'">';
-			    	html +='<input type="hidden" name="pynDvsCd" id="pynDvsCd" tabindex="-1" value="'+data.pynDvsCd+'">';
-			    	html +='<input type="hidden" name="pynDtlCd" id="pynDtlCd" tabindex="-1" value="'+data.pynDtlCd+'">';
-			    	html +='<input type="hidden" name="tckSeqList" id="tckSeqList" tabindex="-1" value="'+data.tckSeqList+'">';
+		    	if(recpListMap.prmmDcDvsCd != '4' || recpListMap.rtrpMrsYn != 'Y') {
+		    		html +='<input type="hidden" name="mrsMrnpNo" id="mrsMrnpNo" tabindex="-1" value="'+recpListMap.mrsMrnpno+'">';
+			    	html +='<input type="hidden" name="mrsMrnpSno" id="mrsMrnpSno" tabindex="-1" value="'+recpListMap.mrsMrnpSno+'">';
+			    	html +='<input type="hidden" name="prmmDcDvsCd" id="prmmDcDvsCd" tabindex="-1" value="'+recpListMap.prmmDcDvsCd+'">';
+			    	html +='<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" tabindex="-1" value="'+recpListMap.rtrpMrsYn+'">';
+			    	html +='<input type="hidden" name="brkpAmtCmm" id="brkpAmtCmm" tabindex="-1" value="'+recpListMap.BRKP_AMT_CMM+'">';
+			    	html +='<input type="hidden" name="pynDvsCd" id="pynDvsCd" tabindex="-1" value="'+recpListMap.pynDvsCd+'">';
+			    	html +='<input type="hidden" name="pynDtlCd" id="pynDtlCd" tabindex="-1" value="'+recpListMap.pynDtlCd+'">';
+			    	html +='<input type="hidden" name="tckSeqList" id="tckSeqList" tabindex="-1" value="'+recpListMap.tckSeqList+'">';
 			    	html +='<input type="hidden" name="cancCnt" id="cancCnt" tabindex="-1" value="9">'; //취소할 승차권이 여러개라는 표시
-		    	} else if(data.prmmDcDvsCd == '4' && data.rtrpMrsYn == 'Y') {
+		    	} else if(recpListMap.prmmDcDvsCd == '4' && recpListMap.rtrpMrsYn == 'Y') {
 		    		if(type =='all'){
-		    			html +='<input type="hidden" name="mrsMrnpNo" id="mrsMrnpNo" tabindex="-1" value="'+data.mrsMrnpno+":"+data.mrsMrnpno2+'">';
-				    	html +='<input type="hidden" name="mrsMrnpSno" id="mrsMrnpSno" tabindex="-1" value="'+data.mrsMrnpSno+":"+data.mrsMrnpSno2+'">';
-				    	html +='<input type="hidden" name="prmmDcDvsCd" id="prmmDcDvsCd" tabindex="-1" value="'+data.prmmDcDvsCd+'">';
-				    	html +='<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" tabindex="-1" value="'+data.rtrpMrsYn+'">';
-				    	html +='<input type="hidden" name="brkpAmtCmm" id="brkpAmtCmm" tabindex="-1" value="'+data.BRKP_AMT_CMM+'">';
-				    	html +='<input type="hidden" name="pynDvsCd" id="pynDvsCd" tabindex="-1" value="'+data.pynDvsCd+'">';
-				    	html +='<input type="hidden" name="pynDtlCd" id="pynDtlCd" tabindex="-1" value="'+data.pynDtlCd+'">';
+		    			html +='<input type="hidden" name="mrsMrnpNo" id="mrsMrnpNo" tabindex="-1" value="'+recpListMap.mrsMrnpno+":"+recpListMap.mrsMrnpno2+'">';
+				    	html +='<input type="hidden" name="mrsMrnpSno" id="mrsMrnpSno" tabindex="-1" value="'+recpListMap.mrsMrnpSno+":"+recpListMap.mrsMrnpSno2+'">';
+				    	html +='<input type="hidden" name="prmmDcDvsCd" id="prmmDcDvsCd" tabindex="-1" value="'+recpListMap.prmmDcDvsCd+'">';
+				    	html +='<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" tabindex="-1" value="'+recpListMap.rtrpMrsYn+'">';
+				    	html +='<input type="hidden" name="brkpAmtCmm" id="brkpAmtCmm" tabindex="-1" value="'+recpListMap.BRKP_AMT_CMM+'">';
+				    	html +='<input type="hidden" name="pynDvsCd" id="pynDvsCd" tabindex="-1" value="'+recpListMap.pynDvsCd+'">';
+				    	html +='<input type="hidden" name="pynDtlCd" id="pynDtlCd" tabindex="-1" value="'+recpListMap.pynDtlCd+'">';
 				    	html +='<input type="hidden" name="type" id="type" tabindex="-1" value="'+type+'">';
 		    		} else if(type =='go'){
-		    			html +='<input type="hidden" name="mrsMrnpNo" id="mrsMrnpNo" tabindex="-1" value="'+data.mrsMrnpno+'">';
-				    	html +='<input type="hidden" name="mrsMrnpSno" id="mrsMrnpSno" tabindex="-1" value="'+data.mrsMrnpSno+'">';
-				    	html +='<input type="hidden" name="prmmDcDvsCd" id="prmmDcDvsCd" tabindex="-1" value="'+data.prmmDcDvsCd+'">';
-				    	html +='<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" tabindex="-1" value="'+data.rtrpMrsYn+'">';
-				    	html +='<input type="hidden" name="brkpAmtCmm" id="brkpAmtCmm" tabindex="-1" value="'+data.BRKP_AMT_CMM+'">';
-				    	html +='<input type="hidden" name="pynDvsCd" id="pynDvsCd" tabindex="-1" value="'+data.pynDvsCd+'">';
-				    	html +='<input type="hidden" name="pynDtlCd" id="pynDtlCd" tabindex="-1" value="'+data.pynDtlCd+'">';
+		    			html +='<input type="hidden" name="mrsMrnpNo" id="mrsMrnpNo" tabindex="-1" value="'+recpListMap.mrsMrnpno+'">';
+				    	html +='<input type="hidden" name="mrsMrnpSno" id="mrsMrnpSno" tabindex="-1" value="'+recpListMap.mrsMrnpSno+'">';
+				    	html +='<input type="hidden" name="prmmDcDvsCd" id="prmmDcDvsCd" tabindex="-1" value="'+recpListMap.prmmDcDvsCd+'">';
+				    	html +='<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" tabindex="-1" value="'+recpListMap.rtrpMrsYn+'">';
+				    	html +='<input type="hidden" name="brkpAmtCmm" id="brkpAmtCmm" tabindex="-1" value="'+recpListMap.BRKP_AMT_CMM+'">';
+				    	html +='<input type="hidden" name="pynDvsCd" id="pynDvsCd" tabindex="-1" value="'+recpListMap.pynDvsCd+'">';
+				    	html +='<input type="hidden" name="pynDtlCd" id="pynDtlCd" tabindex="-1" value="'+recpListMap.pynDtlCd+'">';
 				    	html +='<input type="hidden" name="type" id="type" tabindex="-1" value="'+type+'">';
-				    	html +='<input type="hidden" name="tckSeqList" id="tckSeqList" tabindex="-1" value="'+data.tckSeqList+'">';
+				    	html +='<input type="hidden" name="tckSeqList" id="tckSeqList" tabindex="-1" value="'+recpListMap.tckSeqList+'">';
 				    	html +='<input type="hidden" name="cancCnt" id="cancCnt" tabindex="-1" value="9">'; //취소할 승차권이 여러개라는 표시
 		    		} else if(type =='come'){
-		    			html +='<input type="hidden" name="mrsMrnpNo2" id="mrsMrnpNo" tabindex="-1" value="'+data.mrsMrnpno2+'">';
-				    	html +='<input type="hidden" name="mrsMrnpSno2" id="mrsMrnpSno" tabindex="-1" value="'+data.mrsMrnpSno2+'">';
-				    	html +='<input type="hidden" name="prmmDcDvsCd" id="prmmDcDvsCd" tabindex="-1" value="'+data.prmmDcDvsCd+'">';
-				    	html +='<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" tabindex="-1" value="'+data.rtrpMrsYn+'">';
-				    	html +='<input type="hidden" name="brkpAmtCmm" id="brkpAmtCmm" tabindex="-1" value="'+data.BRKP_AMT_CMM+'">';
-				    	html +='<input type="hidden" name="pynDvsCd" id="pynDvsCd" tabindex="-1" value="'+data.pynDvsCd+'">';
-				    	html +='<input type="hidden" name="pynDtlCd" id="pynDtlCd" tabindex="-1" value="'+data.pynDtlCd+'">';
+		    			html +='<input type="hidden" name="mrsMrnpNo2" id="mrsMrnpNo" tabindex="-1" value="'+recpListMap.mrsMrnpno2+'">';
+				    	html +='<input type="hidden" name="mrsMrnpSno2" id="mrsMrnpSno" tabindex="-1" value="'+recpListMap.mrsMrnpSno2+'">';
+				    	html +='<input type="hidden" name="prmmDcDvsCd" id="prmmDcDvsCd" tabindex="-1" value="'+recpListMap.prmmDcDvsCd+'">';
+				    	html +='<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" tabindex="-1" value="'+recpListMap.rtrpMrsYn+'">';
+				    	html +='<input type="hidden" name="brkpAmtCmm" id="brkpAmtCmm" tabindex="-1" value="'+recpListMap.BRKP_AMT_CMM+'">';
+				    	html +='<input type="hidden" name="pynDvsCd" id="pynDvsCd" tabindex="-1" value="'+recpListMap.pynDvsCd+'">';
+				    	html +='<input type="hidden" name="pynDtlCd" id="pynDtlCd" tabindex="-1" value="'+recpListMap.pynDtlCd+'">';
 				    	html +='<input type="hidden" name="type" id="type" tabindex="-1" value="'+type+'">';
-				    	html +='<input type="hidden" name="tckSeqList2" id="tckSeqList2" tabindex="-1" value="'+data.tckSeqList2+'">';
+				    	html +='<input type="hidden" name="tckSeqList2" id="tckSeqList2" tabindex="-1" value="'+recpListMap.tckSeqList2+'">';
 				    	html +='<input type="hidden" name="cancCnt2" id="cancCnt2" tabindex="-1" value="9">'; //취소할 승차권이 여러개라는 표시
 		    		} else if(type =='come2'){
-		    			html +='<input type="hidden" name="mrsMrnpNo" id="mrsMrnpNo" tabindex="-1" value="'+data.mrsMrnpno+'">';
-				    	html +='<input type="hidden" name="mrsMrnpSno" id="mrsMrnpSno" tabindex="-1" value="'+data.mrsMrnpSno+'">';
-				    	html +='<input type="hidden" name="prmmDcDvsCd" id="prmmDcDvsCd" tabindex="-1" value="'+data.prmmDcDvsCd+'">';
-				    	html +='<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" tabindex="-1" value="'+data.rtrpMrsYn+'">';
-				    	html +='<input type="hidden" name="brkpAmtCmm" id="brkpAmtCmm" tabindex="-1" value="'+data.BRKP_AMT_CMM+'">';
-				    	html +='<input type="hidden" name="pynDvsCd" id="pynDvsCd" tabindex="-1" value="'+data.pynDvsCd+'">';
-				    	html +='<input type="hidden" name="pynDtlCd" id="pynDtlCd" tabindex="-1" value="'+data.pynDtlCd+'">';
+		    			html +='<input type="hidden" name="mrsMrnpNo" id="mrsMrnpNo" tabindex="-1" value="'+recpListMap.mrsMrnpno+'">';
+				    	html +='<input type="hidden" name="mrsMrnpSno" id="mrsMrnpSno" tabindex="-1" value="'+recpListMap.mrsMrnpSno+'">';
+				    	html +='<input type="hidden" name="prmmDcDvsCd" id="prmmDcDvsCd" tabindex="-1" value="'+recpListMap.prmmDcDvsCd+'">';
+				    	html +='<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" tabindex="-1" value="'+recpListMap.rtrpMrsYn+'">';
+				    	html +='<input type="hidden" name="brkpAmtCmm" id="brkpAmtCmm" tabindex="-1" value="'+recpListMap.BRKP_AMT_CMM+'">';
+				    	html +='<input type="hidden" name="pynDvsCd" id="pynDvsCd" tabindex="-1" value="'+recpListMap.pynDvsCd+'">';
+				    	html +='<input type="hidden" name="pynDtlCd" id="pynDtlCd" tabindex="-1" value="'+recpListMap.pynDtlCd+'">';
 				    	html +='<input type="hidden" name="type" id="type" tabindex="-1" value="'+type+'">';
-				    	html +='<input type="hidden" name="tckSeqList" id="tckSeqList" tabindex="-1" value="'+data.tckSeqList+'">';
+				    	html +='<input type="hidden" name="tckSeqList" id="tckSeqList" tabindex="-1" value="'+recpListMap.tckSeqList+'">';
 				    	html +='<input type="hidden" name="cancCnt" id="cancCnt" tabindex="-1" value="9">'; //취소할 승차권이 여러개라는 표시
 		    		}
 		    	}
 		    	// 계좌이체 취소 파라미터 값
-		    	html +='<input type="hidden" name="trnTrdId" id="trnTrdId" tabindex="-1" value="'+data.TRN_TRD_ID+'">';
-		    	html +='<input type="hidden" name="pgBrkpAmtCmm" id="pgBrkpAmtCmm" tabindex="-1" value="'+data.BRKP_AMT_CMM+'">';
-		    	html +='<input type="hidden" name="ryAmt" id="ryAmt" tabindex="-1" value="'+data.RY_AMT+'">';
-		    	html +='<input type="hidden" name="tissuAmt" id="tissuAmt" tabindex="-1" value="'+data.TISSU_AMT+'">';
+		    	html +='<input type="hidden" name="trnTrdId" id="trnTrdId" tabindex="-1" value="'+recpListMap.TRN_TRD_ID+'">';
+		    	html +='<input type="hidden" name="pgBrkpAmtCmm" id="pgBrkpAmtCmm" tabindex="-1" value="'+recpListMap.BRKP_AMT_CMM+'">';
+		    	html +='<input type="hidden" name="ryAmt" id="ryAmt" tabindex="-1" value="'+recpListMap.RY_AMT+'">';
+		    	html +='<input type="hidden" name="tissuAmt" id="tissuAmt" tabindex="-1" value="'+recpListMap.TISSU_AMT+'">';
 		    	// 계좌이체 취소 파라미터 값
-		    	html +='<input type="hidden" name="resultCode" id="resultCode" tabindex="-1" value="'+data.ResultCode+'">';
-		    	html +='<input type="hidden" name="resultMsg" id="resultMsg" tabindex="-1" value="'+data.ResultMsg+'">';
-		    	html +='<input type="hidden" name="cancelAmt" id="cancelAmt" tabindex="-1" value="'+data.CancelAmt+'">';
-		    	html +='<input type="hidden" name="cancelDate" id="cancelDate" tabindex="-1" value="'+data.CancelDate+'">';
-		    	html +='<input type="hidden" name="cancelTime" id="cancelTime" tabindex="-1" value="'+data.CancelTime+'">';
-		    	html +='<input type="hidden" name="cancelNum" id="cancelNum" tabindex="-1" value="'+data.CancelNum+'">';
-		    	html +='<input type="hidden" name="payMethod" id="payMethod" tabindex="-1" value="'+data.PayMethod+'">';
-		    	html +='<input type="hidden" name="mid" id="mid" tabindex="-1" value="'+data.MID+'">';
+		    	html +='<input type="hidden" name="resultCode" id="resultCode" tabindex="-1" value="'+recpListMap.ResultCode+'">';
+		    	html +='<input type="hidden" name="resultMsg" id="resultMsg" tabindex="-1" value="'+recpListMap.ResultMsg+'">';
+		    	html +='<input type="hidden" name="cancelAmt" id="cancelAmt" tabindex="-1" value="'+recpListMap.CancelAmt+'">';
+		    	html +='<input type="hidden" name="cancelDate" id="cancelDate" tabindex="-1" value="'+recpListMap.CancelDate+'">';
+		    	html +='<input type="hidden" name="cancelTime" id="cancelTime" tabindex="-1" value="'+recpListMap.CancelTime+'">';
+		    	html +='<input type="hidden" name="cancelNum" id="cancelNum" tabindex="-1" value="'+recpListMap.CancelNum+'">';
+		    	html +='<input type="hidden" name="payMethod" id="payMethod" tabindex="-1" value="'+recpListMap.PayMethod+'">';
+		    	html +='<input type="hidden" name="mid" id="mid" tabindex="-1" value="'+recpListMap.MID+'">';
 			    html +='<div class="title type_blue"><h2>'+'예매취소'+'</h2></div>';
 			    html +='<div class="cont">';
-			    if(data.prmmDcDvsCd != '4' || data.rtrpMrsYn != 'Y') {
+			    if(recpListMap.prmmDcDvsCd != '4' || recpListMap.rtrpMrsYn != 'Y') {
 				alert
 			    	html +='<div class="box_detail_info">';
-				    html +='<div class="routeHead">' + '<p class="date">'+data.alcnDeprDt+' '+data.alcnDeprTime+'</p>' +'</div>';	// 출발시간
+				    html +='<div class="routeHead">' + '<p class="date">'+recpListMap.alcnDeprDt+' '+recpListMap.alcnDeprTime+'</p>' +'</div>';	// 출발시간
 				    html +='<div class="routeBody">';
-				    html +='<div class="routeArea route_wrap"><div class="inner"><dl class="roundBox departure kor"><dt>'+'출발'+'</dt><dd>'+data.deprnNm+'</dd></dl>' +	//출발지
-		    		'<dl class="roundBox arrive kor"><dt>'+'도착'+'</dt><dd>'+data.arvlNm+'</dd></dl></div>';			// 도착지
-				    html +='<div class="detail_info"><span>'+data.takeDrtm+' 소요</span></div></div>';	// 소요시간
+				    html +='<div class="routeArea route_wrap"><div class="inner"><dl class="roundBox departure kor"><dt>'+'출발'+'</dt><dd>'+recpListMap.deprnNm+'</dd></dl>' +	//출발지
+		    		'<dl class="roundBox arrive kor"><dt>'+'도착'+'</dt><dd>'+recpListMap.arvlNm+'</dd></dl></div>';			// 도착지
+				    html +='<div class="detail_info"><span>'+recpListMap.takeDrtm+' 소요</span></div></div>';	// 소요시간
 				    html +='<div class="routeArea route_wrap mob_route">';
 				    html +='<div class="tbl_type2">';
 				    html +='<table>';
@@ -205,52 +205,52 @@ function fnRecpCanInfo(idx , type) {
 				    html +='<tbody>';
 				    html +='<tr>';
 				    html +='<th scope="row">'+'고속사'+'</th>';
-				    html +='<td>'+data.cacmNm+'</td>';
+				    html +='<td>'+recpListMap.cacmNm+'</td>';
 				    html +='</tr>';
 			    	html +='<tr>';
 				    html +='<th scope="row">'+'등급'+'</th>';
-				    html +='<td>'+data.deprNm+'</td>';
+				    html +='<td>'+recpListMap.deprNm+'</td>';
 				    html +='</tr>';
 			    	html +='<tr>';
 				    html +='<th scope="row">'+'매수'+'</th>';
 				    html +='<td>';
-				    if(data.adltNum != 0){
-				    	html +='일반'+data.adltNum+'명 ';
+				    if(recpListMap.adltNum != 0){
+				    	html +='일반'+recpListMap.adltNum+'명 ';
 				    }
-				    if(data.chldNum != 0){
-				    	html +='초등생'+data.chldNum+'명 ';
+				    if(recpListMap.chldNum != 0){
+				    	html +='초등생'+recpListMap.chldNum+'명 ';
 				    }
-				    if(data.teenNum != 0){
-				    	html +='중고생'+data.teenNum+'명 ';
+				    if(recpListMap.teenNum != 0){
+				    	html +='중고생'+recpListMap.teenNum+'명 ';
 				    }
-				    if(data.uvsdNum != 0){
+/*				    if(recpListMap.uvsdNum != 0){
 				    	//20240608 건보공단
-			    		html += nhisText+data.uvsdNum+'명 ';
+			    		html += nhisText+recpListMap.uvsdNum+'명 ';
 				    }
-				    if(data.sncnNum != 0){
-				    	html +='경로'+data.sncnNum+'명 ';
+				    if(recpListMap.sncnNum != 0){
+				    	html +='경로'+recpListMap.sncnNum+'명 ';
 				    }
-				    if(data.dsprNum != 0){
-				    	html +='장애인'+data.dsprNum+'명';
+				    if(recpListMap.dsprNum != 0){
+				    	html +='장애인'+recpListMap.dsprNum+'명';
 				    }
-				    if(data.vtr3Num != 0){
-				    	html +='보훈30 '+data.vtr3Num+'명';
+				    if(recpListMap.vtr3Num != 0){
+				    	html +='보훈30 '+recpListMap.vtr3Num+'명';
 				    }
-				    if(data.vtr5Num != 0){
-				    	html +='보훈50 '+data.vtr5Num+'명';
+				    if(recpListMap.vtr5Num != 0){
+				    	html +='보훈50 '+recpListMap.vtr5Num+'명';
 				    }
-				    if(data.vtr7Num != 0){
-				    	html +='보훈70 '+data.vtr7Num+'명';
+				    if(recpListMap.vtr7Num != 0){
+				    	html +='보훈70 '+recpListMap.vtr7Num+'명';
 				    }
-				    if(data.dfptNum != 0){
-				    	html +='후불'+data.dfptNum+'명';
-				    }
+				    if(recpListMap.dfptNum != 0){
+				    	html +='후불'+recpListMap.dfptNum+'명';
+				    }*/
 				    
 				    html +='</td>';
 				    html +='</tr>';
 			    	html +='<tr>';
 				    html +='<th scope="row">'+'좌석'+'</th>';
-			    	html +='<td>'+data.satsNo+'</td>';
+			    	html +='<td>'+recpListMap.setsList+'</td>';
 				    html +='</tr>';
 				    html +='</tbody>';
 			    	html +='</table>';
@@ -258,15 +258,15 @@ function fnRecpCanInfo(idx , type) {
 				    html +='</div>';
 			    	html +='</div>';
 				    html +='</div>';
-			    } else if (data.prmmDcDvsCd == '4' && data.rtrpMrsYn == 'Y') {
+			    } else if (recpListMap.prmmDcDvsCd == '4' && recpListMap.rtrpMrsYn == 'Y') {
 			    	if(type == 'all'){
 			    		// 가는편
 				    	html +='<div class="box_detail_info">';
-					    html +='<div class="routeHead">' + '<p class="date">'+data.alcnDeprDt+' '+data.alcnDeprTime+'</p>' +'</div>';	// 출발시간
+					    html +='<div class="routeHead">' + '<p class="date">'+recpListMap.alcnDeprDt+' '+recpListMap.alcnDeprTime+'</p>' +'</div>';	// 출발시간
 					    html +='<div class="routeBody">';
-					    html +='<div class="routeArea route_wrap"><div class="inner"><dl class="roundBox departure kor"><dt>'+'출발'+'</dt><dd>'+data.deprnNm+'</dd></dl>' +	//출발지
-			    		'<dl class="roundBox arrive kor"><dt>'+'도착'+'</dt><dd>'+data.arvlNm+'</dd></dl></div>';			// 도착지
-					    html +='<div class="detail_info"><span>'+data.takeDrtm+' 소요</span></div></div>';	// 소요시간
+					    html +='<div class="routeArea route_wrap"><div class="inner"><dl class="roundBox departure kor"><dt>'+'출발'+'</dt><dd>'+recpListMap.deprnNm+'</dd></dl>' +	//출발지
+			    		'<dl class="roundBox arrive kor"><dt>'+'도착'+'</dt><dd>'+recpListMap.arvlNm+'</dd></dl></div>';			// 도착지
+					    html +='<div class="detail_info"><span>'+recpListMap.takeDrtm+' 소요</span></div></div>';	// 소요시간
 					    html +='<div class="routeArea route_wrap mob_route">';
 					    html +='<div class="tbl_type2">';
 					    html +='<table>';
@@ -275,52 +275,52 @@ function fnRecpCanInfo(idx , type) {
 					    html +='<tbody>';
 					    html +='<tr>';
 					    html +='<th scope="row">'+'고속사'+'</th>';
-					    html +='<td>'+data.cacmNm+'</td>';
+					    html +='<td>'+recpListMap.cacmNm+'</td>';
 					    html +='</tr>';
 				    	html +='<tr>';
 					    html +='<th scope="row">'+'등급'+'</th>';
-					    html +='<td>'+data.deprNm+'</td>';
+					    html +='<td>'+recpListMap.deprNm+'</td>';
 					    html +='</tr>';
 				    	html +='<tr>';
 					    html +='<th scope="row">'+'매수'+'</th>';
 					    html +='<td>';
-					    if(data.adltNum != 0){
-					    	html +='일반'+data.adltNum+'명 ';
+					    if(recpListMap.adltNum != 0){
+					    	html +='일반'+recpListMap.adltNum+'명 ';
 					    }
-					    if(data.chldNum != 0){
-					    	html +='초등생'+data.chldNum+'명 ';
+					    if(recpListMap.chldNum != 0){
+					    	html +='초등생'+recpListMap.chldNum+'명 ';
 					    }
-					    if(data.teenNum != 0){
-					    	html +='중고생'+data.teenNum+'명 ';
+					    if(recpListMap.teenNum != 0){
+					    	html +='중고생'+recpListMap.teenNum+'명 ';
 					    }
-					    if(data.uvsdNum != 0){
+/*					    if(recpListMap.uvsdNum != 0){
 					    	//20240608 건보공단
-				    		html += nhisText+data.uvsdNum+'명 ';
+				    		html += nhisText+recpListMap.uvsdNum+'명 ';
 					    }
-					    if(data.sncnNum != 0){
-					    	html +='경로'+data.sncnNum+'명 ';
+					    if(recpListMap.sncnNum != 0){
+					    	html +='경로'+recpListMap.sncnNum+'명 ';
 					    }
-					    if(data.dsprNum != 0){
-					    	html +='장애인'+data.dsprNum+'명';
+					    if(recpListMap.dsprNum != 0){
+					    	html +='장애인'+recpListMap.dsprNum+'명';
 					    }
-					    if(data.vtr3Num != 0){
-					    	html +='보훈30 '+data.vtr3Num+'명';
+					    if(recpListMap.vtr3Num != 0){
+					    	html +='보훈30 '+recpListMap.vtr3Num+'명';
 					    }
-					    if(data.vtr5Num != 0){
-					    	html +='보훈50 '+data.vtr5Num+'명';
+					    if(recpListMap.vtr5Num != 0){
+					    	html +='보훈50 '+recpListMap.vtr5Num+'명';
 					    }
-					    if(data.vtr7Num != 0){
-					    	html +='보훈70 '+data.vtr7Num+'명';
+					    if(recpListMap.vtr7Num != 0){
+					    	html +='보훈70 '+recpListMap.vtr7Num+'명';
 					    }
-					    if(data.dfptNum != 0){
-					    	html +='후불'+data.dfptNum+'명';
-					    }
+					    if(recpListMap.dfptNum != 0){
+					    	html +='후불'+recpListMap.dfptNum+'명';
+					    }*/
 					    
 					    html +='</td>';
 					    html +='</tr>';
 				    	html +='<tr>';
 					    html +='<th scope="row">'+'좌석'+'</th>';
-				    	html +='<td>'+data.satsNo+'</td>';
+				    	html +='<td>'+recpListMap.satsNo+'</td>';
 					    html +='</tr>';
 					    html +='</tbody>';
 				    	html +='</table>';
@@ -330,11 +330,11 @@ function fnRecpCanInfo(idx , type) {
 					    html +='</div>';
 					    // 오는 편
 				    	html +='<div class="box_detail_info">';
-					    html +='<div class="routeHead">' + '<p class="date">'+data.alcnDeprDt2+' '+data.alcnDeprTime2+'</p>' +'</div>';	// 출발시간
+					    html +='<div class="routeHead">' + '<p class="date">'+recpListMap.alcnDeprDt2+' '+recpListMap.alcnDeprTime2+'</p>' +'</div>';	// 출발시간
 					    html +='<div class="routeBody">';
-					    html +='<div class="routeArea route_wrap"><div class="inner"><dl class="roundBox departure kor"><dt>'+'출발'+'</dt><dd>'+data.deprnNm2+'</dd></dl>' +	//출발지
-			    		'<dl class="roundBox arrive kor"><dt>'+'도착'+'</dt><dd>'+data.arvlNm2+'</dd></dl></div>';			// 도착지
-					    html +='<div class="detail_info"><span>'+data.takeDrtm2+' 소요</span></div></div>';	// 소요시간
+					    html +='<div class="routeArea route_wrap"><div class="inner"><dl class="roundBox departure kor"><dt>'+'출발'+'</dt><dd>'+recpListMap.deprnNm2+'</dd></dl>' +	//출발지
+			    		'<dl class="roundBox arrive kor"><dt>'+'도착'+'</dt><dd>'+recpListMap.arvlNm2+'</dd></dl></div>';			// 도착지
+					    html +='<div class="detail_info"><span>'+recpListMap.takeDrtm2+' 소요</span></div></div>';	// 소요시간
 					    html +='<div class="routeArea route_wrap mob_route">';
 					    html +='<div class="tbl_type2">';
 					    html +='<table>';
@@ -343,52 +343,52 @@ function fnRecpCanInfo(idx , type) {
 					    html +='<tbody>';
 					    html +='<tr>';
 					    html +='<th scope="row">'+'고속사'+'</th>';
-					    html +='<td>'+data.cacmNm2+'</td>';
+					    html +='<td>'+recpListMap.cacmNm2+'</td>';
 					    html +='</tr>';
 				    	html +='<tr>';
 					    html +='<th scope="row">'+'등급'+'</th>';
-					    html +='<td>'+data.deprNm2+'</td>';
+					    html +='<td>'+recpListMap.deprNm2+'</td>';
 					    html +='</tr>';
 				    	html +='<tr>';
 					    html +='<th scope="row">'+'매수'+'</th>';
 					    html +='<td>';
-					    if(data.adltNum2 != 0){
-					    	html +='일반'+data.adltNum2+'명 ';
+					    if(recpListMap.adltNum2 != 0){
+					    	html +='일반'+recpListMap.adltNum2+'명 ';
 					    }
-					    if(data.chldNum2 != 0){
-					    	html +='초등생'+data.chldNum2+'명 ';
+					    if(recpListMap.chldNum2 != 0){
+					    	html +='초등생'+recpListMap.chldNum2+'명 ';
 					    }
-					    if(data.teenNum2 != 0){
-					    	html +='중고생'+data.teenNum2+'명 ';
+					    if(recpListMap.teenNum2 != 0){
+					    	html +='중고생'+recpListMap.teenNum2+'명 ';
 					    }
-					    if(data.uvsdNum2 != 0){
+/*					    if(recpListMap.uvsdNum2 != 0){
 					    	//20240608 건보공단
-				    		html += nhisText+data.uvsdNum2+'명 ';
+				    		html += nhisText+recpListMap.uvsdNum2+'명 ';
 					    }
-					    if(data.sncnNum2 != 0){
-					    	html +='경로'+data.sncnNum2+'명 ';
+					    if(recpListMap.sncnNum2 != 0){
+					    	html +='경로'+recpListMap.sncnNum2+'명 ';
 					    }
-					    if(data.dsprNum2 != 0){
-					    	html +='장애인'+data.dsprNum2+'명';
+					    if(recpListMap.dsprNum2 != 0){
+					    	html +='장애인'+recpListMap.dsprNum2+'명';
 					    }
-					    if(data.vtr3Num2 != 0){
-					    	html +='보훈30 '+data.vtr3Num2+'명';
+					    if(recpListMap.vtr3Num2 != 0){
+					    	html +='보훈30 '+recpListMap.vtr3Num2+'명';
 					    }
-					    if(data.vtr5Num2 != 0){
-					    	html +='보훈50 '+data.vtr5Num2+'명';
+					    if(recpListMap.vtr5Num2 != 0){
+					    	html +='보훈50 '+recpListMap.vtr5Num2+'명';
 					    }
-					    if(data.vtr7Num2 != 0){
-					    	html +='보훈70 '+data.vtr7Num2+'명';
+					    if(recpListMap.vtr7Num2 != 0){
+					    	html +='보훈70 '+recpListMap.vtr7Num2+'명';
 					    }
-					    if(data.dfptNum2 != 0){
-					    	html +='후불'+data.dfptNum2+'명';
-					    }
+					    if(recpListMap.dfptNum2 != 0){
+					    	html +='후불'+recpListMap.dfptNum2+'명';
+					    }*/
 					    
 					    html +='</td>';
 					    html +='</tr>';
 				    	html +='<tr>';
 					    html +='<th scope="row">'+'좌석'+'</th>';
-				    	html +='<td>'+data.satsNo2+'</td>';
+				    	html +='<td>'+recpListMap.satsNo2+'</td>';
 					    html +='</tr>';
 					    html +='</tbody>';
 				    	html +='</table>';
@@ -399,11 +399,11 @@ function fnRecpCanInfo(idx , type) {
 				    } else if(type =='go' || type =='come2'){
 			    		// 가는편
 				    	html +='<div class="box_detail_info">';
-					    html +='<div class="routeHead">' + '<p class="date">'+data.alcnDeprDt+' '+data.alcnDeprTime+'</p>' +'</div>';	// 출발시간
+					    html +='<div class="routeHead">' + '<p class="date">'+recpListMap.alcnDeprDt+' '+recpListMap.alcnDeprTime+'</p>' +'</div>';	// 출발시간
 					    html +='<div class="routeBody">';
-					    html +='<div class="routeArea route_wrap"><div class="inner"><dl class="roundBox departure kor"><dt>'+'출발'+'</dt><dd>'+data.deprnNm+'</dd></dl>' +	//출발지
-			    		'<dl class="roundBox arrive kor"><dt>'+'도착'+'</dt><dd>'+data.arvlNm+'</dd></dl></div>';			// 도착지
-					    html +='<div class="detail_info"><span>'+data.takeDrtm+' 소요</span></div></div>';	// 소요시간
+					    html +='<div class="routeArea route_wrap"><div class="inner"><dl class="roundBox departure kor"><dt>'+'출발'+'</dt><dd>'+recpListMap.deprnNm+'</dd></dl>' +	//출발지
+			    		'<dl class="roundBox arrive kor"><dt>'+'도착'+'</dt><dd>'+recpListMap.arvlNm+'</dd></dl></div>';			// 도착지
+					    html +='<div class="detail_info"><span>'+recpListMap.takeDrtm+' 소요</span></div></div>';	// 소요시간
 					    html +='<div class="routeArea route_wrap mob_route">';
 					    html +='<div class="tbl_type2">';
 					    html +='<table>';
@@ -412,52 +412,52 @@ function fnRecpCanInfo(idx , type) {
 					    html +='<tbody>';
 					    html +='<tr>';
 					    html +='<th scope="row">'+'고속사'+'</th>';
-					    html +='<td>'+data.cacmNm+'</td>';
+					    html +='<td>'+recpListMap.cacmNm+'</td>';
 					    html +='</tr>';
 				    	html +='<tr>';
 					    html +='<th scope="row">'+'등급'+'</th>';
-					    html +='<td>'+data.deprNm+'</td>';
+					    html +='<td>'+recpListMap.deprNm+'</td>';
 					    html +='</tr>';
 				    	html +='<tr>';
 					    html +='<th scope="row">'+'매수'+'</th>';
 					    html +='<td>';
-					    if(data.adltNum != 0){
-					    	html +='일반'+data.adltNum+'명 ';
+					    if(recpListMap.adltNum != 0){
+					    	html +='일반'+recpListMap.adltNum+'명 ';
 					    }
-					    if(data.chldNum != 0){
-					    	html +='초등생'+data.chldNum+'명 ';
+					    if(recpListMap.chldNum != 0){
+					    	html +='초등생'+recpListMap.chldNum+'명 ';
 					    }
-					    if(data.teenNum != 0){
-					    	html +='중고생'+data.teenNum+'명 ';
+					    if(recpListMap.teenNum != 0){
+					    	html +='중고생'+recpListMap.teenNum+'명 ';
 					    }
-					    if(data.uvsdNum != 0){
+/*					    if(recpListMap.uvsdNum != 0){
 					    	//20240608 건보공단
-				    		html += nhisText+data.uvsdNum+'명 ';
+				    		html += nhisText+recpListMap.uvsdNum+'명 ';
 					    }
-					    if(data.sncnNum != 0){
-					    	html +='경로'+data.sncnNum+'명 ';
+					    if(recpListMap.sncnNum != 0){
+					    	html +='경로'+recpListMap.sncnNum+'명 ';
 					    }
-					    if(data.dsprNum != 0){
-					    	html +='장애인'+data.dsprNum+'명';
+					    if(recpListMap.dsprNum != 0){
+					    	html +='장애인'+recpListMap.dsprNum+'명';
 					    }
-					    if(data.vtr3Num != 0){
-					    	html +='보훈30 '+data.vtr3Num+'명';
+					    if(recpListMap.vtr3Num != 0){
+					    	html +='보훈30 '+recpListMap.vtr3Num+'명';
 					    }
-					    if(data.vtr5Num != 0){
-					    	html +='보훈50 '+data.vtr5Num+'명';
+					    if(recpListMap.vtr5Num != 0){
+					    	html +='보훈50 '+recpListMap.vtr5Num+'명';
 					    }
-					    if(data.vtr7Num != 0){
-					    	html +='보훈70 '+data.vtr7Num+'명';
+					    if(recpListMap.vtr7Num != 0){
+					    	html +='보훈70 '+recpListMap.vtr7Num+'명';
 					    }
-					    if(data.dfptNum != 0){
-					    	html +='후불'+data.dfptNum+'명';
-					    }
+					    if(recpListMap.dfptNum != 0){
+					    	html +='후불'+recpListMap.dfptNum+'명';
+					    }*/
 					    
 					    html +='</td>';
 					    html +='</tr>';
 				    	html +='<tr>';
 					    html +='<th scope="row">'+'좌석'+'</th>';
-				    	html +='<td>'+data.satsNo+'</td>';
+				    	html +='<td>'+recpListMap.satsNo+'</td>';
 					    html +='</tr>';
 					    html +='</tbody>';
 				    	html +='</table>';
@@ -468,11 +468,11 @@ function fnRecpCanInfo(idx , type) {
 			    	} else if(type =='come'){
 			    		// 오는 편
 				    	html +='<div class="box_detail_info">';
-					    html +='<div class="routeHead">' + '<p class="date">'+data.alcnDeprDt2+' '+data.alcnDeprTime2+'</p>' +'</div>';	// 출발시간
+					    html +='<div class="routeHead">' + '<p class="date">'+recpListMap.alcnDeprDt2+' '+recpListMap.alcnDeprTime2+'</p>' +'</div>';	// 출발시간
 					    html +='<div class="routeBody">';
-					    html +='<div class="routeArea route_wrap"><div class="inner"><dl class="roundBox departure kor"><dt>'+'출발'+'</dt><dd> '+data.deprnNm2+'</dd></dl>' +	//출발지
-					    		'<dl class="roundBox arrive kor"><dt>'+'도착'+'</dt><dd>'+data.arvlNm2+'</dd></dl></div>';			// 도착지
-					    html +='<div class="detail_info"><span>'+data.takeDrtm2+' 소요</span></div></div>';	// 소요시간
+					    html +='<div class="routeArea route_wrap"><div class="inner"><dl class="roundBox departure kor"><dt>'+'출발'+'</dt><dd> '+recpListMap.deprnNm2+'</dd></dl>' +	//출발지
+					    		'<dl class="roundBox arrive kor"><dt>'+'도착'+'</dt><dd>'+recpListMap.arvlNm2+'</dd></dl></div>';			// 도착지
+					    html +='<div class="detail_info"><span>'+recpListMap.takeDrtm2+' 소요</span></div></div>';	// 소요시간
 					    html +='<div class="routeArea route_wrap mob_route">';
 					    html +='<div class="tbl_type2">';
 					    html +='<table>';
@@ -481,52 +481,52 @@ function fnRecpCanInfo(idx , type) {
 					    html +='<tbody>';
 					    html +='<tr>';
 					    html +='<th scope="row">'+'고속사'+'</th>';
-					    html +='<td>'+data.cacmNm2+'</td>';
+					    html +='<td>'+recpListMap.cacmNm2+'</td>';
 					    html +='</tr>';
 				    	html +='<tr>';
 					    html +='<th scope="row">'+'등급'+'</th>';
-					    html +='<td>'+data.deprNm2+'</td>';
+					    html +='<td>'+recpListMap.deprNm2+'</td>';
 					    html +='</tr>';
 				    	html +='<tr>';
 					    html +='<th scope="row">'+'매수'+'</th>';
 					    html +='<td>';
-					    if(data.adltNum2 != 0){
-					    	html +='일반'+data.adltNum2+'명 ';
+					    if(recpListMap.adltNum2 != 0){
+					    	html +='일반'+recpListMap.adltNum2+'명 ';
 					    }
-					    if(data.chldNum2 != 0){
-					    	html +='초등생'+data.chldNum2+'명 ';
+					    if(recpListMap.chldNum2 != 0){
+					    	html +='초등생'+recpListMap.chldNum2+'명 ';
 					    }
-					    if(data.teenNum2 != 0){
-					    	html +='중고생'+data.teenNum2+'명 ';
+					    if(recpListMap.teenNum2 != 0){
+					    	html +='중고생'+recpListMap.teenNum2+'명 ';
 					    }
-					    if(data.uvsdNum2 != 0){
+/*					    if(recpListMap.uvsdNum2 != 0){
 					    	//20240608 건보공단
-				    		html += nhisText+data.uvsdNum2+'명 ';
+				    		html += nhisText+recpListMap.uvsdNum2+'명 ';
 					    }
-					    if(data.sncnNum2 != 0){
-					    	html +='경로'+data.sncnNum2+'명';
+					    if(recpListMap.sncnNum2 != 0){
+					    	html +='경로'+recpListMap.sncnNum2+'명';
 					    }
-					    if(data.dsprNum2 != 0){
-					    	html +='장애인'+data.dsprNum2+'명';
+					    if(recpListMap.dsprNum2 != 0){
+					    	html +='장애인'+recpListMap.dsprNum2+'명';
 					    }
-					    if(data.vtr3Num2 != 0){
-					    	html +='보훈30 '+data.vtr3Num2+'명';
+					    if(recpListMap.vtr3Num2 != 0){
+					    	html +='보훈30 '+recpListMap.vtr3Num2+'명';
 					    }
-					    if(data.vtr5Num2 != 0){
-					    	html +='보훈50 '+data.vtr5Num2+'명';
+					    if(recpListMap.vtr5Num2 != 0){
+					    	html +='보훈50 '+recpListMap.vtr5Num2+'명';
 					    }
-					    if(data.vtr7Num2 != 0){
-					    	html +='보훈70 '+data.vtr7Num2+'명';
+					    if(recpListMap.vtr7Num2 != 0){
+					    	html +='보훈70 '+recpListMap.vtr7Num2+'명';
 					    }
-					    if(data.dfptNum2 != 0){
-					    	html +='후불'+data.dfptNum2+'명';
+					    if(recpListMap.dfptNum2 != 0){
+					    	html +='후불'+recpListMap.dfptNum2+'명';
 					    }
-					    
+					    */
 					    html +='</td>';
 					    html +='</tr>';
 				    	html +='<tr>';
 					    html +='<th scope="row">'+'좌석'+'</th>';
-				    	html +='<td>'+data.satsNo2+'</td>';
+				    	html +='<td>'+recpListMap.satsNo2+'</td>';
 					    html +='</tr>';
 					    html +='</tbody>';
 				    	html +='</table>';
@@ -546,16 +546,16 @@ function fnRecpCanInfo(idx , type) {
 		    	html +='<tbody>';
 			    html +='<tr>';
 			    html +='<th scope="row">'+'결제일시'+'</th>';
-			    if(data.TRD_DTM == null){
+			    if(recpListMap.TRD_DTM == null){
 			    	html +='<td>'+''+'</td>';
 			    } else {
-			    	html +='<td>'+data.TRD_DTM+'</td>';
+			    	html +='<td>'+recpListMap.TRD_DTM+'</td>';
 			    }
 			    html +='</tr>';
 		    	html +='<tr>';
-		    	if(data.pynDtlCd != '7' && data.pynDtlCd != '8' && data.pynDtlCd != '9') {
+		    	if(recpListMap.pynDtlCd != '7' && recpListMap.pynDtlCd != '8' && recpListMap.pynDtlCd != '9') {
 		    		html +='<th scope="row">'+'결제수단'+'</th>';		    
-		    		html +='<td>'+data.payNm+'</td>';
+		    		html +='<td>'+recpListMap.payNm+'</td>';
 		    	}
 			    html +='</tr>';
 			    html +='</tbody>';
@@ -569,35 +569,35 @@ function fnRecpCanInfo(idx , type) {
 		    	html +='<colgroup><col style="width:135px;"><col style="width:*;"></colgroup>';	
 		    	html +='<tbody>';
 			    html +='<tr>';
-			    if(data.pynDvsCd != '3'){
-			    	if(data.pynDtlCd == '7' || data.pynDtlCd == '8' || data.pynDtlCd == '9') {
+			    if(recpListMap.pynDvsCd != '3'){
+			    	if(recpListMap.pynDtlCd == '7' || recpListMap.pynDtlCd == '8' || recpListMap.pynDtlCd == '9') {
 			    		html +='<th scope="row">'+'결제수단'+'</th>';
-			    		if(data.pynDtlCd == '7') {
+			    		if(recpListMap.pynDtlCd == '7') {
 					    	html +='<td>';
-					    	if(data.adltNum != 0 || data.adltNum2 != 0){
+					    	if(recpListMap.adltNum != 0 || recpListMap.adltNum2 != 0){
 					    		html +='일반 ';
-					    	}else if(data.teenNum != 0 || data.teenNum2 != 0 || data.uvsdNum != 0 || data.uvsdNum2 != 0){
+					    	}else if(recpListMap.teenNum != 0 || recpListMap.teenNum2 != 0 || recpListMap.uvsdNum != 0 || recpListMap.uvsdNum2 != 0){
 					    		html +='학생 ';
 					    	}
 					    	html +='정기권</td>';				    
-					    } else if(data.pynDtlCd == '9') {
+					    } else if(recpListMap.pynDtlCd == '9') {
 					    	html +='<td>프리패스</td>';
 					    }
 			    	} else {
 			    		html +='<th scope="row">'+'결제금액'+'</th>';
-					    if(data.TISSU_AMT != null){
-					    	html +='<td>'+comma(data.TISSU_AMT)+'원</td>';
+					    if(recpListMap.TISSU_AMT != null){
+					    	html +='<td>'+comma(recpListMap.TISSU_AMT)+'원</td>';
 					    } else {
 					    	html +='<td>원</td>';
 					    }
 					    html +='</tr>';
 				    	html +='<tr>';
 					    html +='<th scope="row">'+'취소 수수료(예상)'+'</th>';
-					    if(data.BRKP_AMT_CMM != null){
-					    	if(data.BRKP_AMT_CMM != "0"){
-					    		html +='<td>-'+comma(data.BRKP_AMT_CMM)+'원</td>';
+					    if(recpListMap.BRKP_AMT_CMM != null){
+					    	if(recpListMap.BRKP_AMT_CMM != "0"){
+					    		html +='<td>-'+comma(recpListMap.BRKP_AMT_CMM)+'원</td>';
 					    	} else {
-					    		html +='<td>'+comma(data.BRKP_AMT_CMM)+'원</td>';
+					    		html +='<td>'+comma(recpListMap.BRKP_AMT_CMM)+'원</td>';
 					    	}
 					    } else {
 					    	html +='<td>원</td>';
@@ -605,8 +605,8 @@ function fnRecpCanInfo(idx , type) {
 					    html +='</tr>';
 				    	html +='<tr>';
 					    html +='<th scope="row">'+'반환금액'+'</th>';
-					    if(data.RY_AMT != null){
-					    	html +='<td>'+comma(data.RY_AMT)+'원</td>';
+					    if(recpListMap.RY_AMT != null){
+					    	html +='<td>'+comma(recpListMap.RY_AMT)+'원</td>';
 					    } else {
 					    	html +='<td>원</td>';
 					    }
@@ -622,11 +622,11 @@ function fnRecpCanInfo(idx , type) {
 			    html +='</div>';
 			    html +='</div>';
 			    // 취소 수수료정보
-			    if(data.pynDvsCd != '3'){
-			    	if(data.pynDtlCd == '7') {
+			    if(recpListMap.pynDvsCd != '3'){
+			    	if(recpListMap.pynDtlCd == '7') {
 			    		html +='<div class="mob_pad marT30"><h3 class="pop_h3 mob_h3">취소 안내</h3><p class="bul">정기권으로 예매한 승차권은 출발 시간 전까지 취소 후 다시 승차권 예매가 가능합니다.</p>'
 			    			+'<p class="bul"><strong class="accent2">정기권으로 예매한 승차권을 취소하지 않고 출발 시간이 지났을 경우 해당일의 동일 방향(편도) 재이용이 불가합니다.</strong></p></div>';
-			    	}else if(data.pynDtlCd == '9') {
+			    	}else if(recpListMap.pynDtlCd == '9') {
 			    		html +='<div class="mob_pad marT30"><h3 class="pop_h3 mob_h3">취소 안내</h3><p class="bul">프리패스의 경우, 사용 시작일 이전 취소가 가능하며 구매금액의 100%가 지급 됩니다.</p>'
 			    			+'<p class="bul">프리패스 사용 시작 1일 후까지 취소 가능하나, 승차권 발권 상태인 경우 취소 불가능합니다.</p></div>';		    		
 			    	}else if($('#extrComp').val() == 'ARMY'){
@@ -675,8 +675,8 @@ function fnRecpCanInfo(idx , type) {
 			    	html +='<div class="mob_pad marT30"><h3 class="pop_h3 mob_h3">취소 안내</h3><p class="bul">마일리지(프리미엄) 예매 건은 <span class="accent2">취소 시 사용 마일리지 반환이 불가</span>하오니 유의하시기 바랍니다.</p></div>';
 			    }
 			    html +='</div>';
-			    html +='<div class="btns col1"><button data-remodal-action="confirm" onclick="fnRecpCan();" class="btnL btn_orange">'+'예매취소'+'</button></div>';
-			    html += '<button type="button" data-remodal-action="close" class="remodal-close"><span class="sr-only">'+'닫기'+'</span></button>'
+			    html +='<div class="btns col1"><button recpListMap-remodal-action="confirm" onclick="fnRecpCan();" class="btnL btn_orange">'+'예매취소'+'</button></div>';
+			    html += '<button type="button" recpListMap-remodal-action="close" class="remodal-close"><span class="sr-only">'+'닫기'+'</span></button>'
 			    html +='</div>';
 			    html +='</form>';
 			    // 왕복일 때
@@ -684,7 +684,8 @@ function fnRecpCanInfo(idx , type) {
 			    //
 			    $("#popTicketCancel").html(html);
 			    $("#popTicketCancel").remodal().open();
-					 // args.data[idx] : args 는 function(args)의 인자. data는 controller.java에서 json객체에 넣어준 key(여기서는 list가 값이 된다). [idx]는 list의 몇번쨰 데이터를 가져올지 배열을 나타냄
+			    
+					 // args.recpListMap[idx] : args 는 function(args)의 인자. data는 controller.java에서 json객체에 넣어준 key(여기서는 list가 값이 된다). [idx]는 list의 몇번쨰 데이터를 가져올지 배열을 나타냄
 			}
 		    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 			alert("fnRecpCanInfo ajax 오류");
@@ -904,8 +905,11 @@ function fnTckCanInfo(idx) {
 
 // 예매단위 취소
 function fnRecpCan() {
-	var mrsRecpCanFrm = $("form[name=mrsRecpCanFrm]").serialize(); 
-	if(document.mrsRecpCanFrm.pynDvsCd.value == '3' || document.mrsRecpCanFrm.pynDtlCd.value == '7' || document.mrsRecpCanFrm.pynDtlCd.value == '8' || document.mrsRecpCanFrm.pynDtlCd.value == '9'){
+	var mrsRecpCanFrm = $("form[name=recpCanFrm]").serialize(); 
+	
+	alert(mrsRecpCanFrm);
+	
+	if(mrsRecpCanFrm.pynDvsCd == '3' || mrsRecpCanFrm.pynDtlCd == '7' || mrsRecpCanFrm.pynDtlCd == '8' || mrsRecpCanFrm.pynDtlCd == '9'){
 		if(confirm("예매취소 하시겠습니까?") == true){
 				$.ajax({
 			  		type:"post"		
@@ -1080,27 +1084,6 @@ function fnmrsChangeTime(idx) {
 	}
 }
 
-
-//평창 앱 연계시 호출 
-function fnTckCanPc(){
-	var mrsTckCanFrm = $("form[name=mrsTckCanPcFrm]").serialize() ;		
-	$.ajax({	
-		url      : "https://maas.kt.com/srvapi/ex_content/pay_back",
-        type     : "post",
-        data : mrsTckCanFrm,       
-        dataType : "json",
-        contentType:"application/json; charset=UTF-8",
-        async    : true,
-        success  : function(returnMap){
-        	var result_code = returnMap.result_code;
-        	var result_msg = returnMap.result_msg;
-        	location.href ="/mrs/mrscfm.do?vltlCnt=Y";
-        },
-        error : function(){
-        	location.href ="/mrs/mrscfm.do?vltlCnt=Y";
-        }
-	});
-}
 
 $(document).ready(function() {
 	$(document).on('keydown', '.remodal-close', function(e) {
