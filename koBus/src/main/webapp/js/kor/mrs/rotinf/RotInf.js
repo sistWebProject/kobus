@@ -346,6 +346,8 @@ function fnAlcnSrch(){ //배차목록 조회하기 최종확인변수:모든 변
 	var deprDtmChk = $("#deprDtm").val();
 	var deprDtmChkYn = "N";
 	
+	
+	
 	var dt = new Date();		//오늘날짜 전체
 	var yyyy  = dt.getFullYear();		//선택한 년도
 	var mm    = dt.getMonth()+1;		//선택한 월
@@ -364,6 +366,7 @@ function fnAlcnSrch(){ //배차목록 조회하기 최종확인변수:모든 변
 		deprDtmChkYn = "Y";
 	}
 	if(deprDtmChkYn == "N"){
+		alert(deprDtmChk);
 		alert("출발일을 다시 한번 확인해주세요.");
 		$('.datepicker-active').focus();
 		$('.datepicker-btn').removeClass('datepicker-active');
