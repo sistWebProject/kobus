@@ -31,6 +31,18 @@ public class BusPayHandler implements CommandHandler {
         String selTeenCnt = request.getParameter("selTeenCnt"); // 청소년 매수
 
         String selSeatNum = request.getParameter("selSeatNum"); // 좌석 번호 (예: "15,9")
+        
+        request.setAttribute("deprCd", deprCd);
+        request.setAttribute("deprDt", deprDt);
+        request.setAttribute("deprTime", deprTime);
+        request.setAttribute("deprNm", deprNm);    // 출발지 이름
+        request.setAttribute("arvlNm", arvlNm);    // 도착지 이름
+        request.setAttribute("cacmCd", cacmCd);
+        request.setAttribute("indVBusClsCd", indVBusClsCd);
+        request.setAttribute("selAdltCnt", selAdltCnt);
+        request.setAttribute("selChldCnt", selChldCnt);
+        request.setAttribute("selTeenCnt", selTeenCnt);
+        request.setAttribute("selSeatNum", selSeatNum);
 
 
 
