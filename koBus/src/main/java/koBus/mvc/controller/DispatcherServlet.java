@@ -78,36 +78,43 @@ public class DispatcherServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	    resp.setContentType("text/html; charset=UTF-8");   // ⬅ 추가
+	    resp.setContentType("text/html; charset=UTF-8");
 	    resp.setCharacterEncoding("UTF-8");
-		
-		String requestURI = req.getRequestURI(); 
-		System.out.println(requestURI);
-		int beginIndex = req.getContextPath().length();
-		
-		requestURI = requestURI.substring(beginIndex);
-		System.out.println(requestURI);
-		
-		
-		CommandHandler handler = this.commandHandlerMap.get(requestURI);
 
-		System.out.println("핸들러 매핑 결과: " + handler);
+	    String requestURI = req.getRequestURI();
+	    int beginIndex = req.getContextPath().length();
+	    requestURI = requestURI.substring(beginIndex);
+	    System.out.println("실제 요청 URI: " + requestURI);
 
-		String view = null;
-		try {
-			view = handler.process(req, resp);
-		} catch (Throwable e) {
-			e.printStackTrace();
-		}
+	    CommandHandler handler = this.commandHandlerMap.get(requestURI);
+	    System.out.println("핸들러 매핑 결과: " + handler);
 
-		if (view != null) {
-			RequestDispatcher dispatcher = req.getRequestDispatcher(view);
-			dispatcher.forward(req, resp);
-		}
+	    if (handler == null) {
+	        resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+	        return;
+	    }
 
-		
-		
-		
+	    try {
+	        String view = handler.process(req, resp);
+
+	        // AJAX 응답 처리: "ajax:"로 시작할 경우 바로 출력
+	        if (view != null && view.startsWith("ajax:")) {
+	            String ajaxResult = view.substring(5);  // "ajax:success" → "success"
+	            resp.setContentType("text/plain; charset=UTF-8");
+	            resp.getWriter().write(ajaxResult);
+	            return;
+	        }
+
+	        // 일반 JSP 포워드 처리
+	        if (view != null) {
+	            RequestDispatcher dispatcher = req.getRequestDispatcher(view);
+	            dispatcher.forward(req, resp);
+	        }
+
+	    } catch (Throwable e) {
+	        e.printStackTrace();
+	        resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	    }
 	}
 
 	@Override

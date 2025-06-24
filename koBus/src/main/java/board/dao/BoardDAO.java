@@ -41,11 +41,12 @@ public class BoardDAO {
 	// 글 목록
 	public List<BoardDTO> getBoardList() throws Exception, SQLException, NamingException {
 	    List<BoardDTO> list = new ArrayList<>();
+	    
 	    String sql = "SELECT b.brdID, b.kusID, b.brdTitle, b.brdContent, b.brdDate, b.brdViews, " +
 	                 "u.ID AS userId, u.tel, u.RANK AS userRank " +
 	                 "FROM board b " +
 	                 "JOIN kobusUser u ON b.kusID = u.kusID " +
-	                 "ORDER BY b.brdID DESC";
+	                 "ORDER BY b.brdDate DESC"; // 🔥 작성일 기준 최신순
 
 	    try (Connection conn = ConnectionProvider.getConnection();
 	         PreparedStatement ps = conn.prepareStatement(sql);
@@ -62,9 +63,11 @@ public class BoardDAO {
 
 	            dto.setUserId(rs.getString("userId"));
 	            dto.setUserTel(rs.getString("tel"));
-	            dto.setUserRank(rs.getString("userRank")); 
+	            dto.setUserRank(rs.getString("userRank"));
+
 	            list.add(dto);
 	        }
+
 	    } catch (SQLException | NamingException e) {
 	        System.err.println("BoardDAO - getBoardList 오류: " + e.getMessage());
 	        throw e;
@@ -72,6 +75,7 @@ public class BoardDAO {
 
 	    return list;
 	}
+
 
 	// 글 상세 보기
 	public BoardDTO getBoard(int brdID) throws Exception, SQLException, NamingException {
