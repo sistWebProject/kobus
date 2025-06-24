@@ -11,6 +11,28 @@ System.out.println(">> busrank: " + request.getParameter("busClsCd"));
 #datepicker1, #datepicker2 {
 	display: none;
 }
+.schedule-row.disabled {
+  color: #999;
+  background-color: #f7f7f7;
+  pointer-events: none;
+}
+.schedule-row.disabled input[type="submit"] {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  padding: 10px 0;
+}
+
+.schedule-row{
+padding: 10px 0;
+}
+
+.schedule-row span {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 2;
+  font-size: 14px !important;
+}
 
 </style>
 <html class="pc" lang="ko">
@@ -43,131 +65,6 @@ System.out.println(">> busrank: " + request.getParameter("busClsCd"));
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
-
-
-<%-- 
-<script>
-$(document).ready(function () {
-    const deprCd = $("#deprCd").val();
-    const arvlCd = $("#arvlCd").val();
-    const deprDtm = $("#deprDtm").val();   // yyyy.MM.dd 형식
-    const busClsCd = $("#busClsCd").val();
-
-    //1. 소요시간 먼저 조회
-    if (deprCd && arvlCd) {
-        $.ajax({
-            url: "<%=request.getContextPath()%>/getDuration.ajax",
-            type: "GET",
-            data: {
-                ajax: "true",
-                ajaxType: "getDuration",
-                deprCd: deprCd,
-                arvlCd: arvlCd,
-                sourcePage: "KOBUSreservation3.jsp"
-            },
-            dataType: "json",
-            success: function (data) {
-                const duration = data.duration;
-                if (duration && duration > 0) {
-                    const hours = Math.floor(duration / 60);
-                    const minutes = duration % 60;
-                    let timeText = "";
-                    if (hours > 0) timeText += `\${hours}시간 `;
-                    if (minutes > 0) timeText += `\${minutes}분 `;
-                    timeText += "소요";
-                    $("#takeDrtm").text(timeText);
-                } else {
-                    $("#takeDrtm").text("소요시간 없음");
-                }
-            },
-            error: function () {
-                $("#takeDrtm").text("소요시간 조회 실패");
-            }
-        });
-    }
-	우등, 프리미엄, 일반
-    // 2. 배차 리스트 조회
-    if (deprCd && arvlCd && deprDtm) {
-        $.ajax({
-            url: "<%=request.getContextPath()%>/getDuration.ajax",
-            type: "GET",
-            data: {
-                ajax: "true",
-                ajaxType: "searchSch",
-                deprCd: deprCd,
-                arvlCd: arvlCd,
-                deprDtm: deprDtm,
-                busClsCd: busClsCd,
-                sourcePage: "KOBUSreservation3.jsp"
-            },
-            dataType: "json",
-            success: function (data) {
-                $("#resultArea").empty();
-                const now = new Date();
-
-                if (!data.alcnAllList || data.alcnAllList.length === 0) {
-                    $("#resultArea").html("<p>조회된 배차 정보가 없습니다.</p>");
-                    return;
-                }
-
-                data.alcnAllList.forEach(item => {
-                    const deprTimeStr = item.DEPR_TIME_DVS; // "06:45"
-                    const dateStr = deprDtm.replace(/\./g, '-').trim(); // "2025.6.22" → "2025-6-22"
-                    const fullTime = new Date(`${dateStr}T${deprTimeStr}:00`);
-                    const diffMin = (fullTime - now) / 1000 / 60;
-
-                    const isPast = diffMin <= 0;
-                    const isSoon = diffMin <= 60 && diffMin > 0;
-                    const isSoldOut = item.RMN_SATS_NUM == 0;
-
-                    const rowClass = isPast || isSoldOut ? "disabled" : "";
-                    const statusText = isSoldOut ? "매진" : (isSoon ? "모바일예매" : "선택");
-
-                    const html = `
-                        <p class="bus_time ${rowClass}" role="row" data-time="${deprTimeStr}" 
-                            data-deprTrmlNo="${item.DEPR_TRML_NO}" 
-                            data-arvlTrmlNo="${item.ARVL_TRML_NO}">
-                            <a href="javascript:void(0)" ${isPast || isSoldOut ? 'class="disabled"' : ''}>
-                                <span class="start_time" role="cell">\${deprTimeStr}</span>
-                                <span class="bus_info" role="cell">
-                                    <span class="dongbu">\${item.CACM_MN}</span>
-                                    <span class="grade_mo"\>${item.BUS_CLS_NM}</span>
-                                </span>
-                                <span class="bus_com" role="cell">\${item.CACM_MN}</span>
-                                <span class="grade" role="cell">\${item.BUS_CLS_NM}</span>
-                                <span class="temp" role="cell">\${item.ADLT_FEE.toLocaleString()}원</span>
-                                <span class="remain" role="cell">\${item.RMN_SATS_NUM}석</span>
-                                <span class="status" role="cell">
-                                    <span class="accent btn_arrow">\${statusText}</span>
-                                </span>
-                            </a>
-                        </p>`;
-                    $("#resultArea").append(html);
-                });
-
-                //3. 클릭 시 출발시간을 deprTime에 설정
-                $(document).on("click", ".bus_time:not(.disabled) a", function () {
-                    const $parent = $(this).closest(".bus_time");
-                    const deprTime = $parent.data("time"); // ex: "06:45"
-                    const deprTrmlNo = $parent.data("deprtrmlno");
-                    const arvlTrmlNo = $parent.data("arvltrmlno");
-
-                    $("#deprTime").val(deprTime);
-                    $("#alcnDeprTime").val(deprTime);
-                    $("#alcnDeprTrmlNo").val(deprTrmlNo);
-                    $("#alcnArvlTrmlNo").val(arvlTrmlNo);
-
-                    console.log("선택된 출발시각:", deprTime);
-                });
-            },
-            error: function () {
-                $("#resultArea").html("<p>배차 정보 조회 실패</p>");
-            }
-        });
-    }
-});
-</script>
---%>
 
 <script>
 
@@ -237,21 +134,30 @@ $(document).ready(function () {
                 }
 
                 data.alcnAllList.forEach(item => {
-                    const deprTimeStr = item.DEPR_TIME_DVS; // "06:45"
-                    const dateStr = deprDtm.replace(/\./g, '-').trim(); // "2025.6.22" → "2025-6-22"
-                    const fullTime = new Date(`\${dateStr}T\${deprTimeStr}:00`);
-                    const diffMin = (fullTime - now) / 1000 / 60;
+                    const deprTimeStr = item.DEPR_TIME_DVS; // e.g., "06:45"
+                    /* const dateStr = deprDtm.replace(/\./g, '-').trim(); // "2025.6.22" → "2025-6-22" */
+                    const [yyyy, mm, dd] = deprDtm.split('.').map(s => s.trim().padStart(2, '0')); // "2025.6.24" → ["2025", "06", "24"]
+					const dateStr = `${yyyy}-${mm}-${dd}`;  // "2025-06-24"
+                    const fullTime = new Date(`${dateStr}T${deprTimeStr}:00`);
+                    const now = new Date();
 
-                    const isPast = diffMin <= 0;
-                    const isSoon = diffMin <= 60 && diffMin > 0;
-                    const isSoldOut = item.RMN_SATS_NUM == 0;
+                    const seats = parseInt(item.RMN_SATS_NUM, 10);
+                    const isSoldOut = isNaN(seats) || seats === 0;
+                    const isPast = fullTime.getTime() <= now.getTime();
 
-                    const rowClass = isPast || isSoldOut ? "disabled" : "";
-                    const statusText = isSoldOut ? "매진" : (isSoon ? "모바일예매" : "선택");
+                    const isDisabled = isSoldOut || isPast;
+                    const rowClass = isDisabled ? "disabled" : "";
+
+                    let statusText = "선택";
+                    if (isSoldOut) {
+                        statusText = "매진";
+                    } else if (isPast) {
+                        statusText = "예매마감";
+                    }
 
                     const html = `
                         <p class="schedule-row \${rowClass}" 
-                           data-deprDtm="\${item.DEPR_DATE} \${deprTimeStr}"
+                           data-deprdtm="\${item.DEPR_DATE} ${deprTimeStr}"
                            data-comname="\${item.CACM_MN}"
                            data-busClsCd="\${item.BUS_CLS_NM}"
                            data-adultFare="\${item.ADLT_FEE}"
@@ -259,35 +165,19 @@ $(document).ready(function () {
                            data-deprtrmlno="\${item.DEPR_TRML_NO}"
                            data-arvltrmlno="\${item.ARVL_TRML_NO}"
                            role="row">
-                            <span class="start_time" role="cell" aria-labelledby="start_time_header">
-                                \${deprTimeStr}
-                            </span>
-                            <span class="bus_info" role="cell" aria-labelledby="bus_info_header">
-                                <span>\${item.CACM_MN}</span>
-                                <span class="grade_mo">\${item.BUS_CLS_NM}</span>
-                            </span>
-                            <span class="bus_com" role="cell" aria-labelledby="bus_com_header">
-                                <span>\${item.CACM_MN}</span>
-                            </span>
-                            <span class="grade" role="cell" aria-labelledby="grade_header">
-                                \${item.BUS_CLS_NM}
-                            </span>
-                            <span class="temp" role="cell" aria-labelledby="temp_header">
-                                \${item.ADLT_FEE.toLocaleString()}원
-                            </span>
-                            <span class="remain" role="cell" aria-labelledby="remain_header">
-                                \${item.RMN_SATS_NUM}석
-                            </span>
-                            <span class="status" role="cell" aria-labelledby="status_header">
-                                <input type="submit"
-                                       value="예매"
+                            <span class="start_time">\${deprTimeStr}</span>
+                            <span class="bus_com">\${item.CACM_MN}</span>
+                            <span class="grade">\${item.BUS_CLS_NM}</span>
+                            <span class="temp">\${item.ADLT_FEE.toLocaleString()}원</span>
+                            <span class="remain">\${item.RMN_SATS_NUM}석</span>
+                            <span class="status">
+                                <input type="submit" value="\${statusText}"
+                                       ${isDisabled ? 'disabled' : ''}
                                        class="accent btn_arrow"
                                        form="alcnSrchFrm"
-                                       formaction="/koBus/kobusSeat.do"
-                                       tabindex="-1">
+                                       formaction="/koBus/kobusSeat.do">
                             </span>
                         </p>`;
-
                     $("#resultArea").append(html);
                 });
 
@@ -368,30 +258,37 @@ $(document).ready(function () {
 
           // 4) 새 HTML 렌더링
           data.alcnAllList.forEach(item => {
-            const time = item.DEPR_TIME_DVS;
-            const isSoldOut = item.RMN_SATS_NUM == 0;
-            const row = `
-              <p class="schedule-row \${isSoldOut?'disabled':''}" 
-                 data-deprdtm="\${item.DEPR_DATE} ${time}"
-                 data-deprtrmlno="\${item.DEPR_TRML_NO}"
-                 data-arvltrmlno="\${item.ARVL_TRML_NO}">
-                 
-                <span class="start_time">\${time}</span>
-                
-                <span class="bus_com">\${item.CACM_MN}</span> <!-- 고속사 -->
-                <span class="grade">\${item.BUS_CLS_NM}</span> <!-- 등급 -->
-                
-                <span class="temp">\${item.ADLT_FEE.toLocaleString()}원</span>
-                <span class="remain">\${item.RMN_SATS_NUM}석</span>
-                <span class="status">
-                  <input type="submit" value="\${isSoldOut?'매진':'예매'}"
-                         \${isSoldOut?'disabled':''}
-                         form="alcnSrchFrm"
-                         formaction="/koBus/kobusSeat.do">
-                </span>
-              </p>`;
-            $("#resultArea").append(row);
-          });
+        	  const time = item.DEPR_TIME_DVS; // HH:mm
+        	  const remainSeats = parseInt(item.RMN_SATS_NUM, 10); // 숫자 변환
+        	  const isSoldOut = remainSeats === 0;
+
+        	  // 출발 일시를 Date 객체로 생성
+        	  const deprDateTime = new Date(`\${item.DEPR_DATE}T\${time}:00`);
+        	  const now = new Date();
+
+        	  const isExpired = deprDateTime <= now;
+        	  const isDisabled = isSoldOut || isExpired;
+
+        	  const row = `
+        	    <p class="schedule-row \${isDisabled ? 'disabled' : ''}" 
+        	       data-deprdtm="\${item.DEPR_DATE} ${time}"
+        	       data-deprtrmlno="\${item.DEPR_TRML_NO}"
+        	       data-arvltrmlno="\${item.ARVL_TRML_NO}">
+        	       
+        	      <span class="start_time">\${time}</span>
+        	      <span class="bus_com">\${item.CACM_MN}</span>
+        	      <span class="grade">\${item.BUS_CLS_NM}</span>
+        	      <span class="temp">\${item.ADLT_FEE.toLocaleString()}원</span>
+        	      <span class="remain">\${remainSeats}석</span>
+        	      <span class="status">
+        	        <input type="submit" value="\${isSoldOut ? '매진' : (isExpired ? '출발마감' : '예매')}"
+        	               \${isDisabled ? 'disabled' : ''}
+        	               form="alcnSrchFrm"
+        	               formaction="/koBus/kobusSeat.do">
+        	      </span>
+        	    </p>`;
+        	  $("#resultArea").append(row);
+        	});
         },
         error: function () {
           $("#resultArea").html("<p>배차 정보 조회 실패</p>");

@@ -1210,7 +1210,8 @@
 
 				<script>
 					cmdType = "";
-					let lastSidoCode = null;
+					//let lastSidoCode = null;
+					let sidoCode = "all";
 				
 					  $(document).ready(function () {
 						    console.log("페이지 로딩 완료");
@@ -1218,12 +1219,17 @@
 						    // 출발지 클릭 시
 						    $("#readDeprInfoList").on("click", function () {
 						      cmdType = "depr";
+						      console.log("전송할 sidoCode:", sidoCode);
+						      fnDeprArvlViewList("all");
 						    });
 
 						    // 도착지 클릭 시
 						    $("#readArvlInfoList").on("click", function () {
 						      cmdType = "arvl";
+						      fnDeprArvlViewList("all");
 						    });
+						    
+						
 						  });
 				
 					// 지역 선택 → 터미널 목록 조회
