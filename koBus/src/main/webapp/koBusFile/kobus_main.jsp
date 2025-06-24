@@ -347,6 +347,19 @@ $(document).ready(function () {
 	var langLi = $(".dropdown-wrap.lang-select .dropdown-list li");
 	
 	$('.title_wrap').hide();
+	
+	var today = new Date();
+
+    var year = today.getFullYear();
+    var month = today.getMonth() + 1; // 0-based → 1-based
+    var date = today.getDate();
+    var dayNames = ["일", "월", "화", "수", "목", "금", "토"];
+    var day = dayNames[today.getDay()];
+
+    var formatted = year + ". " + month + ". " + date + ". " + day;
+
+    $("#deprDtmAll").val(formatted);
+    console.log("deprDtmAll 값:", formatted);
 });
 </script>
 

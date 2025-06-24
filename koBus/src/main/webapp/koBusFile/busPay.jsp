@@ -474,6 +474,11 @@ if (lngCd == "KO") {
 	<input type="hidden" name="selVtr5Cnt" id="selVtr5Cnt" value="0"><!-- 보훈수(권종추가-20210525) -->
 	<input type="hidden" name="selVtr7Cnt" id="selVtr7Cnt" value="0"><!-- 보훈수(권종추가-20210525) -->
 	<input type="hidden" name="selDfptCnt" id="selDfptCnt" value="0"><!-- 후불수(권종추가-20220722) -->
+
+
+	<input type="hidden" name="seatNos" id="seatNos" value="0"><!-- 각 좌석번호 -->
+	
+	
 	<!-- 예상금액 -->
 	<input type="hidden" name="estmAmt" id="estmAmt" value="${estmAmt}"><!-- 예매금액 -->
 	<input type="hidden" name="dcAmt" id="dcAmt" value="0"><!-- 할인금액 -->
@@ -935,7 +940,7 @@ if (lngCd == "KO") {
 										<tr>
 											<th scope="row">고속사</th>
 											<td>
-												<span>${cacmCd}</span>
+												<span>${cacmNm}</span>
 												<!-- 동양고속 class="dyexpress" 삼화고속 class="samhwa" 중앙고속 class="jabus" 금호고속 class="kumho" 천일고속 class="chunil" 한일고속 class="hanil" 동부고속 class="dongbu" 금호속리산고속 class="songnisan" 코버스 class="kobus" -->
 											</td>
 										</tr>
@@ -949,7 +954,7 @@ if (lngCd == "KO") {
 										</tr>
 										<tr>
 											<th scope="row">좌석</th>
-											<td>${selSeatNum}</td>
+											<td>${seatNos}번</td>
 										</tr>
 									</tbody>
 								</table>
