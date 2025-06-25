@@ -8,7 +8,7 @@ import koBus.mvc.domain.FreePassPaymentDTO;
 
 public class FreePassPaymentDAO {
     public int insert(FreePassPaymentDTO dto) throws Exception {
-        String sql = "INSERT INTO FREE_PASS_PAYMENT (FREE_PASS_PAYMENT_ID, USER_ID, ADTN_PRD_SNO, IMP_UID, MERCHANT_UID, PAY_METHOD, AMOUNT, PAY_STATUS, PG_TID, PAID_AT, REG_DT) " +
+        String sql = "INSERT INTO FREE_PASS_PAYMENT (FREE_PASS_PAYMENT_ID, KUSID, ADTN_PRD_SNO, IMP_UID, MERCHANT_UID, PAY_METHOD, AMOUNT, PAY_STATUS, PG_TID, PAID_AT, REG_DT) " +
                      "VALUES (FREE_PASS_PAYMENT_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE)";
         try (Connection con = DBConn.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {

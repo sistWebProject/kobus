@@ -1,7 +1,7 @@
 package koBus.mvc.command;
 
 import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -9,118 +9,128 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-// import koBus.mvc.domain.TicketDTO;         // 예시 DTO
-// import koBus.mvc.persistence.TicketDAO;    // 예시 DAO
 
 import com.util.ConnectionProvider;
 
-import koBus.mvc.domain.ScheduleDTO;
-import koBus.mvc.domain.SeatDTO;
+import koBus.mvc.domain.ReservationDTO;
+import koBus.mvc.persistence.ReservationDAO;
 import koBus.mvc.persistence.SeatDAO;
 import koBus.mvc.persistence.SeatDAOImpl;
 
 public class BusPayHandler implements CommandHandler {
 
-	@Override
-	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// 1. 파라미터 받아오기
-		String deprCd = request.getParameter("deprCd");
-		System.out.println("[BusPayHandler] deprCd 파라미터: " + deprCd); // 로그 확인용
+    @Override
+    public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // 1. 파라미터 수집
+        String deprCd = request.getParameter("deprCd");
+        
+        String deprDtRaw = request.getParameter("deprDt"); // "20250625"
+        String deprDt = deprDtRaw.substring(0, 4) + "-" + deprDtRaw.substring(4, 6) + "-" + deprDtRaw.substring(6, 8);
+        
+        String deprTime = request.getParameter("deprTime");
+        String deprNm = request.getParameter("deprNm");
+        String arvlNm = request.getParameter("arvlNm");
+        String takeDrtmOrg = request.getParameter("takeDrtmOrg");
 
-		// 2. DAO를 통해 승차권 정보 조회
-		// TicketDAO dao = new TicketDAO();
-		// ResvDTO ticket = dao.getTicketByDeprCd(deprCd);
+        String cacmCd = request.getParameter("cacmCd");
+        String cacmNm = request.getParameter("cacmNm");
+        String indVBusClsCd = request.getParameter("indVBusClsCd");
 
-		String deprDt = request.getParameter("deprDt");        // 출발일
+        String selAdltCnt = request.getParameter("selAdltCnt");
+        String selChldCnt = request.getParameter("selChldCnt");
+        String selTeenCnt = request.getParameter("selTeenCnt");
 
-		String deprDtFmt = "";
-		if (deprDt != null && deprDt.length() == 8) {
-			String year = deprDt.substring(0, 4);
-			String month = deprDt.substring(4, 6);
-			String day = deprDt.substring(6, 8);
-			deprDtFmt = year + "." + month + "." + day;
-		}
+        String selectedSeatIds = request.getParameter("selectedSeatIds"); // 예: seatNum_SEAT043,seatNum_SEAT044
+        String selSeatNum = request.getParameter("selSeatNum"); // 예: "7,8"
+        String selSeatCnt = request.getParameter("selSeatCnt");
+        String allTotAmtPrice = request.getParameter("allTotAmtPrice");
 
-		String deprTime = request.getParameter("deprTime");    // 출발시간
+        // 2. 날짜/시간 포맷
+        String deprDtFmt = "";
+        if (deprDtRaw  != null && deprDtRaw.length() == 8) {
+            deprDtFmt = deprDtRaw.substring(0, 4) + "." + deprDtRaw.substring(4, 6) + "." + deprDtRaw.substring(6, 8);
+        }
 
-		String deprTimeFmt = "";
-		if (deprTime != null && deprTime.length() == 6) {
-			String hour = deprTime.substring(0, 2);
-			String min = deprTime.substring(2, 4);
-			// 필요하다면 초까지: String sec = deprTime.substring(4, 6);
-			deprTimeFmt = hour + ":" + min;
-		}
+        String deprTimeFmt = "";
+        if (deprTime != null && deprTime.length() == 6) {
+            deprTimeFmt = deprTime.substring(0, 2) + ":" + deprTime.substring(2, 4);
+        }
 
-		String deprNm = request.getParameter("deprNm");        // 출발지 이름
-		String arvlNm = request.getParameter("arvlNm");        // 도착지 이름
-
-		String takeDrtmOrg = request.getParameter("takeDrtmOrg");        // 소요시간
-		System.out.println("[BusPayHandler] takeDrtm 파라미터: " + takeDrtmOrg);
-
-		String cacmCd = request.getParameter("cacmCd");        // 고속사 코드
-		String cacmNm = request.getParameter("cacmNm");        // 고속사 코드
-		String indVBusClsCd = request.getParameter("indVBusClsCd"); // 버스 등급 코드
-
-		String selAdltCnt = request.getParameter("selAdltCnt"); // 성인 매수
-		String selChldCnt = request.getParameter("selChldCnt"); // 아동 매수
-		String selTeenCnt = request.getParameter("selTeenCnt"); // 청소년 매수
-
-		String selectedSeatIds = request.getParameter("selectedSeatIds");
-
-		String selSeatNum = request.getParameter("selSeatNum"); // 좌석 번호 (예: "15,9")
-		String selSeatCnt = request.getParameter("selSeatCnt"); // 총 선택좌석 수
-		String allTotAmtPrice = request.getParameter("allTotAmtPrice"); // 총 금액
-
-		request.setAttribute("deprCd", deprCd);
-		request.setAttribute("deprDt", deprDt);
-		request.setAttribute("deprTime", deprTime);
-		request.setAttribute("deprNm", deprNm);    // 출발지 이름
-		request.setAttribute("arvlNm", arvlNm);    // 도착지 이름
-		request.setAttribute("cacmCd", cacmCd);
-		request.setAttribute("cacmNm", cacmNm);
-		request.setAttribute("indVBusClsCd", indVBusClsCd);
-		request.setAttribute("selAdltCnt", selAdltCnt);
-		request.setAttribute("selChldCnt", selChldCnt);
-		request.setAttribute("selTeenCnt", selTeenCnt);
-
-		request.setAttribute("selSeatNum", selSeatNum);
-		request.setAttribute("estmAmt", allTotAmtPrice);
-		request.setAttribute("tissuAmt", allTotAmtPrice);
-		request.setAttribute("selSeatCnt", selSeatCnt);
-		request.setAttribute("takeDrtmOrg", takeDrtmOrg);
-		request.setAttribute("deprTimeFmt", deprTimeFmt);
-		request.setAttribute("deprDtFmt", deprDtFmt);
+        // 3. 커넥션 및 DAO 준비
+        Connection conn = ConnectionProvider.getConnection();
+        SeatDAO seatDao = new SeatDAOImpl(conn);
+        ReservationDAO dao = new ReservationDAO();
+        String resId = dao.generateResId();
 
 
+        // 4. 좌석 ID 문자열에서 seat번호 추출
+        Pattern pattern = Pattern.compile("SEAT\\d+");
+        Matcher matcher = pattern.matcher(selectedSeatIds);
 
-		Connection conn = ConnectionProvider.getConnection();
-		SeatDAO dao = new SeatDAOImpl(conn);
-		
-		// seatNum_SEAT043,seatNum_SEAT044
+        List<String> seatIdList = new ArrayList<>();
+        while (matcher.find()) {
+            seatIdList.add(matcher.group());
+        }
 
+        String seatNos = seatDao.searchSeatId(seatIdList); // "7,8,15"
+        if (seatNos == null || seatNos.isEmpty()) {
+            System.out.println("조회된 좌석 번호가 없습니다.");
+        } else {
+            System.out.println("좌석 번호들: " + seatNos);
+        }
+        String seatIds = String.join(",", seatIdList);
 
-		Pattern pattern = Pattern.compile("SEAT\\d+");
-		Matcher matcher = pattern.matcher(selectedSeatIds);
-
-		List<String> seatIdList = new ArrayList<>();
-		while (matcher.find()) {
-		    seatIdList.add(matcher.group());
-		}
-
-		String seatNos = dao.searchSeatId(seatIdList);
-		
-		if (seatNos.isEmpty()) {
-		    System.out.println("조회된 좌석 번호가 없습니다.");
-		} else {
-		    System.out.println("좌석 번호들: " + seatNos);
-		}
-		
-		
-		request.setAttribute("seatNos", seatNos);
-		
+        // 5. RES_ID 생성
 
 
-		// 4. 이동할 JSP 경로 리턴 (예시: busPay.jsp)
-		return "/koBusFile/busPay.jsp";
-	}
+        // 6. 예매 DTO 구성
+        ReservationDTO reservation = new ReservationDTO();
+        reservation.setResID(resId);
+        reservation.setBshID(request.getParameter("bshId")); // 운행 ID
+        reservation.setSeatID(seatIds);                     // 좌석 번호 (7,8,...)
+        reservation.setKusID("KUS004");                  // 임시 사용자 ID
+        reservation.setRideDate(Date.valueOf(deprDt));      // 탑승일자
+        reservation.setResvDate(new Date(System.currentTimeMillis())); // 예매일자
+        reservation.setResvStatus("결제대기");
+        reservation.setResvType("일반");
+        reservation.setQrCode((int)(Math.random() * 999999));
+        reservation.setMileage(0);
+        reservation.setSeatAble("Y");
+
+
+        // 7. INSERT 수행
+        boolean success = dao.insertReservation(reservation);
+        if (!success) {
+            System.out.println("[BusPayHandler] 예매 정보 저장 실패");
+            request.setAttribute("error", "예매 정보 저장 중 오류 발생");
+            return "/koBus/error.jsp";
+        }
+
+        // 8. JSP로 전달할 값 설정
+        request.setAttribute("resId", resId);
+        request.setAttribute("seatNos", seatNos);
+
+        request.setAttribute("deprCd", deprCd);
+        request.setAttribute("deprDt", deprDt);
+        request.setAttribute("deprTime", deprTime);
+        request.setAttribute("deprNm", deprNm);
+        request.setAttribute("arvlNm", arvlNm);
+        request.setAttribute("cacmCd", cacmCd);
+        request.setAttribute("cacmNm", cacmNm);
+        request.setAttribute("indVBusClsCd", indVBusClsCd);
+
+        request.setAttribute("selAdltCnt", selAdltCnt);
+        request.setAttribute("selChldCnt", selChldCnt);
+        request.setAttribute("selTeenCnt", selTeenCnt);
+        request.setAttribute("selSeatNum", selSeatNum);
+        request.setAttribute("selSeatCnt", selSeatCnt);
+        request.setAttribute("estmAmt", allTotAmtPrice);
+        request.setAttribute("tissuAmt", allTotAmtPrice);
+        request.setAttribute("takeDrtmOrg", takeDrtmOrg);
+        request.setAttribute("deprTimeFmt", deprTimeFmt);
+        request.setAttribute("deprDtFmt", deprDtFmt);
+
+        // 9. 페이지 이동
+        return "/koBusFile/busPay.jsp";
+    }
 }

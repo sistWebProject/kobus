@@ -523,7 +523,7 @@ if (lngCd == "KO") {
 		<input type="hidden" id="adtnPrdUseNtknCd" name="adtnPrdUseNtknCd" value="">
 		<input type="hidden" id="wkdWkeNtknCd" name="wkdWkeNtknCd" value="">
 		<input type="hidden" id="adtnPrdUsePsbDno" name="adtnPrdUsePsbDno" value="">
-		<input type="hidden" id="adtnPrdSno" name="adtnPrdSno" value="">
+		<input type="hidden" id="adtnPrdSno" name="adtnPrdSno" value="${adtnPrdSno}">
 		
 		<input type="hidden" id="frpsPrchGdEvent" name="frpsPrchGdEvent" value="">
 		

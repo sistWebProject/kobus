@@ -374,7 +374,7 @@ function fetchAmountFromServer() {
         }
     });
 }
-
+/*
 function requestPay() {
 	if(!fnVldtCmn()){
 		return;
@@ -396,6 +396,8 @@ function requestPay() {
 	var deprDtFmt = deprDt.slice(0,4) + "-" + deprDt.slice(4,6) + "-" + deprDt.slice(6,8);
 	var deprTimeFmt = deprTime.slice(0,2) + ":" + deprTime.slice(2,4);
 	var productName = deprNm + " -> " + arvlNm + " (" + deprDtFmt + "/" + deprTimeFmt + ")";
+	// 1. 날짜 형식 변환
+	var boardingDt = deprDt.substring(0, 4) + "-" + deprDt.substring(4, 6) + "-" + deprDt.substring(6, 8);
 	var amount = $("#tissuAmt").val();
 	
 	var IMP = window.IMP;
@@ -409,6 +411,7 @@ function requestPay() {
         amount: amount, // 이 부분에 서버에서 조회한 금액 변수를 대입!
         // buyer_xxx 등은 필요 없으면 생략
     }, function (rsp) {
+
         if (rsp.success) {
             alert('테스트 결제 성공! imp_uid: ' + rsp.imp_uid);
 
@@ -423,11 +426,15 @@ function requestPay() {
                     amount: rsp.amount,
                     pay_status: 'SUCCESS',
                     pg_tid: rsp.pg_tid,
-                    paid_at: rsp.paid_at
+                    paid_at: rsp.paid_at,
+                    user_id: $('#user_id').val(), // 또는 세션에서 가져온 ID
+                    bus_schedule_id: $('#busScheduleId').val(), // 예: 3020번 고유번호
+        			seat_number: $('#seatNo').val(),
+        			boarding_dt: boardingDt // 변환된 날짜
                 },
                 success: function(data) {
                     alert('결제 정보가 서버에 저장되었습니다!');
-                    // location.href = "/결제완료페이지.do";
+                    location.href = "/koBusFile/reservCompl.jsp";
                 },
                 error: function(xhr, status, error) {
                     alert('결제 정보 저장에 실패했습니다!');
@@ -442,8 +449,97 @@ function requestPay() {
         }
     });
 }
+*/
+
+function requestPay() {
+	if (!fnVldtCmn()) return;
+
+	var nonMbrsYnChk = $("#nonMbrsYn").val();
+	if ($("#nonMbrsYn").val() == "Y" && $("#nonMbrsAuthYn").val() != "Y") {
+		$("#nonMbrsHp").focus();
+		alert("비회원 인증이 필요합니다.");
+		return;
+	}
+
+	// 💰 결제 금액 확인
+	var amount = $("#tissuAmt").val();
+	console.log("✅ JSP에서 받은 tissuAmt:", amount);
+
+	// 출발/도착지 정보
+	var deprNm = $("#deprNm").val();
+	var arvlNm = $("#arvlNm").val();
+	var deprDt = $("#deprDt").val();     // 예: 20250625
+	var deprTime = $("#deprTime").val(); // 예: 143000
+
+	// var deprDtFmt = deprDt.slice(0, 4) + "-" + deprDt.slice(4, 6) + "-" + deprDt.slice(6, 8);
+	var deprTimeFmt = deprTime.slice(0, 2) + ":" + deprTime.slice(2, 4);
+	var productName = `${deprNm} -> ${arvlNm} (${deprDt}/${deprTimeFmt})`;
+
+	// 탑승일 변환
+	var boardingDt = deprDt;
+
+	// 🧪 전송용 amount 타입 확인
+	console.log("🧪 typeof amount:", typeof amount);
+	console.log("🧪 boardingDt:", boardingDt);
+
+	var IMP = window.IMP;
+	IMP.init('imp31168041'); // 포트원 테스트 가맹점 코드
+
+	IMP.request_pay({
+		pg: 'html5_inicis.INIpayTest',
+		pay_method: ['card', 'trans'],
+		merchant_uid: 'ORD_TEST_' + new Date().getTime(),
+		name: productName,
+		amount: amount // 💵 결제 금액 전달
+	}, function (rsp) {
+		if (rsp.success) {
+			alert('✅ 결제 성공! imp_uid: ' + rsp.imp_uid);
+
+			// 전송 데이터 구성
+			var paymentData = {
+				imp_uid: rsp.imp_uid,
+				merchant_uid: rsp.merchant_uid,
+				pay_method: rsp.pay_method,
+				amount: amount, // ★ amount 직접 사용 (rsp.amount 대신!)
+				pay_status: 'SUCCESS',
+				pg_tid: rsp.pg_tid,
+				paid_at: rsp.paid_at,
+				user_id: "KUS004",
+				bus_schedule_id: "BSH013",
+				seat_number: $('#seatNos').val(),
+				boarding_dt: boardingDt,
+				resId: $('#resId').val()
+			};
+
+			console.log("🚀 서버로 전송할 paymentData:", paymentData);
+
+			// Ajax 전송
+			$.ajax({
+				url: '/koBus/payment/savePayment.do',
+				type: 'POST',
+				data: paymentData,
+				success: function (data) {
+					alert('🎉 결제 정보가 서버에 저장되었습니다!');
+					location.href = "/payment/reservCompl.do";
+				},
+				error: function (xhr, status, error) {
+					alert('❌ 결제 정보 저장에 실패했습니다!');
+					console.error('🔥 서버 응답 오류:', error);
+					console.error('📦 상태 코드:', status);
+					console.error('📨 보낸 데이터:', paymentData);
+					console.error('📄 서버 응답 내용:', xhr.responseText);
+				}
+			});
+		} else {
+			var msg = '❗ 결제 실패\n에러 내용: ' + rsp.error_msg;
+			alert(msg);
+			console.error('❌ 결제 실패 응답:', rsp);
+		}
+	});
+}
 
 
+	
 var check = 0;	
 function fnLgnNonUsr(){ //신규접속 비회원 (중복가입방지 check)
 	if(check == 0){

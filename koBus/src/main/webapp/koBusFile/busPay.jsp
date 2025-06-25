@@ -428,9 +428,9 @@ if (lngCd == "KO") {
 
 <form name="stplCfmPymFrm" id="stplCfmPymFrm" method="post" action="/payment/buypay.do">
 	<input type="hidden" name="deprCd" id="deprCd" value="032"><!-- 출발지코드 -->
-	<input type="hidden" name="deprNm" id="deprNm" value="동서울"><!-- 출발지명 -->
+	<input type="hidden" name="deprNm" id="deprNm" value="${deprNm}"><!-- 출발지명 -->
 	<input type="hidden" name="arvlCd" id="arvlCd" value="823"><!-- 도착지코드 -->
-	<input type="hidden" name="arvlNm" id="arvlNm" value="낙동강(휴)하행"><!-- 도착지명 -->
+	<input type="hidden" name="arvlNm" id="arvlNm" value="${arvlNm}"><!-- 도착지명 -->
 	<input type="hidden" name="tfrCd" id="tfrCd" value=""><!-- 환승지코드 -->
 	<input type="hidden" name="tfrNm" id="tfrNm" value=""><!-- 환승지명 -->
 	<input type="hidden" name="tfrArvlFullNm" id="tfrArvlFullNm" value=""><!-- 환승지포함 도착지 명 -->
@@ -476,13 +476,17 @@ if (lngCd == "KO") {
 	<input type="hidden" name="selDfptCnt" id="selDfptCnt" value="0"><!-- 후불수(권종추가-20220722) -->
 
 
-	<input type="hidden" name="seatNos" id="seatNos" value="0"><!-- 각 좌석번호 -->
+	<input type="hidden" name="seatNos" id="seatNos" value="${seatNos}"><!-- 각 좌석번호 -->
+	<input type="hidden" name="resId" id="resId" value="${resId}">
 	
 	
 	<!-- 예상금액 -->
 	<input type="hidden" name="estmAmt" id="estmAmt" value="${estmAmt}"><!-- 예매금액 -->
 	<input type="hidden" name="dcAmt" id="dcAmt" value="0"><!-- 할인금액 -->
 	<input type="hidden" name="tissuAmt" id="tissuAmt" value="${tissuAmt}"><!-- 결제금액 -->
+	<script>
+    console.log("JSP에서 받은 tissuAmt:", "${tissuAmt}");
+	</script>
 	
 	<input type="hidden" name="nonMbrsYn" id="nonMbrsYn" value="N"><!-- 비회원여부 Y:비회원, N:회원 -->
 	<input type="hidden" name="pymType" id="pymType" value="card"><!-- 결제타입 card:카드,acnt:계좌이체, famt:정액권,perd:정기권,milage:마일리지   -->

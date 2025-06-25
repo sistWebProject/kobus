@@ -315,7 +315,7 @@ function requestPay() {
                     pay_status: 'SUCCESS',
                     pg_tid: rsp.pg_tid,
                     paid_at: rsp.paid_at,
-                    adtn_prd_sno: $("#adtn_prd_sno").val(),   // ★ 프리패스 옵션 PK
+                    adtn_prd_sno: $("#adtnPrdSno").val(),   // ★ 프리패스 옵션 PK
                     user_id: $("#user_id").val()              // ★ 로그인 회원ID
                 },
                 success: function(data) {
