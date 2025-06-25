@@ -11,4 +11,6 @@ public interface ResvDAO {
 
 	int cancelResvList(String mrsMrnpNo) throws SQLException;
 
+	List<ResvDTO> searchCancelResvList(String loginId) throws SQLException;
+
 }
