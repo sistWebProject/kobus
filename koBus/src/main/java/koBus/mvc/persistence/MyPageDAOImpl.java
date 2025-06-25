@@ -47,38 +47,6 @@ public class MyPageDAOImpl implements MyPageDAO {
 		
 		return reservationCount;
 	}
-
-	// 프리패스/정기권 쿠폰 개수 가져오기
-	@Override
-	public int couponCount(String auth) throws SQLException {
-		int couponCount = 0;
-		
-		String sql = "SELECT COUNT(*) AS coupon_count "
-				+ "FROM couponPur c "
-				+ "JOIN kobusUser u ON c.kusID = u.kusID "
-				+ "WHERE u.id = ? ";
-		
-		try {
-	        this.pstmt = conn.prepareStatement(sql);
-	        this.pstmt.setString(1, auth.trim());
-	        
-	        this.rs = this.pstmt.executeQuery();
-	        	        
-	        if (this.rs.next()) {
-	        	couponCount = rs.getInt("coupon_count"); 
-	        }	
-	        System.out.println("쿠폰갯수 : " + couponCount);
-	       
-	    } catch(SQLException e){
-	    	e.printStackTrace();
-	    }finally {
-	        try { if (this.rs != null) this.rs.close(); } catch (SQLException e) { e.printStackTrace(); }
-	        try { if (this.pstmt != null) this.pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
-	    }
-		
-		return couponCount;
-		
-	}
 	
 	// 휴대폰번호 가져오는 함수
 	@Override
@@ -230,6 +198,68 @@ public class MyPageDAOImpl implements MyPageDAO {
 		}
 		
 		return result;
+	}
+	
+	// 정기권 쿠폰갯수 함수
+	@Override
+	public int popCouponCount(String auth) throws SQLException {
+		int popCouponCount = 0;
+		
+		String sql = "SELECT COUNT(*) AS popCoupon_count "
+				+ "FROM payment p "
+				+ "JOIN kobusUser u ON p.kusID = u.kusID "
+				+ "WHERE u.id = ? ";
+		
+		try {
+	        this.pstmt = conn.prepareStatement(sql);
+	        this.pstmt.setString(1, auth.trim());
+	        
+	        this.rs = this.pstmt.executeQuery();
+	        	        
+	        if (this.rs.next()) {
+	        	popCouponCount = rs.getInt("popCoupon_count"); 
+	        }	
+	        System.out.println("정기권 쿠폰갯수 : " + popCouponCount);
+	       
+	    } catch(SQLException e){
+	    	e.printStackTrace();
+	    }finally {
+	        try { if (this.rs != null) this.rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+	        try { if (this.pstmt != null) this.pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+	    }
+		
+		return popCouponCount;
+	}
+	
+	// 프리패스 쿠폰갯수 함수
+	@Override
+	public int freeCouponCount(String auth) throws SQLException {
+		int freeCouponCount = 0;
+		
+		String sql = "SELECT COUNT(*) AS freeCoupon_count "
+				+ "FROM FREE_PASS_PAYMENT frp "
+				+ "JOIN kobusUser u ON frp.kusID = u.kusID "
+				+ "WHERE u.id = ? ";
+		
+		try {
+	        this.pstmt = conn.prepareStatement(sql);
+	        this.pstmt.setString(1, auth.trim());
+	        
+	        this.rs = this.pstmt.executeQuery();
+	        	        
+	        if (this.rs.next()) {
+	        	freeCouponCount = rs.getInt("freeCoupon_count"); 
+	        }	
+	        System.out.println("쿠폰갯수 : " + freeCouponCount);
+	       
+	    } catch(SQLException e){
+	    	e.printStackTrace();
+	    }finally {
+	        try { if (this.rs != null) this.rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+	        try { if (this.pstmt != null) this.pstmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+	    }
+		
+		return freeCouponCount;
 	}
 	
 }

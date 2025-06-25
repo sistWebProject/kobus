@@ -15,8 +15,6 @@ response.setDateHeader("Expires", 0); // Proxies
 
 <!-- [리뉴얼] 페이지 개별 스크립트 신규 정의함 -->
 
-
-
 <!-- [리뉴얼] 스킵 네비게이션 신규 정의 -->
 <div class="pop_dimmed" style="display: none;"></div>
 <div class="noti_pop_wrap" style="display: block;"></div>
@@ -133,6 +131,7 @@ response.setDateHeader("Expires", 0); // Proxies
 				</div>
 				<div class="links">
 					<!-- <a href="https://www.tmoney.co.kr" class="btn btn-tmoney" title="새창" target="_blank">
+
                <img src="/images/kor/layout/ico-tmoney-app.png" alt="" />고속버스 티머니
                <i class="ico ico-arrow-new-window"></i>
             </a> -->

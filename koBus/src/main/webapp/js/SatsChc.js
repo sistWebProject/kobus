@@ -1967,6 +1967,8 @@ function fnNonUsrMrs(){
 function fnSetPcpy(){
 	var selectedSeatStr = selectedSeatIds.join(",");
 	
+	$("#selectedSeatIds").val(selectedSeatStr);
+	
 	var satsChcFrm = $("form[name=satsChcFrm]").serialize() 
                + "&ajax=true&ajaxType=setPcpy"
                + "&selectedSeatIds=" + encodeURIComponent(selectedSeatStr);
@@ -1992,7 +1994,6 @@ function fnSetPcpy(){
 	        			+":"+$("#selDsprCnt").val() //장애인(권종추가-201906)
 	        			+":"+$("#selVtr3Cnt").val() //보훈(권종추가-20210501)
 	        			+":"+$("#ctyPrmmDcYn").val() //시외후등형할인구분
-	        			+":"+$("#selectedSeatIdsInput").val(selectedSeatStr) //좌석 번호
 	        			+":"+$("#estmAmt").val($("#allTotAmtLocU").val()) //예매금액
 	        			+":"+$("#dcAmt").val($("#holiMrsDc").val()) //할인금액
 	        			+":"+$("#tissuAmt").val($("#allTotAmtLocD").val()) //결제금액

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.util.ConnectionProvider;
 
+import koBus.mvc.domain.ItemCanclePurDTO;
 import koBus.mvc.domain.ItemPurDTO;
 import koBus.mvc.persistence.ItemPurDAO;
 import koBus.mvc.persistence.ItemPurDAOImpl;
@@ -40,8 +41,13 @@ public class ItemPurListPageHandler implements CommandHandler {
 		List<ItemPurDTO> popItemList = dao.itemPopPurList(loginId);
 		List<ItemPurDTO> freeItemList = dao.itemFreePurList(loginId);
 		
+		List<ItemCanclePurDTO> popCancleItemList = dao.itemCanclePopPurList(loginId);
+		List<ItemCanclePurDTO> freeCancleItemList = dao.itemCancleFreePurList(loginId);
+		
 		request.setAttribute("popItemList", popItemList);
 		request.setAttribute("freeItemList", freeItemList);
+		request.setAttribute("popCancleItemList", popCancleItemList);
+		request.setAttribute("freeCancleItemList", freeCancleItemList);
 		
 		return "/koBusFile/itemPurListPage.jsp";
 	}

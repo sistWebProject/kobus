@@ -238,6 +238,8 @@
 				<!-- 선택한버스등급 -->
 				<input type="hidden" name="cacmCd" id="cacmCd" value="02">
 				<!-- 운수사코드 -->
+				<input type="hidden" name="cacmNm" id="cacmNm" value="${bus.comName }">
+				<!-- 운수사이름 -->
 				<input type="hidden" name="deprThruSeq" id="deprThruSeq" value="1">
 				<!-- 출발경유순서 -->
 				<input type="hidden" name="arvlThruSeq" id="arvlThruSeq" value="4">
@@ -318,6 +320,9 @@
 				<!-- 선택좌석번호 -->
 				<input type="hidden" name="selSeatCnt" id="selSeatCnt" value="0">
 				<!-- 선택좌석수 -->
+				<input type="hidden" id="selectedSeatIds" name="selectedSeatIds" value="">
+				<!-- 좌석배열 -->
+				
 				<input type="hidden" name="selAdltCnt" id="selAdltCnt" value="0">
 				<!-- 어른수 -->
 				<input type="hidden" name="selAdltDcCnt" id="selAdltDcCnt" value="0">
