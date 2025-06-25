@@ -64,8 +64,8 @@ response.setDateHeader("Expires", 0); // Proxies
 							</c:otherwise>
 						</c:choose>
 						<li><a href="/koBus/page/logonMyPage.do">마이페이지</a></li>
-						<li><a href="javascript:void(0);">결제내역조회</a></li>
-						<li><a href="javascript:void(0);">사이트맵</a></li>
+						<li><a href="#">결제내역조회</a></li>
+						<li><a href="#">사이트맵</a></li>
 					</ul>
 
 					<div class="dropdown-wrap lang-select">
@@ -89,21 +89,21 @@ response.setDateHeader("Expires", 0); // Proxies
 					<ul id="new-kor-gnb">
 						<li><a href="/koBus/region.do">고속버스예매</a>
 							<ul>
-								<li><a href="javascript:void(0);">고속버스 예매</a></li>
+								<li><a href="/koBus/region.do">고속버스 예매</a></li>
 								<li><a href="/koBus/manageReservations.do">예매확인/취소/변경</a></li>
-								<li><a href="javascript:void(0);">영수증발행</a></li>
+								<li><a href="#">영수증발행</a></li>
 							</ul></li>
-						<li><a href="javascript:void(0)">운행정보</a>
+						<li><a href="#">운행정보</a>
 							<ul>
 								<li><a href="/koBus/kobusSchedule.do">시간표 조회</a></li>
-								<li><a href="javascript:void(0);">도착시간 안내</a></li>
+								<li><a href="#">도착시간 안내</a></li>
 							</ul></li>
 
 
-						<li><a href="javascript:void(0)">프리패스/정기권</a>
+						<li><a href="/koBus/kobusSchedule.do">프리패스/정기권</a>
 							<ul>
-								<li><a href="javascript:void(0);">프리패스 여행권</a></li>
-								<li><a href="javascript:void(0);">정기권</a></li>
+								<li><a href="/koBus/kobusSchedule.do">프리패스 여행권</a></li>
+								<li><a href="/koBus/koBusFile/seasonTicket.jsp">정기권</a></li>
 								<li><a href="/koBus/page/itemPurListPage.do">상품 구매내역</a></li>
 							</ul></li>
 
@@ -119,7 +119,7 @@ response.setDateHeader("Expires", 0); // Proxies
 								<li><a href="/ugd/trmlgd/Trmlgd.do">고속버스 터미널</a></li>
 								<li><a href="/ugd/cacmgd/Cacmgd.do">고속버스 운송회사</a></li>
 							</ul></li>
-						<li><a href="javascript:void(0)">고객지원</a>
+						<li><a href="/koBus/main.do">고객지원</a>
 							<ul>
 								<li><a href="/koBus/html/boardList.do">게시판</a></li>
 								<li><a href="/koBus/html/goBusFaq.do">자주찾는 질문</a></li>

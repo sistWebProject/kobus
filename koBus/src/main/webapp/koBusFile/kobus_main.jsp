@@ -1394,7 +1394,7 @@ $(document).ready(function () {
 					<div class="main">
 						<p class="mo_util">
 							<a
-								href="/oprninf/alcninqr/oprnAlcnPage.do"
+								href="/koBus/kobusSchedule.do"
 								class="util1" style="width: 33.33%">시간표조회</a> <a
 								href="/ugd/mrsgd/Mrsgd.do" class="util2"
 								style="width: 33.33%">이용안내</a>

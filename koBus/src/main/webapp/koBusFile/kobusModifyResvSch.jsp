@@ -87,17 +87,17 @@ $(document).ready(function() {
 
 					<li>
 						<div class="dropdown-wrap breadcrumb-select">
-							<a href="javascript:void(0)" class="btn-dropdown" title="대메뉴 선택"
+							<a href="#" class="btn-dropdown" title="대메뉴 선택"
 								aria-expanded="false"> <span class="text">고속버스예매</span><i
 								class="ico ico-dropdown-arrow"></i></a>
 							<ul class="dropdown-list" style="display: none;">
-								<li class="selected"><a href="javascript:void(0)"
+								<li class="selected"><a href="/koBus/region.do"
 									title="선택됨">고속버스예매</a></li>
 								<li><a
 									href="https://www.kobus.co.kr/oprninf/alcninqr/oprnAlcnPage.do">운행정보</a></li>
 								<li><a
 									href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrchGd.do">프리패스/정기권</a></li>
-								<li><a href="https://www.kobus.co.kr/ugd/mrsgd/Mrsgd.do">이용안내</a></li>
+								<li><a href="#">이용안내</a></li>
 								<li><a
 									href="https://www.kobus.co.kr/cscn/ntcmttr/readNtcList.do">고객지원</a></li>
 								<li><a

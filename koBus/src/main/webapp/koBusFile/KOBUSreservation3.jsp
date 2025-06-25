@@ -106,7 +106,7 @@
 					
 					
 						
-							<a href="javascript:void(0)" class="btn-dropdown" title="대메뉴 선택" aria-expanded="false">
+							<a href="#" class="btn-dropdown" title="대메뉴 선택" aria-expanded="false">
 								<span class="text">고속버스예매</span><i class="ico ico-dropdown-arrow"></i></a>
 						
 					
@@ -119,7 +119,7 @@
 		
 							
 							
-							<li class="selected"><a href="javascript:void(0)" title="선택됨">고속버스예매</a></li>
+							<li class="selected"><a href="/koBus/region.do" title="선택됨">고속버스예매</a></li>
 						
 	
 							
@@ -166,7 +166,7 @@
 					
 					
 						
-							<a href="javascript:void(0)" class="btn-dropdown" title="하위메뉴 선택" aria-expanded="false">
+							<a href="#" class="btn-dropdown" title="하위메뉴 선택" aria-expanded="false">
 								<span class="text">고속버스예매</span><i class="ico ico-dropdown-arrow"></i></a>
 						
 					
@@ -175,11 +175,11 @@
 					<ul class="dropdown-list" style="display: none;">
 
 								
-								<li class="selected"><a href="javascript:void(0)" title="선택됨">고속버스예매</a></li>
+								<li class="selected"><a href="/koBus/region.do" title="선택됨">고속버스예매</a></li>
 							
 
 								
-								<li><a href="/mrs/mrscfm.do">예매확인/취소/변경</a></li>
+								<li><a href="/koBus/manageReservations.do">예매확인/취소/변경</a></li>
 							
 
 								
