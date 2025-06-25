@@ -87,7 +87,7 @@
 									class="agreement_cont scrollbar-inner scroll-content scroll-scrolly_visible"
 									style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 118px;">
 									<iframe frameborder="0" height="187" scrolling="no"
-										src="/koBus/cmn/IndlInfClcnUtlzAgrmJoin.do"
+										
 										title="개인정보 수집 및 이용동의" width="100%"></iframe>
 								</div>
 								<div class="scroll-element scroll-x scroll-scrolly_visible">
@@ -121,7 +121,7 @@
 									class="agreement_cont scrollbar-inner scroll-content scroll-scrolly_visible"
 									style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 118px;">
 									<iframe frameborder="0" height="2387" scrolling="no"
-										src="/koBus/cmn/SvcUtlzStplAgrm.do" title="서비스 이용약관 동의"
+										title="서비스 이용약관 동의"
 										width="100%"></iframe>
 								</div>
 								<div class="scroll-element scroll-x scroll-scrolly_visible">

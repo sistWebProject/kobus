@@ -59,6 +59,34 @@
 .cancel-btn:hover {
     background-color: #0056b3;
 }
+
+.dropdown-wrap {
+    position: relative; /* 기준 요소 설정 */
+}
+
+.dropdown-list {
+    position: absolute;
+    top: 100%;  /* 버튼 아래에 위치하도록 */
+    left: 0;
+    z-index: 1000;
+    display: none;
+    background-color: white; /* 어두운 배경 (예시) */
+    padding: 5px 0;
+    min-width: 180px;
+    border: 1px solid #666;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.dropdown-list li {
+    padding: 10px 15px;
+    color: black;
+    cursor: pointer;
+}
+
+.dropdown-list li:hover {
+    background-color: #444;
+}
+
 </style>
 
 
@@ -77,36 +105,36 @@
 					<li>
 						<div class="dropdown-wrap breadcrumb-select">
 							<a aria-expanded="false" class="btn-dropdown"
-								href="javascript:void(0)" title="대메뉴 선택"> <span class="text">프리패스/정기권</span><i
+								href="/koBus/page/itemPurListPage.do" title="대메뉴 선택"> <span class="text">프리패스/정기권</span><i
 								class="ico ico-dropdown-arrow"></i></a>
 							<ul class="dropdown-list" style="display: none;">
-								<li><a href="https://www.kobus.co.kr/mrs/rotinf.do">고속버스예매</a></li>
+								<li><a href="/koBus/region.do">고속버스예매</a></li>
 								<li><a
-									href="https://www.kobus.co.kr/oprninf/alcninqr/oprnAlcnPage.do">운행정보</a></li>
-								<li class="selected"><a href="javascript:void(0)"
+									href="/koBus/kobusSchedule.do">운행정보</a></li>
+								<li class="selected"><a href="/koBus/page/itemPurListPage.do"
 									title="선택됨">프리패스/정기권</a></li>
-								<li><a href="https://www.kobus.co.kr/ugd/mrsgd/Mrsgd.do">이용안내</a></li>
+								<li><a href="#">이용안내</a></li>
 								<li><a
-									href="https://www.kobus.co.kr/cscn/ntcmttr/readNtcList.do">고객지원</a></li>
+									href="#">고객지원</a></li>
 								<li><a
-									href="https://www.kobus.co.kr/ugd/bustrop/Bustrop.do">전국고속버스운송사업조합</a></li>
+									href="#">전국고속버스운송사업조합</a></li>
 								<li><a
-									href="https://www.kobus.co.kr/ugd/trmlbizr/Trmlbizr.do">터미널사업자협회</a></li>
+									href="#">터미널사업자협회</a></li>
 							</ul>
 						</div>
 					</li>
 					<li>
 						<div class="dropdown-wrap breadcrumb-select">
 							<a aria-expanded="false" class="btn-dropdown"
-								href="javascript:void(0)" title="하위메뉴 선택"> <span
+								href="/koBus/page/itemPurListPage.do" title="하위메뉴 선택"> <span
 								class="text">상품 구매내역</span><i class="ico ico-dropdown-arrow"></i></a>
 							<ul class="dropdown-list" style="display: none;">
 								<li><a
-									href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrchGd.do">프리패스
+									href="/koBus/page/itemPurListPage.do">프리패스
 										여행권</a></li>
 								<li><a
-									href="https://www.kobus.co.kr/adtnprdnew/pass/passPrchGd.do">정기권</a></li>
-								<li class="selected"><a href="javascript:void(0)"
+									href="/koBus/page/itemPurListPage.do">정기권</a></li>
+								<li class="selected"><a href="/koBus/page/itemPurListPage.do"
 									title="선택됨">상품 구매내역</a></li>
 							</ul>
 						</div>
@@ -114,6 +142,30 @@
 				</ol>
 			</div>
 		</nav>
+		<script>
+			$(document).ready(function(){
+			    $(".btn-dropdown").on("click", function(e){
+			        e.preventDefault();
+			
+			        const $wrap = $(this).closest(".dropdown-wrap");
+			        const $list = $wrap.find(".dropdown-list");
+			
+			        // 다른 드롭다운은 닫기
+			        $(".dropdown-list").not($list).slideUp("fast");
+			
+			        // 현재 클릭한 드롭다운은 토글
+			        $list.stop(true, true).slideToggle("fast");
+			    });
+			
+			    // 바깥 클릭 시 닫기
+			    $(document).on("click", function(e){
+			        if (!$(e.target).closest(".dropdown-wrap").length) {
+			            $(".dropdown-list").slideUp("fast");
+			        }
+			    });
+			});
+		</script>
+
 		<article id="new-kor-content">
 
 
