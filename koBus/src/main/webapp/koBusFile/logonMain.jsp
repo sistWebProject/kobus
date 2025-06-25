@@ -115,7 +115,7 @@
 						<!-- <div class="bnr_app" >예매부터 탑승까지 원스탑 모바일 서비스! <strong>고속버스 모바일앱</strong></div> -->
 						<!-- 광고 배너 추후 추가 예정 -->
 						<div class="banner-group type-row-A" style="margin-top: 16px;">
-							<iframe class="ad-frame" src="/html2/_ad-tubebox-003A.html"
+							<iframe class="ad-frame" 
 								title="프레임 (전화번호안심 로그인)"></iframe>
 						</div>
 					</form>
