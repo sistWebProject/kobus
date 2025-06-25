@@ -113,7 +113,7 @@ $(document).ready(function () {
                         </ul></li>
 
 
-                     <li><a href="javascript:void(0)">프리패스/정기권</a>
+                     <li><a href="/koBus/page/itemPurListPage.do">프리패스/정기권</a>
                         <ul>
                            <li><a
                               href="javascript:void(0);">프리패스
