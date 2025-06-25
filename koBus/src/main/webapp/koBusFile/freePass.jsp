@@ -18,7 +18,7 @@
 	
 	
 	
-	<link rel="shortcut icon" href="https://www.kobus.co.kr/images/favicon.ico">
+	<link rel="shortcut icon" type="image/x-icon" href="/koBus/media/favicon.ico">
 	
 		
 

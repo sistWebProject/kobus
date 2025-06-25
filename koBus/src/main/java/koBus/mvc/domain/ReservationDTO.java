@@ -21,5 +21,7 @@ public class ReservationDTO {
     private String seatAble;
     private SeatDTO seatInfo; // 좌석 상세정보
     private ScheduleDTO busSchedule; // 운행정보
+    private String busCode; // 운행정보
+    
     // getter, setter 등 생략
 }

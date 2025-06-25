@@ -231,6 +231,26 @@ function requestPay() {
 	}
 	
 	var selectedOptionText = $("#selOptionText").val();
+	// 1. 시작일 원본 추출
+	let rawStartDate = $("#datepickerItem").val().trim(); // 예: "2025. 6. 26. 목"
+	
+	// 2. 변환: "2025. 6. 26. 목" → "2025-06-26"
+	let startDate = "";
+	if (rawStartDate) {
+	    let dateParts = rawStartDate.split(".");
+	    let yyyy = dateParts[0].trim();
+	    let mm = dateParts[1].trim().padStart(2, '0');
+	    let dd = dateParts[2].trim().padStart(2, '0');
+	    startDate = `${yyyy}-${mm}-${dd}`; // 결과: "2025-06-26"
+	}
+
+	console.log("변환된 시작일:", startDate);
+	let optionValue = $("#selOption").val(); // 예: "1/3/1/5/RT01/F1006"
+	let parts = optionValue.split("/");
+	
+	// let routeId = parts[4];      // ← 여기서 routeId
+	let adtnPrdSno = parts[5];   // ← 부가상품 옵션 ID
+
 	
 	var IMP = window.IMP;
     IMP.init('imp31168041'); // 테스트용 가맹점 식별코드
@@ -248,7 +268,7 @@ function requestPay() {
 
             // 서버로 결제 데이터 전송 (이 부분이 핵심!)
             $.ajax({
-                url: '/koBus/payment/savePayment.do',
+                url: '/koBus/payment/savePassPayment.do',
                 type: 'POST',
                 data: {
                     imp_uid: rsp.imp_uid,
@@ -257,7 +277,10 @@ function requestPay() {
                     amount: amount,
                     pay_status: 'SUCCESS',
                     pg_tid: rsp.pg_tid,
-                    paid_at: rsp.paid_at
+                    paid_at: rsp.paid_at,
+                    adtnPrdSno: adtnPrdSno,   // ← 추가
+			        // routeId: routeId,         // ← 추가
+			        startDate: startDate 			      // ← 추가 (형식: yyyy-MM-dd)
                 },
                 success: function(data) {
                     alert('결제 정보가 서버에 저장되었습니다!');

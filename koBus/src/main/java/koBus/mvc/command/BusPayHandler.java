@@ -44,6 +44,7 @@ public class BusPayHandler implements CommandHandler {
         String selSeatNum = request.getParameter("selSeatNum"); // 예: "7,8"
         String selSeatCnt = request.getParameter("selSeatCnt");
         String allTotAmtPrice = request.getParameter("allTotAmtPrice");
+        String busCode = request.getParameter("busCode");
 
         // 2. 날짜/시간 포맷
         String deprDtFmt = "";
@@ -86,16 +87,17 @@ public class BusPayHandler implements CommandHandler {
         // 6. 예매 DTO 구성
         ReservationDTO reservation = new ReservationDTO();
         reservation.setResID(resId);
-        reservation.setBshID(request.getParameter("bshId")); // 운행 ID
+        reservation.setBshID(request.getParameter("busCode")); // 운행 ID
         reservation.setSeatID(seatIds);                     // 좌석 번호 (7,8,...)
         reservation.setKusID("KUS004");                  // 임시 사용자 ID
         reservation.setRideDate(Date.valueOf(deprDt));      // 탑승일자
         reservation.setResvDate(new Date(System.currentTimeMillis())); // 예매일자
-        reservation.setResvStatus("결제대기");
+        reservation.setResvStatus("결제완료");
         reservation.setResvType("일반");
         reservation.setQrCode((int)(Math.random() * 999999));
         reservation.setMileage(0);
         reservation.setSeatAble("Y");
+        reservation.setBusCode(busCode);
 
 
         // 7. INSERT 수행
@@ -129,6 +131,7 @@ public class BusPayHandler implements CommandHandler {
         request.setAttribute("takeDrtmOrg", takeDrtmOrg);
         request.setAttribute("deprTimeFmt", deprTimeFmt);
         request.setAttribute("deprDtFmt", deprDtFmt);
+        request.setAttribute("busCode", busCode);
 
         // 9. 페이지 이동
         return "/koBusFile/busPay.jsp";
