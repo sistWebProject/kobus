@@ -13,4 +13,6 @@ public interface ResvDAO {
 
 	List<ResvDTO> searchCancelResvList(String loginId) throws SQLException;
 
+	int changeRemainSeats(String mrsMrnpNo, String rideTime) throws SQLException;
+
 }

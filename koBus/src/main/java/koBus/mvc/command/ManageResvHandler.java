@@ -31,7 +31,6 @@ public class ManageResvHandler implements CommandHandler{
 		Connection conn = ConnectionProvider.getConnection();
 		ResvDAO dao = new ResvDAOImpl(conn);
 		HttpSession session = request.getSession(false);
-		String mainParam = request.getParameter("mainParam");
 		
 		 if (session == null || session.getAttribute("id") == null) {
 		        // 로그인 안 된 상태
@@ -54,6 +53,7 @@ public class ManageResvHandler implements CommandHandler{
 		System.out.println("ajaxtype " + ajaxtype);
 		
 		int cancelResult = 0;
+		int changeRemainSeats = 0;
 
 		if ("true".equalsIgnoreCase(ajax)) {
 		    // 예매 취소 금액 정보 조회 처리
@@ -106,13 +106,17 @@ public class ManageResvHandler implements CommandHandler{
 		        recpListMap.put("setsList", setsList);
 		        recpListMap.put("TRD_DTM", TRD_DTM);
 		        
+		        String rideTime = alcnDeprDt + "" + alcnDeprTime;
 		        
 		        if ("cancel".equalsIgnoreCase(ajaxtype)) {
 		        	mrsMrnpNo = request.getParameter("mrsMrnpno");
 		        	recpListMap.put("type", ajaxtype);
 		        	  
+		        		// 예약 내역 취소
 		                cancelResult = dao.cancelResvList(mrsMrnpNo);
-		                System.out.println(cancelResult);
+		                
+		                // 남은좌석 갱신
+		                changeRemainSeats = dao.changeRemainSeats(mrsMrnpNo, rideTime);
 		                
 		                // 처리 결과 및 필요한 값 저장
 		                recpListMap.put("cancelResult", cancelResult);
@@ -122,6 +126,7 @@ public class ManageResvHandler implements CommandHandler{
 		        
 		      
                 System.out.println("cancelResult : " + cancelResult);
+                System.out.println("changeRemainSeats : " + changeRemainSeats);
 
 		    } catch (Exception e) {
 		    	recpListMap.put("error", "오류 발생: " + e.getMessage());

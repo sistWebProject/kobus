@@ -115,7 +115,6 @@ public class ScheduleHandler implements CommandHandler {
 			        default: break;
 			    }
 			    
-			    System.out.println("deprDtm " + deprDtm);
 
 			    schList = dao.searchBusSchedule(deprCd, arvlCd, deprDtm, busClsCd);
 
@@ -124,7 +123,6 @@ public class ScheduleHandler implements CommandHandler {
 			        durmin = schList.get(0).getDurMin();
 			    }
 
-			    System.out.println("schList.size() : " + schList.size());
 
 			    // ✅ Gson으로 응답을 만들기 위한 구조 정의
 			    Map<String, Object> responseMap = new HashMap<>();

@@ -28,7 +28,6 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		String sql = "SELECT * FROM region WHERE sidoCode = ?";
 
 		try {
-//			System.out.println("sidoCode " + sidoCode);
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, sidoCode); 
@@ -100,7 +99,6 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 
 		
 		System.out.printf("deprId : %s, arrId : %s, deprDtm : %s, busClsCd :  %s\n", deprId, arrId, deprDtm, busClsCd);
-		
 		
 
 		String sql = "SELECT "
