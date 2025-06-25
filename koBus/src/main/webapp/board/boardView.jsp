@@ -194,4 +194,5 @@ $(document).ready(function () {
 </script>
 
 </body>
+<%@ include file="../koBusFile/common/footer.jsp" %>
 </html>

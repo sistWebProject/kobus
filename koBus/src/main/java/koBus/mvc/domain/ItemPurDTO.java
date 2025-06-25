@@ -16,6 +16,7 @@ import lombok.Setter;
 @Setter
 // 쿠폰 구매내역 페이지 DTO
 public class ItemPurDTO {
+	private int couponID; // 프리패스, 정기권 식별번호(시퀀스)
 	private String couponName; // 프리패스, 정기권인지 나태내는 변수
 	private String payStatus; // 결제상태
 	private Date startDate; // 사용시작일

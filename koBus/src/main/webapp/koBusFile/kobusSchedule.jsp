@@ -6,7 +6,8 @@
 <html lang="ko" class="pc">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<link rel="shortcut icon" type="image/x-icon"
+	href="/koBus/media/favicon.ico">
 <meta name="viewport"
 	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
@@ -149,7 +150,7 @@
 								<li class="selected"><a href="javascript:void(0)"
 									title="선택됨">시간표 조회</a></li>
 								<li><a
-									href="https://www.kobus.co.kr/oprninf/arscgd/oprnArscGd.do">도착시간
+									href="#">도착시간
 										안내</a></li>
 							</ul>
 						</div>
@@ -190,9 +191,9 @@
 			</form>
 			<div class="title_wrap drivingInfoT" style="display: none;">
 
-				<a href="https://www.kobus.co.kr/oprninf/alcninqr/oprnAlcnPage.do#"
+				<a href="#"
 					class="back">back</a> <a
-					href="https://www.kobus.co.kr/oprninf/alcninqr/oprnAlcnPage.do#"
+					href="#"
 					class="mo_toggle">메뉴</a>
 
 

@@ -92,12 +92,10 @@ function fnRecpCanInfo(idx , type) {
 	//var satsNo = document.forms["recpCanFrm"+idx].elements['satsNo'].value;
 	var satsNo = $("#recpCanFrm"+idx+" #satsNo").val()
 	
-	
 		var recpCanInfoFrm = $("form[name=recpCanFrm]").serialize();
-	console.log(recpCanInfoFrm);
 		$.ajax({
 			 type:"post"
-			,url: "/koBus/kobusResvCancel.ajax?ajax=true&type="+type+""
+			,url: "/koBus/kobusResvCancel.ajax?ajax=true"
 			,data:recpCanInfoFrm // input 값 세팅 
 			,dataType:"json"
 			,success:function(recpListMap){
@@ -114,7 +112,7 @@ function fnRecpCanInfo(idx , type) {
 
 				// 편도일 때
 			    var html ='';
-			    html +='<form id="recpCanFrm" name="recpCanFrm" tabindex="-1" action="/koBus/kobusResvCancel.ajax">';
+			    html +='<form id="recpCanFrm" name="recpCanFrm" method="POST" tabindex="-1" action="/koBus/manageReservations.do">';
 	    		html +='<input type="hidden" name="nonMbrsNo" id="nonMbrsNo" tabindex="-1" value="'+recpListMap.nonMbrsNo+'">';
 	    		
 	    		
@@ -123,6 +121,7 @@ function fnRecpCanInfo(idx , type) {
 			    	html +='<input type="hidden" name="mrsMrnpSno" id="mrsMrnpSno" tabindex="-1" value="'+recpListMap.mrsMrnpSno+'">';
 			    	html +='<input type="hidden" name="prmmDcDvsCd" id="prmmDcDvsCd" tabindex="-1" value="'+recpListMap.prmmDcDvsCd+'">';
 			    	html +='<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" tabindex="-1" value="'+recpListMap.rtrpMrsYn+'">';
+			    	html +='<input type="hidden" name="type" id="type" tabindex="-1" value="search">';
 			    	html +='<input type="hidden" name="brkpAmtCmm" id="brkpAmtCmm" tabindex="-1" value="'+recpListMap.BRKP_AMT_CMM+'">';
 			    	html +='<input type="hidden" name="pynDvsCd" id="pynDvsCd" tabindex="-1" value="'+recpListMap.pynDvsCd+'">';
 			    	html +='<input type="hidden" name="pynDtlCd" id="pynDtlCd" tabindex="-1" value="'+recpListMap.pynDtlCd+'">';
@@ -134,6 +133,7 @@ function fnRecpCanInfo(idx , type) {
 				    	html +='<input type="hidden" name="mrsMrnpSno" id="mrsMrnpSno" tabindex="-1" value="'+recpListMap.mrsMrnpSno+":"+recpListMap.mrsMrnpSno2+'">';
 				    	html +='<input type="hidden" name="prmmDcDvsCd" id="prmmDcDvsCd" tabindex="-1" value="'+recpListMap.prmmDcDvsCd+'">';
 				    	html +='<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" tabindex="-1" value="'+recpListMap.rtrpMrsYn+'">';
+				    	html +='<input type="hidden" name="type" id="type" tabindex="-1" value="search">';
 				    	html +='<input type="hidden" name="brkpAmtCmm" id="brkpAmtCmm" tabindex="-1" value="'+recpListMap.BRKP_AMT_CMM+'">';
 				    	html +='<input type="hidden" name="pynDvsCd" id="pynDvsCd" tabindex="-1" value="'+recpListMap.pynDvsCd+'">';
 				    	html +='<input type="hidden" name="pynDtlCd" id="pynDtlCd" tabindex="-1" value="'+recpListMap.pynDtlCd+'">';
@@ -144,6 +144,7 @@ function fnRecpCanInfo(idx , type) {
 				    	html +='<input type="hidden" name="prmmDcDvsCd" id="prmmDcDvsCd" tabindex="-1" value="'+recpListMap.prmmDcDvsCd+'">';
 				    	html +='<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" tabindex="-1" value="'+recpListMap.rtrpMrsYn+'">';
 				    	html +='<input type="hidden" name="brkpAmtCmm" id="brkpAmtCmm" tabindex="-1" value="'+recpListMap.BRKP_AMT_CMM+'">';
+				    	html +='<input type="hidden" name="type" id="type" tabindex="-1" value="search">';
 				    	html +='<input type="hidden" name="pynDvsCd" id="pynDvsCd" tabindex="-1" value="'+recpListMap.pynDvsCd+'">';
 				    	html +='<input type="hidden" name="pynDtlCd" id="pynDtlCd" tabindex="-1" value="'+recpListMap.pynDtlCd+'">';
 				    	html +='<input type="hidden" name="type" id="type" tabindex="-1" value="'+type+'">';
@@ -165,6 +166,7 @@ function fnRecpCanInfo(idx , type) {
 				    	html +='<input type="hidden" name="mrsMrnpSno" id="mrsMrnpSno" tabindex="-1" value="'+recpListMap.mrsMrnpSno+'">';
 				    	html +='<input type="hidden" name="prmmDcDvsCd" id="prmmDcDvsCd" tabindex="-1" value="'+recpListMap.prmmDcDvsCd+'">';
 				    	html +='<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" tabindex="-1" value="'+recpListMap.rtrpMrsYn+'">';
+				    	html +='<input type="hidden" name="type" id="type" tabindex="-1" value="search">';
 				    	html +='<input type="hidden" name="brkpAmtCmm" id="brkpAmtCmm" tabindex="-1" value="'+recpListMap.BRKP_AMT_CMM+'">';
 				    	html +='<input type="hidden" name="pynDvsCd" id="pynDvsCd" tabindex="-1" value="'+recpListMap.pynDvsCd+'">';
 				    	html +='<input type="hidden" name="pynDtlCd" id="pynDtlCd" tabindex="-1" value="'+recpListMap.pynDtlCd+'">';
@@ -694,7 +696,7 @@ function fnRecpCanInfo(idx , type) {
 	 
 };
 
-//예매취소(승차권) 금액정보 조회 [레이어 팝업]
+/*//예매취소(승차권) 금액정보 조회 [레이어 팝업]
 function fnTckCanInfo(idx) {
 	
 	
@@ -711,7 +713,7 @@ function fnTckCanInfo(idx) {
 	}else{
 		$.ajax({
 			 type:"post"		
-			,url: "/koBus/kobusResvCancel.ajax"  
+			,url: "/koBus/kobusResvCancel.ajax?ajax=true&type=search"  
 			,data:tckCanInfoFrm // input 값 세팅 
 			,dataType:"json"
 			,success:function(data){
@@ -885,7 +887,7 @@ function fnTckCanInfo(idx) {
 				    }else{
 				    	html +='<div class="mob_pad marT30"><h3 class="pop_h3 mob_h3">취소 안내</h3><p class="bul">마일리지(프리미엄) 예매 건은 <span class="accent2">취소 시 사용 마일리지 반환이 불가</span>하오니 유의하시기 바랍니다.</p></div>';
 				    }
-				    html +='<div class="btns col1"><button data-remodal-action="confirm" onclick="fnTckCan();" class="btnL btn_orange">'+'예매취소'+'</button></div>';
+				    html +='<div class="btns col1"><button data-remodal-action="confirm" onclick="fnRecpCan();" class="btnL btn_orange">'+'예매취소'+'</button></div>';
 				    html +='</div>';
 				    html += '<button data-remodal-action="close" class="remodal-close"><span class="sr-only">'+'닫기'+'</span></button>';
 				    html +='</form>';
@@ -902,22 +904,22 @@ function fnTckCanInfo(idx) {
 		});
 	}
 };
-
+*/
 // 예매단위 취소
 function fnRecpCan() {
 	var mrsRecpCanFrm = $("form[name=recpCanFrm]").serialize(); 
+
+// 변경된 폼 상태를 다시 serialize 해서 최신 값 가져오기
+	var updatedFormData = $("form[name=recpCanOkFrm]").serialize();
 	
-	alert(mrsRecpCanFrm);
-	
-	if(mrsRecpCanFrm.pynDvsCd == '3' || mrsRecpCanFrm.pynDtlCd == '7' || mrsRecpCanFrm.pynDtlCd == '8' || mrsRecpCanFrm.pynDtlCd == '9'){
-		if(confirm("예매취소 하시겠습니까?") == true){
+	if(confirm("예매취소 하시겠습니까?") == true){
 				$.ajax({
 			  		type:"post"		
-					,url:"/koBus/kobusResvCancelOk.ajax"
-					,data:mrsRecpCanFrm // input 값 세팅 
+					,url:"/koBus/kobusResvCancel.ajax?ajax=true"
+					,data:updatedFormData // input 값 세팅 
 					,dataType:"json"
 					,success:function(data){
-						location.href ="/koBus/manageReservations.do?vltlCnt=Y";
+						location.href ="/koBus/manageReservations.do";
 					}
 				    ,error:function(e) {
 				    	alert("fnRecpCan ajax 오류");
@@ -926,10 +928,11 @@ function fnRecpCan() {
 		} else {
 			return false;
 		}
-	} else {
+		
 		var cancDesc="";
 		if(document.getElementById("brkpAmtCmm").value != null || document.getElementById("brkpAmtCmm").value != undefined) {
 			cancDesc = "취소 수수료"+comma(document.getElementById("brkpAmtCmm").value)+"원이 차감됩니다. 예매취소 하시겠습니까?";
+			
 		}else{
 			cancDesc = "별도의 취소수수료가 부과되지 않습니다. 예매취소 하시겠습니까?";
 		}
@@ -938,17 +941,17 @@ function fnRecpCan() {
 			if(document.mrsRecpCanFrm.prmmDcDvsCd.value == '4' && document.mrsRecpCanFrm.rtrpMrsYn.value == 'Y'){
 				prmmRtrp = true;
 			}
-			if(document.mrsRecpCanFrm.pynDvsCd.value == '2' && !prmmRtrp ||
-					$('#extrComp').val() == 'ARMY'){
-				$.ajax({
+			
+			$.ajax({
 			  		type:"post"		
-					,url:"/mrs/tckcan.ajax"
-					,data:mrsRecpCanFrm // input 값 세팅 
+					,url:"/koBus/kobusResvCancel.ajax?ajax=true"
+					,data:updatedFormData // input 값 세팅 
 					,dataType:"json"
 					,success:function(data){
 						alert("fnRecpCan "+ data.MSG_DTL_CTT);
 						if(data.tkn != null && data.tkn != ""){
 			        		$("#token").val(data.token);
+			        		$("#type").val("cancel");
 			        		$("#transport").val("04");
 			        		$("#code").val("02");		// 01:결제, 02:취소, 99: 오류
 			        		$("#date").val($("#alcnDeprDt").val()+$("#alcnDeprTime").val());
@@ -957,22 +960,25 @@ function fnRecpCan() {
 			        		$("#sn").val();
 			        		fnTckCanPc();
 			        	}else{
-			        		location.href ="/mrs/mrscfm.do?vltlCnt=Y";
+			        		location.href ="/koBus/manageReservations.do";
 			        	}							
 					}
 				    ,error:function(e) {	// 이곳의 ajax에서 에러가 나면 얼럿창으로 에러 메시지 출력
 				    	alert("fnRecpCan ajax 오류");
 				    }
 				});
+			if(document.mrsRecpCanFrm.pynDvsCd.value == '2' && !prmmRtrp ||
+					$('#extrComp').val() == 'ARMY'){
+				
 			}else{
 				$.ajax({
 			  		type:"post"		
-					,url:"/koBus/kobusResvCancel.ajax"
-					,data:mrsRecpCanFrm // input 값 세팅 
+					,url:"/koBus/kobusResvCancel.ajax?ajax=true"
+					,data:updatedFormData // input 값 세팅 
 					,dataType:"json"
 					,success:function(data){
 						alert("fnRecpCan " + data.MSG_DTL_CTT);
-						location.href ="/koBus/manageReservations.do?vltlCnt=Y";
+						location.href ="/koBus/manageReservations.do";
 					}
 				    ,error:function(e) {
 				    	alert("fnRecpCan ajax 오류");
@@ -982,9 +988,9 @@ function fnRecpCan() {
 		}else {
 			return false;
 		}
-	}
-}
 
+}
+/*
 // 승차권단위 취소
 function fnTckCan() {
 	
@@ -1048,7 +1054,7 @@ function fnTckCan() {
 			return false;
 		}
 	}
-}
+}*/
 
 function fnlogoutMain(){
 	location.href = "/mbrs/lgn/logoutMain.do";

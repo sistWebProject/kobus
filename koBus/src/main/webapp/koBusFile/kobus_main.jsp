@@ -11,7 +11,8 @@
 <meta name="viewport"
 	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-
+<link rel="shortcut icon" type="image/x-icon"
+	href="/koBus/media/favicon.ico">
 <title>고속버스통합예매</title>
 
 <link rel="shortcut icon" href="/images/favicon.ico">
@@ -1393,7 +1394,7 @@ $(document).ready(function () {
 					<div class="main">
 						<p class="mo_util">
 							<a
-								href="/oprninf/alcninqr/oprnAlcnPage.do"
+								href="/koBus/kobusSchedule.do"
 								class="util1" style="width: 33.33%">시간표조회</a> <a
 								href="/ugd/mrsgd/Mrsgd.do" class="util2"
 								style="width: 33.33%">이용안내</a>

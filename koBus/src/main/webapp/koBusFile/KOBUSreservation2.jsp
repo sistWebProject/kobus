@@ -6,32 +6,93 @@ System.out.println(">> arvlName: " + request.getParameter("arvlNm"));
 System.out.println(">> busrank: " + request.getParameter("busClsCd"));
 %>
 <!DOCTYPE html>
+<link rel="shortcut icon" type="image/x-icon"
+	href="/koBus/media/favicon.ico">
 <style>
 /* 날짜 선택 숨김 */
 #datepicker1, #datepicker2 {
    display: none;
 }
-.schedule-row.disabled {
-  color: #999;
-  background-color: #f7f7f7;
-  pointer-events: none;
+
+/* schedule-row 기본 스타일 */
+.schedule-row {
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.schedule-row.disabled input[type="submit"] {
+
+.schedule-row:hover {
+  background-color: #f0f8ff; /* 연한 파랑 hover */
+}
+
+/* 비활성화된 schedule-row */
+.schedule-row.disabled {
+  background-color: #f2f2f2;
+  color: #aaa;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* 비활성화된 버튼 */
+.schedule-row.disabled input[type="submit"],
+.schedule-row.disabled button {
   background-color: #ccc;
   color: #666;
   cursor: not-allowed;
-  padding: 10px 0;
+  padding: 10px 16px;
+  border-radius: 16px;
+  border: none;
 }
 
-.schedule-row{
-padding: 10px 0;
-}
-
+/* 내부 텍스트 요소 (시간, 요금 등) */
 .schedule-row span {
   display: inline-block;
   vertical-align: middle;
-  line-height: 2;
   font-size: 14px !important;
+  line-height: 1.8;
+  margin-right: 10px;
+  min-width: 80px;         /*  더 넉넉하게 */
+  max-width: 100px;
+  text-align: center;
+  white-space: nowrap;     /*  줄바꿈 방지 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+  
+
+/* 선택 버튼 - 글자 보이게 색상 조정 */
+.schedule-row .btn-select {
+  display: inline-block;
+  background-color: #1976d2;
+  color: #fff;                      /* 이건 유지해도 문제 없음 */
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  min-width: 64px;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  letter-spacing: 0.5px;
+  white-space: nowrap;             /* 버튼 안 글자 깨짐 방지 */
+}
+
+.schedule-row .btn-select:hover {
+  background-color: #1565c0;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.25);
+}
+
+.schedule-row .btn-select:active {
+  background-color: #0d47a1;
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 </style>

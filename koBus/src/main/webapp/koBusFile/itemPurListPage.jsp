@@ -59,6 +59,34 @@
 .cancel-btn:hover {
     background-color: #0056b3;
 }
+
+.dropdown-wrap {
+    position: relative; /* 기준 요소 설정 */
+}
+
+.dropdown-list {
+    position: absolute;
+    top: 100%;  /* 버튼 아래에 위치하도록 */
+    left: 0;
+    z-index: 1000;
+    display: none;
+    background-color: white; /* 어두운 배경 (예시) */
+    padding: 5px 0;
+    min-width: 180px;
+    border: 1px solid #666;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.dropdown-list li {
+    padding: 10px 15px;
+    color: black;
+    cursor: pointer;
+}
+
+.dropdown-list li:hover {
+    background-color: #444;
+}
+
 </style>
 
 
@@ -77,36 +105,36 @@
 					<li>
 						<div class="dropdown-wrap breadcrumb-select">
 							<a aria-expanded="false" class="btn-dropdown"
-								href="javascript:void(0)" title="대메뉴 선택"> <span class="text">프리패스/정기권</span><i
+								href="/koBus/page/itemPurListPage.do" title="대메뉴 선택"> <span class="text">프리패스/정기권</span><i
 								class="ico ico-dropdown-arrow"></i></a>
 							<ul class="dropdown-list" style="display: none;">
-								<li><a href="https://www.kobus.co.kr/mrs/rotinf.do">고속버스예매</a></li>
+								<li><a href="/koBus/region.do">고속버스예매</a></li>
 								<li><a
-									href="https://www.kobus.co.kr/oprninf/alcninqr/oprnAlcnPage.do">운행정보</a></li>
-								<li class="selected"><a href="javascript:void(0)"
+									href="/koBus/kobusSchedule.do">운행정보</a></li>
+								<li class="selected"><a href="/koBus/page/itemPurListPage.do"
 									title="선택됨">프리패스/정기권</a></li>
-								<li><a href="https://www.kobus.co.kr/ugd/mrsgd/Mrsgd.do">이용안내</a></li>
+								<li><a href="#">이용안내</a></li>
 								<li><a
-									href="https://www.kobus.co.kr/cscn/ntcmttr/readNtcList.do">고객지원</a></li>
+									href="#">고객지원</a></li>
 								<li><a
-									href="https://www.kobus.co.kr/ugd/bustrop/Bustrop.do">전국고속버스운송사업조합</a></li>
+									href="#">전국고속버스운송사업조합</a></li>
 								<li><a
-									href="https://www.kobus.co.kr/ugd/trmlbizr/Trmlbizr.do">터미널사업자협회</a></li>
+									href="#">터미널사업자협회</a></li>
 							</ul>
 						</div>
 					</li>
 					<li>
 						<div class="dropdown-wrap breadcrumb-select">
 							<a aria-expanded="false" class="btn-dropdown"
-								href="javascript:void(0)" title="하위메뉴 선택"> <span
+								href="/koBus/page/itemPurListPage.do" title="하위메뉴 선택"> <span
 								class="text">상품 구매내역</span><i class="ico ico-dropdown-arrow"></i></a>
 							<ul class="dropdown-list" style="display: none;">
 								<li><a
-									href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrchGd.do">프리패스
+									href="/koBus/page/itemPurListPage.do">프리패스
 										여행권</a></li>
 								<li><a
-									href="https://www.kobus.co.kr/adtnprdnew/pass/passPrchGd.do">정기권</a></li>
-								<li class="selected"><a href="javascript:void(0)"
+									href="/koBus/page/itemPurListPage.do">정기권</a></li>
+								<li class="selected"><a href="/koBus/page/itemPurListPage.do"
 									title="선택됨">상품 구매내역</a></li>
 							</ul>
 						</div>
@@ -114,6 +142,30 @@
 				</ol>
 			</div>
 		</nav>
+		<script>
+			$(document).ready(function(){
+			    $(".btn-dropdown").on("click", function(e){
+			        e.preventDefault();
+			
+			        const $wrap = $(this).closest(".dropdown-wrap");
+			        const $list = $wrap.find(".dropdown-list");
+			
+			        // 다른 드롭다운은 닫기
+			        $(".dropdown-list").not($list).slideUp("fast");
+			
+			        // 현재 클릭한 드롭다운은 토글
+			        $list.stop(true, true).slideToggle("fast");
+			    });
+			
+			    // 바깥 클릭 시 닫기
+			    $(document).on("click", function(e){
+			        if (!$(e.target).closest(".dropdown-wrap").length) {
+			            $(".dropdown-list").slideUp("fast");
+			        }
+			    });
+			});
+		</script>
+
 		<article id="new-kor-content">
 
 
@@ -142,51 +194,102 @@
 							<li><a href="javascript:void(0)">사용완료</a></li>
 							<li><a href="javascript:void(0)">취소완료</a></li>
 						</ul>
-						<div class="tab_conts" style="display: block;">
+						<div class="tab_conts" id="tab_conts1" style="display: block;">
 							<!-- 사용가능 -->
-							<h3 class="sr-only">사용가능</h3>
+							<h3 class="sr-only" id="sr-only1">사용가능</h3>
 							<!-- 구매내역이 없을 때 -->
 							<div class="noti_wrap">
-								<c:choose>
-									<c:when test="${empty popItemList and empty freeItemList}">
-										<p class="noti noData">사용가능 내역이 존재하지 않습니다.</p>
-									</c:when>
-									<c:otherwise>
-										<table class="noti_table">
-											<thead>
-												<tr>
-													<th>쿠폰명</th>
-													<th>결제상태</th>
-													<th>시작일</th>
-													<th>금액</th>
-													<th>취소</th>
-												</tr>
-											</thead>
-											<tbody>
-												<c:forEach var="popItem" items="${popItemList}">
-													<tr>
-														<td>${popItem.couponName}</td>
-														<td>${popItem.payStatus}</td>
-														<td>${popItem.startDate}</td>
-														<td>${popItem.amount}</td>
-														<td><button class="cancel-btn">취소</button></td>
-													</tr>
-												</c:forEach>
-												<c:forEach var="freeItem" items="${freeItemList}">
-													<tr>
-														<td>${freeItem.couponName}</td>
-														<td>${freeItem.payStatus}</td>
-														<td>${freeItem.startDate}</td>
-														<td>${freeItem.amount}</td>
-														<td><button class="cancel-btn">취소</button></td>
-													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
-									</c:otherwise>
-								</c:choose>
+							    <c:choose>
+							        <c:when test="${empty popItemList and empty freeItemList}">
+							            <p class="noti noData">사용가능 내역이 존재하지 않습니다.</p>
+							        </c:when>
+							        <c:otherwise>
+							            <!-- ✅ form은 table 밖에 위치해야 함 -->
+							            <form action="/koBus/deleteItemPurList.do" id="couponCancle" name="couponCancle">
+							                <table class="noti_table">
+							                    <thead>
+							                        <tr>
+							                            <th>쿠폰명</th>
+							                            <th>결제상태</th>
+							                            <th>시작일</th>
+							                            <th>금액</th>
+							                            <th>취소</th>
+							                        </tr>
+							                    </thead>
+							                    <tbody>
+							                        <c:forEach var="popItem" items="${popItemList}">
+							                            <tr class="popTr">
+							                                <td class="pop-td" data-coupon-id="${popItem.couponID}">${popItem.couponName}</td>
+							                                <td>${popItem.payStatus}</td>
+							                                <td>${popItem.startDate}</td>
+							                                <td>${popItem.amount}</td>
+							                                <td>
+							                                    <button type="button" class="cancel-popbtn">취소</button>
+							                                </td>
+							                                
+							                            </tr>
+							                        </c:forEach>
+							
+							                        <c:forEach var="freeItem" items="${freeItemList}">
+							                            <tr class="freeTr">
+							                                <td class="free-td" data-coupon-id="${freeItem.couponID}">${freeItem.couponName}</td>
+							                                <td>${freeItem.payStatus}</td>
+							                                <td>${freeItem.startDate}</td>
+							                                <td>${freeItem.amount}</td>
+							                                <td>
+							                                    <button type="button" class="cancel-freebtn">취소</button>
+							                                </td>
+							                                
+							                            </tr>
+							                        </c:forEach>
+							                    </tbody>
+							                </table>
+							                <input type="hidden" class="pop-hidden" name="popItemId" value="" />
+							                <input type="hidden" class="free-hidden" name="freeItemId" value=""  />
+							            </form>
+							        </c:otherwise>
+							    </c:choose>
 							</div>
 
+							<script>
+							$(".cancel-popbtn").on("click", function(e){
+							    e.preventDefault(); // 폼 제출 방지
+							    const $row = $(this).closest(".popTr");
+							    const couponId = $row.find(".pop-td").data("coupon-id");
+							    $(".pop-hidden").val(couponId);
+							
+							 	// 확인 알림창
+							    if (confirm("정기권을 정말로 취소하시겠습니까?")) {
+							        console.log("넘겨줄 값(정기권) : " + $(".pop-hidden").val());
+							        $("#couponCancle").submit();
+							    }
+							});
+							
+							$(".cancel-freebtn").on("click", function(e){
+							    e.preventDefault(); // 폼 제출 방지
+							    const $row = $(this).closest(".freeTr");
+							    const couponId = $row.find(".free-td").data("coupon-id");
+							    $(".free-hidden").val(couponId);
+							
+							 	// 확인 알림창
+							    if (confirm("프리패스를 정말로 취소하시겠습니까?")) {
+							        console.log("넘겨줄 값(프리패스) : " + $(".free-hidden").val());
+							        $("#couponCancle").submit();
+							    }
+							});
+							
+							</script>
+							
+
+							<!-- <script>
+								$(".cancel-popbtn").on("click", function(){
+									$("#popTr").each(function(){
+										const couponId = $(this).find(".pop-td").data("coupon-id");  // "pop-123" 같은 값
+								        $(this).find(".pop-hidden").val(couponId); 
+									})
+									console.log("넘겨줄 값 : " + $('input[name="popItemId1"]').val());
+								})
+							</script> -->
 							<!-- 구매내역이 있을 때 -->
 							<ul class="desc_list marT30">
 								<li>현재일 기준 3개월 전까지의 구매내역이 조회됩니다.</li>
@@ -195,27 +298,93 @@
 								<li>프리패스의 경우, 사용 시작 1일 후까지 취소 가능하나 승차권 발권 상태인 경우 취소 불가능합니다.</li>
 							</ul>
 						</div>
-						<div class="tab_conts" style="display: none;">
+						<div class="tab_conts" id="tab_conts2" style="display: none;">
 							<!-- 사용완료 -->
-							<h3 class="sr-only">사용완료</h3>
+							<h3 class="sr-only" id="sr-only2">사용완료</h3>
 							<!-- 사용내역이 없을 때 -->
 							<div class="noti_wrap">
 								<p class="noti noData">사용완료 내역이 존재하지 않습니다.</p>
 							</div>
 							<!-- 사용내역이 있을 때 -->
 						</div>
-						<div class="tab_conts" style="display: none;">
+						<div class="tab_conts" id="tab_conts3" style="display: none;">
 							<!-- 환불 -->
-							<h3 class="sr-only">취소완료</h3>
+							<h3 class="sr-only" id="sr-only3">취소완료</h3>
 							<!-- 취소내역이 없을 때 -->
 							<div class="noti_wrap">
-								<p class="noti noData">취소 내역이 존재하지 않습니다.</p>
+							    <c:choose>
+							        <c:when test="${empty popCancleItemList and empty freeCancleItemList}">
+							            <p class="noti noData">취소완료 내역이 존재하지 않습니다.</p>
+							        </c:when>
+							        <c:otherwise>
+							            <!-- ✅ form은 table 밖에 위치해야 함 -->
+							            <!-- <form action="/koBus/deleteItemPurList.do" id="couponCancle" name="couponCancle"> -->
+							                <table class="noti_table">
+							                    <thead>
+							                        <tr>
+							                            <th>쿠폰명</th>
+							                            <th>결제상태</th>
+							                            <th>시작일</th>
+							                            <th>금액</th>					
+							                        </tr>
+							                    </thead>
+							                    <tbody>
+							                        <c:forEach var="popCancleItem" items="${popCancleItemList}">
+							                            <tr class="popTr">
+							                                <td class="pop-td" data-coupon-id="${popCancleItem.couponID}">${popCancleItem.couponName}</td>
+							                                <td>${popCancleItem.payStatus}</td>
+							                                <td>${popCancleItem.startDate}</td>
+							                                <td>${popCancleItem.amount}</td>     
+							                            </tr>
+							                        </c:forEach>
+							
+							                        <c:forEach var="freeCancleItem" items="${freeCancleItemList}">
+							                            <tr class="freeTr">
+							                                <td class="free-td" data-coupon-id="${freeCancleItem.couponID}">${freeCancleItem.couponName}</td>
+							                                <td>${freeCancleItem.payStatus}</td>
+							                                <td>${freeCancleItem.startDate}</td>
+							                                <td>${freeCancleItem.amount}</td>     
+							                            </tr>
+							                        </c:forEach>
+							                    </tbody>
+							                </table>
+							                <!-- <input type="hidden" class="pop-hidden" name="popItemId" value="" />
+							                <input type="hidden" class="free-hidden" name="freeItemId" value=""  /> -->
+							            <!-- </form> -->
+							        </c:otherwise>
+							    </c:choose>
 							</div>
 							<!-- 취소내역이 있을 때 -->
 						</div>
 					</div>
 				</div>
 			</div>
+			<script>
+			
+				$(document).ready(function(){
+				    $(".tabs li").on("click", function(){
+				        $(".tabs li").removeClass("active"); // 모두 비활성화
+				        $(this).addClass("active");          // 클릭한 항목만 활성화
+				    });
+				});
+			
+				$(".tabs li").eq(0).on("click", function(){
+					$("#tab_conts2").hide();
+					$("#tab_conts3").hide();
+					$("#tab_conts1").show();
+				});
+				$(".tabs li").eq(1).on("click", function(){
+					console.log("클릭");
+					$("#tab_conts1").hide();
+					$("#tab_conts3").hide();
+					$("#tab_conts2").show();
+				});
+				$(".tabs li").eq(2).on("click", function(){
+					$("#tab_conts1").hide();
+					$("#tab_conts2").hide();
+					$("#tab_conts3").show();
+				});
+			</script>
 			<!-- 정기권 취소 레이어 팝업 -->
 			<!-- 고속버스 정기권 취소하기 팝업 - 취소내역확인 -->
 			<!-- 프리패스 취소 레이어 팝업 -->
