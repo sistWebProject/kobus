@@ -17,6 +17,10 @@ public class PaymentDTO {
     private String payStatus;
     private String pgTid;
     private Date paidAt;
+    private String adtnPrdSno;
+    private String routeId;
+    private Date startDate;
+
 
     // 생성자, getter, setter 생략 (필요시 자동 생성)
     // 우클릭 > Source > Generate Getter and Setter

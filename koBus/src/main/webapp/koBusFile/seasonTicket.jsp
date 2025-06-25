@@ -11,8 +11,7 @@
 
 <title>결제정보입력 | 고속버스예매 | 고속버스예매 | 고속버스통합예매</title>
 
-<link rel="shortcut icon"
-	href="https://www.kobus.co.kr/images/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="/koBus/media/favicon.ico">
 
 <script type="text/javascript">
 	/*********************************************
@@ -310,7 +309,7 @@
 						id="wkdWkeNtknCd" name="wkdWkeNtknCd" value=""> <input
 						type="hidden" id="adtnPrdUsePsbDno" name="adtnPrdUsePsbDno"
 						value=""> <input type="hidden" id="adtnPrdSno"
-						name="adtnPrdSno" value=""> <input type="hidden"
+						name="adtnPrdSno" value="${adtnPrdSno}"> <input type="hidden"
 						name="pymType" id="pymType" value="card"> <input
 						type="hidden" name="track2Data" id="track2Data" value="">
 

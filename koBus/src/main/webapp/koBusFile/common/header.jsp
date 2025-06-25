@@ -100,10 +100,10 @@ response.setDateHeader("Expires", 0); // Proxies
 							</ul></li>
 
 
-						<li><a href="/koBus/kobusSchedule.do">프리패스/정기권</a>
+						<li><a href="/koBus/pageForward.do?page=freePass">프리패스/정기권</a>
 							<ul>
-								<li><a href="/koBus/kobusSchedule.do">프리패스 여행권</a></li>
-								<li><a href="/koBus/koBusFile/seasonTicket.jsp">정기권</a></li>
+								<li><a href="/koBus/pageForward.do?page=freePass">프리패스 여행권</a></li>
+								<li><a href="/koBus/pageForward.do?page=seasonTicket">정기권</a></li>
 								<li><a href="/koBus/page/itemPurListPage.do">상품 구매내역</a></li>
 							</ul></li>
 

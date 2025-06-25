@@ -18,8 +18,7 @@ public class PaymentSaveHandler implements CommandHandler {
         // ========== [로그인 정보 확인] ==========
         String userId = (String) request.getSession().getAttribute("userId");
         if (userId == null) {
-            // ★ 테스트용! 실제 배포 전엔 꼭 삭제
-            userId = "KUS003";
+            userId = "KUS003"; // ★ 테스트용
         }
         System.out.println("[PaymentSaveHandler] userId: " + userId);
 
@@ -32,6 +31,11 @@ public class PaymentSaveHandler implements CommandHandler {
         String pgTid = request.getParameter("pg_tid");
         String paidAtStr = request.getParameter("paid_at");
 
+        // 🔹 추가 파라미터
+        String adtnPrdSno = request.getParameter("adtnPrdSno");
+        String routeId = request.getParameter("routeId");
+        String startDateStr = request.getParameter("startDate");
+
         System.out.println("[PaymentSaveHandler] imp_uid: " + impUid);
         System.out.println("[PaymentSaveHandler] merchant_uid: " + merchantUid);
         System.out.println("[PaymentSaveHandler] pay_method: " + payMethod);
@@ -39,7 +43,11 @@ public class PaymentSaveHandler implements CommandHandler {
         System.out.println("[PaymentSaveHandler] pay_status: " + payStatus);
         System.out.println("[PaymentSaveHandler] pg_tid: " + pgTid);
         System.out.println("[PaymentSaveHandler] paid_at: " + paidAtStr);
+        System.out.println("[PaymentSaveHandler] adtnPrdSno: " + adtnPrdSno);
+        System.out.println("[PaymentSaveHandler] routeId: " + routeId);
+        System.out.println("[PaymentSaveHandler] startDateStr: " + startDateStr);
 
+        // ========== [결제금액 파싱] ==========
         int amount = 0;
         try {
             amount = Integer.parseInt(amountStr);
@@ -50,6 +58,17 @@ public class PaymentSaveHandler implements CommandHandler {
             return null;
         }
 
+        // ========== [startDate 변환] ==========
+        Date startDate = null;
+        if (startDateStr != null && !startDateStr.isEmpty()) {
+            try {
+                startDate = Date.valueOf(startDateStr);
+                System.out.println("[PaymentSaveHandler] 변환된 startDate: " + startDate);
+            } catch (Exception e) {
+                System.out.println("[PaymentSaveHandler][ERROR] startDate 변환 실패: " + e.getMessage());
+            }
+        }
+
         // ========== [paidAt 변환] ==========
         Date paidAt = null;
         if (paidAtStr != null && !paidAtStr.isEmpty()) {
@@ -58,7 +77,6 @@ public class PaymentSaveHandler implements CommandHandler {
                 paidAt = new java.sql.Date(paidAtMillis);
                 System.out.println("[PaymentSaveHandler] 변환된 paidAt(java.sql.Date): " + paidAt);
             } catch (Exception e) {
-                paidAt = null;
                 System.out.println("[PaymentSaveHandler][ERROR] paidAt 변환 실패! " + e.getMessage());
             }
         }
@@ -73,6 +91,10 @@ public class PaymentSaveHandler implements CommandHandler {
         payDto.setPayStatus(payStatus);
         payDto.setPgTid(pgTid);
         payDto.setPaidAt(paidAt);
+        payDto.setAdtnPrdSno(adtnPrdSno);   // 추가
+        payDto.setRouteId(routeId);         // 추가
+        payDto.setStartDate(startDate);     // 추가
+
         System.out.println("[PaymentSaveHandler] PaymentDTO: " + payDto);
 
         // ========== [예매 파라미터 추출 및 로그] ==========
@@ -80,40 +102,37 @@ public class PaymentSaveHandler implements CommandHandler {
         String seatID = request.getParameter("seatID");
         String rideDateStr = request.getParameter("rideDate");
         String resvType = request.getParameter("resvType");
+
         int mileage = 0;
         try {
             String mileageStr = request.getParameter("mileage");
             if (mileageStr != null) mileage = Integer.parseInt(mileageStr);
-        } catch (Exception e) { mileage = 0; }
+        } catch (Exception e) {
+            mileage = 0;
+        }
+
         System.out.println("[PaymentSaveHandler] bshID: " + bshID);
         System.out.println("[PaymentSaveHandler] seatID: " + seatID);
         System.out.println("[PaymentSaveHandler] rideDate: " + rideDateStr);
         System.out.println("[PaymentSaveHandler] resvType: " + resvType);
         System.out.println("[PaymentSaveHandler] mileage: " + mileage);
 
-        // ========== [예매 DTO 생성 및 로그] ==========
+        // ========== [예매 DTO 생성] ==========
         String resID = UUID.randomUUID().toString();
-        Date rideDate = (rideDateStr != null && !rideDateStr.isEmpty()) ? Date.valueOf(rideDateStr) : null;
+        Date rideDate = (rideDateStr != null && !rideDateStr.isEmpty()) ? Date.valueOf(rideDateStr) : new Date(System.currentTimeMillis());
         Date resvDate = new Date(System.currentTimeMillis());
         String resvStatus = "결제완료";
         String seatAble = "Y";
-        int qrCode = (int)(Math.random() * 900000) + 100000;
-     // 1. 오늘 날짜 (yyyyMMdd)
+        int qrCode = (int) (Math.random() * 900000) + 100000;
         String today = new SimpleDateFormat("yyyyMMdd").format(new java.util.Date());
-        // 2. 랜덤 6자리 숫자
         int randomNum = 100000 + new Random().nextInt(900000);
-        // 3. 예매번호 조합
         String reservationNo = today + randomNum;
-        
 
         ReservationDTO resvDto = new ReservationDTO();
         resvDto.setResID(resID);
         resvDto.setBshID(bshID);
         resvDto.setSeatID(seatID);
         resvDto.setKusID(userId);
-        if (rideDate == null) {
-            rideDate = new java.sql.Date(System.currentTimeMillis());
-        }
         resvDto.setRideDate(rideDate);
         resvDto.setResvDate(resvDate);
         resvDto.setResvStatus(resvStatus);
@@ -121,11 +140,8 @@ public class PaymentSaveHandler implements CommandHandler {
         resvDto.setQrCode(qrCode);
         resvDto.setMileage(mileage);
         resvDto.setSeatAble(seatAble);
-        System.out.println("[PaymentSaveHandler] ReservationDTO: " + resvDto);
-     // 4. DTO에 set
-        resvDto.setReservationNo(reservationNo);
 
-        // 로그로도 남기면 좋아요!
+        System.out.println("[PaymentSaveHandler] ReservationDTO: " + resvDto);
         System.out.println("생성된 예매번호: " + reservationNo);
 
         // ========== [결제/예매 DB 저장] ==========
@@ -139,7 +155,7 @@ public class PaymentSaveHandler implements CommandHandler {
             e.printStackTrace();
         }
 
-        // ========== [결과 반환 및 로그] ==========
+        // ========== [결과 반환] ==========
         response.setContentType("application/json;charset=UTF-8");
         if (result) {
             System.out.println("[PaymentSaveHandler] 결제/예매 저장 성공! 응답 반환");
@@ -150,6 +166,6 @@ public class PaymentSaveHandler implements CommandHandler {
             response.getWriter().write("{\"result\":\"fail\"}");
         }
 
-        return null; // AJAX 응답
+        return null; // AJAX 응답이므로 forward 없음
     }
 }

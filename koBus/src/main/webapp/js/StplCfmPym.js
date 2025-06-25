@@ -464,6 +464,10 @@ function requestPay() {
 	// 💰 결제 금액 확인
 	var amount = $("#tissuAmt").val();
 	console.log("✅ JSP에서 받은 tissuAmt:", amount);
+	
+	var seatNos = $("#seatNos").val();
+	var resId = $("#resId").val();
+	var bshid = $("#busCode").val();
 
 	// 출발/도착지 정보
 	var deprNm = $("#deprNm").val();
@@ -505,10 +509,10 @@ function requestPay() {
 				pg_tid: rsp.pg_tid,
 				paid_at: rsp.paid_at,
 				user_id: "KUS004",
-				bus_schedule_id: "BSH013",
-				seat_number: $('#seatNos').val(),
+				bshid: bshid,
+				seat_number: seatNos,
 				boarding_dt: boardingDt,
-				resId: $('#resId').val()
+				resId: resId
 			};
 
 			console.log("🚀 서버로 전송할 paymentData:", paymentData);
@@ -519,8 +523,8 @@ function requestPay() {
 				type: 'POST',
 				data: paymentData,
 				success: function (data) {
-					alert('🎉 결제 정보가 서버에 저장되었습니다!');
-					location.href = "/payment/reservCompl.do";
+					alert('🎉 예매가 완료 되었습니다!');
+					// location.href = "/payment/reservCompl.do";
 				},
 				error: function (xhr, status, error) {
 					alert('❌ 결제 정보 저장에 실패했습니다!');

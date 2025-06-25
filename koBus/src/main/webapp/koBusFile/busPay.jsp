@@ -18,8 +18,8 @@
 	
 	
 	
-	<link rel="shortcut icon" href="https://www.kobus.co.kr/images/favicon.ico">
 	
+	<link rel="shortcut icon" type="image/x-icon" href="/koBus/media/favicon.ico">
 		
 
 
@@ -204,7 +204,7 @@ if (lngCd == "KO") {
 							
 							
 							
-							<li><a href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrchGd.do">프리패스/정기권</a></li>
+							<li><a href="/koBus/pageForward.do?page=freePass">프리패스/정기권</a></li>
 						
 							
 							
@@ -459,6 +459,8 @@ if (lngCd == "KO") {
 	<input type="hidden" name="prmmDcDvsCd" id="prmmDcDvsCd" value="0"><!-- 시외우등할인코드 -->
 	<!-- 20200327 yahan	 -->
 	<input type="hidden" name="dcDvsCd" id="dcDvsCd" value="0"><!-- 할인구분코드 -->
+	
+	<input type="hidden" name="busCode" id="busCode" value="${busCode}"><!-- 버스스케줄ID -->
 	
 	
 	<input type="hidden" name="selSeatNum" id="selSeatNum" value="${selSeatNum}"><!-- 선택좌석번호 -->
