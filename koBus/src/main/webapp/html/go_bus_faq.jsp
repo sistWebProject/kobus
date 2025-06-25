@@ -4,6 +4,8 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
+<link rel="shortcut icon" type="image/x-icon"
+	href="/koBus/media/favicon.ico">
 <title>자주하는 질문</title>
 <link rel="stylesheet" href="/koBus/media/style.css">
 <link rel="stylesheet" href="/koBus/media/renewal_kor.css">

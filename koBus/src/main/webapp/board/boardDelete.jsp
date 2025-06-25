@@ -23,4 +23,5 @@
 
   </div>
 </body>
+<%@ include file="../koBusFile/common/footer.jsp" %>
 </html>
