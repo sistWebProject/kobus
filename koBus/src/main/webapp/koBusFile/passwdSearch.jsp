@@ -14,7 +14,7 @@
 
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link href="/koBus/css/ui.jqgrid.custom.css" rel="stylesheet"
+<link href="/koBus/css/common/ui.jqgrid.custom.css" rel="stylesheet"
 	type="text/css" />
 
 
@@ -24,7 +24,7 @@
 
 
 <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<link href="/koBus/css/kor/style.css" rel="stylesheet" type="text/css" />
+<link href="/koBus/css/common/style.css" rel="stylesheet" type="text/css" />
 </head>
 <%@ include file="common/header.jsp" %>
 		<!-- breadcrumb -->

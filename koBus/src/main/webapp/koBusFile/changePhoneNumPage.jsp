@@ -14,10 +14,10 @@
 <link href="https://www.kobus.co.kr/images/favicon.ico"
 	rel="shortcut icon" />
 
-<link href="/koBus/css/ui.jqgrid.custom.css"
+<link href="/koBus/css/common/ui.jqgrid.custom.css"
 	rel="stylesheet" type="text/css" />
 
-<link href="/koBus/css/style.css"
+<link href="/koBus/css/common/style.css"
 	rel="stylesheet" type="text/css" />
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 </head>
