@@ -26,13 +26,15 @@ public class ManageResvCancelHandler implements CommandHandler {
         int cancelResult = 0;
         Map<String, Object> recpListMap = new HashMap<>();
         
-        String mrsMrnpNo = request.getParameter("mrsMrnpno");
+        System.out.println("11111 ajax " + ajax);
         
-        System.out.println("mrsMrnpNo " + mrsMrnpNo);
 
         if ("true".equalsIgnoreCase(ajax)) {
             try (Connection conn = ConnectionProvider.getConnection()) {
 
+            	String mrsMrnpNo = request.getParameter("mrsMrnpno");
+            	
+            	System.out.println("mrsMrnpNo " + mrsMrnpNo);
 
                 // DAO 호출
                 ResvDAO dao = new ResvDAOImpl(conn);

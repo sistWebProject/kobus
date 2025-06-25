@@ -42,9 +42,18 @@ public class ManageResvHandler implements CommandHandler{
 		String loginId = (String) session.getAttribute("id");
 		System.out.println("현재 로그인한 사용자 ID: " + loginId);
 		
+		// 예매 내역 조회
 		List<ResvDTO> resvList = dao.searchResvList(loginId);
 		
+		List<ResvDTO> cancelList = dao.searchCancelResvList(loginId);
+		
 		String ajax = request.getParameter("ajax");
+		
+		String ajaxtype = request.getParameter("type");
+		
+		System.out.println("ajaxtype " + ajaxtype);
+		
+		int cancelResult = 0;
 
 		if ("true".equalsIgnoreCase(ajax)) {
 		    // 예매 취소 금액 정보 조회 처리
@@ -59,7 +68,6 @@ public class ManageResvHandler implements CommandHandler{
 		        String pynDtlCd = request.getParameter("pynDtlCd");
 		        String tckSeqList = request.getParameter("tckSeqList");
 		        String cancCnt = request.getParameter("cancCnt");
-		        String type = request.getParameter("type");
 		        String TRD_DTM = request.getParameter("TRD_DTM");
 		     // 2. 프론트 표기용 정보도 추출
 		        String alcnDeprDt = request.getParameter("alcnDeprDt");
@@ -75,7 +83,7 @@ public class ManageResvHandler implements CommandHandler{
 		        String setsList = request.getParameter("seatNo");
 		        
 
-		        recpListMap.put("type", type);
+		        recpListMap.put("type", ajaxtype);
 		        recpListMap.put("mrsMrnpNo", mrsMrnpNo);
 		        recpListMap.put("mrsMrnpSno", mrsMrnpSno);
 		        recpListMap.put("prmmDcDvsCd", prmmDcDvsCd);
@@ -97,6 +105,23 @@ public class ManageResvHandler implements CommandHandler{
 		        recpListMap.put("teenNum", teenNum);
 		        recpListMap.put("setsList", setsList);
 		        recpListMap.put("TRD_DTM", TRD_DTM);
+		        
+		        
+		        if ("cancel".equalsIgnoreCase(ajaxtype)) {
+		        	mrsMrnpNo = request.getParameter("mrsMrnpno");
+		        	recpListMap.put("type", ajaxtype);
+		        	  
+		                cancelResult = dao.cancelResvList(mrsMrnpNo);
+		                System.out.println(cancelResult);
+		                
+		                // 처리 결과 및 필요한 값 저장
+		                recpListMap.put("cancelResult", cancelResult);
+		                recpListMap.put("mrsMrnpNo", mrsMrnpNo);
+
+				}
+		        
+		      
+                System.out.println("cancelResult : " + cancelResult);
 
 		    } catch (Exception e) {
 		    	recpListMap.put("error", "오류 발생: " + e.getMessage());
@@ -113,6 +138,7 @@ public class ManageResvHandler implements CommandHandler{
 		}
 
 		request.setAttribute("resvList", resvList);
+		request.setAttribute("cancelList", cancelList);
 		
 		return "/koBusFile/kobusManageResv.jsp";
 	}
