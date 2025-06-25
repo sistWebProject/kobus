@@ -190,6 +190,14 @@
 </style>
 
 
+<script>
+$("#recpCanFrm > button").on("click", function () {
+	
+})
+
+</script>
+
+
 <body class="main KO" style="">
 
 <%@ include file="common/header.jsp" %>
@@ -306,8 +314,14 @@
 							<input type="hidden" name="extrComp" id="extrComp" value="">
 							<!-- 거래처코드 -->
 
+						<c:if test="${empty resvList}">
+							<div class="box_detail_info noData">
+								<p>예매내역이 존재하지 않습니다.</p>
+							</div>
+						</c:if>
 
-							<c:forEach var="resv" items="${resvList}">
+
+						<c:forEach var="resv" items="${resvList}">
 							<!-- 홈티켓 form -->
 							<form id="mrsCfmInfolistFrm0" name="mrsCfmInfolistFrm0"
 								action="https://www.kobus.co.kr/mrs/mrshtckpub.ajax">
@@ -390,6 +404,7 @@
 
 								<%-- <input type="hidden" name="nonMbrsNo" id="nonMbrsNo" value="${resv.nonMbrsNo}"> --%>
 								<input type="hidden" name="mrsMrnpno" id="mrsMrnpno" value="${resv.resId}">
+								<input type="hidden" name="type" id="type" value="">
 								<input type="hidden" name="mrsMrnpsno" id="mrsMrnpsno" value="${resv.arrRegCode}">
 								<input type="hidden" name="alcnDeprDt" id="alcnDeprDt" value="${fn:substringBefore(resv.rideDateStr, ' ')}">
 								<input type="hidden" name="alcnDeprTime" id="alcnDeprTime" value="${fn:substringAfter(resv.rideDateStr, ' ')}">
@@ -407,6 +422,7 @@
 								<input type="hidden" name="payNm" id="payNm" value="${resv.payMethod}">
 								<input type="hidden" name="TRD_DTM" id="TRD_DTM" value="${resv.resvDateStr}">
 								<input type="hidden" name="seatNo" id="seatNo" value="${resv.seatNo}">
+								<input type="hidden" name="BRKP_AMT_CMM" id="BRKP_AMT_CMM" value="1500">
 								
 								<input type="hidden" name="pynDvsCd" id="pynDvsCd" value="3">
 								<input type="hidden" name="pynDtlCd" id="pynDtlCd" value="7">
@@ -414,34 +430,42 @@
 								<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" value="N">
 								<input type="hidden" name="tckSeqList" id="tckSeqList" value="20250619994950192">
 							
-								<!-- 왕복 관련 필드들 (2로 끝나는 필드는 name도 2로 유지) -->
-								<input type="hidden" name="mrsMrnpno2" id="mrsMrnpNo2" value="">
-								<input type="hidden" name="mrsMrnpsno2" id="mrsMrnpSno2" value="">
-								<input type="hidden" name="alcnDeprDt2" id="alcnDeprDt2" value="${fn:substringBefore(resv.rideDateStr, ' ')}">
-								<input type="hidden" name="alcnDeprTime2" id="alcnDeprTime2" value="${fn:substringAfter(resv.rideDateStr, ' ')}">
-								<input type="hidden" name="deprnNm2" id="deprnNm2" value="">
-								<input type="hidden" name="arvlNm2" id="arvlNm2" value="">
-								<input type="hidden" name="takeDrtm2" id="takeDrtm2" value="">
-								<input type="hidden" name="cacmCd2" id="cacmCd2" value="">
-								<input type="hidden" name="cacmNm2" id="cacmNm2" value="">
-								<input type="hidden" name="cacmCss2" id="cacmCss2" value="">
-								<input type="hidden" name="deprNm2" id="deprNm2" value="">
-								<input type="hidden" name="adltNum2" id="adltNum2" value="">
-								<input type="hidden" name="chldNum2" id="chldNum2" value="">
-								<input type="hidden" name="teenNum2" id="teenNum2" value="">
-								<input type="hidden" name="uvsdNum2" id="uvsdNum2" value="">
-								<input type="hidden" name="sncnNum2" id="sncnNum2" value="">
-								<input type="hidden" name="dsprNum2" id="dsprNum2" value="">
-								<input type="hidden" name="vtr3Num2" id="vtr3Num2" value="">
-								<input type="hidden" name="vtr5Num2" id="vtr5Num2" value="">
-								<input type="hidden" name="vtr7Num2" id="vtr7Num2" value="">
-								<input type="hidden" name="dfptNum2" id="dfptNum2" value="">
-								<input type="hidden" name="satsNo2" id="satsNo2" value="">
-								<input type="hidden" name="rtrpMrsYn2" id="rtrpMrsYn2" value="">
-								<input type="hidden" name="payNm2" id="payNm2" value="">
-								<input type="hidden" name="pynDvsCd2" id="pynDvsCd2" value="">
-								<input type="hidden" name="pynDtlCd2" id="pynDtlCd2" value="">
-								<input type="hidden" name="tckSeqList2" id="tckSeqList2" value="">
+							
+								
+							</form>
+							
+							<form id="recpCanOkFrm" name="recpCanOkFrm"
+								action="/koBus/kobusResvCancel.ajax">
+
+								<%-- <input type="hidden" name="nonMbrsNo" id="nonMbrsNo" value="${resv.nonMbrsNo}"> --%>
+								<input type="hidden" name="mrsMrnpno" id="mrsMrnpno" value="${resv.resId}">
+								<input type="hidden" name="type" id="type" value="cancel">
+								<input type="hidden" name="mrsMrnpsno" id="mrsMrnpsno" value="${resv.arrRegCode}">
+								<input type="hidden" name="alcnDeprDt" id="alcnDeprDt" value="${fn:substringBefore(resv.rideDateStr, ' ')}">
+								<input type="hidden" name="alcnDeprTime" id="alcnDeprTime" value="${fn:substringAfter(resv.rideDateStr, ' ')}">
+								<input type="hidden" name="deprnNm" id="deprnNm" value="${resv.deprRegName}">
+								<input type="hidden" name="arvlNm" id="arvlNm" value="${resv.arrRegName}">
+								<input type="hidden" name="deprnCd" id="deprnCd" value="${resv.deprRegCode}">
+								<input type="hidden" name="arvlCd" id="arvlCd" value="${resv.arrRegCode}">
+								<input type="hidden" name="takeDrtm" id="takeDrtm" value="${resv.durMin}">
+								<input type="hidden" name="cacmCd" id="cacmCd" value="06">
+								<input type="hidden" name="cacmNm" id="cacmNm" value="${resv.comName}">
+								<input type="hidden" name="deprNm" id="deprNm" value="${resv.busGrade}">
+								<input type="hidden" name="adltNum" id="adltNum" value="${resv.aduCount}">
+								<input type="hidden" name="chldNum" id="chldNum" value="${resv.chdCount}">
+								<input type="hidden" name="teenNum" id="teenNum" value="${resv.stuCount}">
+								<input type="hidden" name="payNm" id="payNm" value="${resv.payMethod}">
+								<input type="hidden" name="TRD_DTM" id="TRD_DTM" value="${resv.resvDateStr}">
+								<input type="hidden" name="seatNo" id="seatNo" value="${resv.seatNo}">
+								<input type="hidden" name="BRKP_AMT_CMM" id="BRKP_AMT_CMM" value="1500">
+								
+								<input type="hidden" name="pynDvsCd" id="pynDvsCd" value="3">
+								<input type="hidden" name="pynDtlCd" id="pynDtlCd" value="7">
+								<input type="hidden" name="prmmDcDvsCd" ID="prmmDcDvsCd" value="4">
+								<input type="hidden" name="rtrpMrsYn" id="rtrpMrsYn" value="N">
+								<input type="hidden" name="tckSeqList" id="tckSeqList" value="20250619994950192">
+							
+								
 								
 							</form>
 							<!-- 편도 시작 -->
@@ -764,38 +788,97 @@
 						</div>
 						<!-- //예매내역 -->
 						<!-- 취소내역 -->
+						<!-- 취소내역 -->
+						<!-- 취소내역 -->
+						<!-- 취소내역 -->
+						<!-- 취소내역 -->
+						<!-- 취소내역 -->
+						<!-- 취소내역 -->
+						<!-- 취소내역 -->
 						<div class="tab_conts" style="display: none;">
 							<h3 class="sr-only">취소내역</h3>
-
-
+							
+							
+							<c:if test="${empty cancelList}">
 							<div class="box_detail_info noData">
-								<p>취소 자료가 존재하지 않습니다.</p>
+								<p>취소내역이 존재하지 않습니다.</p>
 							</div>
-
-							<ul class="desc_list marT30">
-								<!-- 191120 수정 -->
-								<li>조회 시점에서 3개월 전까지의 예매 내역이 표시됩니다.</li>
-								<li><strong class="txt_puple">고속버스 프리패스/정기권으로
-										예매하거나 홈티켓으로 발권된 내역은 변경이 불가</strong>하니 변경을 원하시면 취소 후 다시 예매를 진행하시기 바랍니다.</li>
-								<li><strong class="txt_puple">마일리지 구매 승차권은 시간변경이
-										불가</strong>하니 변경을 원하시면 취소 후 다시 예매를 진행하시기 바랍니다.</li>
-								<li>마일리지 승차권 취소 시, 마일리지 수수료 정책에 따라 처리됩니다.
-									<ul class="dash_list">
-										<li>출발 시간 이전 취소 시 100% 마일리지 환급</li>
-										<li>출발 시간 이후 취소 시 100% 마일리지 차감</li>
-									</ul>
-								</li>
-								<li>신용카드 예매 취소 또는 변경 시 일주일 내로 예매했던 카드로 청구 취소 처리가 되면서 반환됩니다.</li>
-								<li><strong class="txt_puple">시간 변경 작업은 취소 위약금을
-										부과하지 않습니다.</strong></li>
-								<li>모바일앱에서 예매하신 내역의 변경을 원하시면 <strong class="txt_puple">고속버스
-										티머니 앱</strong>으로 접속하셔서 시도하시기 바랍니다. <!-- <a href="javascript:void(0)" class="btn btn_sm_link_blue mobNone">고속버스 티머니 앱</a> -->
-								</li>
-								<!-- //191120 수정 -->
-							</ul>
-
-
-						</div>
+						</c:if>
+							
+							<c:forEach var="cancel" items="${cancelList}">
+							<section class="detail_info_wrap kor mobileTicket marT30">
+								<!-- 현장발권 class="ontheSpot", 홈티켓 class="homeTicket", 모바일티켓 class="mobileTicket", 미발행 class="unissued" -->
+								<span class="ticket-type"><span class="sr-only">모바일</span></span>
+							
+										<div class="box_detail_info">
+											<div class="routeHead">
+												<p class="date txt_black">탑승일자 ${cancel.rideDateStr }</p>
+												<p class="ticketPrice cancel">
+													취소일시 
+													<span class="txt_cancelDate">2025. 06. 24(화)15:07</span>
+												</p>
+											</div>
+											<div class="routeBody">
+												<div class="routeArea route_wrap cancel_com">
+													<div class="inner">
+														
+														<dl class="roundBox departure kor">
+															<dt>출발</dt>
+															<dd>${cancel.deprRegName }</dd>
+														</dl>
+														<dl class="roundBox arrive kor">
+															<dt>도착</dt>
+															<dd>${cancel.arrRegName }</dd>
+														</dl>
+														<span class="img-area"><img src="/koBus/images/bg_cancelTicket_com.png" alt="취소완료"></span>
+													</div>
+													<div class="detail_info">
+													<c:set var="durMin" value="${cancel.durMin}" />
+														<c:set var="hour" value="${durMin div 60}" />
+														<c:set var="minute" value="${durMin mod 60}" />
+														<span>
+														  <fmt:formatNumber value="${hour}" type="number" maxFractionDigits="0" />시간
+														  <fmt:formatNumber value="${minute}" type="number" maxFractionDigits="0" />분 소요
+														</span>
+													</div>
+												</div>
+												
+															<div class="routeArea route_wrap mob_route">
+																<div class="tbl_type2">
+																	<table class="taR">
+																		<caption>취소 정보 표이며 결제금, 취소 위약금, 총 반환 금액 정보 제공</caption>
+																		<colgroup>
+																			<col style="width:100px;">
+																			<col style="width:*;">
+																		</colgroup>
+																		
+																		<tbody>
+																		
+																			<tr>
+																				<th scope="row">결제금</th>
+																				<td>${cancel.amount } 원</td>
+																			</tr>
+																			<tr>
+																				<th scope="row">취소 위약금</th>
+																				<td>1500원</td>
+																			</tr>
+																			<tr>
+																			<c:set var="amount" value="${cancel.amount - 1500}" />
+																				<th scope="row">총 반환 금액</th>
+																				<td><strong>${amount }원</strong></td>
+																			</tr>
+																		
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													
+												
+											
+										</div>
+									</div>	
+							</section>
+							</c:forEach>
 						<!-- //취소내역 -->
 					</div>
 				</div>

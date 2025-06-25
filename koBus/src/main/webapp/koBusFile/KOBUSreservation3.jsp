@@ -71,8 +71,6 @@
 
 
 
-
-
 <script>
 	$(document).ready(function() {
 		var langCd = 'KO';
@@ -112,49 +110,28 @@
 								<span class="text">고속버스예매</span><i class="ico ico-dropdown-arrow"></i></a>
 						
 					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
+
 					
 					<ul class="dropdown-list" style="display: none;">
 						
 							
 							
-							
-							
-								
-								
-								
+		
 							
 							
 							<li class="selected"><a href="javascript:void(0)" title="선택됨">고속버스예매</a></li>
 						
-							
-							
-							
-							
+	
 							
 							<li><a href="/oprninf/alcninqr/oprnAlcnPage.do">운행정보</a></li>
 						
 							
-							
-							
-							
+		
 							
 							<li><a href="/adtnprdnew/frps/frpsPrchGd.do">프리패스/정기권</a></li>
 						
 							
-							
-							
+
 							
 							
 							<li><a href="/ugd/mrsgd/Mrsgd.do">이용안내</a></li>
@@ -193,148 +170,22 @@
 								<span class="text">고속버스예매</span><i class="ico ico-dropdown-arrow"></i></a>
 						
 					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
+
 					
 					<ul class="dropdown-list" style="display: none;">
-						
-							
-								
-								
-								
-								
-									
-									
-									
-								
+
 								
 								<li class="selected"><a href="javascript:void(0)" title="선택됨">고속버스예매</a></li>
 							
-						
-							
-								
-								
-								
-								
+
 								
 								<li><a href="/mrs/mrscfm.do">예매확인/취소/변경</a></li>
 							
-						
-							
-								
-								
-								
-								
+
 								
 								<li><a href="/mrs/mrsrecplist.do">영수증발행</a></li>
 							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
+
 					</ul>
 				</div>
 			</li>
@@ -441,30 +292,7 @@
 				</div>
 						
 			
-			
 
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	
-	
-	
-	
-	
-	
-
-
-		
 		
 		
 		
@@ -1095,9 +923,6 @@
 			</div>
 		
 
-
-
-				<!--  원래위치 -->
 				<div class="place">
 					<!-- focus -->
 					<ul>
@@ -1125,88 +950,7 @@
 				</div>
 
 
-				<%-- <script>
-				var cmdType = "";
 				
-				$("#readDeprInfoList").on("click", function () {
-					cmdType = "depr";
-					
-				});
-				
-				$("#readArvlInfoList").on("click", function () {
-					cmdType = "arvl";
-					
-				});
-				
-					
-				function fnDeprArvlViewList(sidoCode) {
-					console.log("fnDeprArvlViewList 실행됨: ", sidoCode);
-
-					$.ajax({
-						url : "<%=request.getContextPath()%>/getTerminals.do",
-						method : "GET",
-						data : {
-							sidoCode : sidoCode
-						},
-						dataType : "json",
-						success : function(terminals) {
-							console.log("terminals 받아옴:", terminals);
-
-							let html = "";
-							terminals.forEach(function(t) {
-								if (cmdType === "depr") {
-									html += `<li><button type="button" onclick="fnDeprChc('\${t.regID}', '\${t.regName}')">\${t.regName}</button></li>`;
-								} else if (cmdType === "arvl") {
-									html += `<li><button type="button" onclick="fnArvlChc('\${t.regID}', '\${t.regName}')">\${t.regName}</button></li>`;
-								} else {
-									console.warn(" cmdType이 설정되지 않았습니다. 기본값 depr 사용");
-									html += `<li><button type="button" onclick="fnDeprChc('\${t.regID}', '\${t.regName}')">\${t.regName}</button></li>`;
-								}
-							});
-							$("#tableTrmList").html(html);  // 기존 위치 그대로 유지
-						},
-						error : function(status, error) {
-							alert("터미널 목록을 불러오지 못했습니다.");
-							console.log(" AJAX 실패:", status, error);
-						}
-					});
-				}
-
-					
-
-					function fnDeprChc(regID, regName) {
-						// 이 함수는 출발지 선택 시 동작하는 사용자 정의 함수
-						// 이후 로직은 기존 예약 폼에 맞게 조정
-						
-						//console.log("선택된 터미널:", regID, regName);
-						
-						$("#popDeprNmSpn").text(regName);
-						$("#deprCd").val(regID);
-						$("#deprNm").val(regName);
-						
-						/* $("#cfmBtn").removeAttr("disabled").addClass("active");
-						$("#cfmBtn").css("background-color", "#003087"); // 파란색 버튼처럼
-						$("#cfmBtn").css("color", "#fff");
- */
-					}
-					
-					
-
-					function fnArvlChc(regID, regName) {
-						// 도착지 선택 시 동작하는 함수
-						//console.log("선택된 도착지:", regID, regName);
-
-						$("#popArvlNmSpn").text(regName);  // 도착지 이름 표시
-						$("#arvlCd").val(regID);           // form에 숨겨진 도착지 값 설정
-						$("#arvlNm").val(regName);          
-
-						// 버튼 UI 활성화
-						$("#cfmBtn").removeAttr("disabled").addClass("active");
-						$("#cfmBtn").css("background-color", "#003087");
-						$("#cfmBtn").css("color", "#fff");
-					}
-
-				</script> --%>
 
 				<script>
 					cmdType = "";
