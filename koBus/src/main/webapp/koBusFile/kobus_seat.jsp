@@ -220,6 +220,7 @@ $(document).ready(function () {
 					value="2025. 6. 21. 토">
 				<!-- 오는날(왕복) -->
 				<input type="hidden" name="busClsCd" id="busClsCd" value="0">
+				<input type="hidden" name="busCode" id="busCode" value="${bus.bshId }">
 				<!-- 버스등급 -->
 				<input type="hidden" name="takeDrtmOrg" id="takeDrtmOrg" value="${bus.durMin }">
 				<!-- 소요시간 -->
