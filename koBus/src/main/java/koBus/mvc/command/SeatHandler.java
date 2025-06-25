@@ -39,7 +39,6 @@ public class SeatHandler implements CommandHandler {
 	    String deprNm = request.getParameter("deprNm");
 	    String arvlNm = request.getParameter("arvlNm");
 	    
-	    System.out.println("deprNm " + deprNm);
 	    
 	    switch (busClsCd) {
 		    case "0": busClsCd = "전체"; break;
@@ -61,8 +60,6 @@ public class SeatHandler implements CommandHandler {
 		    DateTimeFormatter oracleFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		    deprDtm = loc.format(oracleFormatter);
 		    
-		    System.out.println("deprDtm " + deprDtm);
-	    	
 	    	String deprName = request.getParameter("deprNm");
 	    	String arrvName = request.getParameter("arvlNm");
 	    	String durMin = request.getParameter("takeDrtm");
@@ -117,8 +114,6 @@ public class SeatHandler implements CommandHandler {
 //			출발지 / 도착지 / 출발시간 / 버스등급을 기준으로 사용하는 busId 가져오기
 				String busId = dao.getBusId(deprId, arrId, deprDtm);
 				
-				System.out.println("busId : " + busId);
-				
 				// 탑승하는 버스 전체 좌석 가져오기
 				totalSeat = dao.getTotalSeats(busId);
 				
@@ -140,7 +135,6 @@ public class SeatHandler implements CommandHandler {
 
 	     
 	        if ("true".equalsIgnoreCase(ajax)) {
-	        	   System.out.println("ajax = " + ajax);
 //	   	        String deprCd = request.getParameter("deprCd");           // 출발지 코드
 //	   	        String arvlCd = request.getParameter("arvlCd");           // 도착지 코드
 //	   	        String deprDt = request.getParameter("deprDt");           // 출발일자
@@ -197,14 +191,9 @@ public class SeatHandler implements CommandHandler {
 	    request.setAttribute("deprTime", deprTime);
 	    request.setAttribute("deprNm", deprNm);
 	    request.setAttribute("arvlNm", arvlNm);
-
-	    
 	    request.setAttribute("totalSeat", totalSeat);
 	    request.setAttribute("seatList", seatList);
 	    request.setAttribute("busList", busList);
-	    
-	    System.out.println(busList);
-	    
 	    
 	    if ("kobusModifyResvSch.jsp".equals(sourcePage)) {
 	    	return "/koBusFile/kobusModifyResvSeat.jsp";

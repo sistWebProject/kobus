@@ -93,10 +93,10 @@ public class ResvDAOImpl implements ResvDAO {
 		 while (rs.next()) {
 		        String resID = rs.getString("resID");
 		        int totalCount = rs.getInt("totalCount"); // 좌석 수
-		        String seatNo = rs.getString("seatNO"); // "1,2,3" 등
-		        int aduCount = rs.getInt("aduCount"); // "1,2,3" 등
-		        int stuCount = rs.getInt("stuCount"); // "1,2,3" 등
-		        int chdCount = rs.getInt("chdCount"); // "1,2,3" 등
+		        String seatNo = rs.getString("seatNO"); // "1,2,3번" 
+		        int aduCount = rs.getInt("aduCount");
+		        int stuCount = rs.getInt("stuCount");
+		        int chdCount = rs.getInt("chdCount");
 		        LocalDateTime rideDate = rs.getTimestamp("rideDate").toLocalDateTime();
 		        String rideDateStr = rideDate.format(formatter);
 		        LocalDateTime resvDate = rs.getTimestamp("resvDate").toLocalDateTime();
@@ -149,13 +149,12 @@ public class ResvDAOImpl implements ResvDAO {
 	@Override
 	public int cancelResvList(String mrsMrnpNo) throws SQLException {
 	    int result = 0;
-	    int seatResult = 0;
-	    int delSeatsResult = 0;
 
 	    try {
 	        conn.setAutoCommit(false);  // 트랜잭션 시작
 
 	        // 1. 예약 취소
+	        // 트리거 사용 -> 좌석 상태 변경 + RESERVEDSEATS 테이블에서 예약 취소 된 좌석 삭제
 	        String sql = "UPDATE RESERVATION "
 	                   + "SET RESVSTATUS = '예약취소', SEATABLE = 'N' "
 	                   + "WHERE RESID = ? AND RESVSTATUS = '예약완료' AND SEATABLE = 'Y'";
@@ -163,27 +162,6 @@ public class ResvDAOImpl implements ResvDAO {
 	        pstmt.setString(1, mrsMrnpNo);
 	        result = pstmt.executeUpdate();
 	        
-	        System.out.println("resvresult " + result);
-	        
-
-	        // 2. 좌석 상태 변경
-	        String seatSql = " UPDATE SEAT "
-	        		+ "SET SEATABLE = 'Y' "
-	        		+ "WHERE SEATID IN ( "
-	        		+ "    SELECT SEATID FROM RESERVEDSEATS WHERE RESID = ? "
-	        		+ "	) ";
-	        pstmt = conn.prepareStatement(seatSql);
-	        pstmt.setString(1, mrsMrnpNo);
-	        seatResult = pstmt.executeUpdate();
-	        System.out.println("seatResult " + seatResult);
-	        
-	        // 3. RESERVEDSEATS 테이블에서 예약 취소 된 좌석 삭제
-	        String deleteReservedSeatsSql = "DELETE FROM RESERVEDSEATS WHERE RESID = ?";
-	        pstmt = conn.prepareStatement(deleteReservedSeatsSql);
-	        pstmt.setString(1, mrsMrnpNo);
-	        delSeatsResult = pstmt.executeUpdate();
-	        System.out.println("delSeatsResult " + delSeatsResult);
-
 	        conn.commit();  // 커밋
 
 	    } catch (SQLException e) {
@@ -194,7 +172,7 @@ public class ResvDAOImpl implements ResvDAO {
 	    }
 
 	    // 변경된 행 수가 1 이상인지 확인 후 리턴
-	    if (result > 0 && seatResult > 0) {
+	    if (result > 0) {
 	        return result;
 	    } else {
 	        return 0;
@@ -312,6 +290,52 @@ public class ResvDAOImpl implements ResvDAO {
 
 		
 		return cancelList;
+	}
+
+	@Override
+	public int changeRemainSeats(String mrsMrnpNo, String rideTime) throws SQLException {
+		
+		int seatResult = 0;
+		
+		try {
+
+			conn.setAutoCommit(false);
+
+			// 2. 좌석 상태 변경
+			String seatSql = "UPDATE BUSSCHEDULE B "
+					+ "SET REMAINSEATS = ( "
+					+ "    SELECT COUNT(*) "
+					+ "    FROM SEAT S "
+					+ "    WHERE S.BUSID = B.BUSID "
+					+ "      AND S.SEATABLE = 'Y' "
+					+ " ) "
+					+ " WHERE B.BSHID = ( "
+					+ "    SELECT R.BSHID "
+					+ "    FROM RESERVATION R "
+					+ "    WHERE R.RESID = ? "
+					+ "      AND R.RIDEDATE = TO_TIMESTAMP(?, 'YYYY-MM-DD HH24:MI:SS') "
+					+ " ) " ;
+			pstmt = conn.prepareStatement(seatSql);
+			pstmt.setString(1, mrsMrnpNo);
+			pstmt.setString(2, rideTime);
+			seatResult = pstmt.executeUpdate();
+
+			conn.commit();  // 커밋
+
+		} catch (SQLException e) {
+			conn.rollback();  // 실패 시 롤백
+			throw e;
+		} finally {
+			conn.setAutoCommit(true); // 자동 커밋 복원
+		}
+
+		// 변경된 행 수가 1 이상인지 확인 후 리턴
+		if (seatResult > 0) {
+			return seatResult;
+		} else {
+			return 0;
+		}
+
 	}
 
 	

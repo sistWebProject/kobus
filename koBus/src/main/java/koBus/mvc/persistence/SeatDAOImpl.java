@@ -56,8 +56,6 @@ public class SeatDAOImpl implements SeatDAO{
 			        String timePart = deprDtm.substring(11, 16);  // HH:mm
 			        deprDtm = datePart + " " + timePart;
 
-
-			    // Case 2: "yyyy-MM-dd"
 			    }   
 			 
 			 this.pstmt = conn.prepareStatement(sql);
@@ -98,8 +96,6 @@ public class SeatDAOImpl implements SeatDAO{
 	        	seatTotal = rs.getInt("BUSSEATS");
 	        }
 	        
-	        System.out.println("SeatDAOImpl seatTotal : " + seatTotal);
-
 
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -129,7 +125,6 @@ public class SeatDAOImpl implements SeatDAO{
 		this.pstmt.setString(1, busId);
 		this.rs = this.pstmt.executeQuery();
 		
-		System.out.println("SeatDAOImpl busId : " + busId);
 		
 		if (this.rs.next()) {
 			list = new ArrayList<SeatDTO>();
@@ -149,12 +144,10 @@ public class SeatDAOImpl implements SeatDAO{
 						seatAble(seatAble).build();
 				list.add(dto);
 				
-//				System.out.printf("seatId : %s , seatNo : %d , busId : %s", seatId, seatNo, busId);
 				
 			} while (this.rs.next());
 		}
 		
-//		System.out.println("SeatDAOImpl list.size() : " + list.size());
 		
 		JdbcUtil.close(this.rs);
         JdbcUtil.close(this.pstmt);

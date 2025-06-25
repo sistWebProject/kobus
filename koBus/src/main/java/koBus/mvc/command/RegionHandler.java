@@ -48,7 +48,6 @@ public class RegionHandler implements CommandHandler {
                 // Gson 사용하여 JSON 변환
                 Gson gson = new Gson();
                 String json = gson.toJson(list);
-                System.out.println(">> JSON 결과(Gson): " + json);
 
                 response.setContentType("application/json; charset=UTF-8");
                 try (PrintWriter out = response.getWriter()) {
