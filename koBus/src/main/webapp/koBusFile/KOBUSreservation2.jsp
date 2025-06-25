@@ -6,6 +6,8 @@ System.out.println(">> arvlName: " + request.getParameter("arvlNm"));
 System.out.println(">> busrank: " + request.getParameter("busClsCd"));
 %>
 <!DOCTYPE html>
+<link rel="shortcut icon" type="image/x-icon"
+	href="/koBus/media/favicon.ico">
 <style>
 /* 날짜 선택 숨김 */
 #datepicker1, #datepicker2 {
