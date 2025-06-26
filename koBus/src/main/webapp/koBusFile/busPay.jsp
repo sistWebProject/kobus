@@ -481,6 +481,7 @@ if (lngCd == "KO") {
 	<input type="hidden" name="seatNos" id="seatNos" value="${seatNos}"><!-- 각 좌석번호 -->
 	<input type="hidden" name="resId" id="resId" value="${resId}">
 	<input type="hidden" name="cacmNm" id="cacmNm" value="${cacmNm}">
+	<input type="hidden" name="seatIds" id="seatIds" value="${seatIds}">
 	
 	
 	<!-- 예상금액 -->
@@ -1601,8 +1602,6 @@ if (lngCd == "KO") {
 
 		<!-- footer -->
 		
-
-
 
 <!-- 푸터 -->
 <%@ include file="common/footer.jsp" %>

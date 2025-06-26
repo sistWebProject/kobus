@@ -26,7 +26,7 @@ public class ReservationDAO {
             pstmt.setString(2, dto.getBshID());
             pstmt.setString(3, dto.getSeatID());
             pstmt.setString(4, dto.getKusID());
-            pstmt.setDate(5, dto.getRideDate());
+            pstmt.setTimestamp(5, dto.getRideDate());
             pstmt.setDate(6, dto.getResvDate());
             pstmt.setString(7, dto.getResvStatus());
             pstmt.setString(8, dto.getResvType());
@@ -61,7 +61,7 @@ public class ReservationDAO {
                     dto.setBshID(rs.getString("bshid"));
                     dto.setSeatID(rs.getString("seatid"));
                     dto.setKusID(rs.getString("kusid"));
-                    dto.setRideDate(rs.getDate("ridedate"));
+                    dto.setRideDate(rs.getTimestamp("ridedate"));
                     dto.setResvDate(rs.getDate("resvdate"));
                     dto.setResvStatus(rs.getString("resvstatus"));
                     dto.setResvType(rs.getString("resvtype"));
