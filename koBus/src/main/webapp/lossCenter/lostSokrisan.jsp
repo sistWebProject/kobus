@@ -102,7 +102,7 @@
 }
 
 /* 가운데 정렬된 표 */
-.tbl_type1.responsive.col2 {
+.tbl_type1.responsive.col3 {
 	-webkit-text-size-adjust: none;
 	font-size: 16px;
 	letter-spacing: 0;
@@ -116,28 +116,31 @@
 	max-width: 1080px;
 }
 
-.tbl_type1.responsive.col2 table {
+.tbl_type1.responsive.col3 table {
 	width: 100%;
 	border-collapse: collapse;
 	background: white;
+	border: 1px solid #000;
 }
 
-.tbl_type1.responsive.col2 caption {
+.tbl_type1.responsive.col3 caption {
 	padding: 10px 0;
 	font-weight: 600;
 	text-align: left;
 }
 
-.tbl_type1.responsive.col2 th, .tbl_type1.responsive.col2 td {
+.tbl_type1.responsive.col3 th, .tbl_type1.responsive.col3 td {
 	padding: 14px 10px;
 	text-align: left;
 	font-size: 15px;
 	line-height: 1.5;
 	word-break: keep-all;
+	border: 1px solid #000;
 }
 
-.tbl_type1.responsive.col2 th {
+.tbl_type1.responsive.col3 th {
 	font-weight: 600;
+	background-color: #f4f4f4;
 }
 </style>
 
