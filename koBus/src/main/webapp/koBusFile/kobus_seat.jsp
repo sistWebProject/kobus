@@ -229,7 +229,7 @@ $(document).ready(function () {
 				<!-- 출발일자:deprDtm or arvlDtm, 출발터미널번호:deprCd, 도착터미널번호:arvlCd  -->
 				<input type="hidden" name="deprDt" id="deprDt" value="${deprDate }">
 				<!-- 출발일 -->
-				<input type="hidden" name="deprTime" id="deprTime" value="072000">
+				<input type="hidden" name="deprTime" id="deprTime" value="${deprTime}">
 				<!-- 출발시각 -->
 				<input type="hidden" name="alcnDeprDt" id="alcnDeprDt" value="">
 				<!-- 배차출발일 -->
