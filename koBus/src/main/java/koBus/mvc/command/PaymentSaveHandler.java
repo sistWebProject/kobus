@@ -1,6 +1,7 @@
 package koBus.mvc.command;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.util.UUID;
@@ -119,7 +120,7 @@ public class PaymentSaveHandler implements CommandHandler {
 
         // ========== [예매 DTO 생성] ==========
         String resID = UUID.randomUUID().toString();
-        Date rideDate = (rideDateStr != null && !rideDateStr.isEmpty()) ? Date.valueOf(rideDateStr) : new Date(System.currentTimeMillis());
+        Timestamp rideDate = (rideDateStr != null && !rideDateStr.isEmpty()) ? Timestamp.valueOf(rideDateStr) : new Timestamp(System.currentTimeMillis());
         Date resvDate = new Date(System.currentTimeMillis());
         String resvStatus = "결제완료";
         String seatAble = "Y";
