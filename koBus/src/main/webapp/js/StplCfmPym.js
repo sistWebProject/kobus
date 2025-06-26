@@ -472,23 +472,20 @@ function requestPay() {
 	// 출발/도착지 정보
 	var deprNm = $("#deprNm").val();
 	var arvlNm = $("#arvlNm").val();
-	var deprDt = $("#deprDt").val();     // 예: 2025-06-25
+	var deprDt = $("#deprDt").val();     // 예: 20250625
 	var deprTime = $("#deprTime").val(); // 예: 143000
 	console.log("🚨 deprTime 값:", deprTime);
 
 	// var deprDtFmt = deprDt.slice(0, 4) + "-" + deprDt.slice(4, 6) + "-" + deprDt.slice(6, 8);
-	var deprTimeFmt = deprTime.slice(0, 2) + ":" + deprTime.slice(2, 4) + ":" + deprTime.slice(4, 6);
+	var deprTimeFmt = deprTime.slice(0, 2) + ":" + deprTime.slice(2, 4);
 	var productName = `${deprNm} -> ${arvlNm} (${deprDt}/${deprTimeFmt})`;
 
 	// 탑승일 변환
-	var boardingDt = `${deprDt} ${deprTimeFmt}`;
-	console.log("✅ boarding_dt 최종:", boardingDt);
+	var boardingDt = deprDt;
 
 	// 🧪 전송용 amount 타입 확인
 	console.log("🧪 typeof amount:", typeof amount);
 	console.log("🧪 boardingDt:", boardingDt);
-	
-	var seatIds = $("#seatIds").val();
 
 	var IMP = window.IMP;
 	IMP.init('imp31168041'); // 포트원 테스트 가맹점 코드
@@ -502,7 +499,6 @@ function requestPay() {
 	}, function (rsp) {
 		if (rsp.success) {
 			alert('✅ 결제 성공! imp_uid: ' + rsp.imp_uid);
-			console.log("📦 넘기는 boarding_dt:", boardingDt);
 
 			// 전송 데이터 구성
 			var paymentData = {
@@ -515,7 +511,7 @@ function requestPay() {
 				paid_at: rsp.paid_at,
 				user_id: "KUS004",
 				bshid: bshid,
-				seat_number: seatIds,
+				seat_number: seatNos,
 				boarding_dt: boardingDt,
 				resId: resId,
 				deprDt: $("#deprDt").val(),
@@ -552,7 +548,6 @@ function requestPay() {
 		            const indVBusClsCd = paymentData.indVBusClsCd;
 		            const selSeatCnt = paymentData.selSeatCnt;
 		            const seatNos = paymentData.seatNos;
-		            const seatIds = paymentData.seatIds;
 		            const selAdltCnt = paymentData.selAdltCnt;
 		            const selTeenCnt = paymentData.selTeenCnt;
 		            const selChldCnt = paymentData.selChldCnt;
@@ -570,7 +565,6 @@ function requestPay() {
 								    + "&indVBusClsCd=" + encodeURIComponent(indVBusClsCd)
 								    + "&selSeatCnt=" + encodeURIComponent(selSeatCnt)
 								    + "&seatNos=" + encodeURIComponent(seatNos)
-								    + "&seatIds=" + encodeURIComponent(seatIds)
 								    + "&selAdltCnt=" + encodeURIComponent(selAdltCnt)
 								    + "&selTeenCnt=" + encodeURIComponent(selTeenCnt)
 								    + "&selChldCnt=" + encodeURIComponent(selChldCnt)
