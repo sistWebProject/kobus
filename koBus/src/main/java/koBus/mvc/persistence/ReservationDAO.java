@@ -143,4 +143,22 @@ public class ReservationDAO {
         }
         return null;
     }
+
+    public int changeReservation(String changeResId) {
+        String sql = "DELETE FROM reservation WHERE resid = ?";
+        
+        try (
+            Connection conn = DBConn.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+        ) {
+            pstmt.setString(1, changeResId);
+            int result = pstmt.executeUpdate();
+            return result;
+        } catch (SQLException e) {
+            System.out.println("[ReservationDAO] changeReservation 오류: " + e.getMessage());
+        }
+        
+        return 0; // 실패 시 0 반환
+    }
+
 }

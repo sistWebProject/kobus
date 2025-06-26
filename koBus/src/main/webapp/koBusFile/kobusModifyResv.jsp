@@ -215,7 +215,7 @@
 											<ul class="dropdown-list" style="top: 32px; display: none;">
 
 												<c:forEach var="time" items="${busTimeList}">
-													<li><a href="javascript:fnTimeChoice(${time});">${time}</a></li>
+													<li><a href="javascript:fnTimeChoice('${time}');">${time}</a></li>
 												</c:forEach>
 											</ul>
 										</div>

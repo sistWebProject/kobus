@@ -266,6 +266,25 @@ $(document).ready(function () {
 				<input type="hidden" name="dsprFee" id="dsprFee" value="">
 				<!-- 장애인금액 -->
 
+				<input type="hidden" name="vtr3Fee" id="vtr3Fee" value="">
+				<!-- 보훈금액30 -->
+				<input type="hidden" name="vtr5Fee" id="vtr5Fee" value="">
+				<!-- 보훈금액50 -->
+				<input type="hidden" name="vtr7Fee" id="vtr7Fee" value="">
+				<!-- 보훈금액70 -->
+				<input type="hidden" name="dfptFee" id="dfptFee" value="31900">
+				<!-- 후불금액 -->
+				<!-- 할인금액 -->
+				<input type="hidden" name="ctyDcFee1" id="ctyDcFee1" value="">
+				<!-- 사전예매 -->
+				<input type="hidden" name="ctyDcFee2" id="ctyDcFee2" value="">
+				<!-- 단체예매5인 -->
+				<input type="hidden" name="ctyDcFee3" id="ctyDcFee3" value="">
+				<!-- 뒷좌석예매 -->
+				<input type="hidden" name="ctyDcFee4" id="ctyDcFee4" value="">
+				<!-- 왕복예매 -->
+				<input type="hidden" name="ctyDcFee5" id="ctyDcFee5" value="">
+				<!-- 단체예매4인 -->
 
 
 				<input type="hidden" name="ctyDcFee3Cnt" id="ctyDcFee3Cnt" value="0">
@@ -396,11 +415,45 @@ $(document).ready(function () {
 				
 				<input type="hidden" name="allTotAmtPrice" id="allTotAmtPrice" value="">
 				<!-- 결제금액 -->
+				
 
-				<c:set var="change" value="${changeSeatList[0]}" />
-				<input type="hidden" name="resId" id="resId" value="${change.resId }">
-	
-	
+				<input type="hidden" name="rtrpDtl1" id="rtrpDtl1" value="">
+				<!-- 왕복시 왕편데이터중 선점을 제외한 나머지 데이터 입력매수,일반인할인매수,일반인,중고생,초등생,대학생,시외우등형할인구분,예매금액,할인금액,결제금액,출발일,출발시간 순으로':'로 구분 -->
+				<input type="hidden" name="rtrpDtl2" id="rtrpDtl2" value="">
+				<!-- 왕복시 복편데이터중 선점을 제외한 나머지 데이터 입력매수,일반인할인매수,일반인,중고생,초등생,대학생,시외우등형할인구분,예매금액,할인금액,결제금액,출발일,출발시간 순으로':'로 구분 -->
+
+
+				<input type="hidden" name="webScrnRnwl" id="webScrnRnwl" value="N">
+				<!-- 화면갱신을 위한 데이터  Y:새로고침, N:신규 -->
+				<input type="hidden" name="teenFeeNCntY" id="teenFeeNCntY" value="">
+				<!-- 왕편 청소년 선택 후 복편 배차 청소년 좌석 없는 경우-->
+				<input type="hidden" name="uvsdFeeNCntY" id="uvsdFeeNCntY" value="">
+				<!-- 왕편 대학생 선택 후 복편 배차 대학생 좌석 없는 경우 -->
+				<input type="hidden" name="sncnFeeNCntY" id="sncnFeeNCntY" value="">
+				<!-- 왕편 경로 선택 후 복편 배차 경로 좌석 없는 경우 -->
+				<input type="hidden" name="dsprFeeNCntY" id="dsprFeeNCntY" value="">
+				<!-- 왕편 장애인 선택 후 복편 배차 장애인 좌석 없는 경우 -->
+				<input type="hidden" name="vtr3FeeNCntY" id="vtr3FeeNCntY" value="">
+				<!-- 왕편 보훈 선택 후 복편 배차 보훈 좌석 없는 경우 -->
+				<input type="hidden" name="vtr5FeeNCntY" id="vtr5FeeNCntY" value="">
+				<!-- 왕편 보훈 선택 후 복편 배차 보훈 좌석 없는 경우 -->
+				<input type="hidden" name="vtr7FeeNCntY" id="vtr7FeeNCntY" value="">
+				<!-- 왕편 보훈 선택 후 복편 배차 보훈 좌석 없는 경우 -->
+				<input type="hidden" name="dfptFeeNCntY" id="dfptFeeNCntY" value="">
+				<!-- 왕편 후불 선택 후 복편 배차 후불 좌석 없는 경우 -->
+
+				<input type="hidden" name="prvtBbizEmpAcmtRt" id="prvtBbizEmpAcmtRt"
+					value="N">
+				<!-- 국민차장제 대상 여부 (Y/N)-->
+				<input type="hidden" name="agrmYn" id="agrmYn" value="U">
+				<!-- 국민차장제 동의 여부 (Y/N/U) -->
+
+				<input type="hidden" name="extrComp" id="extrComp" value="">
+				<!-- 거래처코드 -->
+				<input type="hidden" name="stdDtm" id="stdDtm" value=""> <input
+					type="hidden" name="endDtm" id="endDtm" value="">
+					
+				<input type="hidden" name="resId" id="resId" value="${resId }">
 
 			</form>
 
