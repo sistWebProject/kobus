@@ -98,6 +98,14 @@
       generateQRCode();
   });
 </script>
+<script>
+$("#closeBtn").on("click", function () {
+	
+	var inst = $('[data-remodal-id=popTicketCancel]').remodal();  // modal1은 id명
+	inst.close();  // 모달 닫기
+});
+</script>
+
 <style>
 .com_pop_wrap {
     display: none;
@@ -593,7 +601,7 @@ $("#recpCanFrm > button").on("click", function () {
 										<input type="hidden" name="alcnDeprDt"
 											value="2025. 07. 16 (수)">
 										<!-- 출발일 -->
-										<input type="hidden" name="alcnDeprTime" value="08:00">
+										<input type="hidden" name="alcnDeprTime" value="09:00">
 										<!-- 출발시간 -->
 										<input type="hidden" name="deprnNm" value="서울경부">
 										<!-- 출발지 -->
