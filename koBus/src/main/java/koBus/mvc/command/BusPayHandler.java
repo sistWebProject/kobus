@@ -53,13 +53,10 @@ public class BusPayHandler implements CommandHandler {
         String changeResId = request.getParameter("resId");
         
         
+        
         System.out.println("changeResId " + changeResId);
         
         
-        
-        
-        
-        System.out.println("deprDtRaw " + deprDtRaw + " " + deprDt);
 
         // 2. 날짜/시간 포맷
         String deprDtFmt = "";
@@ -68,10 +65,17 @@ public class BusPayHandler implements CommandHandler {
         }
 
         String deprTimeFmt = "";
+
         if (deprTime != null && deprTime.length() == 6) {
+            // 기존 조건: "HHmmss" → "HH:mm"
             deprTimeFmt = deprTime.substring(0, 2) + ":" + deprTime.substring(2, 4);
+        } else if (deprTime != null && deprTime.contains(":")) {
+            // 추가 조건: "HH:mm" 형식이면 그대로 사용
+            deprTimeFmt = deprTime;
         }
         
+        System.out.println("deprTimeFmt " + deprTimeFmt);
+
         HttpSession session = request.getSession(false);
 		
 		 if (session == null || session.getAttribute("id") == null) {
@@ -116,8 +120,9 @@ public class BusPayHandler implements CommandHandler {
         }
         String seatIds = String.join(",", seatIdList);
         
-        String fullDateTimeStr = deprDt + " " + deprTime.substring(0,2) + ":" + deprTime.substring(2,4) + ":" + deprTime.substring(4,6);  // "2025-06-25 14:30:00"
-        Timestamp rideDateTime = Timestamp.valueOf(fullDateTimeStr);
+        String fullDateTime = deprDt + " " + (deprTimeFmt.length() == 5 ? deprTimeFmt + ":00" : deprTimeFmt);
+
+        Timestamp rideDateTime = Timestamp.valueOf(fullDateTime);
 
         // 5. RES_ID 생성
         

@@ -12,17 +12,30 @@ import koBus.mvc.domain.ReservationDTO;
 
 public class ReservationDAO {
 
-    // 1. 예매 INSERT
+	// 1. 예매 INSERT
     public boolean insertReservation(ReservationDTO dto) {
         String sql = "INSERT INTO reservation "
                    + "(resID, bshID, seatID, kusID, rideDate, resvDate, resvStatus, resvType, qrCode, mileage, seatAble) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+        String updateSeatSql = "UPDATE BUSSCHEDULE B "
+                             + "SET REMAINSEATS = ( "
+                             + "    SELECT COUNT(*) "
+                             + "    FROM SEAT S "
+                             + "    WHERE S.BUSID = B.BUSID "
+                             + "      AND S.SEATABLE = 'Y' "
+                             + ") "
+                             + "WHERE B.BSHID = ( "
+                             + "    SELECT R.BSHID "
+                             + "    FROM RESERVATION R "
+                             + "    WHERE R.RESID = ? "
+                             + ")";
+
         try (
             Connection conn = DBConn.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)
         ) {
-            conn.setAutoCommit(true);
+            conn.setAutoCommit(false); // 트랜잭션 시작
 
             pstmt.setString(1, dto.getResID());
             pstmt.setString(2, dto.getBshID());
@@ -37,10 +50,29 @@ public class ReservationDAO {
             pstmt.setString(11, dto.getSeatAble());
 
             int cnt = pstmt.executeUpdate();
-            return cnt == 1;
+
+            int seatUpdateResult = 0;
+            try (PreparedStatement pstmt2 = conn.prepareStatement(updateSeatSql)) {
+                pstmt2.setString(1, dto.getResID());
+                seatUpdateResult = pstmt2.executeUpdate();
+                System.out.println("남은 좌석 수 갱신 완료: " + seatUpdateResult + "건");
+            }
+
+            if (cnt == 1 && seatUpdateResult == 1) {
+                conn.commit(); // 커밋
+                return true;
+            } else {
+                conn.rollback(); // 실패 시 롤백
+                return false;
+            }
 
         } catch (SQLException e) {
             System.out.println("[ReservationDAO] insertReservation 오류: " + e.getMessage());
+            try {
+                DBConn.getConnection().rollback(); // 예외 발생 시 롤백
+            } catch (SQLException ex) {
+                System.out.println("[ReservationDAO] rollback 실패: " + ex.getMessage());
+            }
             return false;
         }
     }
@@ -103,7 +135,7 @@ public class ReservationDAO {
         return null;
     }
 
-    // 4. 예매 삭제 (취소)
+    // 4. 예매 변경 (삭제)
     public int changeReservation(String changeResId) {
         String sql = "DELETE FROM reservation WHERE resid = ?";
 
