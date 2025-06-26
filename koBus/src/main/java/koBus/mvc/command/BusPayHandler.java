@@ -45,6 +45,13 @@ public class BusPayHandler implements CommandHandler {
         String selSeatCnt = request.getParameter("selSeatCnt");
         String allTotAmtPrice = request.getParameter("allTotAmtPrice");
         String busCode = request.getParameter("busCode");
+        
+        String changeResId = request.getParameter("resId");
+        
+        
+        System.out.println("changeResId " + changeResId);
+        
+        System.out.println("deprDtRaw " + deprDtRaw + " " + deprDt);
 
         // 2. 날짜/시간 포맷
         String deprDtFmt = "";
@@ -82,6 +89,9 @@ public class BusPayHandler implements CommandHandler {
         String seatIds = String.join(",", seatIdList);
 
         // 5. RES_ID 생성
+        
+        
+        System.out.println("deprDt " + deprDt);
 
 
         // 6. 예매 DTO 구성
