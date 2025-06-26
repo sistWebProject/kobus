@@ -491,9 +491,9 @@ if (lngCd == "KO") {
 	<input type="hidden" name="tissuFnpynDtlCd" id="tissuFnpynDtlCd" value="s">
 	<input type="hidden" name="tissuFnmblUtlzPsbYn" id="tissuFnmblUtlzPsbYn" value="Y">
 	<input type="hidden" name="tissuFnpsrmCls" id="tissuFnpsrmCls" value="">
-	<input type="hidden" name="tissuFnestmAmt" id="tissuFnestmAmt" value="">
+	<input type="hidden" name="tissuFnestmAmt" id="tissuFnestmAmt" value="24400">
 	<input type="hidden" name="tissuFndcAmt" id="tissuFndcAmt" value="0">
-	<input type="hidden" name="tissuFntissuAmt" id="tissuFntissuAmt" value="">
+	<input type="hidden" name="tissuFntissuAmt" id="tissuFntissuAmt" value="24400">
 	<input type="hidden" name="tissuFnacmtMlg" id="tissuFnacmtMlg" value="0">
 	<input type="hidden" name="tissuFnmrsMrnpNoOrg" id="tissuFnmrsMrnpNoOrg" value="20250620567677">
 	<input type="hidden" name="tissuFnrecNcnt1" id="tissuFnrecNcnt1" value="1">

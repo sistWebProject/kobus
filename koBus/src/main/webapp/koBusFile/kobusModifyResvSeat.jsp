@@ -244,6 +244,8 @@
 				<!-- 출발경유순서 -->
 				<input type="hidden" name="arvlThruSeq" id="arvlThruSeq" value="4">
 				<!-- 도착경유순서 -->
+				
+				<input type="hidden" name="busCode" id="busCode" value="${bus.bshId }">
 
 				<input type="hidden" name="adltFee" id="adltFee" value="${bus.adultFare }">
 				<!-- 일반금액 -->

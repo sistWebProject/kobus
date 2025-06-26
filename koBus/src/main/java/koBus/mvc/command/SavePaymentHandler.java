@@ -1,14 +1,14 @@
 package koBus.mvc.command;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import koBus.mvc.domain.BusPaymentDTO;
 import koBus.mvc.domain.BusReservationDTO;
-
+import koBus.mvc.persistence.BusPaymentDAO;
+import koBus.mvc.persistence.BusReservationDAO;
 
 public class SavePaymentHandler implements CommandHandler {
 
@@ -16,7 +16,7 @@ public class SavePaymentHandler implements CommandHandler {
     public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request.setCharacterEncoding("UTF-8");
 
-        // 1. 결제 관련 파라미터 수신
+        // 1. 결제 데이터 수신
         String imp_uid = request.getParameter("imp_uid");
         String merchant_uid = request.getParameter("merchant_uid");
         String pay_method = request.getParameter("pay_method");
@@ -24,59 +24,51 @@ public class SavePaymentHandler implements CommandHandler {
         String pay_status = request.getParameter("pay_status");
         String pg_tid = request.getParameter("pg_tid");
         String paid_at_str = request.getParameter("paid_at");
-        String user_id = request.getParameter("user_id");
-        String resId = request.getParameter("resId"); // JS에서 넘긴 고유 예매ID
+        String user_id = request.getParameter("user_id"); // JS에서 추가된 항목
+        String resId = request.getParameter("resId"); // 또는 req.getParameter("resID")
+        System.out.println("✅ 받은 resId: " + resId);
+        
+        System.out.println("🟡 받은 paid_at 값: " + paid_at_str);
+        System.out.println("🟡 받은 amountStr 값: " + amountStr);
+
 
         int amount = Integer.parseInt(amountStr);
+
+        // paid_at 변환: UNIX timestamp (초 단위) → java.sql.Date
         long paidAtMillis = Long.parseLong(paid_at_str) * 1000L;
         Date paid_at = new Date(paidAtMillis);
 
-        // 2. BusReservationDTO 생성
+        // 2. DTO 생성 및 설정
+        BusPaymentDTO dto = new BusPaymentDTO();
+        dto.setUserId(user_id);
+        dto.setImpUid(imp_uid);
+        dto.setMerchantUid(merchant_uid);
+        dto.setPayMethod(pay_method);
+        dto.setAmount(amount);
+        dto.setPayStatus(pay_status);
+        dto.setPgTid(pg_tid);
+        dto.setPaidAt(paid_at);
+        dto.setResId(resId);
+
+        // 3. DAO 호출
+        BusPaymentDAO dao = new BusPaymentDAO();
+        int result = dao.insertPayment(dto);
+        
+     // ✅ 여기에 예매 정보 insert 추가
         BusReservationDTO rDto = new BusReservationDTO();
-        rDto.setResId(resId); // JS에서 생성한 UUID 등 사용
         rDto.setUserId(user_id);
-        rDto.setBshID(request.getParameter("bshid"));
+        rDto.setBusScheduleId(request.getParameter("bus_schedule_id"));
         rDto.setSeatNumber(request.getParameter("seat_number"));
-        String boardingDtRaw = request.getParameter("boarding_dt");
-        System.out.println("🛑 [DEBUG] 받은 boarding_dt 파라미터: " + boardingDtRaw);
+        rDto.setBoardingDt(Date.valueOf(request.getParameter("boarding_dt")));
+        rDto.setTotalPrice(amount); // 결제 금액 그대로 사용
 
-        if (boardingDtRaw != null) {
-            if (boardingDtRaw.contains("T")) {
-                boardingDtRaw = boardingDtRaw.replace("T", " ");
-            }
-            if (boardingDtRaw.length() == 16) {
-                boardingDtRaw += ":00";
-            } else if (boardingDtRaw.length() == 10) {
-                boardingDtRaw += " 00:00:00";
-            }
-        }
+        BusReservationDAO rDao = new BusReservationDAO();
+        int rResult = rDao.insertReservation(rDto);
 
-        Timestamp boardingDt = Timestamp.valueOf(boardingDtRaw);
-        rDto.setBoardingDt(boardingDt);
-
-        rDto.setTotalPrice(amount);
-
-        // 3. BusPaymentDTO 생성
-        BusPaymentDTO pDto = new BusPaymentDTO();
-        pDto.setResId(resId); // 위 예매 resId와 동일하게 설정
-        pDto.setUserId(user_id);
-        pDto.setImpUid(imp_uid);
-        pDto.setMerchantUid(merchant_uid);
-        pDto.setPayMethod(pay_method);
-        pDto.setAmount(amount);
-        rDto.setResvStatus("결제완료");
-        pDto.setPayStatus(pay_status);
-        pDto.setPgTid(pg_tid);
-        pDto.setPaidAt(paid_at);
-
-        // 4. Service를 통한 트랜잭션 처리
-        BusPaymentService service = new BusPaymentService();
-        boolean success = service.insertReservationAndPayment(rDto, pDto);
-
-        // 5. 응답
+        // 4. 응답 반환
         response.setContentType("application/json; charset=UTF-8");
-        response.getWriter().write("{\"result\": " + (success ? 1 : 0) + "}");
+        response.getWriter().write("{\"result\": " + ((result == 1 && rResult == 1) ? 1 : 0) + "}");
 
-        return null; // AJAX 응답이므로 null 반환
+        return null; // AJAX 처리이므로 null 반환
     }
 }

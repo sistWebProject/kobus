@@ -481,7 +481,6 @@ if (lngCd == "KO") {
 	<input type="hidden" name="seatNos" id="seatNos" value="${seatNos}"><!-- 각 좌석번호 -->
 	<input type="hidden" name="resId" id="resId" value="${resId}">
 	<input type="hidden" name="cacmNm" id="cacmNm" value="${cacmNm}">
-	<input type="hidden" name="seatIds" id="seatIds" value="${seatIds}">
 	
 	
 	<!-- 예상금액 -->
@@ -912,7 +911,7 @@ if (lngCd == "KO") {
 				<h4 class="mo_page">가는 편 승차권 정보</h4>
 				<div class="box_detail_info">
 					<div class="routeHead">
-						<p class="date">${deprDtFmt}&nbsp;${deprTime} 출발 </p>
+						<p class="date">${deprDtFmt}&nbsp;${deprTimeFmt} 출발 </p>
 					</div>
 					<div class="routeBody">
 						<div class="routeArea route_wrap">
@@ -1602,6 +1601,8 @@ if (lngCd == "KO") {
 
 		<!-- footer -->
 		
+
+
 
 <!-- 푸터 -->
 <%@ include file="common/footer.jsp" %>

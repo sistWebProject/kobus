@@ -68,7 +68,7 @@ public class PaymentDAO {
             resvPstmt.setString(2, resvDto.getBshID());
             resvPstmt.setString(3, resvDto.getSeatID());
             resvPstmt.setString(4, resvDto.getKusID());
-            resvPstmt.setDate(5, resvDto.getRideDate());
+            resvPstmt.setTimestamp(5, resvDto.getRideDate());
             resvPstmt.setDate(6, resvDto.getResvDate());
             resvPstmt.setString(7, resvDto.getResvStatus());
             resvPstmt.setString(8, resvDto.getResvType());

@@ -64,15 +64,15 @@ public class ResvDAOImpl implements ResvDAO {
 			    " FROM reservation R " +
 			    " JOIN ReservedSeats RS ON R.resID = RS.resID " +
 			    " JOIN seat S ON RS.seatID = S.seatID " +
-			    " JOIN busSchedule BS ON R.bshID = BS.bshID " +
-			    " JOIN kobusUser KU ON R.kusID = KU.kusID " +
-			    " JOIN bus B ON BS.busID = B.busID " +
-			    " JOIN company C ON B.comID = C.comID " +
-			    " JOIN route RT ON BS.rouID = RT.rouID " +
-			    " JOIN departure D ON RT.depID = D.depID " +
-			    " JOIN arrival A ON RT.arrID = A.arrID " +
-			    " JOIN region RGD ON D.regID = RGD.regID " +
-			    " JOIN region RGA ON A.regID = RGA.regID " +
+			    " LEFT JOIN busSchedule BS ON R.bshID = BS.bshID " +
+			    " LEFT JOIN kobusUser KU ON R.kusID = KU.kusID " +
+			    " LEFT JOIN bus B ON BS.busID = B.busID " +
+			    " LEFT JOIN company C ON B.comID = C.comID " +
+			    " LEFT JOIN route RT ON BS.rouID = RT.rouID " +
+			    " LEFT JOIN departure D ON RT.depID = D.depID " +
+			    " LEFT JOIN arrival A ON RT.arrID = A.arrID " +
+			    " LEFT JOIN region RGD ON D.regID = RGD.regID " +
+			    " LEFT JOIN region RGA ON A.regID = RGA.regID " +
 			    " JOIN RESERVATION_PAYMENT PM ON R.resID = PM.RES_ID " +
 			    " WHERE KU.id = ? AND R.resvStatus = '결제완료' " + 
 			    " GROUP BY " +
@@ -82,6 +82,7 @@ public class ResvDAOImpl implements ResvDAO {
 			    " ORDER BY R.resvDate DESC";
 
 
+		System.out.println(sql);
 		
 		this.pstmt = this.conn.prepareStatement(sql);
 		

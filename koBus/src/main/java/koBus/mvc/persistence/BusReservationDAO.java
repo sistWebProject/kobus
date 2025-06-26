@@ -10,42 +10,40 @@ import com.util.DBConn;
 import koBus.mvc.domain.BusReservationDTO;
 
 public class BusReservationDAO {
-    private Connection conn;
 
-    public BusReservationDAO(Connection conn) {
-        this.conn = conn;
-    }
+	public int insertReservation(BusReservationDTO dto) {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    int result = 0;
 
-    public int insertReservation(BusReservationDTO dto) throws SQLException {
-        String sql = "INSERT INTO reservation " +
-                "(resID, bshID, seatID, kusID, rideDate, resvDate, resvStatus, resvType, qrCode, mileage, seatAble) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	    String sql = "INSERT INTO reservation " +
+	                 "(resID, bshID, seatID, kusID, rideDate, resvDate, resvStatus, resvType, qrCode, mileage, seatAble) " +
+	                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, dto.getResId());
-            pstmt.setString(2, dto.getBshID());
-            pstmt.setString(3, dto.getSeatNumber());
-            pstmt.setString(4, dto.getUserId());
-            pstmt.setTimestamp(5, dto.getBoardingDt());
-            pstmt.setDate(6, new Date(System.currentTimeMillis()));
-            pstmt.setString(7, "결제대기");
-            pstmt.setString(8, "일반");
-            pstmt.setInt(9, (int) (Math.random() * 900000) + 100000);
-            pstmt.setInt(10, 0);
-            pstmt.setString(11, "Y");
+	    try {
+	        conn = DBConn.getConnection();
+	        pstmt = conn.prepareStatement(sql);
 
-            return pstmt.executeUpdate();
-        }
-    }
-    
-    public int updateReservationStatus(String resId, String status) throws SQLException {
-        String sql = "UPDATE reservation SET resvStatus = ? WHERE resID = ?";
+	        pstmt.setString(1, dto.getResId());                    // resID
+	        pstmt.setString(2, dto.getBusScheduleId());            // bshID
+	        pstmt.setString(3, dto.getSeatNumber());               // seatID
+	        pstmt.setString(4, dto.getUserId());                   // kusID
+	        pstmt.setDate(5, dto.getBoardingDt());                 // rideDate
+	        pstmt.setDate(6, new Date(System.currentTimeMillis())); // resvDate
+	        pstmt.setString(7, "결제완료");                         // resvStatus
+	        pstmt.setString(8, "일반");                             // resvType
+	        pstmt.setInt(9, (int)(Math.random() * 900000) + 100000); // qrCode
+	        pstmt.setInt(10, 0);                                   // mileage
+	        pstmt.setString(11, "Y");                              // seatAble
 
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, status); // 예: "결제완료"
-            pstmt.setString(2, resId);
-            return pstmt.executeUpdate();
-        }
-    }
+	        result = pstmt.executeUpdate();
 
+	    } catch (SQLException e) {
+	        System.out.println("[insertReservation] 오류: " + e.getMessage());
+	    } finally {
+	        DBConn.close();
+	    }
+
+	    return result;
+	}
 }

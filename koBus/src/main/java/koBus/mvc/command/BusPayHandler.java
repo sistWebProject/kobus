@@ -2,8 +2,7 @@ package koBus.mvc.command;
 
 import java.sql.Connection;
 import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -58,17 +57,9 @@ public class BusPayHandler implements CommandHandler {
         
         
         
-        HttpSession session = request.getSession(false);
-		
-		 if (session == null || session.getAttribute("id") == null) {
-		        // 로그인 안 된 상태
-		        response.sendRedirect("/koBus/koBusFile/logonMain.jsp");
-		        return null;
-		}
-		
-		
         
-        System.out.println("deprTime " + deprTime);
+        
+        System.out.println("deprDtRaw " + deprDtRaw + " " + deprDt);
 
         // 2. 날짜/시간 포맷
         String deprDtFmt = "";
@@ -81,15 +72,13 @@ public class BusPayHandler implements CommandHandler {
             deprTimeFmt = deprTime.substring(0, 2) + ":" + deprTime.substring(2, 4);
         }
         
-        String rideFullTime = deprDt + " " + deprTime;
-        
-        System.out.println("rideFullTime " + rideFullTime);
-        
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime dateTime = LocalDateTime.parse(rideFullTime, formatter);
-        
-        System.out.println();
-        
+        HttpSession session = request.getSession(false);
+		
+		 if (session == null || session.getAttribute("id") == null) {
+		        // 로그인 안 된 상태
+		        response.sendRedirect("/koBus/koBusFile/logonMain.jsp");
+		        return null;
+		}
 
         // 3. 커넥션 및 DAO 준비
         Connection conn = ConnectionProvider.getConnection();
@@ -100,7 +89,6 @@ public class BusPayHandler implements CommandHandler {
         LogonDAO logonDao = new LogonDAOImpl(conn);
         
         String userPK = logonDao.getKusIDById(loginId);
-        
         
         int delete = 0;
         
@@ -127,6 +115,9 @@ public class BusPayHandler implements CommandHandler {
             System.out.println("좌석 번호들: " + seatNos);
         }
         String seatIds = String.join(",", seatIdList);
+        
+        String fullDateTimeStr = deprDt + " " + deprTime.substring(0,2) + ":" + deprTime.substring(2,4) + ":" + deprTime.substring(4,6);  // "2025-06-25 14:30:00"
+        Timestamp rideDateTime = Timestamp.valueOf(fullDateTimeStr);
 
         // 5. RES_ID 생성
         
@@ -139,8 +130,8 @@ public class BusPayHandler implements CommandHandler {
         reservation.setResID(resId);
         reservation.setBshID(request.getParameter("busCode")); // 운행 ID
         reservation.setSeatID(seatIds);                     // 좌석 번호 (7,8,...)
-        reservation.setKusID(userPK);                  // 임시 사용자 ID
-        reservation.setRideDateTime(dateTime);      // 탑승일자
+        reservation.setKusID(userPK);                   // 임시 사용자 ID
+        reservation.setRideDate(rideDateTime);       // 탑승일자
         reservation.setResvDate(new Date(System.currentTimeMillis())); // 예매일자
         reservation.setResvStatus("결제완료");
         reservation.setResvType("일반");

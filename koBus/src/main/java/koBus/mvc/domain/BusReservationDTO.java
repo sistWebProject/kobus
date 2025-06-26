@@ -1,7 +1,6 @@
 package koBus.mvc.domain;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,9 +10,9 @@ import lombok.Setter;
 public class BusReservationDTO {
     private String resId;             // 🔹 예매 ID (resID)
     private String userId;            // 🔹 회원 ID (kusID)
-    private String bshID;     // 🔹 운행 ID (bshID)
+    private String busScheduleId;     // 🔹 운행 ID (bshID)
     private String seatNumber;        // 🔹 좌석 ID (seatID)
-    private Timestamp boardingDt;          // 🔹 탑승일자 (rideDate)
+    private Date boardingDt;          // 🔹 탑승일자 (rideDate)
     private int totalPrice;           // 🔹 결제금액 (amount)
 
     // 🔽 예매 테이블 필드 중 빠진 항목 추가
