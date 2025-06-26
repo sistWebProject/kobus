@@ -2,12 +2,8 @@ package koBus.mvc.command;
 
 import java.sql.Connection;
 import java.sql.Date;
-<<<<<<< kimseunghyo
-import java.sql.Timestamp;
-=======
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
->>>>>>> main
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -131,9 +127,6 @@ public class BusPayHandler implements CommandHandler {
             System.out.println("좌석 번호들: " + seatNos);
         }
         String seatIds = String.join(",", seatIdList);
-        
-        String fullDateTimeStr = deprDt + " " + deprTime.substring(0,2) + ":" + deprTime.substring(2,4) + ":" + deprTime.substring(4,6);  // "2025-06-25 14:30:00"
-        Timestamp rideDateTime = Timestamp.valueOf(fullDateTimeStr);
 
         // 5. RES_ID 생성
         
@@ -146,22 +139,17 @@ public class BusPayHandler implements CommandHandler {
         reservation.setResID(resId);
         reservation.setBshID(request.getParameter("busCode")); // 운행 ID
         reservation.setSeatID(seatIds);                     // 좌석 번호 (7,8,...)
-<<<<<<< kimseunghyo
-        reservation.setKusID("KUS004");                  // 임시 사용자 ID
-        reservation.setRideDate(rideDateTime);      // 탑승일자
-=======
         reservation.setKusID(userPK);                  // 임시 사용자 ID
         reservation.setRideDateTime(dateTime);      // 탑승일자
->>>>>>> main
         reservation.setResvDate(new Date(System.currentTimeMillis())); // 예매일자
-        reservation.setResvStatus("결제대기");
+        reservation.setResvStatus("결제완료");
         reservation.setResvType("일반");
         reservation.setQrCode((int)(Math.random() * 999999));
         reservation.setMileage(0);
         reservation.setSeatAble("Y");
         reservation.setBusCode(busCode);
 
-        /*
+
         // 7. INSERT 수행
         boolean success = dao.insertReservation(reservation);
         if (!success) {
@@ -169,11 +157,10 @@ public class BusPayHandler implements CommandHandler {
             request.setAttribute("error", "예매 정보 저장 중 오류 발생");
             return "/koBus/error.jsp";
         }
-		*/
+
         // 8. JSP로 전달할 값 설정
         request.setAttribute("resId", resId);
         request.setAttribute("seatNos", seatNos);
-        request.setAttribute("seatIds", seatIds);
 
         request.setAttribute("deprCd", deprCd);
         request.setAttribute("deprDt", deprDt);
