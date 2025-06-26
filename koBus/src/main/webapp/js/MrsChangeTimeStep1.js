@@ -87,7 +87,6 @@ function fnSearch() {
 
 // 시간 선택
 function fnTimeChoice(value) {
-	alert(value);
 	document.mrschangefrm.timeChoiceVal.value=value;
 }
 

@@ -51,6 +51,10 @@ public class BusPayHandler implements CommandHandler {
         
         System.out.println("changeResId " + changeResId);
         
+        
+        
+        
+        
         System.out.println("deprDtRaw " + deprDtRaw + " " + deprDt);
 
         // 2. 날짜/시간 포맷
@@ -68,6 +72,13 @@ public class BusPayHandler implements CommandHandler {
         Connection conn = ConnectionProvider.getConnection();
         SeatDAO seatDao = new SeatDAOImpl(conn);
         ReservationDAO dao = new ReservationDAO();
+        
+        int delete = 0;
+        
+        if (changeResId != null && !changeResId.equals("") && !changeResId.equals("undefined")) {
+            delete = dao.changeReservation(changeResId);
+        }
+        
         String resId = dao.generateResId();
 
 

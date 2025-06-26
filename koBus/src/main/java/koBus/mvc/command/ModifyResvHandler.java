@@ -96,9 +96,12 @@ public class ModifyResvHandler implements CommandHandler{
 		
 		List<ScheduleDTO> changeList = new ArrayList<ScheduleDTO>();
 		
-		System.out.println("deprDay " + deprDay);
 		
-		changeList = dao.searchBusSchedule(deprRegCode, arrRegCode, deprDay, busGrade);	
+		String deprDay2 = deprDay.replace("-", "");
+		
+		
+		changeList = dao.searchBusSchedule(deprRegCode, arrRegCode, deprDay2, "전체");	
+
 		
 		List<String> busTimeList = new ArrayList<>();
 

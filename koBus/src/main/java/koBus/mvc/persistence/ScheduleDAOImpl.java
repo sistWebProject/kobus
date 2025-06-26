@@ -144,10 +144,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		    	deprDtm = deprDtm.replaceAll("-", "").substring(0, 8) + " " + deprDtm.substring(11, 16);
 
 		        sql += " AND BS.DEPARTUREDATE = TO_TIMESTAMP(?, 'YYYYMMDD HH24:MI') ";
-
-		        
 		    }
-		    
 		    
 		 // Case 3: "yyyy-MM-dd"
 		    else if (deprDtm.trim().matches("\\d{4}-\\d{2}-\\d{2}")) {
@@ -172,6 +169,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 		}
 
 
+		System.out.println(sql);
 
 		if (!busClsCd.equals("전체")) {
 		    sql += " AND B.BUSGRADE = ? ";
@@ -213,6 +211,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 					.adultFare(adultFare)
 					.stuFare(stuFare)
 					.childFare(childFare)
+					.departureDate(departureDate)
 					.arrivalDate(arrivalDate)
 					.durMin(durMin)
 					.bshId(bshId)
@@ -223,6 +222,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 
 			schList.add(schDto);
 		}
+		
 
 		return schList;
 	}

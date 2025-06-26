@@ -443,6 +443,10 @@
 				<!-- 거래처코드 -->
 				<input type="hidden" name="stdDtm" id="stdDtm" value=""> <input
 					type="hidden" name="endDtm" id="endDtm" value="">
+					
+					
+				<input type="hidden" name="resId" id="resId" value="${resId }">
+				<!-- 결제금액 -->
 
 			</form>
 
