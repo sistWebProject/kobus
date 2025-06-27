@@ -199,8 +199,7 @@
 
 							<li><a href="/koBus/region.do">고속버스예매</a></li>
 
-							<li><a
-								href="/koBus/kobusSchedule.do">운행정보</a></li>
+							<li><a href="/koBus/kobusSchedule.do">운행정보</a></li>
 
 							<li class="selected"><a href="/koBus/kobusSchedule.do"
 								title="선택됨">프리패스/정기권</a></li>

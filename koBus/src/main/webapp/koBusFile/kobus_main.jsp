@@ -1208,20 +1208,22 @@ $(document).ready(function () {
 						</div>
 
 						<div class="content-row links-small">
-							<a href="/adtnprdnew/frps/frpsPrchGd.do"
+							<a href="/koBus/pageForward.do?page=freePass"
 								class="item item-yellow"> <strong>프리패스 여행권 구매</strong>
 								<p>대한민국 구석구석을 자유롭게</p> <img
 								src="/koBus/images/img-links-small-item01.png" alt="">
-							</a> <a href="/adtnprdnew/pass/passPrchGd.do"
+							</a> <a href="/koBus/pageForward.do?page=seasonTicket"
 								class="item item-yellow"> <strong>정기권 구매</strong>
 								<p>매일 가는 목적지를 저렴하게</p> <img
 								src="/koBus/images/img-links-small-item02.png" alt="">
-							</a> <a href="/oprninf/arscgd/oprnArscGd.do"
+							</a> 
+							<a href="/koBus/kobusSchedule.do"
 								class="item item-blue"> <strong>도착시간 안내</strong>
 								<p>운행중인 버스정보를 확인해요</p> <img
 								src="/koBus/images/img-links-small-item03.png" alt="">
-							</a> <a
-								href="/oprninf/alcninqr/oprnAlcnPage.do"
+							</a> 
+							<a
+								href="/koBus/kobusSchedule.do"
 								class="item item-blue"> <strong>시간표 조회</strong>
 								<p>배차시간을 편리하게 확인해요</p> <img
 								src="/koBus/images/img-links-small-item04.png" alt="">
@@ -1244,7 +1246,7 @@ $(document).ready(function () {
 									EXPRESS</span> <strong>고속버스 당일배송<br> 온라인 택배신청
 							</strong> <img src="/koBus/images/img-links-big-item02.png" alt="">
 							</a> <a
-								href="/cscn/lossClnc/readLossClncList.do"
+								href="/koBus/lossCenter/main.do"
 								target="_blank" title="새창" class="item item-purple"> <span>고객센터</span>
 								<strong>유실물 센터</strong> <img
 								src="/koBus/images/img-lost-article.png" alt="">

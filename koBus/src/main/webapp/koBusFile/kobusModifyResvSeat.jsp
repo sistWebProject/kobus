@@ -72,60 +72,50 @@
 				<ol class="breadcrumb-list">
 					<li><i class="ico ico-home"></i><span class="sr-only">홈</span></li>
 
-					<li>
-						<div class="dropdown-wrap breadcrumb-select">
+				<li>
+					<div class="dropdown-wrap breadcrumb-select">
 
 
 
-							<a href="javascript:void(0)" class="btn-dropdown" title="대메뉴 선택"
-								aria-expanded="false"> <span class="text">고속버스예매</span><i
-								class="ico ico-dropdown-arrow"></i></a>
+						<a href="javascript:void(0)" class="btn-dropdown" title="대메뉴 선택"
+							aria-expanded="false"> <span class="text">고속버스예매</span><i
+							class="ico ico-dropdown-arrow"></i></a>
 
-							<ul class="dropdown-list" style="display: none;">
+						<ul class="dropdown-list" style="display: none;">
 
-								<li class="selected"><a href="javascript:void(0)"
-									title="선택됨">고속버스예매</a></li>
+							<li class="selected"><a href="/koBus/region.do" title="선택됨">고속버스예매</a></li>
 
-								<li><a
-									href="https://www.kobus.co.kr/oprninf/alcninqr/oprnAlcnPage.do">운행정보</a></li>
+							<li><a href="/koBus/kobusSchedule.do">운행정보</a></li>
 
-								<li><a
-									href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrchGd.do">프리패스/정기권</a></li>
+							<li><a href="/koBus/pageForward.do?page=freePass">프리패스/정기권</a></li>
 
-								<li><a href="https://www.kobus.co.kr/ugd/mrsgd/Mrsgd.do">이용안내</a></li>
+							<li><a href="#">이용안내</a></li>
 
-								<li><a
-									href="https://www.kobus.co.kr/cscn/ntcmttr/readNtcList.do">고객지원</a></li>
+							<li><a href="/koBus/lossCenter/main.do">고객지원</a></li>
 
-								<li><a
-									href="https://www.kobus.co.kr/ugd/bustrop/Bustrop.do">전국고속버스운송사업조합</a></li>
+							<li><a href="#">전국고속버스운송사업조합</a></li>
 
-								<li><a
-									href="https://www.kobus.co.kr/ugd/trmlbizr/Trmlbizr.do">터미널사업자협회</a></li>
+							<li><a href="#">터미널사업자협회</a></li>
 
-							</ul>
-						</div>
-					</li>
+						</ul>
+					</div>
+				</li>
 
-					<li>
-						<div class="dropdown-wrap breadcrumb-select">
+				<li>
+					<div class="dropdown-wrap breadcrumb-select">
+						<a href="javascript:void(0)" class="btn-dropdown" title="하위메뉴 선택"
+							aria-expanded="false"> <span class="text">고속버스예매</span><i
+							class="ico ico-dropdown-arrow"></i></a>
+						<ul class="dropdown-list" style="display: none;">
+							<li class="selected"><a href="/koBus/region.do" title="선택됨">고속버스예매</a></li>
 
+							<li><a href="/koBus/manageReservations.do">예매확인/취소/변경</a></li>
 
-
-							<a href="javascript:void(0)" class="btn-dropdown" title="하위메뉴 선택"
-								aria-expanded="false"> <span class="text">고속버스예매</span><i
-								class="ico ico-dropdown-arrow"></i></a>
-							<ul class="dropdown-list" style="display: none;">
-								<li class="selected"><a href="javascript:void(0)"
-									title="선택됨">고속버스예매</a></li>
-
-								<li><a href="https://www.kobus.co.kr/mrs/mrscfm.do">예매확인/취소/변경</a></li>
-
-								<li><a href="https://www.kobus.co.kr/mrs/mrsrecplist.do">영수증발행</a></li>
-							</ul>
-						</div>
-					</li>
-				</ol>
+							<li><a href="#">영수증발행</a></li>
+						</ul>
+					</div>
+				</li>
+			</ol>
 
 			</div>
 		</nav>
