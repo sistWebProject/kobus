@@ -1,6 +1,7 @@
 package koBus.mvc.command;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.util.UUID;
@@ -133,7 +134,7 @@ public class PaymentSaveHandler implements CommandHandler {
         resvDto.setBshID(bshID);
         resvDto.setSeatID(seatID);
         resvDto.setKusID(userId);
-        resvDto.setRideDate(rideDate);
+        resvDto.setRideDate(new Timestamp(rideDate.getTime()));
         resvDto.setResvDate(resvDate);
         resvDto.setResvStatus(resvStatus);
         resvDto.setResvType(resvType);
