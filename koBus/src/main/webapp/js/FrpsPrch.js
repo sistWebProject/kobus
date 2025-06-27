@@ -291,6 +291,22 @@ $(document).on("click", "#selOptionLi li a", function() {
 */
 function requestPay() {
 	var selectedOptionText = $("#selOptionText").val();
+	
+	// 1. 시작일 원본 추출
+	let rawStartDate = $("#datepickerItem").val().trim(); // 예: "2025. 6. 26. 목"
+	
+	// 2. 변환: "2025. 6. 26. 목" → "2025-06-26"
+	let startDate = "";
+	if (rawStartDate) {
+	    let dateParts = rawStartDate.split(".");
+	    let yyyy = dateParts[0].trim();
+	    let mm = dateParts[1].trim().padStart(2, '0');
+	    let dd = dateParts[2].trim().padStart(2, '0');
+	    startDate = `${yyyy}-${mm}-${dd}`; // 결과: "2025-06-26"
+	}
+
+	console.log("변환된 시작일:", startDate);
+	
     var IMP = window.IMP;
     IMP.init('imp31168041'); // 가맹점 식별코드
 
@@ -316,7 +332,8 @@ function requestPay() {
                     pg_tid: rsp.pg_tid,
                     paid_at: rsp.paid_at,
                     adtn_prd_sno: $("#adtnPrdSno").val(),   // ★ 프리패스 옵션 PK
-                    user_id: $("#user_id").val()              // ★ 로그인 회원ID
+                    user_id: $("#user_id").val(),           // ★ 로그인 회원ID
+                    startDate: startDate 			        // ← 추가 (형식: yyyy-MM-dd)
                 },
                 success: function(data) {
                     alert('결제 정보가 서버에 저장되었습니다!');

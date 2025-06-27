@@ -20,19 +20,14 @@ public class BusPaymentService {
             conn = DBConn.getConnection();
             conn.setAutoCommit(false); // 트랜잭션 시작
 
-            BusReservationDAO resDao = new BusReservationDAO(conn);
-            BusPaymentDAO payDao = new BusPaymentDAO(conn);
+            BusReservationDAO resDao = new BusReservationDAO();
+            BusPaymentDAO payDao = new BusPaymentDAO();
 
             int resResult = resDao.insertReservation(resDto);
             int payResult = payDao.insertPayment(payDto);
 
-            // 🔄 상태 업데이트 추가
-            int statusUpdate = 0;
-            if (resResult > 0 && payResult > 0) {
-                statusUpdate = resDao.updateReservationStatus(resDto.getResId(), "결제완료");
-            }
 
-            if (resResult > 0 && payResult > 0 && statusUpdate > 0) {
+            if (resResult > 0 && payResult > 0) {
                 conn.commit();
                 isSuccess = true;
             } else {

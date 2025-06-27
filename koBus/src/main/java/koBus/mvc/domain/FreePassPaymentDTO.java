@@ -19,4 +19,5 @@ public class FreePassPaymentDTO {
     private String pgTid;          // PG_TID
     private Date paidAt;           // PAID_AT
     private Date regDt;            // REG_DT
+    private Date startdate;            // REG_DT
 }
