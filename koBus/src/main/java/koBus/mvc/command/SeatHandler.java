@@ -39,9 +39,7 @@ public class SeatHandler implements CommandHandler {
 	    String deprNm = request.getParameter("deprNm");
 	    String arvlNm = request.getParameter("arvlNm");
 	    
-	    
-	    System.out.println("request.getParameter(\"deprTime\") " + request.getParameter("deprTime"));
-	    
+	    System.out.println(">>> deprTime" + deprTime);
 	    
 	    switch (busClsCd) {
 		    case "0": busClsCd = "전체"; break;
@@ -121,7 +119,6 @@ public class SeatHandler implements CommandHandler {
 			if("KOBUSreservation2.jsp".equals(sourcePage) || "kobusModifyResvSch.jsp".equals(sourcePage)) {
 				
 				System.out.println("deprDtm " + deprDtm);
-				
 				
 				if (deprDtm.matches("\\d{8} \\d{2}:\\d{2}:\\d{2}")) {
 				    // 예: "20250628 08:00:00"
@@ -210,6 +207,7 @@ public class SeatHandler implements CommandHandler {
 	    request.setAttribute("deprId", deprId);
 	    request.setAttribute("arrId", arrId);
 	    request.setAttribute("deprDtm", deprDtm);
+	    request.setAttribute("deptTime", deprTime);
 	    request.setAttribute("busClsCd", busClsCd);
 	    request.setAttribute("deprDate", deprDate);
 	    request.setAttribute("deprTime", deprTime);
@@ -221,7 +219,6 @@ public class SeatHandler implements CommandHandler {
 	    request.setAttribute("resId", resId);
 	    
 	    System.out.println("resId : " + resId);
-	    
 	    
 	    if ("kobusModifyResvSch.jsp".equals(sourcePage)) {
 	    	return "/koBusFile/kobusModifyResvSeat.jsp";

@@ -115,21 +115,18 @@
   border-top: 1px solid transparent;
   min-height: calc(100vh - 399px);
   max-width: 1080px;
-  
 }
 
 .tbl_type1.responsive.col2 table {
   width: 100%;
   border-collapse: collapse;
   background: white;
-  border: 1px solid #000;
 }
 
 .tbl_type1.responsive.col2 caption {
   padding: 10px 0;
   font-weight: 600;
   text-align: left;
-  
 }
 
 .tbl_type1.responsive.col2 th,
@@ -139,12 +136,10 @@
   font-size: 15px;
   line-height: 1.5;
   word-break: keep-all;
-  border: 1px solid #000;
 }
 
 .tbl_type1.responsive.col2 th {
   font-weight: 600;
-  background-color: #f4f4f4;
 }
 </style>
 

@@ -219,14 +219,14 @@
 				<input type="hidden" name="distOrg" id="distOrg" value="">
 				<!-- 거리 -->
 				<!-- 출발일자:deprDtm or arvlDtm, 출발터미널번호:deprCd, 도착터미널번호:arvlCd  -->
-				<input type="hidden" name="deprDt" id="deprDt" value="${change.deprTime }">
+				<input type="hidden" name="deprDt" id="deprDt" value="${change.rideDateStr }">
 				<!-- 출발일 -->
-				<input type="hidden" name="deprTime" id="deprTime" value="${change.deprTime }">
+				<input type="hidden" name="deprTime" id="deprTime" value="072000">
 				<!-- 출발시각 -->
 				<input type="hidden" name="alcnDeprDt" id="alcnDeprDt" value="">
 				<!-- 배차출발일 -->
 				<input type="hidden" name="alcnDeprTime" id="alcnDeprTime"
-					value="${change.deprTime }">
+					value="072000">
 				<!-- 배차출발시각 -->
 				<input type="hidden" name="alcnDeprTrmlNo" id="alcnDeprTrmlNo"
 					value="010">
@@ -244,6 +244,8 @@
 				<!-- 출발경유순서 -->
 				<input type="hidden" name="arvlThruSeq" id="arvlThruSeq" value="4">
 				<!-- 도착경유순서 -->
+				
+				<input type="hidden" name="busCode" id="busCode" value="${bus.bshId }">
 
 				<input type="hidden" name="adltFee" id="adltFee" value="${bus.adultFare }">
 				<!-- 일반금액 -->
@@ -306,7 +308,7 @@
 					value="${change.rideDateStr }">
 				<!-- 2일 후 시간체크 -->
 				<input type="hidden" name="chkDeprTime" id="chkDeprTime"
-					value="${change.deprTime }">
+					value="072000">
 				<!-- 2일 후 시간체크 -->
 				<input type="hidden" name="prsTimeAll" id="prsTimeAll"
 					value="20250613140651">
@@ -1525,7 +1527,7 @@
 						value="20250621">
 					<!-- 출발일 -->
 					<input type="hidden" name="bohnDeprTime" id="bohnDeprTime"
-						value="${change.deprTime }">
+						value="072000">
 					<!-- 출발시각 -->
 
 

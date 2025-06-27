@@ -136,12 +136,10 @@
   font-size: 15px;
   line-height: 1.5;
   word-break: keep-all;
-  border: 1px solid #000;
 }
 
 .tbl_type1.responsive.col6 th {
   font-weight: 600;
-  background-color: #f4f4f4;
 }
 </style>
 
