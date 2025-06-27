@@ -93,7 +93,7 @@ response.setDateHeader("Expires", 0); // Proxies
 								<li><a href="/koBus/manageReservations.do">예매확인/취소/변경</a></li>
 								<li><a href="#">영수증발행</a></li>
 							</ul></li>
-						<li><a href="#">운행정보</a>
+						<li><a href="/koBus/kobusSchedule.do">운행정보</a>
 							<ul>
 								<li><a href="/koBus/kobusSchedule.do">시간표 조회</a></li>
 								<li><a href="#">도착시간 안내</a></li>
@@ -119,7 +119,7 @@ response.setDateHeader("Expires", 0); // Proxies
 								<li><a href="/ugd/trmlgd/Trmlgd.do">고속버스 터미널</a></li>
 								<li><a href="/ugd/cacmgd/Cacmgd.do">고속버스 운송회사</a></li>
 							</ul></li>
-						<li><a href="/koBus/main.do">고객지원</a>
+						<li><a href="/koBus/lossCenter/main.do">고객지원</a>
 							<ul>
 								<li><a href="/koBus/html/boardList.do">게시판</a></li>
 								<li><a href="/koBus/html/goBusFaq.do">자주찾는 질문</a></li>

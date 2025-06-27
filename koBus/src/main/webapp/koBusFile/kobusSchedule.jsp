@@ -65,103 +65,57 @@
 
 		<!-- breadcrumb -->
 
-		<nav id="new-kor-breadcrumb">
-			<div class="container">
+<nav id="new-kor-breadcrumb">
+	<div class="container">
 
-				<ol class="breadcrumb-list">
-					<li><i class="ico ico-home"></i><span class="sr-only">홈</span></li>
+		<ol class="breadcrumb-list">
+			<li><i class="ico ico-home"></i><span class="sr-only">홈</span></li>
 
-					<li>
-						<div class="dropdown-wrap breadcrumb-select">
+			<li>
+				<div class="dropdown-wrap breadcrumb-select">
 
+					<a href="javascript:void(0)" class="btn-dropdown" title="대메뉴 선택"
+						aria-expanded="false"> <span class="text">운행정보</span><i
+						class="ico ico-dropdown-arrow"></i></a>
 
+					<ul class="dropdown-list" style="display: none;">
 
+						<li><a href="/koBus/region.do">고속버스예매</a></li>
 
+						<li class="selected"><a href="/koBus/kobusSchedule.do"
+							title="선택됨">운행정보</a></li>
 
-							<a href="javascript:void(0)" class="btn-dropdown" title="대메뉴 선택"
-								aria-expanded="false"> <span class="text">운행정보</span><i
-								class="ico ico-dropdown-arrow"></i></a>
+						<li><a href="/koBus/pageForward.do?page=freePass">프리패스/정기권</a></li>
 
+						<li><a href="#">이용안내</a></li>
 
+						<li><a href="/koBus/lossCenter/main.do">고객지원</a></li>
+						<li><a href="#">전국고속버스운송사업조합</a></li>
+						<li><a href="#">터미널사업자협회</a></li>
 
+					</ul>
+				</div>
+			</li>
 
+			<li>
+				<div class="dropdown-wrap breadcrumb-select">
+					<a href="javascript:void(0)" class="btn-dropdown" title="하위메뉴 선택"
+						aria-expanded="false"> <span class="text">시간표 조회</span><i
+						class="ico ico-dropdown-arrow"></i></a>
+					<ul class="dropdown-list" style="display: none;">
+						<li class="selected"><a href="/koBus/kobusSchedule.do"
+							title="선택됨">시간표 조회</a></li>
+						<li><a href="#">도착시간 안내</a></li>
+					</ul>
+				</div>
+			</li>
+		</ol>
 
-
-
-
-
-
-
-
-
-							<ul class="dropdown-list" style="display: none;">
-
-
-
-
-
-
-								<li><a href="https://www.kobus.co.kr/mrs/rotinf.do">고속버스예매</a></li>
-
-
-
-
-
-
-
-
-
-
-								<li class="selected"><a href="javascript:void(0)"
-									title="선택됨">운행정보</a></li>
-
+	</div>
+</nav>
 
 
-
-
-
-								<li><a
-									href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrchGd.do">프리패스/정기권</a></li>
-
-
-
-
-
-
-								<li><a href="https://www.kobus.co.kr/ugd/mrsgd/Mrsgd.do">이용안내</a></li>
-
-								<li><a
-									href="https://www.kobus.co.kr/cscn/ntcmttr/readNtcList.do">고객지원</a></li>
-								<li><a
-									href="https://www.kobus.co.kr/ugd/bustrop/Bustrop.do">전국고속버스운송사업조합</a></li>
-								<li><a
-									href="https://www.kobus.co.kr/ugd/trmlbizr/Trmlbizr.do">터미널사업자협회</a></li>
-
-							</ul>
-						</div>
-					</li>
-
-					<li>
-						<div class="dropdown-wrap breadcrumb-select">
-							<a href="javascript:void(0)" class="btn-dropdown" title="하위메뉴 선택"
-								aria-expanded="false"> <span class="text">시간표 조회</span><i
-								class="ico ico-dropdown-arrow"></i></a>
-							<ul class="dropdown-list" style="display: none;">
-								<li class="selected"><a href="javascript:void(0)"
-									title="선택됨">시간표 조회</a></li>
-								<li><a
-									href="#">도착시간
-										안내</a></li>
-							</ul>
-						</div>
-					</li>
-				</ol>
-
-			</div>
-		</nav>
-
-
-		<article id="new-kor-content" class="full">
+<article id="new-kor-content" class="full">
 
 			
 

@@ -628,35 +628,36 @@ $(document).on("click", ".time li a", function () {
    <div class="container">
       <ol class="breadcrumb-list">
          <li><i class="ico ico-home"></i><span class="sr-only">홈</span></li>
-         <li>
-            <div class="dropdown-wrap breadcrumb-select">
-               <a aria-expanded="false" class="btn-dropdown"
-                  href="javascript:void(0)" title="대메뉴 선택"> <span class="text">고속버스예매</span><i
-                  class="ico ico-dropdown-arrow"></i></a>
-               <ul class="dropdown-list">
-                  <li class="selected"><a href="javascript:void(0)" title="선택됨">고속버스예매</a></li>
-                  <li><a href="/oprninf/alcninqr/oprnAlcnPage.do">운행정보</a></li>
-                  <li><a href="/adtnprdnew/frps/frpsPrchGd.do">프리패스/정기권</a></li>
-                  <li><a href="/ugd/mrsgd/Mrsgd.do">이용안내</a></li>
-                  <li><a href="/cscn/ntcmttr/readNtcList.do">고객지원</a></li>
-                  <li><a href="/ugd/bustrop/Bustrop.do">전국고속버스운송사업조합</a></li>
-                  <li><a href="/ugd/trmlbizr/Trmlbizr.do">터미널사업자협회</a></li>
-               </ul>
-            </div>
-         </li>
-         <li>
-            <div class="dropdown-wrap breadcrumb-select">
-               <a aria-expanded="false" class="btn-dropdown"
-                  href="javascript:void(0)" title="하위메뉴 선택"> <span class="text">고속버스예매</span><i
-                  class="ico ico-dropdown-arrow"></i></a>
-               <ul class="dropdown-list">
-                  <li class="selected"><a href="javascript:void(0)" title="선택됨">고속버스예매</a></li>
-                  <li><a href="/mrs/mrscfm.do">예매확인/취소/변경</a></li>
-                  <li><a href="/mrs/mrsrecplist.do">영수증발행</a></li>
-               </ul>
-            </div>
-         </li>
-      </ol>
+				<li>
+					<div class="dropdown-wrap breadcrumb-select">
+						<a aria-expanded="false" class="btn-dropdown"
+							href="javascript:void(0)" title="대메뉴 선택"> <span class="text">고속버스예매</span><i
+							class="ico ico-dropdown-arrow"></i></a>
+						<ul class="dropdown-list">
+							<li class="selected"><a href="/koBus/region.do" title="선택됨">고속버스예매</a></li>
+							<li><a href="/koBus/kobusSchedule.do">운행정보</a></li>
+							<li><a href="/koBus/pageForward.do?page=freePass">프리패스/정기권</a></li>
+							<li><a href="#">이용안내</a></li>
+							<li><a href="/koBus/lossCenter/main.do">고객지원</a></li>
+							<li><a href="#">전국고속버스운송사업조합</a></li>
+							<li><a href="#">터미널사업자협회</a></li>
+						</ul>
+					</div>
+				</li>
+				
+				<li>
+					<div class="dropdown-wrap breadcrumb-select">
+						<a aria-expanded="false" class="btn-dropdown"
+							href="javascript:void(0)" title="하위메뉴 선택"> <span class="text">고속버스예매</span><i
+							class="ico ico-dropdown-arrow"></i></a>
+						<ul class="dropdown-list">
+							<li class="selected"><a href="/koBus/region.do" title="선택됨">고속버스예매</a></li>
+							<li><a href="/koBus/manageReservations.do">예매확인/취소/변경</a></li>
+							<li><a href="#">영수증발행</a></li>
+						</ul>
+					</div>
+				</li>
+			</ol>
    </div>
 </nav>
 <article id="new-kor-content">

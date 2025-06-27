@@ -156,243 +156,56 @@ if (lngCd == "KO") {
 		
 		<ol class="breadcrumb-list">
 			<li><i class="ico ico-home"></i><span class="sr-only">홈</span></li>
-			 
-			<li>
-				<div class="dropdown-wrap breadcrumb-select">
-					
-					
-						
-					
-						
-					
-						
-							<a href="javascript:void(0)" class="btn-dropdown" title="대메뉴 선택" aria-expanded="false">
-								<span class="text">프리패스/정기권</span><i class="ico ico-dropdown-arrow"></i></a>
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-					
-					<ul class="dropdown-list" style="display: none;">
-						
-							
-							
-							
-							
-							
-							<li><a href="https://www.kobus.co.kr/mrs/rotinf.do">고속버스예매</a></li>
-						
-							
-							
-							
-							
-							
-							<li><a href="https://www.kobus.co.kr/oprninf/alcninqr/oprnAlcnPage.do">운행정보</a></li>
-						
-							
-							
-							
-							
-								
-								
-								
-							
-							
-							<li class="selected"><a href="javascript:void(0)" title="선택됨">프리패스/정기권</a></li>
-						
-							
-							
-							
-							
-							
-							<li><a href="https://www.kobus.co.kr/ugd/mrsgd/Mrsgd.do">이용안내</a></li>
-						
-							
-							
-							
-							
-							
-							<li><a href="https://www.kobus.co.kr/cscn/ntcmttr/readNtcList.do">고객지원</a></li>
-						
-							
-							
-							
-							
-							
-							<li><a href="https://www.kobus.co.kr/ugd/bustrop/Bustrop.do">전국고속버스운송사업조합</a></li>
-						
-							
-							
-							
-							
-							
-							<li><a href="https://www.kobus.co.kr/ugd/trmlbizr/Trmlbizr.do">터미널사업자협회</a></li>
-						
-					</ul>
-				</div>
-			</li>
-			
-			<li>
-				<div class="dropdown-wrap breadcrumb-select">
-					
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-							<a href="javascript:void(0)" class="btn-dropdown" title="하위메뉴 선택" aria-expanded="false">
-								<span class="text">프리패스 여행권</span><i class="ico ico-dropdown-arrow"></i></a>
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-					
-					<ul class="dropdown-list" style="display: none;">
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-								
-								
-								
-								
-									
-									
-									
-								
-								
-								<li class="selected"><a href="javascript:void(0)" title="선택됨">프리패스 여행권</a></li>
-							
-						
-							
-								
-								
-								
-								
-								
-								<li><a href="https://www.kobus.co.kr/adtnprdnew/pass/passPrchGd.do">정기권</a></li>
-							
-						
-							
-								
-								
-								
-								
-								
-								<li><a href="https://www.kobus.co.kr/adtnprdnew/prchpt/prdPrchPt.do">상품 구매내역</a></li>
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-					</ul>
-				</div>
-			</li>
-		</ol>
+
+				<li>
+					<div class="dropdown-wrap breadcrumb-select">
+
+						<a href="javascript:void(0)" class="btn-dropdown" title="대메뉴 선택"
+							aria-expanded="false"> <span class="text">프리패스/정기권</span><i
+							class="ico ico-dropdown-arrow"></i></a>
+
+
+						<ul class="dropdown-list" style="display: none;">
+
+							<li><a href="/koBus/region.do">고속버스예매</a></li>
+
+							<li><a href="/koBus/manageReservations.do">운행정보</a></li>
+
+							<li class="selected"><a
+								href="/koBus/pageForward.do?page=freePass" title="선택됨">프리패스/정기권</a></li>
+
+							<li><a href="#">이용안내</a></li>
+
+							<li><a href="/koBus/lossCenter/main.do">고객지원</a></li>
+
+							<li><a href="#">전국고속버스운송사업조합</a></li>
+
+							<li><a href="#">터미널사업자협회</a></li>
+
+						</ul>
+					</div>
+				</li>
+
+				<li>
+					<div class="dropdown-wrap breadcrumb-select">
+
+
+						<a href="javascript:void(0)" class="btn-dropdown" title="하위메뉴 선택"
+							aria-expanded="false"> <span class="text">프리패스 여행권</span><i
+							class="ico ico-dropdown-arrow"></i></a>
+
+						<ul class="dropdown-list" style="display: none;">
+							<li class="selected"><a
+								href="/koBus/pageForward.do?page=freePass" title="선택됨">프리패스
+									여행권</a></li>
+							<li><a href="/koBus/pageForward.do?page=seasonTicket">정기권</a></li>
+
+							<li><a href="/koBus/page/itemPurListPage.do">상품 구매내역</a></li>
+
+						</ul>
+					</div>
+				</li>
+			</ol>
 		
 	</div>
 </nav>
@@ -416,33 +229,8 @@ if (lngCd == "KO") {
 	<div class="title_wrap in_process freepassT" style="display: none;">
 		
 
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-
-
-
-
-
-<a href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#" class="back">back</a>
-<a href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#" class="mo_toggle">메뉴</a>
+<a href="#" class="back">back</a>
+<a href="#" class="mo_toggle">메뉴</a>
 
 
 		<h2>고속버스 프리패스 여행권</h2>
@@ -468,31 +256,6 @@ if (lngCd == "KO") {
 			</div>
 		</div>
 	
-		
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	
-	
-	
-	
-	
-	
-
- 
-		
 	
 	
 		<div class="content-body pass_ticket">
