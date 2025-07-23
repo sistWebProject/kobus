@@ -3,6 +3,8 @@ package koBus.mvc.command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 import koBus.mvc.domain.FreePassPaymentDTO;
 import koBus.mvc.persistence.FreePassPaymentDAO;
 
@@ -30,6 +32,11 @@ public class FrpsPaymentSaveHandler implements CommandHandler {
             String pgTid = request.getParameter("pg_tid");
             String paidAtStr = request.getParameter("paid_at");
             String amountStr = request.getParameter("amount");
+            String startDateStr = request.getParameter("startDate");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd"); // 날짜 포맷은 실제 형식에 맞춰야 함
+
+            java.util.Date utilDate = sdf.parse(startDateStr); // 먼저 util.Date로 파싱
+            java.sql.Date startDate = new java.sql.Date(utilDate.getTime()); // 그리고 sql.Date로 변환
 
             System.out.println("프리패스 결제 저장 요청 - userId: " + userId + ", adtnPrdSno: " + adtnPrdSno
                 + ", impUid: " + impUid + ", merchantUid: " + merchantUid + ", payMethod: " + payMethod
@@ -51,6 +58,7 @@ public class FrpsPaymentSaveHandler implements CommandHandler {
                 paidAt = new Date(ts);
             }
 
+
             // 3. DTO 생성
             FreePassPaymentDTO dto = new FreePassPaymentDTO();
             dto.setUserId(userId);
@@ -62,6 +70,7 @@ public class FrpsPaymentSaveHandler implements CommandHandler {
             dto.setPayStatus(payStatus);
             dto.setPgTid(pgTid);
             dto.setPaidAt(paidAt);
+            dto.setStartdate(startDate);
 
             // 4. DB 저장
             FreePassPaymentDAO dao = new FreePassPaymentDAO();

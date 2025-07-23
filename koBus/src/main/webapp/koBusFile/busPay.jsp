@@ -18,8 +18,8 @@
 	
 	
 	
-	<link rel="shortcut icon" href="https://www.kobus.co.kr/images/favicon.ico">
 	
+	<link rel="shortcut icon" type="image/x-icon" href="/koBus/media/favicon.ico">
 		
 
 
@@ -156,260 +156,56 @@ if (lngCd == "KO") {
 		
 		<ol class="breadcrumb-list">
 			<li><i class="ico ico-home"></i><span class="sr-only">홈</span></li>
-			 
-			<li>
-				<div class="dropdown-wrap breadcrumb-select">
-					
-					
-						
-							<a href="javascript:void(0)" class="btn-dropdown" title="대메뉴 선택" aria-expanded="false">
-								<span class="text">고속버스예매</span><i class="ico ico-dropdown-arrow"></i></a>
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-					
-					<ul class="dropdown-list" style="display: none;">
-						
-							
-							
-							
-							
-								
-								
-								
-							
-							
-							<li class="selected"><a href="javascript:void(0)" title="선택됨">고속버스예매</a></li>
-						
-							
-							
-							
-							
-							
-							<li><a href="https://www.kobus.co.kr/oprninf/alcninqr/oprnAlcnPage.do">운행정보</a></li>
-						
-							
-							
-							
-							
-							
-							<li><a href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrchGd.do">프리패스/정기권</a></li>
-						
-							
-							
-							
-							
-							
-							<li><a href="https://www.kobus.co.kr/ugd/mrsgd/Mrsgd.do">이용안내</a></li>
-						
-							
-							
-							
-							
-							
-							<li><a href="https://www.kobus.co.kr/cscn/ntcmttr/readNtcList.do">고객지원</a></li>
-						
-							
-							
-							
-							
-							
-							<li><a href="https://www.kobus.co.kr/ugd/bustrop/Bustrop.do">전국고속버스운송사업조합</a></li>
-						
-							
-							
-							
-							
-							
-							<li><a href="https://www.kobus.co.kr/ugd/trmlbizr/Trmlbizr.do">터미널사업자협회</a></li>
-						
-					</ul>
-				</div>
-			</li>
-			
-			<li>
-				<div class="dropdown-wrap breadcrumb-select">
-					
-					
-						
-							<a href="javascript:void(0)" class="btn-dropdown" title="하위메뉴 선택" aria-expanded="false">
-								<span class="text">고속버스예매</span><i class="ico ico-dropdown-arrow"></i></a>
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-						
-					
-					
-					<ul class="dropdown-list" style="display: none;">
-						
-							
-								
-								
-								
-								
-									
-									
-									
-								
-								
-								<li class="selected"><a href="javascript:void(0)" title="선택됨">고속버스예매</a></li>
-							
-						
-							
-								
-								
-								
-								
-								
-								<li><a href="https://www.kobus.co.kr/mrs/mrscfm.do">예매확인/취소/변경</a></li>
-							
-						
-							
-								
-								
-								
-								
-								
-								<li><a href="https://www.kobus.co.kr/mrs/mrsrecplist.do">영수증발행</a></li>
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-							
-						
-					</ul>
-				</div>
-			</li>
-		</ol>
+
+				<li>
+					<div class="dropdown-wrap breadcrumb-select">
+
+						<a href="javascript:void(0)" class="btn-dropdown" title="대메뉴 선택"
+							aria-expanded="false"> <span class="text">고속버스예매</span><i
+							class="ico ico-dropdown-arrow"></i></a>
+
+						<ul class="dropdown-list" style="display: none;">
+
+
+							<li class="selected"><a href="/koBus/region.do" title="선택됨">고속버스예매</a></li>
+
+							<li><a href="/koBus/kobusSchedule.do">운행정보</a></li>
+
+							<li><a href="/koBus/pageForward.do?page=freePass">프리패스/정기권</a></li>
+
+							<li><a href="#">이용안내</a></li>
+
+							<li><a href="/koBus/lossCenter/main.do">고객지원</a></li>
+
+							<li><a href="#">전국고속버스운송사업조합</a></li>
+
+							<li><a href="#">터미널사업자협회</a></li>
+
+						</ul>
+					</div>
+				</li>
+
+				<li>
+					<div class="dropdown-wrap breadcrumb-select">
+
+						<a href="javascript:void(0)" class="btn-dropdown" title="하위메뉴 선택"
+							aria-expanded="false"> <span class="text">고속버스예매</span><i
+							class="ico ico-dropdown-arrow"></i></a>
+
+						<ul class="dropdown-list" style="display: none;">
+							<li class="selected"><a href="/koBus/region.do" title="선택됨">고속버스예매</a></li>
+							<li><a href="/koBus/manageReservations.do">예매확인/취소/변경</a></li>
+							<li><a href="#">영수증발행</a></li>
+						</ul>
+					</div>
+				</li>
+			</ol>
 		
 	</div>
 </nav>
 
 		
 		<article id="new-kor-content">
-			
-
-
-
-
-
-
-
-
-
-
 
 
 <script type="text/javascript" src="/koBus/js/StplCfmPym.js"></script>
@@ -426,27 +222,27 @@ if (lngCd == "KO") {
 </script>
 
 
-<form name="stplCfmPymFrm" id="stplCfmPymFrm" method="post" action="https://www.kobus.co.kr/mrs/stplcfmpym.do">
+<form name="stplCfmPymFrm" id="stplCfmPymFrm" method="post" action="/payment/buypay.do">
 	<input type="hidden" name="deprCd" id="deprCd" value="032"><!-- 출발지코드 -->
-	<input type="hidden" name="deprNm" id="deprNm" value="동서울"><!-- 출발지명 -->
+	<input type="hidden" name="deprNm" id="deprNm" value="${deprNm}"><!-- 출발지명 -->
 	<input type="hidden" name="arvlCd" id="arvlCd" value="823"><!-- 도착지코드 -->
-	<input type="hidden" name="arvlNm" id="arvlNm" value="낙동강(휴)하행"><!-- 도착지명 -->
+	<input type="hidden" name="arvlNm" id="arvlNm" value="${arvlNm}"><!-- 도착지명 -->
 	<input type="hidden" name="tfrCd" id="tfrCd" value=""><!-- 환승지코드 -->
 	<input type="hidden" name="tfrNm" id="tfrNm" value=""><!-- 환승지명 -->
 	<input type="hidden" name="tfrArvlFullNm" id="tfrArvlFullNm" value=""><!-- 환승지포함 도착지 명 -->
 	<input type="hidden" name="pathDvs" id="pathDvs" value="sngl"><!-- 직통sngl,환승trtr,왕복rtrp -->
 	<input type="hidden" name="pathStep" id="pathStep" value="1"><!-- 단계별로 1,2로 구분 -->
-	<input type="hidden" name="deprDtm" id="deprDtm" value="20250613"><!-- 가는날(편도,왕복) -->
-	<input type="hidden" name="deprDtmAll" id="deprDtmAll" value="2025. 6. 13. 금"><!-- 가는날(편도,왕복) -->
-	<input type="hidden" name="arvlDtm" id="arvlDtm" value="20250613"><!-- 오는날(왕복) -->
-	<input type="hidden" name="arvlDtmAll" id="arvlDtmAll" value="2025. 6. 13. 금"><!-- 오는날(왕복) -->
-	<input type="hidden" name="indVBusClsCd" id="indVBusClsCd" value="1"><!-- 버스등급 -->
-	<input type="hidden" name="takeDrtmOrg" id="takeDrtmOrg" value="125"><!-- 소요시간 -->
+	<input type="hidden" name="deprDtm" id="deprDtm" value=""><!-- 가는날(편도,왕복) -->
+	<input type="hidden" name="deprDtmAll" id="deprDtmAll" value=""><!-- 가는날(편도,왕복) -->
+	<input type="hidden" name="arvlDtm" id="arvlDtm" value=""><!-- 오는날(왕복) -->
+	<input type="hidden" name="arvlDtmAll" id="arvlDtmAll" value=""><!-- 오는날(왕복) -->
+	<input type="hidden" name="indVBusClsCd" id="indVBusClsCd" value="${indVBusClsCd}"><!-- 버스등급 -->
+	<input type="hidden" name="takeDrtmOrg" id="takeDrtmOrg" value="${takeDrtmOrg}"><!-- 소요시간 -->
 	<input type="hidden" name="distOrg" id="distOrg" value="208.3"><!-- 거리 -->
 	<input type="hidden" name="rtrpChc" id="rtrpChc" value="1"><!-- 왕편 복편 설정 -->
 	<!-- 출발일자:deprDtm or arvlDtm, 출발터미널번호:deprCd, 도착터미널번호:arvlCd  -->
-	<input type="hidden" name="deprDt" id="deprDt" value="20250613"><!-- 출발일 -->
-	<input type="hidden" name="deprTime" id="deprTime" value="143000"><!-- 출발시각 -->
+	<input type="hidden" name="deprDt" id="deprDt" value="${deprDt}"><!-- 출발일 -->
+	<input type="hidden" name="deprTime" id="deprTime" value="${deprTime}"><!-- 출발시각 -->
 	<input type="hidden" name="alcnDeprDt" id="alcnDeprDt" value=""><!-- 배차출발일 -->
 	<input type="hidden" name="alcnDeprTime" id="alcnDeprTime" value="143000"><!-- 배차출발시각 -->
 	<input type="hidden" name="alcnDeprTrmlNo" id="alcnDeprTrmlNo" value="032"><!-- 배차출발터미널 -->
@@ -460,13 +256,15 @@ if (lngCd == "KO") {
 	<!-- 20200327 yahan	 -->
 	<input type="hidden" name="dcDvsCd" id="dcDvsCd" value="0"><!-- 할인구분코드 -->
 	
+	<input type="hidden" name="busCode" id="busCode" value="${busCode}"><!-- 버스스케줄ID -->
 	
-	<input type="hidden" name="selSeatNum" id="selSeatNum" value="12"><!-- 선택좌석번호 -->
-	<input type="hidden" name="selSeatCnt" id="selSeatCnt" value="1"><!-- 선택좌석수 -->
-	<input type="hidden" name="selAdltCnt" id="selAdltCnt" value="1"><!-- 어른수 -->
+	
+	<input type="hidden" name="selSeatNum" id="selSeatNum" value="${selSeatNum}"><!-- 선택좌석번호 -->
+	<input type="hidden" name="selSeatCnt" id="selSeatCnt" value="${selSeatCnt}"><!-- 선택좌석수 -->
+	<input type="hidden" name="selAdltCnt" id="selAdltCnt" value="${selAdltCnt}"><!-- 어른수 -->
 	<input type="hidden" name="selAdltDcCnt" id="selAdltDcCnt" value="0"><!-- 할인대상어른수 -->
-	<input type="hidden" name="selChldCnt" id="selChldCnt" value="0"><!-- 초등생수 -->
-	<input type="hidden" name="selTeenCnt" id="selTeenCnt" value="0"><!-- 중고생수 -->
+	<input type="hidden" name="selChldCnt" id="selChldCnt" value="${selChldCnt}"><!-- 초등생수 -->
+	<input type="hidden" name="selTeenCnt" id="selTeenCnt" value="${selTeenCnt}"><!-- 중고생수 -->
 	<input type="hidden" name="selUvsdCnt" id="selUvsdCnt" value="0"><!-- 대학생수 -->
 	<input type="hidden" name="selSncnCnt" id="selSncnCnt" value="0"><!-- 경로수(권종추가-201906) -->
 	<input type="hidden" name="selDsprCnt" id="selDsprCnt" value="0"><!-- 장애인수(권종추가-201906) -->
@@ -474,10 +272,20 @@ if (lngCd == "KO") {
 	<input type="hidden" name="selVtr5Cnt" id="selVtr5Cnt" value="0"><!-- 보훈수(권종추가-20210525) -->
 	<input type="hidden" name="selVtr7Cnt" id="selVtr7Cnt" value="0"><!-- 보훈수(권종추가-20210525) -->
 	<input type="hidden" name="selDfptCnt" id="selDfptCnt" value="0"><!-- 후불수(권종추가-20220722) -->
+
+
+	<input type="hidden" name="seatNos" id="seatNos" value="${seatNos}"><!-- 각 좌석번호 -->
+	<input type="hidden" name="resId" id="resId" value="${resId}">
+	<input type="hidden" name="cacmNm" id="cacmNm" value="${cacmNm}">
+	
+	
 	<!-- 예상금액 -->
-	<input type="hidden" name="estmAmt" id="estmAmt" value="22600"><!-- 예매금액 -->
+	<input type="hidden" name="estmAmt" id="estmAmt" value="${estmAmt}"><!-- 예매금액 -->
 	<input type="hidden" name="dcAmt" id="dcAmt" value="0"><!-- 할인금액 -->
-	<input type="hidden" name="tissuAmt" id="tissuAmt" value="22600"><!-- 결제금액 -->
+	<input type="hidden" name="tissuAmt" id="tissuAmt" value="${tissuAmt}"><!-- 결제금액 -->
+	<script>
+    console.log("JSP에서 받은 tissuAmt:", "${tissuAmt}");
+	</script>
 	
 	<input type="hidden" name="nonMbrsYn" id="nonMbrsYn" value="N"><!-- 비회원여부 Y:비회원, N:회원 -->
 	<input type="hidden" name="pymType" id="pymType" value="card"><!-- 결제타입 card:카드,acnt:계좌이체, famt:정액권,perd:정기권,milage:마일리지   -->
@@ -490,7 +298,7 @@ if (lngCd == "KO") {
 	<input type="hidden" name="tlcnTrcnUtlzPsbYn" id="tlcnTrcnUtlzPsbYn" value="Y"><!-- 통합단말기유무   -->
 	<input type="hidden" name="allCardNum" id="allCardNum" value=""><!-- cardnum   -->
 	<input type="hidden" name="userDvsCd" id="userDvsCd" value="1"><!-- 사용자구분 1:개인 , 2:법인, 3:외국인   -->
-	<input type="hidden" name="satsNoAll" id="satsNoAll" value="12"><!-- 선택좌석번호전체   -->
+	<input type="hidden" name="satsNoAll" id="satsNoAll" value="${selSeatNum}"><!-- 선택좌석번호전체   -->
 	<input type="hidden" name="pcpyNoAll" id="pcpyNoAll" value="20250606956740"><!-- 선점번호전체   -->
 	<input type="hidden" name="satsNoAll1" id="satsNoAll1" value=""><!-- 편도 or 왕편 선택좌석번호전체   -->
 	<input type="hidden" name="pcpyNoAll1" id="pcpyNoAll1" value=""><!-- 편도 or 왕편 선점번호전체   -->
@@ -622,8 +430,8 @@ if (lngCd == "KO") {
 
 
 
-<a href="https://www.kobus.co.kr/mrs/stplcfmpym.do#" class="back">back</a>
-<a href="https://www.kobus.co.kr/mrs/stplcfmpym.do#" class="mo_toggle">메뉴</a>
+<a href="/payment/buypay.do" class="back">back</a>
+<a href="/payment/buypay.do" class="mo_toggle">메뉴</a>
 
  
 				<h2>고속버스예매</h2>
@@ -899,7 +707,7 @@ if (lngCd == "KO") {
 				<h4 class="mo_page">가는 편 승차권 정보</h4>
 				<div class="box_detail_info">
 					<div class="routeHead">
-						<p class="date">2025. 6. 13. 금 14:30</p>
+						<p class="date">${deprDtFmt}&nbsp;${deprTimeFmt} 출발 </p>
 					</div>
 					<div class="routeBody">
 						<div class="routeArea route_wrap">
@@ -910,17 +718,17 @@ if (lngCd == "KO") {
 										
 										<dl class="roundBox departure kor">
 												<dt>출발</dt>
-												<dd>${param.deprNm}</dd>
+												<dd>${deprNm}</dd>
 											</dl>
 											<dl class="roundBox arrive kor">
 												<dt>도착</dt>
-												<dd>${param.arvlNm}</dd>
+												<dd>${arvlNm}</dd>
 											</dl>
 									
 								
 							</div>
 							<div class="detail_info">
-								<span id="takeDrtm">${param.deprDt} ${param.deprTime} 출발 (${param.deprNm})</span>
+								<span id="takeDrtm"></span>
 							</div>
 						</div>
 						<div class="routeArea route_wrap mob_route">
@@ -935,21 +743,21 @@ if (lngCd == "KO") {
 										<tr>
 											<th scope="row">고속사</th>
 											<td>
-												<span>${param.cacmCd}</span>
+												<span>${cacmNm}</span>
 												<!-- 동양고속 class="dyexpress" 삼화고속 class="samhwa" 중앙고속 class="jabus" 금호고속 class="kumho" 천일고속 class="chunil" 한일고속 class="hanil" 동부고속 class="dongbu" 금호속리산고속 class="songnisan" 코버스 class="kobus" -->
 											</td>
 										</tr>
 										<tr>
 											<th scope="row">등급</th>
-											<td>${param.indVBusClsCd}</td>
+											<td>${indVBusClsCd}</td>
 										</tr>
 										<tr>
 											<th scope="row">매수</th>
-											<td><span id="totSelCntView">일반 ${param.selAdltCnt}명, 중고생 ${param.selTeenCnt}명, 초등생 ${param.selChldCnt}명</span></td>
+											<td><span id="totSelCntView">일반 ${selAdltCnt}명, 중고생 ${selTeenCnt}명, 초등생 ${selChldCnt}명</span></td>
 										</tr>
 										<tr>
 											<th scope="row">좌석</th>
-											<td>${param.selSeatNum}</td>
+											<td>${seatNos}번</td>
 										</tr>
 									</tbody>
 								</table>
@@ -1360,7 +1168,7 @@ if (lngCd == "KO") {
 								<tbody>
 									<tr>
 										<th scope="row" class="txt_black">예매금액</th>
-										<td><strong id="estmAmtView">22,600원</strong></td>
+										<td><strong id="estmAmtView">${estmAmt}원</strong></td>
 									</tr>
 									
 									<tr>
@@ -1369,7 +1177,7 @@ if (lngCd == "KO") {
 									</tr>
 									<tr class="total">
 										<th scope="row" class="txt_black">총 결제금액</th>
-										<td class="totalPrice"><span id="tissuAmtView">22,600원</span></td>
+										<td class="totalPrice"><span id="tissuAmtView">${tissuAmt}원</span></td>
 									</tr>
 								</tbody>
 							</table>
@@ -1534,7 +1342,7 @@ if (lngCd == "KO") {
 	
 	<input type="hidden" name="goodsName" id="payGoodsName" value="(고속버스티머니)승차권">
 	<input type="hidden" name="goodsCnt" id="payGoodsCnt" value="1">
-	<input type="hidden" name="goodsPrice" id="payGoodsPrice" value="22600">
+	<input type="hidden" name="goodsPrice" id="payGoodsPrice" value="${tissuAmt}">
 	<input type="hidden" name="popupStatus" id="popupStatus" value="">
 </form>
 <form name="acntDtaFrm" id="acntDtaFrm" method="post"> <!-- 계좌이체용 FORM  -->
