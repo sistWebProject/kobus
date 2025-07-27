@@ -42,7 +42,7 @@
 	    LEFT JOIN arrival A ON RT.arrID = A.arrID
 	    LEFT JOIN region RGD ON D.regID = RGD.regID
 	    LEFT JOIN region RGA ON A.regID = RGA.regID
-	    JOIN RESERVATION_PAYMENT PM ON R.resID = PM.RESID
+	    JOIN RESERVATION_PAYMENT PM ON R.resID = PM.RES_ID
 	    JOIN PAYMENT_COMMON PC ON PC.PAYMENT_ID = PM.PAYMENT_ID
 	    WHERE KU.id = #{loginId}
 	      AND R.resvStatus = '결제완료'
@@ -96,7 +96,7 @@
         FULL OUTER JOIN arrival A ON RT.arrID = A.arrID
         FULL OUTER JOIN region RGD ON D.regID = RGD.regID
         FULL OUTER JOIN region RGA ON A.regID = RGA.regID
-        JOIN RESERVATION_PAYMENT PM ON R.resID = PM.RESID
+        JOIN RESERVATION_PAYMENT PM ON R.resID = PM.RES_ID
 	    JOIN PAYMENT_COMMON PC ON PC.PAYMENT_ID = PM.PAYMENT_ID
         WHERE KU.id = #{loginId}
           AND R.resvStatus = '예약취소'
@@ -108,22 +108,10 @@
         ]]>
     </select>
 
-	<!-- int changeRemainSeats(@Param("mrsMrnpNo") String mrsMrnpNo, @Param("rideDateTime") String rideDateTime) throws SQLException; -->
-	<update id="updateRemainSeats">
-	    UPDATE BUSSCHEDULE B
-	    SET REMAINSEATS = (
-	        SELECT COUNT(*)
-	        FROM SEAT S
-	        WHERE S.BUSID = B.BUSID
-	          AND S.SEATABLE = 'Y'
-	    )
-	    WHERE B.BSHID = (
-	        SELECT R.BSHID
-	        FROM RESERVATION R
-	        WHERE R.RESID = #{mrsMrnpNo}
-	          AND R.RIDEDATE = TO_TIMESTAMP(#{rideDateTime}, 'YYYY-MM-DD HH24:MI:SS')
-	    )
-	</update>
+	<delete id="deleteResv">
+		delete from reservation where resId = #{changeResId}
+	</delete>
+	
 	
 
 </mapper>

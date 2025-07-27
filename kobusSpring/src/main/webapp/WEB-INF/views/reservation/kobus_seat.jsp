@@ -1,6 +1,7 @@
 <%@ page language="java" trimDirectiveWhitespaces="true" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<% request.setCharacterEncoding("UTF-8"); %>
 
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/SatsChc.js"></script>
@@ -14,17 +15,6 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/typedarray.js"></script>
 
-<!-- 출/도착지 선택 레이어팝업 -->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/ReadLgnInf.js"></script>
-
-<!-- 20200831 yahan -->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/rsa_oaep-min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/jsbn-min2.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/typedarray.js"></script>
 
 <style>
 .txt_red {
@@ -155,8 +145,12 @@ $(document).ready(function () {
 			
 				
 			<c:set var="bus" value="${busList[0]}" />
-			<form name="satsChcFrm" id="satsChcFrm" method="post"
-				action="/koBus/kobusSeat.do">
+			
+			arvlDtm : ${arvlDtm }
+			pathDvs : ${pathDvs }
+			
+			<form name="satsChcFrm" id="satsChcFrm" method="post">
+				
 				<input type="hidden" name="sourcePage" value="kobus_seat.jsp">
 				<input type="hidden" name="deprCd" id="deprCd" value="${deprId }">
 				<!-- 출발지코드 -->
@@ -176,22 +170,22 @@ $(document).ready(function () {
 				<input type="hidden" name="tfrArvlFullNm" id="tfrArvlFullNm"
 					value="">
 				<!-- 환승지포함 도착지 명 -->
-				<input type="hidden" name="pathDvs" id="pathDvs" value="sngl">
+				<input type="hidden" name="pathDvs" id="pathDvs" value="${pathDvs }">
 				<!-- 직통sngl,환승trtr,왕복rtrp -->
 				<input type="hidden" name="pathStep" id="pathStep" value="1">
 				<!-- 왕편 복편 설정 -->
 				<input type="hidden" name="deprDtm" id="deprDtm" value="${deprDtm }">
 				<!-- 가는날(편도,왕복) -->
 				<input type="hidden" name="deprDtmAll" id="deprDtmAll"
-					value="${deprDtm }">
+					value="${deprDtmAll }">
 				<!-- 가는날(편도,왕복) -->
-				<input type="hidden" name="arvlDtm" id="arvlDtm" value="${deprDtm }">
+				<input type="hidden" name="arvlDtm" id="arvlDtm" value="${arvlDtm }">
 				<!-- 오는날(왕복) -->
 				<input type="hidden" name="arvlDtmAll" id="arvlDtmAll"
-					value="2025. 6. 21. 토">
+					value="${arvlDtmAll }">
 				<!-- 오는날(왕복) -->
 				<input type="hidden" name="busClsCd" id="busClsCd" value="${bus.busGrade }">
-				<input type="hidden" name="busCode" id="busCode" value="${bus.bshId }">
+				<input type="hidden" name="bshId" id="bshId" value="${bus.bshId }">
 				<!-- 버스등급 -->
 				<input type="hidden" name="takeDrtmOrg" id="takeDrtmOrg" value="${bus.durMin }">
 				<!-- 소요시간 -->
@@ -205,7 +199,7 @@ $(document).ready(function () {
 				<input type="hidden" name="alcnDeprDt" id="alcnDeprDt" value="">
 				<!-- 배차출발일 -->
 				<input type="hidden" name="alcnDeprTime" id="alcnDeprTime"
-					value="072000">
+					value="">
 				<!-- 배차출발시각 -->
 				<input type="hidden" name="alcnDeprTrmlNo" id="alcnDeprTrmlNo"
 					value="010">
@@ -425,6 +419,8 @@ $(document).ready(function () {
 					type="hidden" name="endDtm" id="endDtm" value="">
 					
 				<input type="hidden" name="resId" id="resId" value="${resId }">
+				
+				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
 			</form>
 

@@ -1,34 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-
-<html class="pc" lang="ko">
-<head>
-<meta charset="utf-8" />
-<link rel="shortcut icon" type="image/x-icon" 
-	href="/koBus/media/favicon.ico">
-<meta
-	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
-	name="viewport" />
-<meta content="IE=Edge" http-equiv="X-UA-Compatible" />
 <title>회원가입(정보입력) | 고속버스통합예매</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link href="/images/favicon.ico" rel="shortcut icon" />
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-
-<link href="/koBus/css/common/ui.jqgrid.custom.css" rel="stylesheet"
-	type="text/css" />
-
-
-
-
-
-
-
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-<link href="/koBus/css/common/style.css" rel="stylesheet" type="text/css" />
-</head>
 		<!-- breadcrumb -->
 		<!-- 브레드크럼 -->
 		<nav id="new-kor-breadcrumb">
@@ -75,13 +48,13 @@
 					<div class="noti_wrap mobNone">
 						<p class="noti">회원정보를 입력해주세요.</p>
 					</div>
-					<form action="/koBus/joinOkEnterInfo.do" method="get" name="insertInfoForm" id="joinFormTag">
+					<form action="/koBus/joinOkEnterInfo.do" method="POST" name="insertInfoForm" id="joinFormTag">
 						<div class="border-box box_changeNum join-wrap">
 							<div class="inner member-info-form">
 								<div class="box_inputForm" id="idDiv">
 									<label class="label" for="usrId">아이디</label>
 									<div class="box_label" style="display: flex; align-items: center;">
-										<input class="input" id="usrId" name="usrId"
+										<input class="input" id="usrId" name="id"
 											placeholder="아이디를 입력하세요" type="text" style="flex: 1;" />
 										<button type="button" class="btn_check" id="idDupCheck" style="margin-left: 8px;">중복확인</button>
 									</div>
@@ -95,7 +68,7 @@
 									<label class="label" for="usrTel">전화번호</label>
 									<div class="box_label">
 										<input class="input" data-tk-kbdtype="qwerty" id="usrTel"
-											name="usrTel" value="${param.phoneNum}" tabindex="-1"
+											name="tel" value="${param.phoneNum}" tabindex="-1"
 											type="text" readonly />
 									</div>
 									<span class="ico_complete" style="display: none;">가능</span>
@@ -104,7 +77,7 @@
 									<label class="label" for="usrPwd">비밀번호</label>
 									<div class="box_label">
 										<input class="input" data-tk-kbdtype="qwerty" id="usrPwd"
-											name="usrPwd" placeholder="8~16자 이상" tabindex="-1"
+											name="passwd" placeholder="8~16자 이상" tabindex="-1"
 											type="password" />
 									</div>
 									<span class="ico_complete" style="display: none;">가능</span>
@@ -125,7 +98,7 @@
 								<div class="box_inputForm" id="emiDiv">
 									<label class="label" for="emi">이메일</label>
 									<div class="box_label">
-										<input class="input" id="emi" name="emi"
+										<input class="input" id="emi" name="subEmail"
 											placeholder="이메일 주소를 입력하세요" type="text" />
 									</div>
 									<span class="ico_complete" style="display: none;">가능</span>
@@ -140,7 +113,7 @@
 										<a aria-expanded="false" class="btn-dropdown" href="#"
 											title="출생년도 선택"> <span class="text">선택하세요.</span></a>
 										<ul class="dropdown-list" id="yearList"></ul>
-										<input id="ageYear" name="ageYear" type="hidden" value="2011" />
+										<input id="ageYear" name="birth" type="hidden" value="2011" />
 									</div>
 								</div>
 								<div class="box_inputForm">
@@ -152,7 +125,7 @@
 											name="s_Gender" type="radio" /> <label
 											class="ico_gender male" for="s_Gender02">남자</label>
 									</span> <input id="sexCod" name="sexCod" type="hidden" /> <input
-										id="hpNo" name="hpNo" type="hidden" value="" />
+										id="hpNo" name="gender" type="hidden" value="" />
 									</span>
 								</div>
 								<div class="agreement_wrap marT30">
@@ -195,7 +168,7 @@
 							<a class="btnL btn_confirm ready" href="#" id="joinBtn">회원가입</a>
 							<!-- ready class 있음 -->
 						</p>
-						
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					</form>
 					<script>
 						// 유효성검사 확인 변수
@@ -418,4 +391,3 @@
 		<div
 			style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
 	</div> -->
-</html>
