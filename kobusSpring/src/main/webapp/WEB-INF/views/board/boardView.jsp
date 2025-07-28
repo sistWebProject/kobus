@@ -184,9 +184,12 @@ $(document).ready(function () {
                     loadComments();
                 } else if (result.trim() === 'nologin') {
                     alert("로그인이 필요합니다.");
-                    location.href = '${pageContext.request.contextPath}/user/login.do';
+                    location.href = '${pageContext.request.contextPath}/page/logonMain.do';
+
                 } else {
-                    alert("댓글 등록 실패");
+                	alert("로그인이 필요합니다.");
+                	location.href = '${pageContext.request.contextPath}/page/logonMain.do';
+
                 }
             }
         });
@@ -205,76 +208,6 @@ $(document).ready(function () {
     }
 
     loadComments();
-});
-</script>
-<script>
-$(document).ready(function() {
-    const brdID = $("#brdID").val();
-
-    $.ajax({
-        url: "${pageContext.request.contextPath}/replyList.do",
-        type: "GET",
-        data: { brdID: brdID },
-        success: function(result) {
-            $(".comment-list").html(result);  // 여기서 replyList.jsp 조각이 그대로 들어감
-        },
-        error: function(xhr) {
-            alert("댓글 목록 로딩 실패 (" + xhr.status + ")");
-        }
-    });
-});
-</script>
-<script>
-$(document).on("click", ".btn-edit", function () {
-    const item = $(this).closest(".comment-item");
-    item.find(".comment-content").hide();
-    item.find(".comment-content-edit").show();
-    item.find(".btn-edit, .btn-delete").hide();
-    item.find(".btn-save, .btn-cancel").show();
-});
-
-$(document).on("click", ".btn-cancel", function () {
-    const item = $(this).closest(".comment-item");
-    item.find(".comment-content-edit").hide();
-    item.find(".comment-content").show();
-    item.find(".btn-edit, .btn-delete").show();
-    item.find(".btn-save, .btn-cancel").hide();
-});
-
-$(document).on("click", ".btn-save", function () {
-    const item = $(this).closest(".comment-item");
-    const bcmID = item.data("bcmid");
-    const newContent = item.find(".comment-content-edit").val();
-
-    $.ajax({
-        url: "${pageContext.request.contextPath}/replyEdit.do",
-        type: "POST",
-        data: { bcmID: bcmID, content: newContent },
-        success: function () {
-            loadComments(); // 수정 후 댓글 다시 불러오기
-        },
-        error: function () {
-            alert("댓글 수정 실패");
-        }
-    });
-});
-
-$(document).on("click", ".btn-delete", function () {
-    if (!confirm("정말 삭제하시겠습니까?")) return;
-
-    const bcmID = $(this).closest(".comment-item").data("bcmid");
-
-    $.ajax({
-        url: "${pageContext.request.contextPath}/replyDelete.do",
-        type: "POST",
-        data: { bcmID: bcmID },
-        success: function () {
-            loadComments(); // 삭제 후 댓글 다시 불러오기
-        },
-        error: function () {
-            alert("댓글 삭제 실패");
-        }
-    });
 });
 </script>
 

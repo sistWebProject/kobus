@@ -327,12 +327,10 @@ body {
 	</div>
 
 </body>
-<script>
 <c:if test="${not empty msg}">
 <script>
-    alert('${msg}');
+    alert("${msg}");
 </script>
 </c:if>
 
-</script>
 </html>

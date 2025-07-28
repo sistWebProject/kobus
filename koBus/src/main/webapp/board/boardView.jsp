@@ -165,7 +165,7 @@ $(document).ready(function () {
                 if (trimmed === 'success') {
                     $('textarea[name="content"]').val('');
                     loadComments();
-                } else if (trimmed === 'nologin') {
+                } else if (trimmed === '${pageContext.request.contextPath}/page/logonMain.do') {
                     alert("로그인이 필요합니다.");
                     location.href = '${pageContext.request.contextPath}/page/logonMain.do';
                 } else {

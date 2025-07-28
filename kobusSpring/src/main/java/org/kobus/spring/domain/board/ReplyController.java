@@ -24,11 +24,19 @@ public class ReplyController {
     private UserMapper userMapper;  // 로그인한 id로 kusID 조회
 
     @GetMapping("/replyList.do")
-    public String replyList(@RequestParam("brdID") int brdID, Model model) {
+    public String replyList(@RequestParam("brdID") int brdID,
+                            HttpSession session,
+                            Model model) {
         List<CommentDTO> comments = replyService.getCommentsByBoardId(brdID);
         model.addAttribute("comments", comments);
-        return "board_reply/replyList"; // .jsp 생략
+
+        // ✅ 로그인 사용자 ID 직접 전달
+        String loginKusID = (String) session.getAttribute("auth");
+        model.addAttribute("loginKusID", loginKusID);  // 여기에 핵심 있음
+
+        return "board_reply/replyList";
     }
+
     
     @PostMapping("/replyWrite.do")
     @ResponseBody
@@ -37,11 +45,12 @@ public class ReplyController {
                         HttpSession session) {
 
         String loginId = (String) session.getAttribute("auth");
-        if (loginId == null) return "nologin";
+        if (loginId == null) 
+        return "kobus.login/logonMain";
 
-        // 🔥 여기서 바로 DB 조회
         String kusID = userMapper.getKusIDById(loginId);
-        if (kusID == null) return "nologin";
+        if (kusID == null) 
+        return "kobus.login/logonMain";
 
         CommentDTO dto = new CommentDTO();
         dto.setBrdID(brdID);

@@ -92,13 +92,23 @@
                 <fmt:formatDate value="${comment.cmtDate}" pattern="yyyy-MM-dd HH:mm" />
             </span>
         </div>
+
         <div class="comment-content" id="content-${comment.bcmID}">
             ${comment.content}
         </div>
 
-        <!-- 로그인한 사용자만 수정/삭제 가능 -->
+        <div class="comment-edit-area" id="edit-area-${comment.bcmID}" style="display:none;">
+            <form onsubmit="return submitEdit(${comment.bcmID});">
+                <textarea id="editTextarea-${comment.bcmID}" rows="3" style="width:100%;">${comment.content}</textarea>
+                <br>
+                <button type="submit">수정 완료</button>
+                <button type="button" onclick="cancelEdit(${comment.bcmID});">취소</button>
+            </form>
+        </div>
+
         <c:if test="${sessionScope.auth eq comment.kusID}">
             <div class="comment-actions">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <button onclick="showEditForm(${comment.bcmID})">수정</button>
                 <button onclick="deleteReply(${comment.bcmID})">삭제</button>
             </div>
@@ -106,11 +116,55 @@
     </div>
 </c:forEach>
 
+<script>
+function showEditForm(bcmID) {
+    document.getElementById("content-" + bcmID).style.display = "none";
+    document.getElementById("edit-area-" + bcmID).style.display = "block";
+}
 
+function cancelEdit(bcmID) {
+    document.getElementById("edit-area-" + bcmID).style.display = "none";
+    document.getElementById("content-" + bcmID).style.display = "block";
+}
 
+function submitEdit(bcmID) {
+    const newContent = document.getElementById("editTextarea-" + bcmID).value;
 
+    fetch("replyEdit.do", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "bcmID=" + bcmID + "&content=" + encodeURIComponent(newContent)
+    })
+    .then(res => res.text())
+    .then(result => {
+        if (result.trim() === "success") {
+            loadComments();
+        } else {
+            alert("댓글 수정 실패");
+        }
+    });
 
-<c:if test="${empty commentList}">
-    <p>등록된 댓글이 없습니다.</p>
-</c:if>
+    return false;
+}
 
+function deleteReply(bcmID) {
+    if (!confirm("댓글을 삭제하시겠습니까?")) return;
+
+    fetch("replyDelete.do", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "bcmID=" + bcmID
+    })
+    .then(res => res.text())
+    .then(result => {
+        if (result.trim() === "success") {
+            loadComments();
+        } else if (result.trim() === "nologin") {
+            alert("로그인이 필요합니다.");
+            location.href = '${pageContext.request.contextPath}/page/logonMain.do';
+        } else {
+            alert("댓글 삭제 실패");
+        }
+    });
+}
+</script>
