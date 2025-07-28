@@ -557,6 +557,8 @@ $(document).on("click", ".time li a", function () {
       <input id=rtrpDtl2 name="rtrpDtl2" type="hidden" value="${param.rtrpDtl2 }" />
       <!-- 오는편 예매정보 저장 -->
       
+      <input id="changeArvl" name="changeArvl" type="hidden"
+         value="" />
       
       <input id="takeDrtmOrg" name="takeDrtmOrg" type="hidden" value="200" />
       <!-- 소요시간 -->
@@ -984,6 +986,8 @@ $(document).on("click", ".schedule-row:not(.disabled)", function () {
     $("#deprTime").val(deprTime);
     $("#deprDtm").val(deprDtm); // 있어도 되고 없어도 돼
     $("#busClsCd").val(busClsCd); // 있어도 되고 없어도 돼
+    
+    $("#changeArvl").val($("#rideDate").text());
     
 
     $("#alcnSrchFrm").submit(); // GET 방식으로 전달됨
