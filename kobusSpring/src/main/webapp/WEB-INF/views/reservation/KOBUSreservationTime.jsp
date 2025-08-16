@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -12,7 +11,7 @@ System.out.println(">> busrank: " + request.getParameter("busClsCd"));
 <style>
 /* 날짜 선택 숨김 */
 #datepicker1, #datepicker2 {
-   display: none;
+    display: none; 
 }
 
 /* schedule-row 기본 스타일 */
@@ -127,22 +126,27 @@ System.out.println(">> busrank: " + request.getParameter("busClsCd"));
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
-
 <script>
 
 $(document).ready(function () {
-    const deprCd = $("#deprCd").val();
-    const arvlCd = $("#arvlCd").val();
+    var deprCd = $("#deprCd").val();
+    var arvlCd = $("#arvlCd").val();
     var deprDtm = $("#deprDtm").val();   // yyyy.MM.dd 형식
-    const arvlDtm = $("#arvlDtm").val();   // yyyy.MM.dd 형식
-    const busClsCd = $("#busClsCd").val();
-    const deprNm = $("#deprNm").val();
-    const arvlNm = $("#arvlNm").val();
-    const pathStep = $("#pathStep").val();
+    var arvlDtm = $("#arvlDtm").val();   // yyyy.MM.dd 형식
+    var busClsCd = $("#busClsCd").val();
+    var deprNm = $("#deprNm").val();
+    var arvlNm = $("#arvlNm").val();
+    var pathStep = $("#pathStep").val();
+    var orgDeprDtm = $("#deprDtm").val();
     
-    if (pathStep == "2") {
-    	deprDtm = $("#arvlDtm").val();
-	}
+    if (pathStep === "2") {
+         deprDtm = arvlDtm;
+    }
+    
+    console.log("orgDeprDtm " + orgDeprDtm);
+    console.log("deprDtm " + deprDtm);
+    
+
     
 
     // 1. 소요시간 먼저 조회
@@ -155,6 +159,7 @@ $(document).ready(function () {
                 ajaxType: "getDuration",
                 deprCd: deprCd,
                 arvlCd: arvlCd,
+                pathStep: pathStep,
                 sourcePage: "KOBUSreservationRegion.jsp"
             },
             dataType: "json",
@@ -205,56 +210,62 @@ $(document).ready(function () {
                 }
 
                 data.alcnAllList.forEach(item => {
-                	const deprTimeStr = item.DEPR_TIME_DVS; // "06:45"
-                	const deprDtmRaw = deprDtm; // "2025.06.25" 또는 "20250625"
-                	const arvlDtm = $("#arvlDtm").val();
-                	const arvlDtmAll = $("#arvlDtmAll").val();
-                	
-                	
-                	
+                   const deprTimeStr = item.DEPR_TIME_DVS; // "06:45"
+                   const deprDtmRaw = deprDtm; // "2025.06.25" 또는 "20250625"
+                   const arvlDtm = $("#arvlDtm").val();
+                   const arvlDtmAll = $("#arvlDtmAll").val();
+                   
+                   
+                   
 
-                	//1. 날짜 문자열 안전하게 ISO8601 형식으로 변환
-                	let dateStr = "";
-                	if (deprDtmRaw && deprDtmRaw.includes(".")) {
-                	    const [yyyy, mm, dd] = deprDtmRaw.split('.').map(s => s.trim().padStart(2, '0'));
-                	    dateStr = `\${yyyy}-\${mm}-\${dd}`;
-                	} else if (deprDtmRaw && deprDtmRaw.length === 8) {
-                	    const yyyy = deprDtmRaw.substring(0, 4);
-                	    const mm = deprDtmRaw.substring(4, 6);
-                	    const dd = deprDtmRaw.substring(6, 8);
-                	    dateStr = `\${yyyy}-\${mm}-\${dd}`;
-                	} else {
-                	    console.warn("deprDtm 형식이 잘못됨:", deprDtmRaw);
-                	}
+                   //1. 날짜 문자열 안전하게 ISO8601 형식으로 변환
+                   let dateStr = "";
+                   if (deprDtmRaw && deprDtmRaw.includes(".")) {
+                       const [yyyy, mm, dd] = deprDtmRaw.split('.').map(s => s.trim().padStart(2, '0'));
+                       dateStr = `\${yyyy}-\${mm}-\${dd}`;
+                   } else if (deprDtmRaw && deprDtmRaw.length === 8) {
+                       const yyyy = deprDtmRaw.substring(0, 4);
+                       const mm = deprDtmRaw.substring(4, 6);
+                       const dd = deprDtmRaw.substring(6, 8);
+                       dateStr = `\${yyyy}-\${mm}-\${dd}`;
+                   } else {
+                       console.warn("deprDtm 형식이 잘못됨:", deprDtmRaw);
+                   }
 
-                	//2. 출발일시 fullTime 만들기 + 현재시간 비교
-                	const fullTime = new Date(`\${dateStr}T\${deprTimeStr}:00`);
-                	const now = new Date();
+                   //2. 출발일시 fullTime 만들기 + 현재시간 비교
+                   const fullTime = new Date(`\${dateStr}T\${deprTimeStr}:00`);
+                   const now = new Date();
 
-                	const isValid = !isNaN(fullTime.getTime()); // Invalid Date 체크
-                	const isPast = isValid && fullTime <= now;
+                   const isValid = !isNaN(fullTime.getTime()); // Invalid Date 체크
+                   const isPast = isValid && fullTime <= now;
 
-                	console.log(`[DEBUG] 출발시각: \${fullTime}, 현재시각: \${now}, 마감여부: \${isPast}`);
+                   console.log(`[DEBUG] 출발시각: \${fullTime}, 현재시각: \${now}, 마감여부: \${isPast}`);
 
-                	//3. 좌석 확인 및 상태 판단
-                	const seats = parseInt(item.RMN_SATS_NUM, 10);
-                	const isSoldOut = isNaN(seats) || seats === 0;
-                	const isDisabled = isSoldOut || isPast;
+                   //3. 좌석 확인 및 상태 판단
+                   const seats = parseInt(item.RMN_SATS_NUM, 10);
+                   const isSoldOut = isNaN(seats) || seats === 0;
+                   const isDisabled = isSoldOut || isPast;
 
-                	let statusText = "선택";
-                	if (isSoldOut) {
-                	    statusText = "매진";
-                	} else if (isPast) {
-                	    statusText = "예매마감";
-                	}
+                   let statusText = "선택";
+                   if (isSoldOut) {
+                       statusText = "매진";
+                   } else if (isPast) {
+                       statusText = "예매마감";
+                   }
 
 
                     const rowClass = isDisabled ? "disabled" : "";
+                    
+                    
+                    
+                    
 
                     // 4. HTML 구성 및 렌더링
                     const html = `
                         <p class="schedule-row \${rowClass}" 
-                           data-deprdtm="\${deprDtmRaw} \${deprTimeStr}"
+                           data-deprdtm="\${dateStr} \${deprTimeStr}"
+                           data-orgDeprDtm="\${orgDeprDtm} \${deprTimeStr}"
+                           data-arvldtm="\${arvlDtm} \${deprTimeStr}"
                            data-comname="\${item.CACM_MN}"
                            data-busClsCd="\${item.BUS_CLS_NM}"
                            data-adultFare="\${item.ADLT_FEE}"
@@ -323,6 +334,7 @@ $(document).ready(function () {
       const padM = String(month + 1).padStart(2, "0");
       const padD = String(day).padStart(2, "0");
       const yyyymmdd = `\${year}\${padM}\${padD}`;
+      const pathStep = $("#pathStep").val();
 
       // 날짜 출력
       $("#rideDate").text(formattedLabel);
@@ -343,6 +355,7 @@ $(document).ready(function () {
           arvlCd: $("#arvlCd").val(),
           deprDtm: yyyymmdd,
           busClsCd: $("#busClsCd").val(),
+          pathStep: pathStep,
           sourcePage: "KOBUSreservationTime.jsp"
         },
         dataType: "json",
@@ -369,6 +382,7 @@ $(document).ready(function () {
             const row = `
               <p class="schedule-row \${isDisabled ? 'disabled' : ''}" 
                  data-deprdtm="\${item.DEPR_DATE} \${time}"
+                 data-arvldtm="\${item.DEPR_DATE} \${time}"
                  data-deprtrmlno="\${item.DEPR_TRML_NO}"
                  data-arvltrmlno="\${item.ARVL_TRML_NO}">
                 <span class="start_time">\${time}</span>
@@ -404,174 +418,6 @@ $(document).ready(function () {
 
 
 
-
-
-
-<script type="text/javascript">
-   //쿠키 가져오기
-   function getCookie(name) {
-      var nameOfCookie = name + "=";
-      var x = 0;
-      while (x <= document.cookie.length) {
-         var y = (x + nameOfCookie.length);
-         if (document.cookie.substring(x, y) == nameOfCookie) {
-            if ((endOfCookie = document.cookie.indexOf(";", y)) == -1) {
-               endOfCookie = document.cookie.length;
-            }
-            return unescape(document.cookie.substring(y, endOfCookie));
-         }
-         x = document.cookie.indexOf(" ", x) + 1;
-         if (x == 0) {
-            break;
-         }
-      }
-      return "";
-   }
-   //쿠키 넣기
-   function setCookie(name, value, expiredays) {
-      var todayDate = new Date();
-      todayDate.setDate(todayDate.getDate() + expiredays);
-      document.cookie = name + "=" + escape(value) + "; path=/; expires="
-            + todayDate.toGMTString() + ";"
-   }
-
-   // 상단 네비게이션, 모바일 좌측, 모바일 하단 언어선택 설정
-   var lngCdCookie = getCookie("LNG_CD");
-
-   lngCdCookie = (lngCdCookie != null && lngCdCookie != undefined && lngCdCookie != "") ? lngCdCookie
-         : "";
-   var lngCd = (lngCdCookie == "EN" || lngCdCookie == "CN"
-         || lngCdCookie == "JP" || lngCdCookie == "KO") ? lngCdCookie : "KO";
-   $(document)
-         .ready(
-               function() {
-                  if (navigator.userAgent.toUpperCase().indexOf("MSIE 5") >= 0
-                        || navigator.userAgent.toUpperCase().indexOf(
-                              "MSIE 6") >= 0
-                        || navigator.userAgent.toUpperCase().indexOf(
-                              "MSIE 7") >= 0
-                        || navigator.userAgent.toUpperCase().indexOf(
-                              "MSIE 8") >= 0) {
-                     // IE 8 이하
-                     if (location.href.indexOf("/underIE8.do") < 0) {
-                        // IE 8 이하 페이지 아님
-                        location.href = "/underIE8.do";
-                        return false;
-                     }
-                  }
-                  if (window.innerWidth < 768) {
-                     setCookie("IS_MOBILE_YN_WIDTH", "Y", 365);
-                     if (lngCd == "KO"
-                           && location.href.indexOf("/cmn/") < 0
-                           && location.href.indexOf("/underIE8.do") < 0
-                           && location.href
-                                 .indexOf("/mrs/mrsrecppub.do") < 0
-                           && location.href
-                                 .indexOf("/mrs/mrsrecppub4.do") < 0
-                           && location.href
-                                 .indexOf("/mrs/mrsmbltck.do") < 0
-                           && location.href
-                                 .indexOf("/mrs/acntpympup.do") < 0
-                           && // 계좌이체
-                           location.href.indexOf("/mrs/pay") < 0
-                           && // 간편결제
-                           location.href
-                                 .indexOf("/adtnprdnew/prchpt/adtnrecppubmbl.do") < 0
-                           && location.href
-                                 .indexOf("/adtnprdnew/frps/frpsPrchGdMbl.do") < 0
-                           && location.href
-                                 .indexOf("/mbrs/mbrsscsn.do") < 0) {
-                        //location.href = "/mblIdx.do";
-                        //location.href = "/reservation2.do";
-                        return false;
-                     }
-                  } else {
-                     setCookie("IS_MOBILE_YN_WIDTH", "N", 365);
-                  }
-                  // 타이틀 수정
-                  if ($("h2").length > 0) {
-                     $("title").text(
-                           $("title").text() + " - "
-                                 + $("h2:eq(0)").text());
-                  }
-                  var $objBody = $("body");
-                  if (!($objBody.hasClass("KO")
-                        || $objBody.hasClass("EN")
-                        || $objBody.hasClass("CN") || $objBody
-                        .hasClass("JP"))) {
-                     $objBody.addClass(lngCd);
-                  }
-
-                  /* asis */
-                  $(
-                        "#lng_cd_navi option[value='" + lngCd
-                              + "'],#lng_cd_foot option[value='"
-                              + lngCd + "']").attr("selected",
-                        "selected");
-                  $("#lng_cd_navi,#lng_cd_foot")
-                        .unbind("change")
-                        .bind(
-                              "change",
-                              function() {
-                                 var tempCd = this.value;
-                                 lngCd = (tempCd != null
-                                       && tempCd != undefined
-                                       && tempCd != "" && (tempCd == "EN"
-                                       || tempCd == "CN"
-                                       || tempCd == "JP" || tempCd == "KO")) ? tempCd
-                                       : "KO";
-                                 setCookie("LNG_CD", lngCd, 1);
-                                 lngCdCookie = lngCd;
-                                 //document.location.reload();
-                                 location.href = "/main.do";
-                              });
-               });
-
-   if (lngCd == "KO") {
-      var dt = new Date(); //오늘날짜 전체
-      var yyyy = dt.getFullYear(); //선택한 년도
-      var mm = dt.getMonth() + 1; //선택한 월
-      var mm2Len = Number(mm) < 10 ? "0" + mm : mm; // 선택ㅡㅜ?ㅌ월 ex:01 두글자로 변환
-      var ddTo = Number(dt.getDate()) < 10 ? "0" + dt.getDate() : dt
-            .getDate(); // 숫자형
-      var yymmddD0 = yyyy + "" + mm2Len + "" + ddTo; //오늘날짜
-
-      var url = window.location.pathname;
-
-      if (yymmddD0 < 20200128) {
-         if (url == "/main.do")
-            location.href = "/mainExp.do";
-      }
-   }
-</script>
-
-</head>
-<!-- [리뉴얼] 페이지 개별 스크립트 신규 정의함 -->
-
-<!-- &lt;%
-    String departureDateStr = request.getParameter("departureDate");
-    if (departureDateStr != null) {
-        // 여기에 나중에 SQL 조회나 기타 로직 추가 가능
-        out.println("선택한 날짜: " + departureDateStr);
-    }
-%&gt; -->
-
-
-<script>
-   $(document).ready(function() {
-      var langCd = 'KO';
-      var langLi = $(".dropdown-wrap.lang-select .dropdown-list li");
-      $.each(langLi, function(ix, el) {
-         var langItem = $(el).children('a');
-         var lang = langItem.data('lang');
-         if (langCd == lang) {
-            dropdown_process(langItem);
-         }
-      });
-
-      $('.title_wrap').hide();
-   });
-</script>
 
 <!-- 25.06.23 추가 -------------------------------  -->
 <script>
@@ -632,36 +478,36 @@ $(document).on("click", ".time li a", function () {
    <div class="container">
       <ol class="breadcrumb-list">
          <li><i class="ico ico-home"></i><span class="sr-only">홈</span></li>
-				<li>
-					<div class="dropdown-wrap breadcrumb-select">
-						<a aria-expanded="false" class="btn-dropdown"
-							href="javascript:void(0)" title="대메뉴 선택"> <span class="text">고속버스예매</span><i
-							class="ico ico-dropdown-arrow"></i></a>
-						<ul class="dropdown-list">
-							<li class="selected"><a href="/koBus/region.do" title="선택됨">고속버스예매</a></li>
-							<li><a href="/koBus/kobusSchedule.do">운행정보</a></li>
-							<li><a href="/koBus/pageForward.do?page=freePass">프리패스/정기권</a></li>
-							<li><a href="#">이용안내</a></li>
-							<li><a href="/koBus/lossCenter/main.do">고객지원</a></li>
-							<li><a href="#">전국고속버스운송사업조합</a></li>
-							<li><a href="#">터미널사업자협회</a></li>
-						</ul>
-					</div>
-				</li>
-				
-				<li>
-					<div class="dropdown-wrap breadcrumb-select">
-						<a aria-expanded="false" class="btn-dropdown"
-							href="javascript:void(0)" title="하위메뉴 선택"> <span class="text">고속버스예매</span><i
-							class="ico ico-dropdown-arrow"></i></a>
-						<ul class="dropdown-list">
-							<li class="selected"><a href="/koBus/reservation3.do" title="선택됨">고속버스예매</a></li>
-							<li><a href="/koBus/manageReservations.do">예매확인/취소/변경</a></li>
-							<li><a href="#">영수증발행</a></li>
-						</ul>
-					</div>
-				</li>
-			</ol>
+            <li>
+               <div class="dropdown-wrap breadcrumb-select">
+                  <a aria-expanded="false" class="btn-dropdown"
+                     href="javascript:void(0)" title="대메뉴 선택"> <span class="text">고속버스예매</span><i
+                     class="ico ico-dropdown-arrow"></i></a>
+                  <ul class="dropdown-list">
+                     <li class="selected"><a href="/koBus/region.do" title="선택됨">고속버스예매</a></li>
+                     <li><a href="/koBus/kobusSchedule.do">운행정보</a></li>
+                     <li><a href="/koBus/pageForward.do?page=freePass">프리패스/정기권</a></li>
+                     <li><a href="#">이용안내</a></li>
+                     <li><a href="/koBus/lossCenter/main.do">고객지원</a></li>
+                     <li><a href="#">전국고속버스운송사업조합</a></li>
+                     <li><a href="#">터미널사업자협회</a></li>
+                  </ul>
+               </div>
+            </li>
+            
+            <li>
+               <div class="dropdown-wrap breadcrumb-select">
+                  <a aria-expanded="false" class="btn-dropdown"
+                     href="javascript:void(0)" title="하위메뉴 선택"> <span class="text">고속버스예매</span><i
+                     class="ico ico-dropdown-arrow"></i></a>
+                  <ul class="dropdown-list">
+                     <li class="selected"><a href="/koBus/reservation3.do" title="선택됨">고속버스예매</a></li>
+                     <li><a href="/koBus/manageReservations.do">예매확인/취소/변경</a></li>
+                     <li><a href="#">영수증발행</a></li>
+                  </ul>
+               </div>
+            </li>
+         </ol>
    </div>
 </nav>
 <article id="new-kor-content">
@@ -694,6 +540,8 @@ $(document).on("click", ".time li a", function () {
       <!-- <input id="deprDtm" name="deprDtm" type="hidden" value="20250617" /> -->
       <input id="deprDtm" name="deprDtm" type="hidden" value="${param.deprDtm }" />
       <!-- 가는날(편도,왕복) -->
+      <input id="deprDtm" name="orgDeprDtm" type="hidden" value="${param.deprDtm }" />
+      <!-- 가는날(편도,왕복) -->
       <input id="deprDtmAll" name="deprDtmAll" type="hidden" value="${param.deprDtmAll }" />
       <!-- 가는날(편도,왕복) -->
       <input id="arvlDtm" name="arvlDtm" type="hidden" value="${param.arvlDtm }" />
@@ -703,6 +551,15 @@ $(document).on("click", ".time li a", function () {
       <!-- 오는날(왕복) -->
       <input id="busClsCd" name="busClsCd" type="hidden" value="${param.busClsCd }" />
       <!-- 버스등급 -->
+      
+      <input id="rtrpDtl1" name="rtrpDtl1" type="hidden" value="${param.rtrpDtl1 }" />
+      <!-- 가는편 예매정보 저장 -->
+      <input id=rtrpDtl2 name="rtrpDtl2" type="hidden" value="${param.rtrpDtl2 }" />
+      <!-- 오는편 예매정보 저장 -->
+      
+      <input id="changeArvl" name="changeArvl" type="hidden"
+         value="" />
+      
       <input id="takeDrtmOrg" name="takeDrtmOrg" type="hidden" value="200" />
       <!-- 소요시간 -->
       <input id="distOrg" name="distOrg" type="hidden" value="260.8" />
@@ -813,20 +670,21 @@ $(document).on("click", ".time li a", function () {
               
               <!-- //왕복시 노출 추가 2017-02-10 -->
 
-					<c:if test="${param.pathDvs eq 'rtrp'}">
-						<p class="date">
-							<span class="txtBox" id="rtrpDeprDtm"><span>가는 날</span>${param.deprDtm } </span> 
-							<span class="txtBox" id="rtrpArvlDtm"><span>오는 날</span>${param.arvlDtm }</span>
-						</p>
-					</c:if>
-					<c:if test="${param.pathDvs eq 'sngl'}">
-							 <p class="date" id="alcnDeprDtm">가는 날 ${param.deprDtm }</p>
-					</c:if>
-					
+               <c:if test="${param.pathDvs eq 'rtrp'}">
+                  <p class="date">
+                     <span class="txtBox" id="rtrpDeprDtm"><span>가는 날</span>${param.deprDtm } </span> 
+                     <span class="txtBox" id="rtrpArvlDtm"><span>오는 날</span>${param.arvlDtm }</span>
+                      
+                  </p>
+               </c:if>
+               <c:if test="${param.pathDvs eq 'sngl'}">
+                      <p class="date" id="alcnDeprDtm">가는 날 ${param.deprDtm }</p>
+               </c:if>
+               
+                
 
 
-
-					<div class="route_wrap" id="alcnRotInfo">
+               <div class="route_wrap" id="alcnRotInfo">
                   <div class="inner">
                      <dl class="roundBox departure kor">
                         <dt>출발</dt>
@@ -838,6 +696,8 @@ $(document).on("click", ".time li a", function () {
                         <!-- <dd id="alcnArvlTmlNm">삼척</dd> -->
                         <dd id="alcnArvlTmlNm">${param.arvlNm }</dd>
                      </dl>
+                     
+                     
                   </div>
                   <div class="detail_info">
                      <!-- <span id="takeDrtm">3시간 20분 소요</span> <span id="dist">260.8
@@ -890,9 +750,9 @@ $(document).on("click", ".time li a", function () {
             <div class="detailBox">
                   <div class="detailBox_head col3" style="min-height: 70px;">
                      <div class="box_refresh">
-                        <button class="btn btn_refresh" id="reloadBtn" type="button">
-                           <span class="ico_refresh"><span class="sr-only">새로고침</span></span>
-                        </button>
+                        <button type="button" class="btn btn_refresh" disabled>
+                                 <span class="ico_refresh"><span class="sr-only">새로고침</span></span>
+                  </button>
                      </div>
 
                      <div class="head_date">
@@ -1119,10 +979,16 @@ $(document).on("click", ".schedule-row:not(.disabled)", function () {
     const deprDtm = $(this).data("deprdtm"); // 20250719 08:30 형식
     const deprDate = deprDtm.split(" ")[0];  // "20250719"
     const deprTime = deprDtm.split(" ")[1];  // "08:30"
+    const busClsCd = $(this).data("busclscd");  // "08:30"
+    
 
     $("#deprDate").val(deprDate);  // 이거 form에 새로 만들어줘야 해
     $("#deprTime").val(deprTime);
     $("#deprDtm").val(deprDtm); // 있어도 되고 없어도 돼
+    $("#busClsCd").val(busClsCd); // 있어도 되고 없어도 돼
+    
+    $("#changeArvl").val($("#rideDate").text());
+    
 
     $("#alcnSrchFrm").submit(); // GET 방식으로 전달됨
 });
